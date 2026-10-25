@@ -4,8 +4,9 @@ import { getIa } from "@/lib/data";
 import { iaStats } from "@/lib/data-shared";
 
 export const metadata = pageMetadata(
-  "IA",
+  "Ma façon de travailler avec l’IA",
   "Comment Clara Bernadou travaille avec l’IA au quotidien : outils, skills créés et routines.",
+  "/ia",
 );
 
 export default async function IaPage() {

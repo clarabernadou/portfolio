@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
+// Référencement : une fois le nom de domaine branché (NEXT_PUBLIC_SITE_URL), l'ancienne
+// adresse vercel.app redirige définitivement (308) vers lui, page par page : une seule
+// adresse indexée par Google. Les déploiements de prévisualisation ne sont pas touchés.
+const ANCIENNE_ADRESSE = "clarabernadou-portfolio-2026.vercel.app";
+const domaine = process.env.NEXT_PUBLIC_SITE_URL ? new URL(process.env.NEXT_PUBLIC_SITE_URL).host : ANCIENNE_ADRESSE;
+
 const nextConfig: NextConfig = {
+  async redirects() {
+    if (domaine === ANCIENNE_ADRESSE) return [];
+    return [{ source: "/:path*", has: [{ type: "host", value: ANCIENNE_ADRESSE }], destination: `https://${domaine}/:path*`, permanent: true }];
+  },
   /* config options here */
   // Génération des PDF du CV sur Vercel (étape 10) : Chromium « serverless » reste hors
   // du bundle, et les fonctions de l'administration embarquent polices et photo.

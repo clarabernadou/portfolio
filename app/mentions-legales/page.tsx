@@ -4,6 +4,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata(
   "Mentions légales et confidentialité",
   "Mentions légales et politique de confidentialité du portfolio de Clara Bernadou.",
+  "/mentions-legales",
 );
 
 export default function MentionsLegalesPage() {

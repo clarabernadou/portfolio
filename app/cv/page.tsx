@@ -4,8 +4,9 @@ import { pageMetadata } from "@/lib/metadata";
 import { getExperiences, getFormations, getPhotoUrl, getProfile, getSkills } from "@/lib/data";
 
 export const metadata = pageMetadata(
-  "CV",
-  "CV de Clara Bernadou, développeuse front-end & UI/UX designer : expériences, formations et compétences.",
+  "CV · Développeuse front-end & UI/UX designer",
+  "CV de Clara Bernadou, développeuse front-end (React, TypeScript) & UI/UX designer : expériences en alternance, formations et compétences. CDI recherché, disponible en mars 2027.",
+  "/cv",
 );
 
 export default async function CvPage() {

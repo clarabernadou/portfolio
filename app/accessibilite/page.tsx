@@ -8,6 +8,7 @@ import { compte, dateAudit, ECHANTILLON, nonConformes, RAPPORT_PDF, referentiel,
 export const metadata = pageMetadata(
   "Déclaration d’accessibilité",
   "Déclaration d’accessibilité du portfolio de Clara Bernadou : état de conformité au RGAA, contenus non accessibles et contact.",
+  "/accessibilite",
 );
 
 // Mise en page reprise de la page des mentions légales (MentionsView).

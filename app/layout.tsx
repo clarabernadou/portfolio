@@ -6,7 +6,7 @@ import { siteUrl } from "@/lib/site-url";
 import { css } from "@/lib/css";
 import { ScrollToTop } from "@/components/ScrollToTop";
 
-const defaultDescription = "Portfolio de Clara Bernadou, développeuse front-end & UI/UX designer.";
+const defaultDescription = "Portfolio de Clara Bernadou, développeuse front-end (React, TypeScript) & UI/UX designer.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -15,19 +15,24 @@ export const metadata: Metadata = {
     template: "%s — Clara Bernadou",
   },
   description: defaultDescription,
+  applicationName: "Clara Bernadou",
+  authors: [{ name: "Clara Bernadou" }],
+  creator: "Clara Bernadou",
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
+  // Code de vérification Google Search Console (propriété « préfixe d'URL »), si défini.
+  verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
   openGraph: {
     type: "website",
     locale: "fr_FR",
     siteName: "Clara Bernadou",
     title: "Clara Bernadou",
     description: defaultDescription,
-    images: [{ url: "/photo-clara.jpg", width: 800, height: 800, alt: "Photo de Clara Bernadou" }],
   },
+  // Image de partage : app/opengraph-image.tsx (1200 × 630), reprise pour Twitter / X.
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Clara Bernadou",
     description: defaultDescription,
-    images: ["/photo-clara.jpg"],
   },
 };
 

@@ -3,7 +3,7 @@ import { css } from "@/lib/css";
 import { pageMetadata } from "@/lib/metadata";
 import { getSiteProjects } from "@/lib/data";
 
-export const metadata = pageMetadata("Plan du site", "Toutes les pages du portfolio de Clara Bernadou.");
+export const metadata = pageMetadata("Plan du site", "Toutes les pages du portfolio de Clara Bernadou.", "/plan-du-site");
 
 // Second système de navigation, avec le menu (RGAA 12.1) : toutes les pages publiques.
 const LISTE = `margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 6px; font-size: 17px; line-height: 1.6`;
