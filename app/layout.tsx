@@ -52,7 +52,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body>
         <div style={css("width: 100%; background: #FFFFFF; font-family: 'Manrope', system-ui, sans-serif; color: #1A1033")}>
-          <span id="top" />
+          <span id="top" tabIndex={-1} />
           <ScrollToTop />
           <SiteHeader />
           {children}

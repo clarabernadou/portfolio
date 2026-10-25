@@ -72,6 +72,4 @@ export async function storeFile(name: string, kind: string, lang: string, pdf: B
   });
 }
 
-// Fichiers publics : le site renvoie vers eux (bouton « Télécharger le CV », pied de page).
-// Version anglaise retirée du site (décision de Clara, 24 oct. 2026) : seul le CV français est public.
-export const FICHIERS_PUBLICS = ["CV_Clara_Bernadou_FR.pdf"];
+export { FICHIERS_PUBLICS } from "./fichiers";

@@ -65,10 +65,24 @@ export function SiteHeader() {
 }
 
 // Le bouton « Retour en haut » n'existe pas dans les sources des pages IA et mentions légales.
+// Il n'apparaît qu'une fois la page défilée d'une demi-hauteur d'écran (demande de Clara, 25 oct. 2026).
 export function ToTop() {
   const pathname = usePathname();
-  if (pathname === "/ia" || pathname === "/mentions-legales" || isAdmin(pathname)) return null;
-  const v = { toTop: () => window.scrollTo({ top: 0, behavior: "smooth" }) };
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const maj = () => setVisible(window.scrollY > window.innerHeight * 0.5);
+    maj();
+    window.addEventListener("scroll", maj, { passive: true });
+    return () => window.removeEventListener("scroll", maj);
+  }, [pathname]);
+  if (!visible || pathname === "/ia" || pathname === "/mentions-legales" || isAdmin(pathname)) return null;
+  const v = {
+    toTop: () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      // Le bouton disparaît en haut de page : le focus revient au début du document (RGAA 12.8).
+      document.getElementById("top")?.focus({ preventScroll: true });
+    },
+  };
   return <ToTopView v={v} />;
 }
 

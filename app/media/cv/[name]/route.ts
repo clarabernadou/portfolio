@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { isAdminSession } from "@/lib/auth";
-import { FICHIERS_PUBLICS } from "@/lib/pdf/server";
+import { FICHIERS_PUBLICS } from "@/lib/pdf/fichiers";
 
 // PDF du CV. Les CV essentiels (publics) sont servis depuis la base s'ils ont été
 // régénérés dans l'administration, sinon depuis le fichier d'origine du site.
