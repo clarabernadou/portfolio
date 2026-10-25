@@ -18,51 +18,8 @@
    "React",
    "Tailwind CSS"
   ],
-  "pdf": "/livrables/Livrables_Portfolio.pdf",
-  "docs": [
-   {
-    "n": 1,
-    "label": "Charte graphique",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=1",
-    "thumb": "assets/apercus/portfolio/1.jpg",
-    "alt": "Aperçu : Charte graphique"
-   },
-   {
-    "n": 2,
-    "label": "Wireframes du site",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=12",
-    "thumb": "assets/apercus/portfolio/2.jpg",
-    "alt": "Aperçu : Wireframes du site"
-   },
-   {
-    "n": 3,
-    "label": "Maquettes du site",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=21",
-    "thumb": "assets/apercus/portfolio/3.jpg",
-    "alt": "Aperçu : Maquettes du site"
-   },
-   {
-    "n": 4,
-    "label": "Maquettes des fiches projet",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=33",
-    "thumb": "assets/apercus/portfolio/4.jpg",
-    "alt": "Aperçu : Maquettes des fiches projet"
-   },
-   {
-    "n": 5,
-    "label": "Wireframes de l’administration",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=49",
-    "thumb": "assets/apercus/portfolio/5.jpg",
-    "alt": "Aperçu : Wireframes de l’administration"
-   },
-   {
-    "n": 6,
-    "label": "Maquettes de l’administration",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=64",
-    "thumb": "assets/apercus/portfolio/6.jpg",
-    "alt": "Aperçu : Maquettes de l’administration"
-   }
-  ],
+  "pdf": null,
+  "docs": [],
   "steps": [
    {
     "label": "Charte graphique : logo, couleurs, typographies, composants",
