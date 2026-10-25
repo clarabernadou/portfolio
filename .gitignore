@@ -58,3 +58,4 @@ next-env.d.ts
 /docs/RAPPORT-*.md
 /RAPPORT-*.md
 /backups/
+/scripts/audit-design.mjs
