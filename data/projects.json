@@ -29,44 +29,37 @@
    },
    {
     "n": 2,
-    "label": "Carte de visite",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=13",
-    "thumb": "assets/apercus/portfolio/2.jpg",
-    "alt": "Aperçu : Carte de visite"
-   },
-   {
-    "n": 3,
     "label": "Wireframes du site",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=15",
-    "thumb": "assets/apercus/portfolio/3.jpg",
+    "href": "/livrables/Livrables_Portfolio.pdf#page=12",
+    "thumb": "assets/apercus/portfolio/2.jpg",
     "alt": "Aperçu : Wireframes du site"
    },
    {
-    "n": 4,
+    "n": 3,
     "label": "Maquettes du site",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=24",
-    "thumb": "assets/apercus/portfolio/4.jpg",
+    "href": "/livrables/Livrables_Portfolio.pdf#page=21",
+    "thumb": "assets/apercus/portfolio/3.jpg",
     "alt": "Aperçu : Maquettes du site"
    },
    {
-    "n": 5,
+    "n": 4,
     "label": "Maquettes des fiches projet",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=36",
-    "thumb": "assets/apercus/portfolio/5.jpg",
+    "href": "/livrables/Livrables_Portfolio.pdf#page=33",
+    "thumb": "assets/apercus/portfolio/4.jpg",
     "alt": "Aperçu : Maquettes des fiches projet"
    },
    {
-    "n": 6,
+    "n": 5,
     "label": "Wireframes de l’administration",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=52",
-    "thumb": "assets/apercus/portfolio/6.jpg",
+    "href": "/livrables/Livrables_Portfolio.pdf#page=49",
+    "thumb": "assets/apercus/portfolio/5.jpg",
     "alt": "Aperçu : Wireframes de l’administration"
    },
    {
-    "n": 7,
+    "n": 6,
     "label": "Maquettes de l’administration",
-    "href": "/livrables/Livrables_Portfolio.pdf#page=67",
-    "thumb": "assets/apercus/portfolio/7.jpg",
+    "href": "/livrables/Livrables_Portfolio.pdf#page=64",
+    "thumb": "assets/apercus/portfolio/6.jpg",
     "alt": "Aperçu : Maquettes de l’administration"
    }
   ],
