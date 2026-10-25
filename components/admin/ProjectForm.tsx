@@ -124,9 +124,9 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
               render={(d, setD) => (
                 <>
                   <InlineInput label="Titre du livrable" placeholder="Titre" value={d.label} onChange={(v) => setD({ ...d, label: v })} />
-                  <InlineInput label="Fichier du livrable" placeholder="/livrables/fichier.pdf#page=1, une image, un document…" value={d.href} onChange={(v) => setD({ ...d, href: v })} />
+                  <InlineInput label="Fichier du livrable" placeholder="Envoie le fichier, ou colle son adresse (…pdf#page=12 pour une page)" value={d.href} onChange={(v) => setD({ ...d, href: v })} />
                   <BlobUpload folder={p.id || "nouveau"} accept={ACCEPT_LIVRABLES} label="Envoyer un fichier" onDone={(url) => setD({ ...d, href: url })} />
-                  <InlineInput label="Aperçu du livrable (image)" placeholder="Aperçu : assets/apercus/…/1.jpg (optionnel)" value={d.thumb ?? ""} onChange={(v) => setD({ ...d, thumb: v })} />
+                  <InlineInput label="Aperçu du livrable (image)" placeholder="Aperçu (image, facultatif) : envoie-la ou colle son adresse" value={d.thumb ?? ""} onChange={(v) => setD({ ...d, thumb: v })} />
                   <BlobUpload folder={p.id || "nouveau"} accept="image/jpeg,image/png,image/webp" label="Envoyer un aperçu" onDone={(url) => setD({ ...d, thumb: url })} />
                 </>
               )}

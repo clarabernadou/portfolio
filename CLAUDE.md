@@ -45,6 +45,7 @@ Next.js (App Router) et TypeScript, Tailwind CSS (`tokens.css` et `tailwind.conf
 - Vérifier à 1440, 1024, 768 et 390 px avant de déclarer une page terminée.
 
 ## Sécurité
+- Fichiers de contenu (livrables, aperçus, lettres de recommandation) : dans Vercel Blob, envoyés depuis l'administration, jamais dans le dépôt (décision du 25 octobre 2026).
 - Dépôt public : github.com/clarabernadou/portfolio (depuis le 25 octobre 2026, sans l'ancien historique). Les documents internes (`docs/passation/`, `docs/audit/`, rapports) restent en local et sont ignorés par Git ; l'ancien dépôt privé est le remote `archive`. Ne jamais y publier de données personnelles de tiers, ni la version complète du CV, ni le téléphone ailleurs que dans le PDF.
 - Aucun secret dans le code ni dans le dépôt : tout va dans `.env.local` (ignoré par Git), avec un `.env.example` sans valeurs.
 - Le compte administrateur est identifié par son identifiant numérique GitHub (variable `ADMIN_GITHUB_ID`), jamais par le nom d'utilisateur ou l'e-mail.

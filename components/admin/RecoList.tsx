@@ -5,6 +5,7 @@ import { useState, useTransition } from "react";
 import { deleteReco, moveReco, restoreReco, saveReco, type RecoInput } from "@/app/admin/(espace)/profil/actions";
 import { SelectField, TextArea, TextField, Toggle } from "./fields";
 import { useToast } from "./Toast";
+import { BlobUpload } from "./BlobUpload";
 import { Icon } from "./icons";
 
 const VIDE: RecoInput = { id: null, auteur: "", initiales: "", linkedin: "", poste: "", relation: "", citationCourte: "", texteIntegral: "", lettrePdf: "", entrepriseHref: "", lienTexte: "", voirLinkedin: false, status: "draft" };
@@ -43,7 +44,10 @@ function RecoForm({ initial, onDone }: { initial: RecoInput; onDone: () => void 
         <TextField label="Rôle" value={r.poste} onChange={(v) => set("poste", v)} />
         <TextField label="Relation" value={r.relation} onChange={(v) => set("relation", v)} placeholder="Mentore OpenClassrooms · …" />
         <TextField label="Profil LinkedIn" type="url" value={r.linkedin} onChange={(v) => set("linkedin", v)} />
-        <TextField label="Lettre en PDF" value={r.lettrePdf} onChange={(v) => set("lettrePdf", v)} placeholder="/Lettre_….pdf" />
+        <div className="adm-field">
+          <TextField label="Lettre en PDF" value={r.lettrePdf} onChange={(v) => set("lettrePdf", v)} placeholder="Envoie le fichier, ou colle son adresse" />
+          <BlobUpload folder="recommandations" accept="application/pdf,.pdf" label="Envoyer la lettre" onDone={(url) => set("lettrePdf", url)} />
+        </div>
         <TextField label="Lien de l’entreprise" type="url" value={r.entrepriseHref} onChange={(v) => set("entrepriseHref", v)} />
         <TextField label="Mot du rôle relié à l’entreprise" value={r.lienTexte} onChange={(v) => set("lienTexte", v)} help="Par exemple « IntuitLearn »." />
       </div>
