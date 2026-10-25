@@ -202,3 +202,10 @@
 .adm-ia-proposition p { margin: 0; white-space: pre-wrap; text-wrap: pretty; }
 .adm-ia-proposition .adm-count { align-self: flex-start; }
 .adm-ia-tete .adm-icon-btn { width: 44px; height: 44px; }
+.adm-ia-avis { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.5; }
+.adm-ia-avis p { margin: 0; }
+.adm-ia-avis h3 { margin: 6px 0 0; }
+.adm-ia-avis ul, .adm-ia-avis ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.adm-ia-claude { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--bordure); }
+.adm-ia-claude summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 700; color: var(--amethyste); }
+.adm-ia-claude[open] summary { margin-bottom: 10px; }

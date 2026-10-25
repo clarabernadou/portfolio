@@ -23,4 +23,10 @@ ADMIN_GITHUB_ID=92588607
 
 # Synchronisation GitHub, jeton en lecture seule (étape 11)
 GITHUB_SYNC_TOKEN=
+
+# Avis de l'IA dans l'administration : clé personnelle Google Gemini, offre gratuite
+# (aistudio.google.com → Get API key). Sans clé, seul le mode « Copier pour Claude » fonctionne.
+GEMINI_API_KEY=
+# Facultatif : modèle utilisé (par défaut gemini-3.8-flash)
+GEMINI_MODEL=
 ```
