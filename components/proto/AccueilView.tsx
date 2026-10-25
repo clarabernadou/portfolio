@@ -13,7 +13,7 @@ import { Recommandations } from "./Recommandations";
 export function AccueilView({ v }: { v: any }) {
   return (
     <>
-      <main>
+      <main id={"contenu"} tabIndex={-1}>
         <section style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 2.5rem; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center`)}>
           {" "}
           <div style={css(`flex: 1.45 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 1.5rem`)}>
@@ -178,7 +178,7 @@ export function AccueilView({ v }: { v: any }) {
           {" "}
         </section>
         <section aria-label={"En bref"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem 4.5rem`)}>
-          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
+          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
             <div style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {"4"}
@@ -330,7 +330,7 @@ export function AccueilView({ v }: { v: any }) {
               </Link>
             </div>
             {" "}
-            <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem`)}>
+            <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 1.25rem`)}>
               {v.alternances.map((e: any, i_e: number) => (
                 <CarteAlternance key={i_e} e={e} />
               ))}

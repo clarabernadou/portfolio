@@ -11,7 +11,7 @@ import { Lieu } from "./Lieu";
 export function CvView({ v }: { v: any }) {
   return (
     <>
-      <main style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4rem; display: flex; flex-direction: column; gap: 3rem`)}>
+      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4rem; display: flex; flex-direction: column; gap: 3rem`)}>
         {" "}
         <section className={"cv-hero"}>
           {" "}

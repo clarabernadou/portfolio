@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HeaderView } from "./HeaderView";
 import { ToTopView } from "./ToTopView";
 import { FooterView } from "./FooterView";
@@ -20,7 +20,11 @@ const isAdmin = (pathname: string) => pathname.startsWith("/admin");
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const [menu, setMenu] = useState(false);
+  // Le menu est ouvert pour une page donnée : changer de page le referme sans effet de bord.
+  const [menuPage, setMenuPage] = useState<string | null>(null);
+  const menu = menuPage === pathname;
+  const setMenu = (ouvert: boolean | ((m: boolean) => boolean)) =>
+    setMenuPage((p) => ((typeof ouvert === "function" ? ouvert(p === pathname) : ouvert) ? pathname : null));
   const v = {
     nav: NAV.map((n) => ({ ...n, active: n.href === "/" ? pathname === "/" : pathname.startsWith(n.href) })),
     menuOpen: menu,
@@ -29,8 +33,28 @@ export function SiteHeader() {
     toggleMenu: () => setMenu((m) => !m),
     closeMenu: () => setMenu(false),
   };
+  // Menu mobile : Échap le ferme et rend le focus au bouton ; il se ferme aussi au changement de page.
+  useEffect(() => {
+    if (!menu) return;
+    const touche = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setMenuPage(null);
+      // Après la fermeture (nouveau rendu), le focus revient au bouton du menu.
+      setTimeout(() => document.querySelector<HTMLButtonElement>(".hdr-menu")?.focus(), 0);
+    };
+    document.addEventListener("keydown", touche);
+    return () => document.removeEventListener("keydown", touche);
+  }, [menu]);
   if (isAdmin(pathname)) return null;
-  return <HeaderView v={v} />;
+  return (
+    <>
+      {/* Lien d'évitement (RGAA 12.7) : premier élément atteint au clavier. */}
+      <a href="#contenu" className="lien-evitement">
+        Aller au contenu
+      </a>
+      <HeaderView v={v} />
+    </>
+  );
 }
 
 // Le bouton « Retour en haut » n'existe pas dans les sources des pages IA et mentions légales.

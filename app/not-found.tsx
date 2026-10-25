@@ -1,11 +1,15 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { css } from "@/lib/css";
+
+// Titre propre à la page (RGAA 8.6) : « Page introuvable — Clara Bernadou ».
+export const metadata: Metadata = { title: "Page introuvable" };
 
 // Pas de maquette pour la 404 : composée avec les styles des sources du prototype
 // (titre de page, paragraphe d'introduction, boutons principal et secondaire du héros).
 export default function NotFound() {
   return (
-    <main style={css("max-width: 1200px; margin: 0 auto; padding: 4.5rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center")}>
+    <main id={"contenu"} tabIndex={-1} style={css("max-width: 1200px; margin: 0 auto; padding: 4.5rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center")}>
       <span style={css("font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 64px; font-weight: 800; letter-spacing: -0.045em; line-height: 1; color: #6A4FB6")}>
         404
       </span>

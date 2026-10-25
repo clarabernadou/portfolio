@@ -10,7 +10,7 @@ import { css } from "@/lib/css";
 export function MentionsView({ v }: { v: any }) {
   return (
     <>
-      <main style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4.5rem; display: flex; flex-direction: column; gap: 2.5rem`)}>
+      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4.5rem; display: flex; flex-direction: column; gap: 2.5rem`)}>
         {" "}
         <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
           <nav aria-label={"Fil d’Ariane"} style={css(`font-size: 14px; color: #5B5470`)}>

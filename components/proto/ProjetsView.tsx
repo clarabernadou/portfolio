@@ -10,7 +10,7 @@ import { css } from "@/lib/css";
 export function ProjetsView({ v }: { v: any }) {
   return (
     <>
-      <main style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4.5rem`)}>
+      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4.5rem`)}>
         {" "}
         {v.isList && (
           <>
@@ -65,7 +65,7 @@ export function ProjetsView({ v }: { v: any }) {
                         {"Trois projets que je mets en avant. Les autres complètent le portfolio."}
                       </span>
                     </div>
-                    <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem`)}>
+                    <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1.25rem`)}>
                       {v.honored.map((p: any, i_p: number) => (
                         <Fragment key={i_p}>
                           <article style={css(`border-radius: 20px; background: #F3EFFF; border: 1.5px solid #B9A8EC; display: flex; flex-direction: column`)}>
@@ -153,7 +153,7 @@ export function ProjetsView({ v }: { v: any }) {
                 {" "}
               </div>
               {" "}
-              <div style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem`)}>
+              <div style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 1.25rem`)}>
                 {v.shown.map((p: any, i_p: number) => (
                   <Fragment key={i_p}>
                     <article style={css(`border-radius: 20px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
@@ -352,7 +352,7 @@ export function ProjetsView({ v }: { v: any }) {
                 </>
               )}
               {" "}
-              <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; align-items: stretch`)}>
+              <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 1.25rem; align-items: stretch`)}>
                 {" "}
                 {v.cur.hasCtx && (
                   <>
@@ -404,7 +404,7 @@ export function ProjetsView({ v }: { v: any }) {
                         {"Trois films de présentation bilingues pour le marché nord-américain, réalisés de A à Z : script validé, montage avec Remotion et Claude Code, voix off ElevenLabs et musique, puis déclinaisons en 16:9, 9:16 et 1:1."}
                       </p>
                     </div>
-                    <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem`)}>
+                    <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1.25rem`)}>
                       {v.curVideos.map((v: any, i_v: number) => (
                         <Fragment key={i_v}>
                           <article style={css(`border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF; overflow: hidden; display: flex; flex-direction: column`)}>
@@ -463,7 +463,7 @@ export function ProjetsView({ v }: { v: any }) {
                         </>
                       )}
                     </div>
-                    <div style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem`)}>
+                    <div style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 1rem`)}>
                       {v.cur.docs.map((d: any, i_d: number) => (
                         <Fragment key={i_d}>
                           <a href={d.href} target={"_blank"} rel={"noopener noreferrer"} style={css(`text-decoration: none; color: #1A1033; border-radius: 18px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
@@ -501,7 +501,7 @@ export function ProjetsView({ v }: { v: any }) {
                 </>
               )}
               {" "}
-              <nav aria-label={"Projets voisins"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; padding-top: 1rem; border-top: 1px solid #E4DCF7`)}>
+              <nav aria-label={"Projets voisins"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1rem; padding-top: 1rem; border-top: 1px solid #E4DCF7`)}>
                 {" "}
                 <button type={"button"} onClick={v.prev} style={css(`text-align: left; min-height: 72px; border: 1px solid #E4DCF7; border-radius: 18px; background: #FFFFFF; padding: 16px 20px; font: inherit; cursor: pointer; display: flex; flex-direction: column; gap: 4px`)}>
                   <span style={css(`font-size: 13px; font-weight: 700; color: #5B5470`)}>

@@ -22,7 +22,7 @@ function Sep() {
 export function IaView({ v }: { v: any }) {
   return (
     <>
-      <main style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4.5rem; display: flex; flex-direction: column; gap: 3.25rem`)}>
+      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4.5rem; display: flex; flex-direction: column; gap: 3.25rem`)}>
         <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 14px`)}>
             <nav aria-label={"Fil d’Ariane"} style={css(`font-size: 14px; color: #5B5470`)}>
@@ -44,7 +44,7 @@ export function IaView({ v }: { v: any }) {
               {"J’utilise l’IA tous les jours pour développer, concevoir et produire du contenu. Je choisis l’outil le plus adapté à chaque tâche, je construis des skills pour automatiser le répétitif, et je vérifie toujours le résultat avant de le livrer."}
             </p>
           </div>
-          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
+          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
             {v.stats.map((st: any) => (
               <IaStat key={st.label} value={st.value} label={st.label} />
             ))}
@@ -60,7 +60,7 @@ export function IaView({ v }: { v: any }) {
               {"Chaque IA a ses points forts. Je choisis la plus adaptée à chaque tâche."}
             </p>
           </div>
-          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px`)}>
+          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
             {v.tools.map((t: any) => (
               <IaCard key={t.name} kicker={t.category} title={t.name} text={t.description} favorite={t.favorite} />
             ))}
@@ -76,7 +76,7 @@ export function IaView({ v }: { v: any }) {
               {"Des skills Claude réutilisables, créés pour mon poste chez Digital4Better, l’entreprise où je suis alternante, et proposés à l’équipe. Chaque skill regroupe les consignes, les modèles et les vérifications d’une tâche récurrente, pour la refaire à l’identique. Ils restent internes à l’entreprise : je décris ce qu’ils font, sans en montrer le contenu."}
             </p>
           </div>
-          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px`)}>
+          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
             {v.skills.map((t: any) => (
               <IaCard key={t.name} kicker={"Skill"} title={t.name} text={t.description} />
             ))}
@@ -92,7 +92,7 @@ export function IaView({ v }: { v: any }) {
               {"Deux de ces routines se déclenchent toutes seules chaque matin ; la troisième est une pratique quotidienne. Je les ai mises en place pour mon propre quotidien."}
             </p>
           </div>
-          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px`)}>
+          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
             {v.routines.map((t: any) => (
               <IaCard key={t.title} kicker={t.when} title={t.title} text={t.description} note={t.note} />
             ))}
@@ -105,7 +105,7 @@ export function IaView({ v }: { v: any }) {
               {"Ma méthode"}
             </h2>
           </div>
-          <ol style={css(`list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px`)}>
+          <ol style={css(`list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); gap: 12px`)}>
             <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px; border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF`)}>
               <span style={css(`width: 32px; height: 32px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800`)}>
                 {"1"}
@@ -173,7 +173,7 @@ export function IaView({ v }: { v: any }) {
               {"Utiliser l’IA vite ne sert à rien si le résultat n’est pas fiable. Voici ce que je m’impose."}
             </p>
           </div>
-          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px`)}>
+          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 14px`)}>
             <div style={css(`display: flex; flex-direction: column; gap: 6px; padding: 22px 24px; border-radius: 20px; background: #FFFFFF; border-left: 4px solid #6A4FB6`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Ne rien inventer"}
@@ -223,7 +223,7 @@ export function IaView({ v }: { v: any }) {
               {"Ce que ça a produit"}
             </h2>
           </div>
-          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px`)}>
+          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
             <Link href={"/projets/repositionnement-fruggr"} style={css(`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
                 {"Saga de 3 films pour Fruggr"}

@@ -40,6 +40,9 @@ button:focus-visible,a:focus-visible{outline:3px solid #6A4FB6;outline-offset:3p
 .tl-now .tl-dot{background:#FFFFFF}
 @media (max-width: 760px){.tl{grid-template-columns:1fr}.tl-item{padding:0 0 28px 40px}.tl-item::before{left:10px;right:auto;top:0;bottom:0;width:3px;height:auto}.tl-item.tl-now::before{background:repeating-linear-gradient(180deg,#6A4FB6 0 8px,transparent 8px 14px)}.tl-dot{top:0}}
 p,li{text-wrap:pretty}h2,h3{text-wrap:balance}
+/* Reflow à 320 px (RGAA 10.11) : un mot trop long pour l'écran, comme « Repositionnement » en grand titre, passe à la ligne au lieu de déborder. */
+h1,h2,h3{overflow-wrap:anywhere;hyphens:auto}
+a[href^="mailto:"]{overflow-wrap:anywhere}
 
 /* cv.css */
 .cv-hero{display:flex;flex-direction:column;gap:2rem}
@@ -71,3 +74,11 @@ p,li{text-wrap:pretty}h2,h3{text-wrap:balance}
 .ft-row > :first-child{justify-self:start}
 .ft-row > :last-child{justify-self:end}
 @media (max-width: 640px){.ft-row{grid-template-columns:1fr;justify-items:center}.ft-row > :first-child,.ft-row > :last-child{justify-self:center}}
+
+/* Reflow avec espacement du texte élargi (RGAA 10.12) : l'adresse e-mail du CV peut passer à la ligne sur petit écran. */
+@media (max-width: 640px){.cv-contacts a{white-space:normal;min-width:0}.cv-contact-txt{display:inline;overflow-wrap:anywhere}}
+
+/* Lien d'évitement (RGAA 12.7) : masqué jusqu'à ce qu'il reçoive le focus clavier. */
+.lien-evitement{position:absolute;left:16px;top:-100px;z-index:1000;padding:12px 20px;border-radius:999px;background:var(--encre);color:var(--fond);font-weight:700;text-decoration:none}
+.lien-evitement:focus{top:16px;outline:3px solid var(--lilas);outline-offset:3px}
+#contenu:focus{outline:none}
