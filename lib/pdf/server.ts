@@ -54,7 +54,8 @@ export async function renderPdf(html: string): Promise<{ pdf: Buffer; pages: num
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "load" });
     await page.evaluate(() => document.fonts.ready);
-    const pdf = await page.pdf({ preferCSSPageSize: true, printBackground: true });
+    // PDF balisé (structure, langue) pour les lecteurs d’écran (RGAA 13.3).
+    const pdf = await page.pdf({ preferCSSPageSize: true, printBackground: true, tagged: true });
     const pages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length;
     return { pdf, pages };
   } finally {

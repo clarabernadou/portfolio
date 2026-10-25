@@ -82,3 +82,13 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .lien-evitement{position:absolute;left:16px;top:-100px;z-index:1000;padding:12px 20px;border-radius:999px;background:var(--encre);color:var(--fond);font-weight:700;text-decoration:none}
 .lien-evitement:focus{top:16px;outline:3px solid var(--lilas);outline-offset:3px}
 #contenu:focus{outline:none}
+
+/* Accessibilité (audit RGAA du 25 oct. 2026). */
+/* Texte lu par les lecteurs d'écran, ou visible quand les styles sont désactivés (10.3). */
+.visuellement-masque{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Listes sans puces (9.3) : role="list" garde la liste annoncée par Safari. */
+.liste-nue{list-style:none;margin:0;padding:0}
+/* Anneau de focus sur fond Encre / Nuit (10.7) : Lilas au lieu d'Améthyste, contraste suffisant. */
+.zone-sombre a:focus-visible,.zone-sombre button:focus-visible{outline-color:var(--lilas)}
+[tabindex="-1"]:focus{outline:none}
+.ft-liens{display:flex;flex-wrap:wrap;justify-content:center;gap:0 20px;text-align:center}

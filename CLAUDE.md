@@ -37,6 +37,8 @@ Next.js (App Router) et TypeScript, Tailwind CSS (`tokens.css` et `tailwind.conf
 - Contrastes vérifiés, focus visible (anneau de 3 px décalé), cibles de 44 px, `aria-label` sur les boutons-icônes, icônes décoratives masquées aux lecteurs d'écran.
 - Menu burger, fenêtre modale et filtres utilisables au clavier. Une fenêtre modale bloque le défilement et rend le reste de la page inerte, avec focus piégé. La liste des projets annonce son statut (`aria-live`).
 - Lighthouse accessibilité à 95 ou plus et zéro erreur axe sur chaque route publique.
+- Audit RGAA 4.1.2 (25 octobre 2026) : la grille des 106 critères `data/rgaa-audit.json` alimente la page `/accessibilite` et le rapport PDF (`npx tsx scripts/rapport-rgaa.ts --publier`, sur Vercel Blob). Toute modification qui touche un critère met à jour la grille, puis le rapport.
+- Listes visuelles (cartes, étiquettes) en `<ul role="list" className="liste-nue">` ; navigation par de vrais liens, jamais `router.push` sur un bouton ; zones sombres avec la classe `zone-sombre` (anneau de focus Lilas) ; un élément qui disparaît après une action rend le focus à un élément voisin.
 
 ## Responsive
 - Aucun plafond de largeur sur les paragraphes d'introduction ; `text-wrap: pretty` sur les paragraphes, `balance` sur les titres de niveau 2 et 3.

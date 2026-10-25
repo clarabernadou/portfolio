@@ -10,7 +10,7 @@ import { css } from "@/lib/css";
 export function FooterView({ v }: { v: any }) {
   return (
     <>
-      <footer id={"contact"} style={css(`background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%); color: #C4B5FD`)}>
+      <footer id={"contact"} className={"zone-sombre"} style={css(`background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%); color: #C4B5FD`)}>
         {" "}
         <div className={"ft-in"} style={css(`max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 2.25rem`)}>
           {" "}
@@ -38,9 +38,9 @@ export function FooterView({ v }: { v: any }) {
                   <span>{v.copyLabel}</span>
                 </button>
                 {" "}
-                <button type={"button"} onClick={v.writeMail} style={css(`min-height: 40px; padding: 0 18px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer`)}>
+                <a href={`mailto:${v.email}`} style={css(`min-height: 40px; padding: 0 18px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; box-sizing: border-box`)}>
                   {"Écrire"}
-                </button>
+                </a>
                 {" "}
               </div>
               {" "}
@@ -49,7 +49,8 @@ export function FooterView({ v }: { v: any }) {
               {v.entretiens}
             </p>
             {" "}
-            <div style={css(`display: flex; flex-wrap: wrap; justify-content: center; gap: 10px`)}>
+            <ul role={"list"} aria-label={"Profils et CV"} className={"liste-nue"} style={css(`display: flex; flex-wrap: wrap; justify-content: center; gap: 10px`)}>
+              <li>
               <a href={v.linkedin} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(196,181,253,0.35); color: #FFFFFF; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; text-decoration: none`)}>
                 <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.75"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                   <rect x={"3"} y={"3"} width={"18"} height={"18"} rx={"4"} />
@@ -57,12 +58,16 @@ export function FooterView({ v }: { v: any }) {
                 </svg>
                 {"LinkedIn"}
               </a>
+              </li>
+              <li>
               <a href={v.github} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(196,181,253,0.35); color: #FFFFFF; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; text-decoration: none`)}>
                 <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.75"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                   <path d={"M9 19c-4 1.5-4-2-6-2.5M15 21v-3.5a3 3 0 0 0-.9-2.4c3-.3 6-1.4 6-6.6a5 5 0 0 0-1.4-3.6 4.7 4.7 0 0 0-.1-3.6s-1.1-.3-3.6 1.4a12.4 12.4 0 0 0-6.5 0C5.9 1.7 4.8 2 4.8 2a4.7 4.7 0 0 0-.1 3.6A5 5 0 0 0 3.3 9.2c0 5.2 3 6.3 6 6.6a3 3 0 0 0-.9 2.3V21"} />
                 </svg>
                 {"GitHub"}
               </a>
+              </li>
+              <li>
               <a href={v.cvUrl} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(196,181,253,0.35); color: #FFFFFF; display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; text-decoration: none`)}>
                 <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.75"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                   <path d={"M7 3h7l5 5v13H7z"} />
@@ -71,7 +76,8 @@ export function FooterView({ v }: { v: any }) {
                 </svg>
                 {"CV · PDF"}
               </a>
-            </div>
+              </li>
+            </ul>
             {" "}
           </div>
           {" "}
@@ -97,9 +103,17 @@ export function FooterView({ v }: { v: any }) {
               </div>
             </Link>
             {" "}
-            <Link href={"/mentions-legales"} style={css(`padding: 10px 0; color: #C4B5FD`)}>
-              {"Mentions légales et confidentialité"}
-            </Link>
+            <div className={"ft-liens"}>
+              <Link href={"/mentions-legales"} style={css(`padding: 10px 0; color: #C4B5FD`)}>
+                {"Mentions légales et confidentialité"}
+              </Link>
+              <Link href={"/accessibilite"} style={css(`padding: 10px 0; color: #C4B5FD`)}>
+                {"Accessibilité : partiellement conforme"}
+              </Link>
+              <Link href={"/plan-du-site"} style={css(`padding: 10px 0; color: #C4B5FD`)}>
+                {"Plan du site"}
+              </Link>
+            </div>
             {/* Connexion : masqué tant que l'administration n'existe pas (README §16). */}
             <Link href={"/admin/connexion"} style={css(`padding: 10px 0; color: #C4B5FD; opacity: 0.75; font-size: 14px`)}>
               {"Connexion"}

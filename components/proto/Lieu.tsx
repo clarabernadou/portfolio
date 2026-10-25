@@ -13,6 +13,7 @@ export function Lieu({ text }: { text: string }) {
         return l ? (
           <a key={i} href={l.url} target={"_blank"} rel={"noopener noreferrer"} style={css(`color: inherit; text-decoration: underline; text-underline-offset: 3px`)}>
             {part}
+            <span className={"visuellement-masque"}>{" (carte Google Maps)"}</span>
           </a>
         ) : (
           part

@@ -1,6 +1,5 @@
 "use client";
 
-import { Fragment } from "react";
 import Link from "next/link";
 import { css } from "@/lib/css";
 import { CarteAlternance, FriseFormation } from "./Parcours";
@@ -178,40 +177,40 @@ export function AccueilView({ v }: { v: any }) {
           {" "}
         </section>
         <section aria-label={"En bref"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem 4.5rem`)}>
-          <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
-            <div style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
+          <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
+            <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {"4"}
-              </span>
+              </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
                 {"formations OpenClassrooms"}
               </span>
-            </div>
-            <div style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
+            </li>
+            <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {"Bac+5"}
-              </span>
+              </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
                 {"Full Stack Java & Angular"}
               </span>
-            </div>
-            <div style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
+            </li>
+            <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {"39"}
-              </span>
+              </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
                 {"projets, dont 23 avec livrables"}
               </span>
-            </div>
-            <div style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
+            </li>
+            <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {"2"}
-              </span>
+              </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
                 {"alternances depuis 2023"}
               </span>
-            </div>
-          </div>
+            </li>
+          </ul>
         </section>
         <section id={"projets"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem 4.5rem; display: flex; flex-direction: column; gap: 1.5rem`)}>
           {" "}
@@ -236,9 +235,9 @@ export function AccueilView({ v }: { v: any }) {
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
               {"Design"}
             </h3>
-            <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
+            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
               {v.homeDesign.map((c: any) => (
-                <Fragment key={c.id}>
+                <li key={c.id}>
                   <Link href={`/projets/${c.id}`} style={css(`text-decoration: none; color: #1A1033; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; padding: 24px; display: flex; flex-direction: column; gap: 12px; height: 100%; box-sizing: border-box`)}>
                     {" "}
                     <div style={css(`display: flex; justify-content: space-between; align-items: center; gap: 8px`)}>
@@ -247,37 +246,35 @@ export function AccueilView({ v }: { v: any }) {
                       </span>
                     </div>
                     {" "}
-                    <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: break-word`)}>
+                    <h4 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: break-word`)}>
                       {c.name}
-                    </span>
+                    </h4>
                     {" "}
                     <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470; overflow-wrap: break-word`)}>
                       {c.line}
                     </span>
                     {" "}
-                    <div style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
+                    <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
                       {c.tags.map((t: string, i_t: number) => (
-                        <Fragment key={i_t}>
-                          <span style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                            {t}
-                          </span>
-                        </Fragment>
+                        <li key={i_t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
+                          {t}
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                     {" "}
                   </Link>
-                </Fragment>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
           {" "}
           <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
               {"Développement"}
             </h3>
-            <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
+            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
               {v.homeDev.map((c: any) => (
-                <Fragment key={c.id}>
+                <li key={c.id}>
                   <Link href={`/projets/${c.id}`} style={css(`text-decoration: none; color: #1A1033; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; padding: 24px; display: flex; flex-direction: column; gap: 12px; height: 100%; box-sizing: border-box`)}>
                     {" "}
                     <div style={css(`display: flex; justify-content: space-between; align-items: center; gap: 8px`)}>
@@ -286,28 +283,26 @@ export function AccueilView({ v }: { v: any }) {
                       </span>
                     </div>
                     {" "}
-                    <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: break-word`)}>
+                    <h4 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: break-word`)}>
                       {c.name}
-                    </span>
+                    </h4>
                     {" "}
                     <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470; overflow-wrap: break-word`)}>
                       {c.line}
                     </span>
                     {" "}
-                    <div style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
+                    <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
                       {c.tags.map((t: string, i_t: number) => (
-                        <Fragment key={i_t}>
-                          <span style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                            {t}
-                          </span>
-                        </Fragment>
+                        <li key={i_t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
+                          {t}
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                     {" "}
                   </Link>
-                </Fragment>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
           {" "}
         </section>
@@ -330,16 +325,18 @@ export function AccueilView({ v }: { v: any }) {
               </Link>
             </div>
             {" "}
-            <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 1.25rem`)}>
+            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 1.25rem`)}>
               {v.alternances.map((e: any, i_e: number) => (
-                <CarteAlternance key={i_e} e={e} />
+                <li key={i_e} style={css(`display: grid`)}>
+                  <CarteAlternance e={e} />
+                </li>
               ))}
-            </div>
+            </ul>
             {" "}
             <div style={css(`display: flex; flex-direction: column; gap: 22px; padding: 28px; border-radius: 24px; background: #FFFFFF`)}>
-              <div style={css(`font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5470`)}>
+              <h3 style={css(`margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5470`)}>
                 {"Formations OpenClassrooms"}
-              </div>
+              </h3>
               <ol className={"tl"} aria-label={"Formations OpenClassrooms, de la plus ancienne à la plus récente"}>
                 {v.frise.map((f: any, i_f: number) => (
                   <FriseFormation key={i_f} f={f} />
@@ -350,7 +347,7 @@ export function AccueilView({ v }: { v: any }) {
           </div>
           {" "}
         </section>
-        <section style={css(`background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%); padding: 4.5rem 0`)}>
+        <section className={"zone-sombre"} style={css(`background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%); padding: 4.5rem 0`)}>
           <div style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center`)}>
             {" "}
             <div style={css(`flex: 1.3 1 400px; display: flex; flex-direction: column; gap: 16px`)}>
@@ -382,17 +379,17 @@ export function AccueilView({ v }: { v: any }) {
                 <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 34px; font-weight: 800; letter-spacing: -0.04em; color: #FFFFFF`)}>
                   {"Claude"}
                 </span>
-                <div style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
-                  <span style={css(`padding: 5px 10px; border-radius: 8px; background: rgba(196,181,253,0.12); border: 1px solid rgba(196,181,253,0.55); color: #C4B5FD; font-size: 14px; font-weight: 700`)}>
+                <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
+                  <li style={css(`padding: 5px 10px; border-radius: 8px; background: rgba(196,181,253,0.12); border: 1px solid rgba(196,181,253,0.55); color: #C4B5FD; font-size: 14px; font-weight: 700`)}>
                     {"Claude Code"}
-                  </span>
-                  <span style={css(`padding: 5px 10px; border-radius: 8px; background: rgba(196,181,253,0.12); border: 1px solid rgba(196,181,253,0.55); color: #C4B5FD; font-size: 14px; font-weight: 700`)}>
+                  </li>
+                  <li style={css(`padding: 5px 10px; border-radius: 8px; background: rgba(196,181,253,0.12); border: 1px solid rgba(196,181,253,0.55); color: #C4B5FD; font-size: 14px; font-weight: 700`)}>
                     {"Claude Design"}
-                  </span>
-                  <span style={css(`padding: 5px 10px; border-radius: 8px; background: rgba(196,181,253,0.12); border: 1px solid rgba(196,181,253,0.55); color: #C4B5FD; font-size: 14px; font-weight: 700`)}>
+                  </li>
+                  <li style={css(`padding: 5px 10px; border-radius: 8px; background: rgba(196,181,253,0.12); border: 1px solid rgba(196,181,253,0.55); color: #C4B5FD; font-size: 14px; font-weight: 700`)}>
                     {"Claude Cowork"}
-                  </span>
-                </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

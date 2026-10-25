@@ -39,7 +39,7 @@ export function ProjetsView({ v }: { v: any }) {
                 <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px`)}>
                   <span style={css(`font-size: 16px; font-weight: 700`)} aria-live={"polite"}>
                     <span>{v.countLabel}</span>
-                  </span>
+                  </span>{" "}
                   <span style={css(`font-size: 14px; color: #5B5470`)}>
                     {"Du plus récent au plus ancien."}
                   </span>
@@ -65,9 +65,9 @@ export function ProjetsView({ v }: { v: any }) {
                         {"Trois projets que je mets en avant. Les autres complètent le portfolio."}
                       </span>
                     </div>
-                    <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1.25rem`)}>
+                    <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1.25rem`)}>
                       {v.honored.map((p: any, i_p: number) => (
-                        <Fragment key={i_p}>
+                        <li key={i_p} style={css(`display: grid`)}>
                           <article style={css(`border-radius: 20px; background: #F3EFFF; border: 1.5px solid #B9A8EC; display: flex; flex-direction: column`)}>
                             <div style={css(`padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1`)}>
                               <div style={css(`display: flex; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 700; color: #5B5470`)}>
@@ -87,19 +87,17 @@ export function ProjetsView({ v }: { v: any }) {
                               <p style={css(`margin: 0; font-size: 16px; line-height: 1.55`)}>
                                 <span>{p.ctx}</span>
                               </p>
-                              <div style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
+                              <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
                                 {p.tags.map((t: any, i_t: number) => (
-                                  <Fragment key={i_t}>
-                                    <span style={css(`padding: 3px 8px; border-radius: 6px; background: #FFFFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
-                                      <span>{t}</span>
-                                    </span>
-                                  </Fragment>
+                                    <li key={i_t} style={css(`padding: 3px 8px; border-radius: 6px; background: #FFFFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
+                                      {t}
+                                    </li>
                                 ))}
-                              </div>
+                              </ul>
                               <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px`)}>
-                                <button type={"button"} onClick={p.open} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer`)}>
+                                <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
                                   {"Voir le projet"}
-                                </button>
+                                </Link>
                                 {p.hasGh && (
                                   <>
                                     <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
@@ -110,13 +108,14 @@ export function ProjetsView({ v }: { v: any }) {
                               </div>
                             </div>
                           </article>
-                        </Fragment>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </section>
                 </>
               )}
               {" "}
+              <h2 className={"visuellement-masque"}>{"Liste des projets"}</h2>
               <div style={css(`display: flex; flex-direction: column; gap: 16px; padding: 20px; border-radius: 20px; border: 1px solid #E4DCF7`)}>
                 {" "}
                 <div role={"group"} aria-labelledby={"f-type"} style={css(`display: flex; flex-wrap: wrap; gap: 8px`)}>
@@ -130,6 +129,7 @@ export function ProjetsView({ v }: { v: any }) {
                         <span style={css(`opacity: 0.9`)}>
                           <span>{c.n}</span>
                         </span>
+                        {c.on && <span className={"visuellement-masque"} aria-hidden={"true"}>{" (sélectionné)"}</span>}
                       </button>
                     </Fragment>
                   ))}
@@ -146,6 +146,7 @@ export function ProjetsView({ v }: { v: any }) {
                         <span style={css(`opacity: 0.9`)}>
                           <span>{c.n}</span>
                         </span>
+                        {c.on && <span className={"visuellement-masque"} aria-hidden={"true"}>{" (sélectionné)"}</span>}
                       </button>
                     </Fragment>
                   ))}
@@ -153,9 +154,9 @@ export function ProjetsView({ v }: { v: any }) {
                 {" "}
               </div>
               {" "}
-              <div style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 1.25rem`)}>
+              <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 1.25rem`)}>
                 {v.shown.map((p: any, i_p: number) => (
-                  <Fragment key={i_p}>
+                  <li key={i_p} style={css(`display: grid`)}>
                     <article style={css(`border-radius: 20px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
                       {" "}
                       <div style={css(`padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 9px; flex-grow: 1`)}>
@@ -169,7 +170,7 @@ export function ProjetsView({ v }: { v: any }) {
                           </span>
                         </div>
                         {" "}
-                        <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1`)}>
+                        <h3 id={`carte-projet-${i_p}`} tabIndex={-1} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1`)}>
                           <span>{p.name}</span>
                         </h3>
                         {" "}
@@ -181,21 +182,19 @@ export function ProjetsView({ v }: { v: any }) {
                           <span>{p.line}</span>
                         </p>
                         {" "}
-                        <div style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
+                        <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
                           {p.tags.map((t: any, i_t: number) => (
-                            <Fragment key={i_t}>
-                              <span style={css(`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
-                                <span>{t}</span>
-                              </span>
-                            </Fragment>
+                              <li key={i_t} style={css(`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
+                                {t}
+                              </li>
                           ))}
-                        </div>
+                        </ul>
                         {" "}
                         <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px`)}>
                           {" "}
-                          <button type={"button"} onClick={p.open} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer`)}>
+                          <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
                             {"Voir le projet"}
-                          </button>
+                          </Link>
                           {" "}
                           {p.hasGh && (
                             <>
@@ -213,9 +212,9 @@ export function ProjetsView({ v }: { v: any }) {
                       </div>
                       {" "}
                     </article>
-                  </Fragment>
+                  </li>
                 ))}
-              </div>
+              </ul>
               <div style={css(`display: flex; flex-direction: column; align-items: center; gap: 12px; padding-top: 4px`)}>
                 <span aria-live={"polite"} style={css(`font-size: 15px; color: #5B5470`)}>
                   <span>{v.shownLabel}</span>
@@ -238,12 +237,12 @@ export function ProjetsView({ v }: { v: any }) {
             <article style={css(`display: flex; flex-direction: column; gap: 2rem`)}>
               {" "}
               <div style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 2px`)}>
-                <button type={"button"} onClick={v.close} style={css(`min-height: 44px; padding: 0; border: 0; background: none; color: #6A4FB6; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px`)}>
+                <Link href={"/projets"} style={css(`min-height: 44px; padding: 0; border: 0; background: none; color: #6A4FB6; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none`)}>
                   <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                     <path d={"M19 12H5M11 18l-6-6 6-6"} />
                   </svg>
                   {"Retour aux projets"}
-                </button>
+                </Link>
                 <nav aria-label={"Fil d’Ariane"} style={css(`font-size: 14px; color: #5B5470`)}>
                   <Link href={"/"} style={css(`color: #5B5470`)}>
                     {"Accueil"}
@@ -255,13 +254,13 @@ export function ProjetsView({ v }: { v: any }) {
               <header style={css(`display: flex; flex-direction: column; gap: 12px`)}>
                 {" "}
                 <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px`)}>
-                  {v.cur.types.map((ty: any, i_ty: number) => (
-                    <Fragment key={i_ty}>
-                      <span style={css(`padding: 5px 10px; border-radius: 8px; background: #F3EFFF; color: #6A4FB6; font-size: 13px; font-weight: 700`)}>
-                        <span>{ty}</span>
-                      </span>
-                    </Fragment>
-                  ))}
+                  <ul role={"list"} aria-label={"Types de projet"} className={"liste-nue"} style={css(`display: flex; flex-wrap: wrap; gap: 8px`)}>
+                    {v.cur.types.map((ty: any, i_ty: number) => (
+                      <li key={i_ty} style={css(`padding: 5px 10px; border-radius: 8px; background: #F3EFFF; color: #6A4FB6; font-size: 13px; font-weight: 700`)}>
+                        {ty}
+                      </li>
+                    ))}
+                  </ul>{" "}
                   <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470; margin-left: 4px`)}>
                     <span>{v.cur.date}</span>
                   </span>
@@ -279,15 +278,13 @@ export function ProjetsView({ v }: { v: any }) {
                   <span>{v.cur.parcours}</span>
                 </span>
                 {" "}
-                <div style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
+                <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
                   {v.cur.tags.map((t: any, i_t: number) => (
-                    <Fragment key={i_t}>
-                      <span style={css(`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
-                        <span>{t}</span>
-                      </span>
-                    </Fragment>
+                      <li key={i_t} style={css(`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
+                        {t}
+                      </li>
                   ))}
-                </div>
+                </ul>
                 {" "}
                 <div style={css(`display: flex; flex-wrap: wrap; gap: 10px; padding-top: 8px`)}>
                   {" "}
@@ -404,13 +401,13 @@ export function ProjetsView({ v }: { v: any }) {
                         {"Trois films de présentation bilingues pour le marché nord-américain, réalisés de A à Z : script validé, montage avec Remotion et Claude Code, voix off ElevenLabs et musique, puis déclinaisons en 16:9, 9:16 et 1:1."}
                       </p>
                     </div>
-                    <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1.25rem`)}>
+                    <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1.25rem`)}>
                       {v.curVideos.map((v: any, i_v: number) => (
-                        <Fragment key={i_v}>
+                        <li key={i_v} style={css(`display: grid`)}>
                           <article style={css(`border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF; overflow: hidden; display: flex; flex-direction: column`)}>
                             {v.playing && (
                               <>
-                                <iframe src={v.embed} title={`Film ${v.n} sur 3 : ${v.title}`} allow={"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"} allowFullScreen referrerPolicy={"strict-origin-when-cross-origin"} style={css(`display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; background: #1A1033`)} />
+                                <iframe id={`film-${v.n}`} src={v.embed} title={`Film ${v.n} sur 3 : ${v.title}`} allow={"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"} allowFullScreen referrerPolicy={"strict-origin-when-cross-origin"} style={css(`display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; background: #1A1033`)} />
                               </>
                             )}
                             {v.notPlaying && (
@@ -432,7 +429,7 @@ export function ProjetsView({ v }: { v: any }) {
                                 <span>{v.kicker}</span>
                               </span>
                               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15`)}>
-                                <span>{v.title}</span>
+                                <span lang={v.lang}>{v.title}</span>
                               </h3>
                               <a href={v.url} target={"_blank"} rel={"noopener noreferrer"} style={css(`align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; color: #6A4FB6`)}>
                                 {"Regarder sur YouTube "}
@@ -442,9 +439,9 @@ export function ProjetsView({ v }: { v: any }) {
                               </a>
                             </div>
                           </article>
-                        </Fragment>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </section>
                 </>
               )}
@@ -463,9 +460,9 @@ export function ProjetsView({ v }: { v: any }) {
                         </>
                       )}
                     </div>
-                    <div style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 1rem`)}>
+                    <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 1rem`)}>
                       {v.cur.docs.map((d: any, i_d: number) => (
-                        <Fragment key={i_d}>
+                        <li key={i_d} style={css(`display: grid`)}>
                           <a href={d.href} target={"_blank"} rel={"noopener noreferrer"} style={css(`text-decoration: none; color: #1A1033; border-radius: 18px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
                             {" "}
                             <div style={css(`height: 180px; background: #F3EFFF; overflow: hidden; border-bottom: 1px solid #E4DCF7`)}>
@@ -494,32 +491,32 @@ export function ProjetsView({ v }: { v: any }) {
                             </div>
                             {" "}
                           </a>
-                        </Fragment>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </section>
                 </>
               )}
               {" "}
               <nav aria-label={"Projets voisins"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1rem; padding-top: 1rem; border-top: 1px solid #E4DCF7`)}>
                 {" "}
-                <button type={"button"} onClick={v.prev} style={css(`text-align: left; min-height: 72px; border: 1px solid #E4DCF7; border-radius: 18px; background: #FFFFFF; padding: 16px 20px; font: inherit; cursor: pointer; display: flex; flex-direction: column; gap: 4px`)}>
+                <Link href={v.prevHref} style={css(`text-align: left; min-height: 72px; border: 1px solid #E4DCF7; border-radius: 18px; background: #FFFFFF; padding: 16px 20px; font: inherit; cursor: pointer; display: flex; flex-direction: column; gap: 4px; text-decoration: none; box-sizing: border-box`)}>
                   <span style={css(`font-size: 13px; font-weight: 700; color: #5B5470`)}>
                     {"← Projet précédent"}
                   </span>
                   <span style={css(`font-size: 18px; font-weight: 800; color: #1A1033`)}>
                     <span>{v.prevName}</span>
                   </span>
-                </button>
+                </Link>
                 {" "}
-                <button type={"button"} onClick={v.next} style={css(`text-align: right; min-height: 72px; border: 1px solid #E4DCF7; border-radius: 18px; background: #FFFFFF; padding: 16px 20px; font: inherit; cursor: pointer; display: flex; flex-direction: column; gap: 4px; align-items: flex-end`)}>
+                <Link href={v.nextHref} style={css(`text-align: right; min-height: 72px; border: 1px solid #E4DCF7; border-radius: 18px; background: #FFFFFF; padding: 16px 20px; font: inherit; cursor: pointer; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; text-decoration: none; box-sizing: border-box`)}>
                   <span style={css(`font-size: 13px; font-weight: 700; color: #5B5470`)}>
                     {"Projet suivant →"}
                   </span>
                   <span style={css(`font-size: 18px; font-weight: 800; color: #1A1033`)}>
                     <span>{v.nextName}</span>
                   </span>
-                </button>
+                </Link>
                 {" "}
               </nav>
               {" "}

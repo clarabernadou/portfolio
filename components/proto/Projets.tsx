@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { ProjetsView } from "./ProjetsView";
 import type { Project } from "@/lib/types";
 import { sortFeatured, type SiteProject } from "@/lib/data-shared";
@@ -12,13 +11,16 @@ import { estImage, formatLivrable } from "@/lib/livrables";
 // Chemin du site (« assets/… ») ou adresse complète (fichier envoyé sur Vercel Blob).
 const asset = (p: string) => (p.startsWith("/") || /^https?:\/\//.test(p) ? p : `/${p}`);
 
-function card(p: Project, open: () => void) {
+// Le focus est déplacé après le rendu suivant (RGAA 12.8 : il ne doit pas retomber sur la page).
+const focusApres = (selecteur: string) => setTimeout(() => document.querySelector<HTMLElement>(selecteur)?.focus(), 0);
+
+function card(p: Project) {
   return {
     ...p,
     ctx: p.context,
     hasGh: !!p.github,
     ghh: p.github,
-    open,
+    href: `/projets/${p.id}`,
   };
 }
 
@@ -57,15 +59,12 @@ function detail(p: Project) {
 export function ProjetsListe({ projects: PROJECTS, featuredOrder, categories }: { projects: SiteProject[]; featuredOrder: string[]; categories: { types: string[]; cadres: string[] } }) {
   const TYPES = ["Tous", ...categories.types];
   const PARS = ["Tous les parcours", ...categories.cadres];
-  const router = useRouter();
   const [type, setType] = useState("Tous");
   const [par, setPar] = useState("Tous les parcours");
   const [limit, setLimit] = useState(12);
-  const go = (id: string) => router.push(`/projets/${id}`);
-
   const byPar = PROJECTS.filter((p) => par === "Tous les parcours" || p.parcours === par);
   const shownRaw = byPar.filter((p) => type === "Tous" || (p.types as string[]).includes(type));
-  const shown = shownRaw.slice(0, limit).map((p) => card(p, () => go(p.id)));
+  const shown = shownRaw.slice(0, limit).map(card);
   const mk = (l: string, on: boolean, n: number, pick: () => void) => ({
     label: l,
     on,
@@ -79,20 +78,26 @@ export function ProjetsListe({ projects: PROJECTS, featuredOrder, categories }: 
   const v = {
     isList: true,
     isDetail: false,
-    honored: sortFeatured(PROJECTS, featuredOrder).map((p) => card(p, () => go(p.id))),
+    honored: sortFeatured(PROJECTS, featuredOrder).map(card),
     showHonor: type === "Tous" && par === "Tous les parcours",
     filtered: type !== "Tous" || par !== "Tous les parcours",
     reset: () => {
       setType("Tous");
       setPar("Tous les parcours");
       setLimit(12);
+      // Le bouton disparaît : le focus va au premier filtre.
+      focusApres('[aria-labelledby="f-type"] button');
     },
     countLabel: shownRaw.length + (shownRaw.length > 1 ? " projets" : " projet"),
     shownLabel:
       shown.length + (shown.length > 1 ? " projets affichés" : " projet affiché") + " sur " + shownRaw.length,
     moreLabel: "Afficher " + Math.min(12, rest) + (rest > 1 ? " projets" : " projet") + " de plus",
     hasMore: shownRaw.length > limit,
-    more: () => setLimit(limit + 12),
+    more: () => {
+      setLimit(limit + 12);
+      // Le focus va au premier projet ajouté (le bouton disparaît après le dernier ajout).
+      focusApres(`#carte-projet-${limit}`);
+    },
     shown,
     types: TYPES.map((t) =>
       mk(t, type === t, byPar.filter((p) => t === "Tous" || (p.types as string[]).includes(t)).length, () => {
@@ -111,9 +116,7 @@ export function ProjetsListe({ projects: PROJECTS, featuredOrder, categories }: 
 }
 
 export function ProjetFiche({ id, projects: PROJECTS }: { id: string; projects: SiteProject[] }) {
-  const router = useRouter();
   const [vid, setVid] = useState<number | null>(null);
-  const go = (to: string) => router.push(`/projets/${to}`);
 
   const i = Math.max(0, PROJECTS.findIndex((p) => p.id === id));
   const cur = PROJECTS[i];
@@ -129,13 +132,18 @@ export function ProjetFiche({ id, projects: PROJECTS }: { id: string; projects: 
       // Miniature YouTube servie depuis le site : rien n’est chargé chez YouTube avant le clic.
       thumb: `/films/${vd.youtubeId}.jpg`,
       embed: `https://www.youtube-nocookie.com/embed/${vd.youtubeId}?autoplay=1&rel=0`,
+      // Les titres des films sont en anglais (RGAA 8.7).
+      lang: "en",
       playing: vid === vd.n,
       notPlaying: vid !== vd.n,
-      play: () => setVid(vd.n),
+      play: () => {
+        setVid(vd.n);
+        // Le bouton est remplacé par le lecteur : le focus passe au lecteur.
+        focusApres(`#film-${vd.n}`);
+      },
     })),
-    close: () => router.push("/projets"),
-    prev: () => go(prev.id),
-    next: () => go(next.id),
+    prevHref: `/projets/${prev.id}`,
+    nextHref: `/projets/${next.id}`,
     prevName: prev.name,
     nextName: next.name,
   };

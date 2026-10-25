@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 import { css } from "@/lib/css";
-import { CvExperience, CvFormation } from "./Parcours";
+import { CvExperience, CvFormation, Etiquettes } from "./Parcours";
 import { Lieu } from "./Lieu";
 
 // Généré depuis docs/passation/prototype-source/cv.source.html
@@ -87,26 +87,20 @@ export function CvView({ v }: { v: any }) {
             <div style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
               {v.skillsEssentiel.map((g: any) => (
                 <div key={g.name} style={css(`display: flex; flex-direction: column; gap: 8px`)}>
-                  <span style={css(`font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{g.name}</span>
-                  <div style={css(`display: flex; flex-wrap: wrap; gap: 6px`)}>
-                    {g.items.map((t: string) => (
-                      <span key={t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                  <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{g.name}</h3>
+                  <Etiquettes items={g.items} style={`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`} />
                 </div>
               ))}
             </div>
             {" "}
             <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
-              <span style={css(`font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
+              <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
                 {"Langues"}
-              </span>
+              </h3>
               <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
                 {v.profil.langues.map((l: any) => (
                   <div key={l.nom} style={css(`display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; font-size: 15px`)}>
-                    <b style={css(`flex: 0 0 76px`)}>{l.nom}</b>
+                    <b style={css(`flex: 0 0 76px`)}>{l.nom}</b>{" "}
                     {l.niveau.length === 1 ? (
                       <span style={css(`color: #5B5470; flex: 1 1 200px`)}>{l.niveau[0]}</span>
                     ) : (

@@ -43,7 +43,14 @@ export function SiteHeader() {
       setTimeout(() => document.querySelector<HTMLButtonElement>(".hdr-menu")?.focus(), 0);
     };
     document.addEventListener("keydown", touche);
-    return () => document.removeEventListener("keydown", touche);
+    // Le panneau recouvre la page : le reste devient inerte, le focus ne peut plus s'y perdre (RGAA 10.7).
+    const wrap = document.querySelector(".hdr-wrap");
+    const autres = wrap?.parentElement ? [...wrap.parentElement.children].filter((el) => el !== wrap && el.tagName !== "SPAN") : [];
+    autres.forEach((el) => el.setAttribute("inert", ""));
+    return () => {
+      document.removeEventListener("keydown", touche);
+      autres.forEach((el) => el.removeAttribute("inert"));
+    };
   }, [menu]);
   if (isAdmin(pathname)) return null;
   return (
@@ -78,9 +85,6 @@ export function SiteFooter({ profil }: { profil: Pick<SiteProfile, "email" | "en
     copy: () => {
       navigator.clipboard?.writeText(profil.email).catch(() => {});
       setCopied(true);
-    },
-    writeMail: () => {
-      window.location.href = `mailto:${profil.email}`;
     },
   };
   if (isAdmin(pathname)) return null;

@@ -50,9 +50,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <span id="top" />
           <ScrollToTop />
           <SiteHeader />
-          <ToTop />
           {children}
           <SiteFooter profil={{ email: profil.email, entretiens: profil.entretiens, linkedin: profil.linkedin, github: profil.github }} />
+          {/* Après le pied de page : affiché en bas à droite, il est atteint en dernier au clavier (RGAA 12.8). */}
+          <ToTop />
         </div>
       </body>
     </html>

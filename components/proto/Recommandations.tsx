@@ -64,9 +64,9 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
                 </div>
               </div>{" "}
               <span style={css(`align-self: flex-start; padding: 5px 10px; border-radius: 8px; background: #F3EFFF; color: #6A4FB6; font-size: 13px; font-weight: 700`)}>{it.relation}</span>
-            </figcaption>
-            <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-top: 14px; border-top: 1px solid #E4DCF7`)}>
-              <button type={"button"} aria-expanded={open === i} aria-controls={`reco-full-${i}`} onClick={() => setOpen(open === i ? null : i)} style={css(`min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #B9A8EC; background: #FFFFFF; color: #6A4FB6; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer`)}>
+            {/* Dans la légende : une figure n'accepte qu'un seul figcaption, en premier ou en dernier (RGAA 8.2). */}
+            <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-top: 14px; margin-top: 6px; border-top: 1px solid #E4DCF7`)}>
+              <button type={"button"} aria-haspopup={"dialog"} onClick={() => setOpen(open === i ? null : i)} style={css(`min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #B9A8EC; background: #FFFFFF; color: #6A4FB6; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer`)}>
                 <span>{open === i ? "Masquer" : "Lire en entier"}</span>
               </button>
               {it.lettrePdf && (
@@ -81,6 +81,7 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
                 </a>
               )}
             </div>
+            </figcaption>
           </figure>
         ))}
       </div>

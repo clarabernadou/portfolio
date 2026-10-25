@@ -46,26 +46,42 @@ function Puces({ items }: { items: string[] }) {
   );
 }
 
-function Technos({ items }: { items: string[] }) {
+// Étiquettes balisées en liste (RGAA 9.3) : sans styles, elles restent séparées (10.2).
+export function Etiquettes({ items, style, label, marge }: { items: string[]; style: string; label?: string; marge?: string }) {
   return (
-    <div style={css(`margin-top: 6px`)}>
-      <div style={css(`display: flex; flex-wrap: wrap; gap: 6px`)}>
-        {items.map((t) => (
-          <span key={t} style={css(TAG_TECHNO)}>
-            {t}
-          </span>
-        ))}
-      </div>
-    </div>
+    <ul role={"list"} aria-label={label} className={"liste-nue"} style={css(`display: flex; flex-wrap: wrap; gap: 6px${marge ? `; margin-top: ${marge}` : ""}`)}>
+      {items.map((t) => (
+        <li key={t} style={css(style)}>
+          {t}
+        </li>
+      ))}
+    </ul>
   );
+}
+
+function Technos({ items }: { items: string[] }) {
+  return <Etiquettes items={items} style={TAG_TECHNO} label={"Technologies"} marge={"6px"} />;
 }
 
 function EnTeteBloc({ name, period }: { name?: string; period?: string }) {
   return (
     <div style={css(`display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px`)}>
-      <span style={css(`font-size: 16px; font-weight: 800`)}>{name}</span>
+      <h4 style={css(`margin: 0; font-size: 16px; font-weight: 800`)}>{name}</h4>
       {period && <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{period}</span>}
     </div>
+  );
+}
+
+// « Diplôme américain … : Master’s degree in … » : la partie en anglais est signalée (RGAA 8.7).
+function Mention({ texte }: { texte: string }) {
+  const i = texte.lastIndexOf(" : ");
+  const fin = i < 0 ? "" : texte.slice(i + 3);
+  if (!fin || /[àâçéèêëîïôûùüÿœæ]/i.test(fin)) return <>{texte}</>;
+  return (
+    <>
+      {texte.slice(0, i + 3)}
+      <span lang={"en"}>{fin}</span>
+    </>
   );
 }
 
@@ -74,7 +90,7 @@ export function CvExperience({ e, full }: { e: SiteExperience; full: boolean }) 
     <article style={css(`display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 22px 0; border-top: 1px solid #E4DCF7`)}>
       <span style={css(`flex: 0 0 150px; font-size: 14px; font-weight: 700; color: #5B5470`)}>{e.periode}</span>
       <div style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
-        <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</span>
+        <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</h3>
         <Entreprise e={e} />
         <span style={css(`font-size: 14px; color: #5B5470`)}>{e.lieuMode}</span>
         <p style={css(`margin: 4px 0 0; font-size: 15px; line-height: 1.55`)}>{full ? e.contexteComplet : e.contexteEssentiel}</p>
@@ -103,14 +119,8 @@ export function CvExperience({ e, full }: { e: SiteExperience; full: boolean }) 
         })}
         {full && e.competencesAcquisesComplet?.length ? (
           <>
-            <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470; margin-top: 6px`)}>{"Compétences acquises"}</span>
-            <div style={css(`display: flex; flex-wrap: wrap; gap: 6px`)}>
-              {e.competencesAcquisesComplet.map((c) => (
-                <span key={c} style={css(TAG_INFO)}>
-                  {c}
-                </span>
-              ))}
-            </div>
+            <h4 style={css(`margin: 6px 0 0; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{"Compétences acquises"}</h4>
+            <Etiquettes items={e.competencesAcquisesComplet} style={TAG_INFO} />
           </>
         ) : null}
         {e.note && <p style={css(`margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: #5B5470`)}>{`→ ${e.note}`}</p>}
@@ -138,24 +148,22 @@ export function CvFormation({ f, full }: { f: SiteFormation; full: boolean }) {
       <span style={css(`flex: 0 0 150px; font-size: 14px; font-weight: 700; color: #5B5470`)}>{f.annees}</span>
       <div style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 8px`)}>
         <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px`)}>
-          <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
+          <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
             <LienFormation f={f} style={`color: inherit; text-decoration: none`} />
-          </span>
-          <span style={css(f.statut === "En cours" ? STATUT_EN_COURS : `padding: 3px 9px; border-radius: 6px; background: #E7F6EE; color: #067647; font-size: 13px; font-weight: 800`)}>{f.statut}</span>
+          </h3>{" "}
+          <span style={css(f.statut === "En cours" ? STATUT_EN_COURS : `padding: 3px 9px; border-radius: 6px; background: #E7F6EE; color: #067647; font-size: 13px; font-weight: 800`)}>{f.statut}</span>{" "}
           <span style={css(MODE)}>{f.mode}</span>
         </div>
         <span style={css(`font-size: 14px; color: #5B5470`)}>{`${f.niveauComplet} · ${f.projets}`}</span>
-        {f.mentionComplementaire && <span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6; font-style: italic`)}>{f.mentionComplementaire}</span>}
+        {f.mentionComplementaire && (
+          <span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6; font-style: italic`)}>
+            <Mention texte={f.mentionComplementaire} />
+          </span>
+        )}
         {full && f.competencesAcquises?.length ? (
           <div style={css(`display: flex; flex-direction: column; gap: 6px; margin-top: 4px`)}>
-            <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470; margin-top: 6px`)}>{"Compétences acquises"}</span>
-            <div style={css(`display: flex; flex-wrap: wrap; gap: 6px`)}>
-              {f.competencesAcquises.map((c) => (
-                <span key={c} style={css(TAG_INFO)}>
-                  {c}
-                </span>
-              ))}
-            </div>
+            <h4 style={css(`margin: 6px 0 0; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{"Compétences acquises"}</h4>
+            <Etiquettes items={f.competencesAcquises} style={TAG_INFO} />
           </div>
         ) : null}
       </div>
@@ -167,16 +175,10 @@ export function CarteAlternance({ e }: { e: SiteExperience }) {
   return (
     <article style={css(`border-radius: 20px; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 8px`)}>
       <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{e.periode}</span>
-      <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</span>
+      <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</h3>
       <Entreprise e={e} />
       <span style={css(`font-size: 14px; color: #5B5470`)}>{e.homeCard?.lieuMode ?? e.lieuMode}</span>
-      <div style={css(`display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px`)}>
-        {(e.homeCard?.technologies ?? []).map((t) => (
-          <span key={t} style={css(TAG_TECHNO)}>
-            {t}
-          </span>
-        ))}
-      </div>
+      <Etiquettes items={e.homeCard?.technologies ?? []} style={TAG_TECHNO} label={"Technologies"} marge={"4px"} />
     </article>
   );
 }
@@ -187,12 +189,12 @@ export function FriseFormation({ f }: { f: SiteFormation }) {
       <span className={"tl-dot"} aria-hidden={"true"} />{" "}
       <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
         <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 800; letter-spacing: -0.03em; color: #6A4FB6`)}>{f.annees}</span>
-        <span style={css(`font-size: 17px; font-weight: 800; line-height: 1.3`)}>
+        <h4 style={css(`margin: 0; font-size: 17px; font-weight: 800; line-height: 1.3`)}>
           <LienFormation f={f} style={`color: inherit; text-decoration: none; `} />
-        </span>
+        </h4>
         <span style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; color: #5B5470`)}>
-          <b style={css(`color: #1A1033`)}>{f.diplome}</b>
-          <span style={css(f.statut === "En cours" ? STATUT_EN_COURS : `padding: 3px 9px; border-radius: 6px; background: #E7F6EE; border: 0; color: #067647; font-size: 13px; font-weight: 800`)}>{f.statut}</span>
+          <b style={css(`color: #1A1033`)}>{f.diplome}</b>{" "}
+          <span style={css(f.statut === "En cours" ? STATUT_EN_COURS : `padding: 3px 9px; border-radius: 6px; background: #E7F6EE; border: 0; color: #067647; font-size: 13px; font-weight: 800`)}>{f.statut}</span>{" "}
           <span style={css(MODE)}>{f.mode}</span>
         </span>
         <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>{f.projets}</span>

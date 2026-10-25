@@ -26,6 +26,8 @@ export function HeaderView({ v }: { v: any }) {
           {v.nav.map((item: any) => (
             <Link key={item.href} href={item.href} aria-current={item.active ? "page" : undefined} style={css(`position: relative; padding: 12px 14px; font-size: 16px; font-weight: 700; color: ${item.active ? "#6A4FB6" : "#1A1033"}; text-decoration: none`)}>
               {item.label}
+              {/* Visible seulement sans styles (RGAA 10.3) ; aria-current l'annonce déjà. */}
+              {item.active && <span className={"visuellement-masque"} aria-hidden={"true"}>{" (page actuelle)"}</span>}
               {item.active && (
                 <span style={css(`position: absolute; left: 50%; bottom: 3px; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: #6A4FB6`)} />
               )}

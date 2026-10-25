@@ -1,0 +1,854 @@
+{
+ "referentiel": "RGAA 4.1.2",
+ "date": "2026-10-25",
+ "criteres": [
+  {
+   "n": "1.1",
+   "theme": "Images",
+   "titre": "Chaque image porteuse d’information a-t-elle une alternative textuelle ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Les logos ont role=\"img\" et un aria-label, la photo a alt=\"Clara Bernadou\", les aperçus de livrables ont « Aperçu : … »."
+  },
+  {
+   "n": "1.2",
+   "theme": "Images",
+   "titre": "Chaque image de décoration est-elle correctement ignorée par les technologies d’assistance ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Les icônes décoratives (SVG) sont masquées avec aria-hidden : aucune image SVG sans aria-hidden ni role=\"img\" sur l’échantillon."
+  },
+  {
+   "n": "1.3",
+   "theme": "Images",
+   "titre": "Pour chaque image porteuse d’information ayant une alternative textuelle, cette alternative est-elle pertinente (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Les alternatives décrivent l’information portée (nom, logo, livrable représenté)."
+  },
+  {
+   "n": "1.4",
+   "theme": "Images",
+   "titre": "Pour chaque image utilisée comme CAPTCHA ou comme image-test, ayant une alternative textuelle, cette alternative permet-elle d’identifier la nature et la fonction de l’image ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun CAPTCHA ni image-test."
+  },
+  {
+   "n": "1.5",
+   "theme": "Images",
+   "titre": "Pour chaque image utilisée comme CAPTCHA, une solution d’accès alternatif au contenu ou à la fonction du CAPTCHA est-elle présente ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun CAPTCHA."
+  },
+  {
+   "n": "1.6",
+   "theme": "Images",
+   "titre": "Chaque image porteuse d’information a-t-elle, si nécessaire, une description détaillée ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune image complexe nécessitant une description détaillée."
+  },
+  {
+   "n": "1.7",
+   "theme": "Images",
+   "titre": "Pour chaque image porteuse d’information ayant une description détaillée, cette description est-elle pertinente ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune description détaillée."
+  },
+  {
+   "n": "1.8",
+   "theme": "Images",
+   "titre": "Chaque image texte porteuse d’information, en l’absence d’un mécanisme de remplacement, doit si possible être remplacée par du texte stylé. Cette règle est-elle respectée (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Seuls les logos sont des images de texte (logotypes, exemptés)."
+  },
+  {
+   "n": "1.9",
+   "theme": "Images",
+   "titre": "Chaque légende d’image est-elle, si nécessaire, correctement reliée à l’image correspondante ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune image légendée."
+  },
+  {
+   "n": "2.1",
+   "theme": "Cadres",
+   "titre": "Chaque cadre a-t-il un titre de cadre ?",
+   "statut": "C",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Le lecteur vidéo (iframe) a un attribut title."
+  },
+  {
+   "n": "2.2",
+   "theme": "Cadres",
+   "titre": "Pour chaque cadre ayant un titre de cadre, ce titre de cadre est-il pertinent ?",
+   "statut": "C",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Titre du cadre pertinent : « Film N sur 3 : titre du film »."
+  },
+  {
+   "n": "3.1",
+   "theme": "Couleurs",
+   "titre": "Dans chaque page web, l’information ne doit pas être donnée uniquement par la couleur. Cette règle est-elle respectée ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "L’information n’est pas donnée par la couleur seule : filtre actif à fond plein et aria-pressed, page en cours signalée par une pastille et aria-current."
+  },
+  {
+   "n": "3.2",
+   "theme": "Couleurs",
+   "titre": "Dans chaque page web, le contraste entre la couleur du texte et la couleur de son arrière-plan est-il suffisamment élevé (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Contrastes des textes mesurés de 5,9:1 à 17,5:1, dégradés compris ; aucune erreur de contraste relevée par axe-core."
+  },
+  {
+   "n": "3.3",
+   "theme": "Couleurs",
+   "titre": "Dans chaque page web, les couleurs utilisées dans les composants d’interface ou les éléments graphiques porteurs d’informations sont-elles suffisamment contrastées (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Bordures des boutons, étiquettes et anneau de focus contrastés à 3:1 au moins, y compris sur les fonds sombres (anneau Lilas)."
+  },
+  {
+   "n": "4.1",
+   "theme": "Multimédia",
+   "titre": "Chaque média temporel pré-enregistré a-t-il, si nécessaire, une transcription textuelle ou une audiodescription (hors cas particuliers) ?",
+   "statut": "NC",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Les 3 films (voix off) n’ont pas encore de transcription textuelle."
+  },
+  {
+   "n": "4.2",
+   "theme": "Multimédia",
+   "titre": "Pour chaque média temporel pré-enregistré ayant une transcription textuelle ou une audiodescription synchronisée, celles-ci sont-elles pertinentes (hors cas particuliers) ?",
+   "statut": "NA",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Aucune transcription publiée pour l’instant (voir 4.1)."
+  },
+  {
+   "n": "4.3",
+   "theme": "Multimédia",
+   "titre": "Chaque média temporel synchronisé pré-enregistré a-t-il, si nécessaire, des sous-titres synchronisés (hors cas particuliers) ?",
+   "statut": "NC",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Les films n’ont que les sous-titres automatiques de YouTube, non relus."
+  },
+  {
+   "n": "4.4",
+   "theme": "Multimédia",
+   "titre": "Pour chaque média temporel synchronisé pré-enregistré ayant des sous-titres synchronisés, ces sous-titres sont-ils pertinents ?",
+   "statut": "NA",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Aucun sous-titre relu publié pour l’instant (voir 4.3)."
+  },
+  {
+   "n": "4.5",
+   "theme": "Multimédia",
+   "titre": "Chaque média temporel pré-enregistré a-t-il, si nécessaire, une audiodescription synchronisée (hors cas particuliers) ?",
+   "statut": "NC",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Non vérifié : il reste à contrôler que les textes affichés à l’écran sont tous repris par la voix off. Considéré non conforme en attendant."
+  },
+  {
+   "n": "4.6",
+   "theme": "Multimédia",
+   "titre": "Pour chaque média temporel pré-enregistré ayant une audiodescription synchronisée, celle-ci est-elle pertinente ?",
+   "statut": "NA",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Aucune audiodescription publiée."
+  },
+  {
+   "n": "4.7",
+   "theme": "Multimédia",
+   "titre": "Chaque média temporel est-il clairement identifiable (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Chaque film est identifié par un titre visible et un surtitre."
+  },
+  {
+   "n": "4.8",
+   "theme": "Multimédia",
+   "titre": "Chaque média non temporel a-t-il, si nécessaire, une alternative (hors cas particuliers) ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun média non temporel."
+  },
+  {
+   "n": "4.9",
+   "theme": "Multimédia",
+   "titre": "Pour chaque média non temporel ayant une alternative, cette alternative est-elle pertinente ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun média non temporel."
+  },
+  {
+   "n": "4.10",
+   "theme": "Multimédia",
+   "titre": "Chaque son déclenché automatiquement est-il contrôlable par l’utilisateur ?",
+   "statut": "C",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Aucun son déclenché automatiquement : le lecteur ne se charge qu’après un clic."
+  },
+  {
+   "n": "4.11",
+   "theme": "Multimédia",
+   "titre": "La consultation de chaque média temporel est-elle, si nécessaire, contrôlable par le clavier et tout dispositif de pointage ?",
+   "statut": "C",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Lecteur YouTube contrôlable au clavier (vérifié sans lecteur d’écran)."
+  },
+  {
+   "n": "4.12",
+   "theme": "Multimédia",
+   "titre": "La consultation de chaque média non temporel est-elle contrôlable par le clavier et tout dispositif de pointage ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun média non temporel."
+  },
+  {
+   "n": "4.13",
+   "theme": "Multimédia",
+   "titre": "Chaque média temporel et non temporel est-il compatible avec les technologies d’assistance (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Repositionnement de Fruggr",
+   "constat": "Lecteur YouTube compatible avec les technologies d’assistance (non testé avec un lecteur d’écran)."
+  },
+  {
+   "n": "5.1",
+   "theme": "Tableaux",
+   "titre": "Chaque tableau de données complexe a-t-il un résumé ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun tableau."
+  },
+  {
+   "n": "5.2",
+   "theme": "Tableaux",
+   "titre": "Pour chaque tableau de données complexe ayant un résumé, celui-ci est-il pertinent ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun tableau."
+  },
+  {
+   "n": "5.3",
+   "theme": "Tableaux",
+   "titre": "Pour chaque tableau de mise en forme, le contenu linéarisé reste-t-il compréhensible ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun tableau."
+  },
+  {
+   "n": "5.4",
+   "theme": "Tableaux",
+   "titre": "Pour chaque tableau de données ayant un titre, le titre est-il correctement associé au tableau de données ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun tableau."
+  },
+  {
+   "n": "5.5",
+   "theme": "Tableaux",
+   "titre": "Pour chaque tableau de données ayant un titre, celui-ci est-il pertinent ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun tableau."
+  },
+  {
+   "n": "5.6",
+   "theme": "Tableaux",
+   "titre": "Pour chaque tableau de données, chaque en-tête de colonne et chaque en-tête de ligne sont-ils correctement déclarés ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun tableau."
+  },
+  {
+   "n": "5.7",
+   "theme": "Tableaux",
+   "titre": "Pour chaque tableau de données, la technique appropriée permettant d’associer chaque cellule avec ses en-têtes est-elle utilisée (hors cas particuliers) ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun tableau."
+  },
+  {
+   "n": "5.8",
+   "theme": "Tableaux",
+   "titre": "Chaque tableau de mise en forme ne doit pas utiliser d’éléments propres aux  tableaux de données. Cette règle est-elle respectée ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun tableau."
+  },
+  {
+   "n": "6.1",
+   "theme": "Liens",
+   "titre": "Chaque lien est-il explicite (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : « Voir le projet » est complété par le nom du projet, « Vannes » et « Auray » par « (carte Google Maps) » ; les noms accessibles reprennent le libellé visible."
+  },
+  {
+   "n": "6.2",
+   "theme": "Liens",
+   "titre": "Dans chaque page web, chaque lien a-t-il un intitulé ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Chaque lien a un intitulé."
+  },
+  {
+   "n": "7.1",
+   "theme": "Scripts",
+   "titre": "Chaque script est-il, si nécessaire, compatible avec les technologies d’assistance ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : la navigation (Voir le projet, Retour aux projets, projets voisins, Écrire) utilise de vrais liens ; les boutons ne servent qu’aux actions (filtres avec aria-pressed, lecture d’un film, copie de l’adresse, fenêtre de recommandation)."
+  },
+  {
+   "n": "7.2",
+   "theme": "Scripts",
+   "titre": "Pour chaque script ayant une alternative, cette alternative est-elle pertinente ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun script nécessitant une alternative."
+  },
+  {
+   "n": "7.3",
+   "theme": "Scripts",
+   "titre": "Chaque script est-il contrôlable par le clavier et par tout dispositif de pointage (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Tous les composants sont utilisables au clavier ; la fenêtre modale piège le focus, se ferme avec Échap et rend le focus au bouton."
+  },
+  {
+   "n": "7.4",
+   "theme": "Scripts",
+   "titre": "Pour chaque script qui initie un changement de contexte, l’utilisateur est-il averti ou en a-t-il le contrôle ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Aucun changement de contexte sans action de l’utilisateur."
+  },
+  {
+   "n": "7.5",
+   "theme": "Scripts",
+   "titre": "Dans chaque page web, les messages de statut sont-ils correctement restitués par les technologies d’assistance ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Messages de statut annoncés avec aria-live (nombre de projets affichés, « Copié ✓ ») ; annonce non vérifiée avec un lecteur d’écran."
+  },
+  {
+   "n": "8.1",
+   "theme": "Éléments obligatoires",
+   "titre": "Chaque page web est-elle définie par un type de document ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Type de document HTML5 déclaré."
+  },
+  {
+   "n": "8.2",
+   "theme": "Éléments obligatoires",
+   "titre": "Pour chaque page web, le code source généré est-il valide selon le type de document spécifié ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : code HTML valide (validateur Nu), après correction de la structure des recommandations (figure et figcaption)."
+  },
+  {
+   "n": "8.3",
+   "theme": "Éléments obligatoires",
+   "titre": "Dans chaque page web, la langue par défaut est-elle présente ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Langue par défaut déclarée : lang=\"fr\"."
+  },
+  {
+   "n": "8.4",
+   "theme": "Éléments obligatoires",
+   "titre": "Pour chaque page web ayant une langue par défaut, le code de langue est-il pertinent ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Langue par défaut pertinente."
+  },
+  {
+   "n": "8.5",
+   "theme": "Éléments obligatoires",
+   "titre": "Chaque page web a-t-elle un titre de page ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Chaque page a un titre."
+  },
+  {
+   "n": "8.6",
+   "theme": "Éléments obligatoires",
+   "titre": "Pour chaque page web ayant un titre de page, ce titre est-il pertinent ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Titres de page distincts et pertinents (« Page introuvable » pour la page 404)."
+  },
+  {
+   "n": "8.7",
+   "theme": "Éléments obligatoires",
+   "titre": "Dans chaque page web, chaque changement de langue est-il indiqué dans le code source (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : les titres des films et l’intitulé du diplôme américain sont balisés lang=\"en\". Les noms propres et les anglicismes d’usage courant ne sont pas balisés."
+  },
+  {
+   "n": "8.8",
+   "theme": "Éléments obligatoires",
+   "titre": "Dans chaque page web, le code de langue de chaque changement de langue est-il valide et pertinent ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Code de langue valide (en)."
+  },
+  {
+   "n": "8.9",
+   "theme": "Éléments obligatoires",
+   "titre": "Dans chaque page web, les balises ne doivent pas être utilisées uniquement à des fins de présentation. Cette règle est-elle respectée ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Aucune balise utilisée uniquement à des fins de présentation."
+  },
+  {
+   "n": "8.10",
+   "theme": "Éléments obligatoires",
+   "titre": "Dans chaque page web, les changements du sens de lecture sont-ils signalés ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun changement de sens de lecture."
+  },
+  {
+   "n": "9.1",
+   "theme": "Structuration de l’information",
+   "titre": "Dans chaque page web, l’information est-elle structurée par l’utilisation appropriée de titres ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : hiérarchie de titres sans saut (h1, h2, h3, h4) ; postes, formations, groupes de compétences et étapes balisés en titres ; titre « Liste des projets » ajouté."
+  },
+  {
+   "n": "9.2",
+   "theme": "Structuration de l’information",
+   "titre": "Dans chaque page web, la structure du document est-elle cohérente (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Structure balisée : header, nav (navigation principale, fil d’Ariane, projets voisins), main et footer."
+  },
+  {
+   "n": "9.3",
+   "theme": "Structuration de l’information",
+   "titre": "Dans chaque page web, chaque liste est-elle correctement structurée ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : cartes, étiquettes et liens sociaux balisés en listes (role=\"list\") ; informations des mentions légales en liste de définitions."
+  },
+  {
+   "n": "9.4",
+   "theme": "Structuration de l’information",
+   "titre": "Dans chaque page web, chaque citation est-elle correctement indiquée ?",
+   "statut": "C",
+   "pages": "Accueil",
+   "constat": "Les recommandations sont des citations (blockquote dans figure)."
+  },
+  {
+   "n": "10.1",
+   "theme": "Présentation de l’information",
+   "titre": "Dans le site web, des feuilles de styles sont-elles utilisées pour contrôler la présentation de l’information ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "La présentation est assurée par des styles CSS."
+  },
+  {
+   "n": "10.2",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, le contenu visible porteur d’information reste-t-il présent lorsque les feuilles de styles sont désactivées ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : le contenu reste lisible sans styles (étiquettes séparées, état des filtres et page en cours écrits en toutes lettres)."
+  },
+  {
+   "n": "10.3",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, l’information reste-t-elle compréhensible lorsque les feuilles de styles sont désactivées ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : l’ordre et le sens du contenu restent compréhensibles sans styles."
+  },
+  {
+   "n": "10.4",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, le texte reste-t-il lisible lorsque la taille des caractères est augmentée jusqu’à 200 %, au moins (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Texte lisible avec un zoom de 200 %."
+  },
+  {
+   "n": "10.5",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, les déclarations CSS de couleurs de fond d’élément et de police sont-elles correctement utilisées ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Couleurs de texte et de fond déclarées ensemble."
+  },
+  {
+   "n": "10.6",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, chaque lien dont la nature n’est pas évidente est-il visible par rapport au texte environnant ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Liens dans le texte soulignés."
+  },
+  {
+   "n": "10.7",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, pour chaque élément recevant le focus, la prise de focus est-elle visible ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : focus visible partout, anneau Lilas sur fonds sombres ; le menu mobile ouvert rend le reste de la page inerte."
+  },
+  {
+   "n": "10.8",
+   "theme": "Présentation de l’information",
+   "titre": "Pour chaque page web, les contenus cachés ont-ils vocation à être ignorés par les technologies d’assistance ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Les contenus masqués sont ignorés des technologies d’assistance."
+  },
+  {
+   "n": "10.9",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, l’information ne doit pas être donnée uniquement par la forme, taille ou position. Cette règle est-elle respectée ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Aucune information donnée par la forme, la taille ou la position seules."
+  },
+  {
+   "n": "10.10",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, l’information ne doit pas être donnée par la forme, taille ou position uniquement. Cette règle est-elle implémentée de façon pertinente ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Idem, pour chaque information."
+  },
+  {
+   "n": "10.11",
+   "theme": "Présentation de l’information",
+   "titre": "Pour chaque page web, les contenus peuvent-ils être présentés sans perte d’information ou de fonctionnalité et sans avoir recours soit à un défilement vertical pour une fenêtre ayant une hauteur de 256 px, soit à un défilement horizontal pour une fenêtre ayant une largeur de 320 px (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Aucun défilement horizontal à 320 px de large."
+  },
+  {
+   "n": "10.12",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, les propriétés d’espacement du texte peuvent-elles être redéfinies par l’utilisateur sans perte de contenu ou de fonctionnalité (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Contenu lisible avec un espacement du texte élargi."
+  },
+  {
+   "n": "10.13",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, les contenus additionnels apparaissant à la prise de focus ou au survol d’un composant d’interface sont-ils contrôlables par l’utilisateur (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Aucun contenu additionnel au survol ou au focus."
+  },
+  {
+   "n": "10.14",
+   "theme": "Présentation de l’information",
+   "titre": "Dans chaque page web, les contenus additionnels apparaissant via les styles CSS uniquement peuvent-ils être rendus visibles au clavier et par tout dispositif de pointage ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Aucun contenu additionnel visible au seul survol."
+  },
+  {
+   "n": "11.1",
+   "theme": "Formulaires",
+   "titre": "Chaque champ de formulaire a-t-il une étiquette ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.2",
+   "theme": "Formulaires",
+   "titre": "Chaque étiquette associée à un champ de formulaire est-elle pertinente (hors cas particuliers) ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.3",
+   "theme": "Formulaires",
+   "titre": "Dans chaque formulaire, chaque étiquette associée à un champ de formulaire ayant la même fonction et répétée plusieurs fois dans une même page ou dans un ensemble de pages est-elle cohérente ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.4",
+   "theme": "Formulaires",
+   "titre": "Dans chaque formulaire, chaque étiquette de champ et son champ associé sont-ils accolés (hors cas particuliers) ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.5",
+   "theme": "Formulaires",
+   "titre": "Dans chaque formulaire, les champs de même nature sont-ils regroupés, si nécessaire ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.6",
+   "theme": "Formulaires",
+   "titre": "Dans chaque formulaire, chaque regroupement de champs de même nature a-t-il une légende ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.7",
+   "theme": "Formulaires",
+   "titre": "Dans chaque formulaire, chaque légende associée à un regroupement de champs de même nature est-elle pertinente ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.8",
+   "theme": "Formulaires",
+   "titre": "Dans chaque formulaire, les items de même nature d’une liste de choix sont-ils regroupés de manière pertinente ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.9",
+   "theme": "Formulaires",
+   "titre": "Dans chaque formulaire, l’intitulé de chaque bouton est-il pertinent (hors cas particuliers) ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.10",
+   "theme": "Formulaires",
+   "titre": "Dans chaque formulaire, le contrôle de saisie est-il utilisé de manière pertinente (hors cas particuliers) ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.11",
+   "theme": "Formulaires",
+   "titre": "Dans chaque formulaire, le contrôle de saisie est-il accompagné, si nécessaire, de suggestions facilitant la correction des erreurs de saisie ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.12",
+   "theme": "Formulaires",
+   "titre": "Pour chaque formulaire qui modifie ou supprime des données, ou qui transmet des réponses à un test ou à un examen, ou dont la validation a des conséquences financières ou juridiques, les données saisies peuvent-elles être modifiées, mises à jour ou récupérées par l’utilisateur ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "11.13",
+   "theme": "Formulaires",
+   "titre": "La finalité d’un champ de saisie peut-elle être déduite pour faciliter le remplissage automatique des champs avec les données de l’utilisateur ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun champ de formulaire sur le site public."
+  },
+  {
+   "n": "12.1",
+   "theme": "Navigation",
+   "titre": "Chaque ensemble de pages dispose-t-il de deux systèmes de navigation différents, au moins (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : 2 systèmes de navigation, le menu et le plan du site (lien dans le pied de page)."
+  },
+  {
+   "n": "12.2",
+   "theme": "Navigation",
+   "titre": "Dans chaque ensemble de pages, le menu et les barres de navigation sont-ils toujours à la même place (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Menu et plan du site au même endroit sur chaque page."
+  },
+  {
+   "n": "12.3",
+   "theme": "Navigation",
+   "titre": "La page « plan du site » est-elle pertinente ?",
+   "statut": "C",
+   "pages": "Plan du site",
+   "constat": "Le plan du site liste toutes les pages et tous les projets publiés."
+  },
+  {
+   "n": "12.4",
+   "theme": "Navigation",
+   "titre": "Dans chaque ensemble de pages, la page « plan du site » est-elle accessible à partir d’une fonctionnalité identique ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Plan du site atteignable depuis le pied de page de chaque page."
+  },
+  {
+   "n": "12.5",
+   "theme": "Navigation",
+   "titre": "Dans chaque ensemble de pages, le moteur de recherche est-il atteignable de manière identique ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun moteur de recherche."
+  },
+  {
+   "n": "12.6",
+   "theme": "Navigation",
+   "titre": "Les zones de regroupement de contenus présentes dans plusieurs pages web (zones d’en-tête, de navigation principale, de contenu principal, de pied de page et de moteur de recherche) peuvent-elles être atteintes ou évitées ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Zones de regroupement identifiées (en-tête, navigation, contenu, pied de page)."
+  },
+  {
+   "n": "12.7",
+   "theme": "Navigation",
+   "titre": "Dans chaque page web, un lien d’évitement ou d’accès rapide à la zone de contenu principal est-il présent (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Lien « Aller au contenu », premier élément atteint au clavier."
+  },
+  {
+   "n": "12.8",
+   "theme": "Navigation",
+   "titre": "Dans chaque page web, l’ordre de tabulation est-il cohérent ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Corrigé : ordre de tabulation cohérent (bouton « Retour en haut » en dernier) ; le focus est déplacé quand l’élément actif disparaît (lecture d’un film, réinitialisation des filtres, ajout de projets)."
+  },
+  {
+   "n": "12.9",
+   "theme": "Navigation",
+   "titre": "Dans chaque page web, la navigation ne doit pas contenir de piège au clavier. Cette règle est-elle respectée ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Aucun piège au clavier."
+  },
+  {
+   "n": "12.10",
+   "theme": "Navigation",
+   "titre": "Dans chaque page web, les raccourcis clavier n’utilisant qu’une seule touche (lettre minuscule ou majuscule, ponctuation, chiffre ou symbole) sont-ils contrôlables par l’utilisateur ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Aucun raccourci clavier à une seule touche."
+  },
+  {
+   "n": "12.11",
+   "theme": "Navigation",
+   "titre": "Dans chaque page web, les contenus additionnels apparaissant au survol, à la prise de focus ou à l’activation d’un composant d’interface sont-ils si nécessaire atteignables au clavier ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun contenu additionnel au survol."
+  },
+  {
+   "n": "13.1",
+   "theme": "Consultation",
+   "titre": "Pour chaque page web, l’utilisateur a-t-il le contrôle de chaque limite de temps modifiant le contenu (hors cas particuliers) ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune limite de temps."
+  },
+  {
+   "n": "13.2",
+   "theme": "Consultation",
+   "titre": "Dans chaque page web, l’ouverture d’une nouvelle fenêtre ne doit pas être déclenchée sans action de l’utilisateur. Cette règle est-elle respectée ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Les nouvelles fenêtres ne s’ouvrent qu’à l’initiative de l’utilisateur."
+  },
+  {
+   "n": "13.3",
+   "theme": "Consultation",
+   "titre": "Dans chaque page web, chaque document bureautique en téléchargement possède-t-il, si nécessaire, une version accessible (hors cas particuliers) ?",
+   "statut": "NC",
+   "pages": "Fiches projet",
+   "constat": "Les livrables de formation téléchargeables (PDF exportés de Figma, surtout des images) ne sont pas accessibles. Leur contenu est résumé sur chaque fiche projet. Le CV (PDF balisé) et la lettre de recommandation sont accessibles."
+  },
+  {
+   "n": "13.4",
+   "theme": "Consultation",
+   "titre": "Pour chaque document bureautique ayant une version accessible, cette version offre-t-elle la même information ?",
+   "statut": "C",
+   "pages": "CV",
+   "constat": "La page CV est la version accessible du CV en PDF, avec la même information."
+  },
+  {
+   "n": "13.5",
+   "theme": "Consultation",
+   "titre": "Dans chaque page web, chaque contenu cryptique (art ASCII, émoticône, syntaxe cryptique) a-t-il une alternative ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Les symboles décoratifs (flèches) sont masqués aux technologies d’assistance."
+  },
+  {
+   "n": "13.6",
+   "theme": "Consultation",
+   "titre": "Dans chaque page web, pour chaque contenu cryptique (art ASCII, émoticône, syntaxe cryptique) ayant une alternative, cette alternative est-elle pertinente ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun contenu cryptique nécessitant une alternative."
+  },
+  {
+   "n": "13.7",
+   "theme": "Consultation",
+   "titre": "Dans chaque page web, les changements brusques de luminosité ou les effets de flash sont-ils correctement utilisés ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Aucune animation ni aucun flash sur le site (les films n’ont pas été contrôlés)."
+  },
+  {
+   "n": "13.8",
+   "theme": "Consultation",
+   "titre": "Dans chaque page web, chaque contenu en mouvement ou clignotant est-il contrôlable par l’utilisateur ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun contenu en mouvement automatique."
+  },
+  {
+   "n": "13.9",
+   "theme": "Consultation",
+   "titre": "Dans chaque page web, le contenu proposé est-il consultable quelle que soit l’orientation de l’écran (portrait ou paysage) (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Consultable en portrait comme en paysage."
+  },
+  {
+   "n": "13.10",
+   "theme": "Consultation",
+   "titre": "Dans chaque page web, les fonctionnalités utilisables ou disponibles au moyen d’un geste complexe peuvent-elles être également disponibles au moyen d’un geste simple (hors cas particuliers) ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun geste complexe."
+  },
+  {
+   "n": "13.11",
+   "theme": "Consultation",
+   "titre": "Dans chaque page web, les actions déclenchées au moyen d’un dispositif de pointage sur un point unique de l’écran peuvent-elles faire l’objet d’une annulation (hors cas particuliers) ?",
+   "statut": "C",
+   "pages": "Toutes les pages",
+   "constat": "Actions déclenchées au relâchement (composants natifs)."
+  },
+  {
+   "n": "13.12",
+   "theme": "Consultation",
+   "titre": "Dans chaque page web, les fonctionnalités qui impliquent un mouvement de l’appareil ou vers l’appareil peuvent-elles être satisfaites de manière alternative (hors cas particuliers) ?",
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune fonctionnalité liée au mouvement de l’appareil."
+  }
+ ]
+}

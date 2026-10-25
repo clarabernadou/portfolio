@@ -5,10 +5,10 @@ import { css } from "@/lib/css";
 
 export function IaStat({ value, label }: { value: string; label: string }) {
   return (
-    <div style={css(`background: #FFFFFF; padding: 20px 22px; display: flex; flex-direction: column; gap: 4px`)}>
-      <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 38px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6; line-height: 1`)}>{value}</span>
+    <li style={css(`background: #FFFFFF; padding: 20px 22px; display: flex; flex-direction: column; gap: 4px`)}>
+      <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 38px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6; line-height: 1`)}>{value}</span>{" "}
       <span style={css(`font-size: 14px; font-weight: 700; line-height: 1.35`)}>{label}</span>
-    </div>
+    </li>
   );
 }
 
