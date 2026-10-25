@@ -294,7 +294,7 @@ export function ProjetsView({ v }: { v: any }) {
                   {v.cur.hasPdf && (
                     <>
                       <a href={v.cur.pdfh} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; text-decoration: none`)}>
-                        {"Tous les livrables · PDF"}
+                        {`Tous les livrables · ${v.cur.pdfFormat}`}
                       </a>
                     </>
                   )}
@@ -458,7 +458,7 @@ export function ProjetsView({ v }: { v: any }) {
                       {v.cur.hasPdf && (
                         <>
                           <a href={v.cur.pdfh} target={"_blank"} rel={"noopener noreferrer"} style={css(`padding: 10px 0; font-size: 15px; font-weight: 700`)}>
-                            {"Tout ouvrir · PDF"}
+                            {`Tout ouvrir · ${v.cur.pdfFormat}`}
                           </a>
                         </>
                       )}
@@ -469,7 +469,13 @@ export function ProjetsView({ v }: { v: any }) {
                           <a href={d.href} target={"_blank"} rel={"noopener noreferrer"} style={css(`text-decoration: none; color: #1A1033; border-radius: 18px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
                             {" "}
                             <div style={css(`height: 180px; background: #F3EFFF; overflow: hidden; border-bottom: 1px solid #E4DCF7`)}>
-                              <img src={d.thumb} alt={`Aperçu : ${d.label}`} style={css(`width: 100%; height: 100%; object-fit: cover; object-position: top; display: block`)} />
+                              {d.thumb ? (
+                                <img src={d.thumb} alt={`Aperçu : ${d.label}`} style={css(`width: 100%; height: 100%; object-fit: cover; object-position: top; display: block`)} />
+                              ) : (
+                                <span aria-hidden={"true"} style={css(`height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-titre); font-size: 22px; font-weight: 800; color: var(--amethyste)`)}>
+                                  {d.format}
+                                </span>
+                              )}
                             </div>
                             {" "}
                             <div style={css(`padding: 14px 16px; display: flex; align-items: center; gap: 12px`)}>
@@ -478,6 +484,7 @@ export function ProjetsView({ v }: { v: any }) {
                               </span>
                               <span style={css(`flex-grow: 1; font-size: 16px; font-weight: 800; line-height: 1.25`)}>
                                 <span>{d.label}</span>
+                                <span style={css(`display: block; margin-top: 2px; font-size: 13px; font-weight: 600; color: var(--ardoise)`)}>{d.format}</span>
                               </span>
                               <span style={css(`color: #6A4FB6; display: inline-flex`)}>
                                 <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>

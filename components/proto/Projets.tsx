@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ProjetsView } from "./ProjetsView";
 import type { Project } from "@/lib/types";
 import { sortFeatured, type SiteProject } from "@/lib/data-shared";
+import { estImage, formatLivrable } from "@/lib/livrables";
 
 // Logique reprise du renderVals() de docs/passation/prototype-source/projets.source.html.
 // Les projets viennent de la base (lib/data.ts), passés par la page serveur.
@@ -26,6 +27,7 @@ function detail(p: Project) {
     ...p,
     hasPdf: !!p.pdf,
     pdfh: p.pdf,
+    pdfFormat: formatLivrable(p.pdf),
     hasGh: !!p.github,
     ghh: p.github,
     hasFig: !!p.figma,
@@ -47,7 +49,8 @@ function detail(p: Project) {
     skills: p.skillsValidated,
     hasVideos: !!p.videos?.length,
     hasDocs: p.docs.length > 0,
-    docs: p.docs.map((d) => ({ ...d, thumb: d.thumb ? asset(d.thumb) : "" })),
+    // Une image sert elle-même d'aperçu ; les autres formats sans aperçu affichent leur format.
+    docs: p.docs.map((d) => ({ ...d, format: formatLivrable(d.href), thumb: d.thumb ? asset(d.thumb) : estImage(d.href) ? d.href : "" })),
   };
 }
 

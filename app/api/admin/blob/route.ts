@@ -1,7 +1,8 @@
 import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { adminApiGuard } from "@/lib/auth";
+import { MIME_LIVRABLES } from "@/lib/livrables";
 
-// Envoi direct, du navigateur vers Vercel Blob, des livrables et de leurs aperçus
+// Envoi direct, du navigateur vers Vercel Blob, des livrables (PDF, images, documents…) et de leurs aperçus
 // (choix de Clara, étape 10). Ce point d'entrée ne fait que délivrer un jeton
 // d'envoi de courte durée, et seulement à la session de Clara.
 export async function POST(request: Request) {
@@ -16,7 +17,8 @@ export async function POST(request: Request) {
       onBeforeGenerateToken: async (pathname) => {
         if (!/^livrables\/[\w-]+\/[\w.-]+$/.test(pathname)) throw new Error("Chemin de fichier refusé.");
         return {
-          allowedContentTypes: ["application/pdf", "image/jpeg", "image/png", "image/webp"],
+          // Tous les formats de livrables courants (lib/livrables.ts) ; ni HTML, ni SVG, ni script.
+          allowedContentTypes: MIME_LIVRABLES,
           maximumSizeInBytes: 50 * 1024 * 1024,
           addRandomSuffix: true,
         };

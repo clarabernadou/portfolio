@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { Icon } from "./icons";
 
 // Bouton « Envoyer un fichier » : le fichier part directement vers Vercel Blob
-// (les PDF de livrables dépassent la limite d'envoi des fonctions), puis son
+// (les livrables dépassent souvent la limite d'envoi des fonctions), puis son
 // adresse publique remplit le champ.
 export function BlobUpload({ folder, accept, label, onDone }: { folder: string; accept: string; label: string; onDone: (url: string) => void }) {
   const input = useRef<HTMLInputElement>(null);

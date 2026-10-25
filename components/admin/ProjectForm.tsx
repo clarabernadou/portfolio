@@ -11,6 +11,7 @@ import { Icon } from "./icons";
 import { BlobUpload } from "./BlobUpload";
 import { slugify } from "@/lib/admin/projects";
 import { IaPage } from "./AvisIA";
+import { ACCEPT_LIVRABLES } from "@/lib/livrables";
 
 const ETAPES = ["Fait", "En cours", "À venir"];
 
@@ -117,14 +118,14 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
               itemName={(d, i) => d.label || `le livrable ${i + 1}`}
               empty={
                 <>
-                  <b>Aucun livrable</b>Un PDF peut être découpé en plusieurs livrables : indique l’adresse du fichier suivie de la page de début (…pdf#page=12).
+                  <b>Aucun livrable</b>Un livrable peut être un PDF, une image, un document Word, une présentation, un tableur, une vidéo… Un PDF peut aussi être découpé en plusieurs livrables : indique l’adresse du fichier suivie de la page de début (…pdf#page=12).
                 </>
               }
               render={(d, setD) => (
                 <>
                   <InlineInput label="Titre du livrable" placeholder="Titre" value={d.label} onChange={(v) => setD({ ...d, label: v })} />
-                  <InlineInput label="Fichier du livrable" placeholder="/livrables/fichier.pdf#page=1" value={d.href} onChange={(v) => setD({ ...d, href: v })} />
-                  <BlobUpload folder={p.id || "nouveau"} accept="application/pdf" label="Envoyer un PDF" onDone={(url) => setD({ ...d, href: url })} />
+                  <InlineInput label="Fichier du livrable" placeholder="/livrables/fichier.pdf#page=1, une image, un document…" value={d.href} onChange={(v) => setD({ ...d, href: v })} />
+                  <BlobUpload folder={p.id || "nouveau"} accept={ACCEPT_LIVRABLES} label="Envoyer un fichier" onDone={(url) => setD({ ...d, href: url })} />
                   <InlineInput label="Aperçu du livrable (image)" placeholder="Aperçu : assets/apercus/…/1.jpg (optionnel)" value={d.thumb ?? ""} onChange={(v) => setD({ ...d, thumb: v })} />
                   <BlobUpload folder={p.id || "nouveau"} accept="image/jpeg,image/png,image/webp" label="Envoyer un aperçu" onDone={(url) => setD({ ...d, thumb: url })} />
                 </>
