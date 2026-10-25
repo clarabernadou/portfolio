@@ -209,3 +209,6 @@
 .adm-ia-claude { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--bordure); }
 .adm-ia-claude summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 700; color: var(--amethyste); }
 .adm-ia-claude[open] summary { margin-bottom: 10px; }
+.adm-ia-alerte { padding: 12px 14px; border-radius: var(--r-md); border: 1.5px solid var(--alerte); color: var(--alerte); }
+.adm-ia-alerte h3 { margin: 0 0 6px; color: var(--alerte); }
+.adm-ia-alerte ul { color: var(--encre); }

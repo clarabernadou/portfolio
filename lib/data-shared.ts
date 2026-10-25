@@ -52,6 +52,8 @@ export interface SiteProfile {
   profilComplet: string;
   langues: { nom: string; niveau: string[] }[];
   photoAlt: string;
+  /** Profil pour l'IA de relecture (administration) : privé, jamais envoyé aux pages publiques. */
+  noteIA?: string;
 }
 
 // « CDI · disponible en mars 2027 »
@@ -84,7 +86,7 @@ export function iaStats(ia: Pick<IaContent, "stats" | "tools" | "skills" | "rout
 // Données envoyées aux pages publiques (décisions de Clara, 25 oct. 2026) : ni le
 // téléphone (seulement dans le PDF du CV), ni la version complète du CV, qui reste
 // dans l'administration. Ces champs sont vidés côté serveur, jamais seulement cachés.
-export const profilPublic = (p: SiteProfile): SiteProfile => ({ ...p, telephone: "", profilComplet: "" });
+export const profilPublic = (p: SiteProfile): SiteProfile => ({ ...p, telephone: "", profilComplet: "", noteIA: "" });
 export const experiencePublique = (e: SiteExperience): SiteExperience => ({
   ...e,
   contexteComplet: "",

@@ -30,9 +30,10 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
   const [copie, setCopie] = useState<"" | "ok" | "manuel">("");
   const [reponse, setReponse] = useState("");
   const [voirPrompt, setVoirPrompt] = useState(false);
+  const [profilIA, setProfilIA] = useState("");
 
   const ctx: ContexteAvis = { page: page?.page ?? "Administration du portfolio", infos: page?.infos, champ, max };
-  const prompt = promptAvis(valeur, ctx, recruteur);
+  const prompt = promptAvis(valeur, ctx, recruteur, profilIA);
   const propositionClaude = reponse ? extraireProposition(reponse) : null;
 
   const ouvrir = () => {
@@ -46,6 +47,11 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
     setCopie("");
     setReponse("");
     dialog.current?.showModal();
+    // Profil pour l'IA (privé), utile au prompt du mode Claude.
+    fetch("/api/admin/avis-ia")
+      .then((r) => (r.ok ? r.json() : { profil: "" }))
+      .then((d) => setProfilIA(d.profil ?? ""))
+      .catch(() => setProfilIA(""));
   };
 
   // La fenêtre modale bloque le défilement de la page (CLAUDE.md, accessibilité).
@@ -186,6 +192,16 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
                     ))}
                   </ul>
                 </>
+              )}
+              {etat.avis.affirmationsNonSourcees?.length > 0 && (
+                <div className="adm-ia-alerte">
+                  <h3 className="adm-label">À vérifier avant d’accepter : informations absentes de tes sources</h3>
+                  <ul>
+                    {etat.avis.affirmationsNonSourcees.map((a) => (
+                      <li key={a}>{a}</li>
+                    ))}
+                  </ul>
+                </div>
               )}
               <Proposition texte={etat.avis.proposition} max={max} idBase={titreId} onReplace={remplacer} />
               {etat.avis.modele && <p className="adm-help">Analyse faite par {etat.avis.modele}{etat.avis.modele.includes("lite") ? " (modèle de secours, le principal était saturé)" : ""}.</p>}

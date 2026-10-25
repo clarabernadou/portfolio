@@ -1,4 +1,5 @@
 import { adminApiGuard } from "@/lib/auth";
+import { db } from "@/lib/db";
 import { consignesAvis, demandeAvis, SCHEMA_AVIS, type Avis, type ContexteAvis, type Recruteur } from "@/lib/admin/avis-ia";
 
 // Avis de l'IA intégré à l'administration : Google Gemini, offre gratuite, avec la clé
@@ -9,6 +10,20 @@ const MODELE = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 const MODELE_SECOURS = process.env.GEMINI_MODEL_SECOURS || "gemini-3.5-flash-lite";
 // GEMINI_API_URL ne sert qu'aux tests (faux serveur local).
 const URL_GEMINI = process.env.GEMINI_API_URL || "https://generativelanguage.googleapis.com/v1beta/interactions";
+
+// Profil pour l'IA (Profil et CV → « Ce que l'IA doit savoir sur moi »), lu côté serveur.
+async function profilIA(): Promise<string> {
+  if (!process.env.DATABASE_URL) return "";
+  const row = await db().singleton.findUnique({ where: { key: "profil" } });
+  return ((row?.data as { noteIA?: string } | undefined)?.noteIA ?? "").slice(0, 8000);
+}
+
+// Pour le mode « Copier pour Claude » : le navigateur récupère le même profil.
+export async function GET(request: Request) {
+  const refus = await adminApiGuard(request);
+  if (refus) return refus;
+  return Response.json({ profil: await profilIA() });
+}
 
 type Etape = { type?: string; content?: { type?: string; text?: string }[] };
 
@@ -30,12 +45,13 @@ export async function POST(request: Request) {
     infos: texte(corps.ctx?.infos, 6000) || undefined,
   };
   const aRelire = texte(corps.texte, 8000);
+  const profil = await profilIA();
 
   // Modèle principal, puis modèle de secours plus léger si le premier est saturé (503,
   // fréquent sur l'offre gratuite) ou trop lent : le tout reste sous la limite de 60 s.
   const essais = [
-    { model: MODELE, delai: 30_000 },
-    { model: MODELE_SECOURS, delai: 22_000 },
+    { model: MODELE, delai: 34_000 },
+    { model: MODELE_SECOURS, delai: 20_000 },
   ];
   let reponse: Response | null = null;
   let modele = MODELE;
@@ -47,9 +63,9 @@ export async function POST(request: Request) {
         headers: { "x-goog-api-key": cle, "Content-Type": "application/json" },
         body: JSON.stringify({
           model: essai.model,
-          system_instruction: consignesAvis(ctx, recruteur),
+          system_instruction: consignesAvis(ctx, recruteur, profil),
           input: demandeAvis(aRelire, ctx),
-          generation_config: { thinking_level: "low" },
+          generation_config: { thinking_level: essai.model === MODELE ? "medium" : "low" },
           response_format: { type: "text", mime_type: "application/json", schema: SCHEMA_AVIS },
         }),
         signal: AbortSignal.timeout(essai.delai),
@@ -93,6 +109,7 @@ export async function POST(request: Request) {
     aAmeliorer: Array.isArray(avis.aAmeliorer) ? avis.aAmeliorer.map((a) => ({ point: String(a?.point ?? ""), raison: String(a?.raison ?? "") })) : [],
     questions: Array.isArray(avis.questions) ? avis.questions.map(String).filter((q) => q && q.toLowerCase() !== "aucune") : [],
     proposition: avis.proposition.trim(),
+    affirmationsNonSourcees: Array.isArray(avis.affirmationsNonSourcees) ? avis.affirmationsNonSourcees.map(String).filter(Boolean) : [],
     modele,
   } satisfies Avis & { modele: string });
 }

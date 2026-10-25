@@ -73,6 +73,18 @@ export function ProfileForm({ initial }: { initial: SiteProfile }) {
         )}
       </section>
 
+      <section className="adm-card" aria-labelledby="p-ia">
+        <h2 className="adm-h2" id="p-ia">Ce que l’IA doit savoir sur moi</h2>
+        <TextArea
+          ia={false}
+          label="Profil pour l’avis de l’IA"
+          value={p.noteIA ?? ""}
+          onChange={(v) => set("noteIA", v)}
+          rows={16}
+          help="Privé : jamais affiché sur le site. Envoyé à Gemini avec chaque demande d’avis de l’IA, pour qu’il te connaisse. Pas d’information sensible (téléphone, adresse, clients, chiffres internes)."
+        />
+      </section>
+
       <section className="adm-card" aria-labelledby="p-langues">
         <h2 className="adm-h2" id="p-langues">Langues</h2>
         {p.langues.map((l, i) => (

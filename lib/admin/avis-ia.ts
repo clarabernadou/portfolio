@@ -35,7 +35,7 @@ export interface ContexteAvis {
 }
 
 // Consignes communes aux 2 modes (Gemini dans l'administration, ou copie pour Claude).
-export function consignesAvis(ctx: ContexteAvis, recruteur: Recruteur): string {
+export function consignesAvis(ctx: ContexteAvis, recruteur: Recruteur, profil?: string): string {
   const r = RECRUTEURS.find((x) => x.id === recruteur) ?? RECRUTEURS[0];
   return [
     `Tu es ${r.role}.`,
@@ -50,6 +50,9 @@ export function consignesAvis(ctx: ContexteAvis, recruteur: Recruteur): string {
     ctx.max ? `5. La version proposée fait au plus ${ctx.max} caractères, espaces compris.` : "5. La version proposée reste à peu près de la même longueur que l'original, ou plus courte.",
     "6. Si le texte est déjà bon, dis-le et propose-le tel quel ou avec des retouches minimes : ne réécris pas pour réécrire.",
     "7. La version proposée est en texte brut, sans mise en forme Markdown.",
+    "8. Ne change jamais la nature d'un projet ou d'une expérience : création ou refonte, formation ou travail en entreprise, seule ou en équipe, prototype ou mise en production. En cas de doute, reprends exactement la formulation des sources.",
+    "9. Toute information de ta version proposée qui ne figure ni dans le texte, ni dans les informations de la fiche, ni dans le profil de Clara doit être listée dans « affirmationsNonSourcees » (tableau vide sinon).",
+    ...(profil?.trim() ? ["", "## Ce qu'il faut savoir sur Clara (source fiable, à respecter)", profil.trim()] : []),
   ].join("\n");
 }
 
@@ -77,6 +80,7 @@ export interface Avis {
   aAmeliorer: { point: string; raison: string }[];
   questions: string[];
   proposition: string;
+  affirmationsNonSourcees: string[];
 }
 
 /** Schéma JSON imposé à la réponse (mode intégré). */
@@ -92,14 +96,15 @@ export const SCHEMA_AVIS = {
     },
     questions: { type: "array", items: { type: "string" }, description: "Seulement si une information manque ; sinon tableau vide." },
     proposition: { type: "string", description: "Le texte réécrit, en texte brut." },
+    affirmationsNonSourcees: { type: "array", items: { type: "string" }, description: "Informations de la proposition absentes des sources ; tableau vide sinon." },
   },
-  required: ["verdict", "pointsForts", "aAmeliorer", "questions", "proposition"],
+  required: ["verdict", "pointsForts", "aAmeliorer", "questions", "proposition", "affirmationsNonSourcees"],
 } as const;
 
 /** Prompt complet à copier dans Claude (mode de secours, sans service relié). */
-export function promptAvis(texte: string, ctx: ContexteAvis, recruteur: Recruteur): string {
+export function promptAvis(texte: string, ctx: ContexteAvis, recruteur: Recruteur, profil?: string): string {
   return [
-    consignesAvis(ctx, recruteur),
+    consignesAvis(ctx, recruteur, profil),
     "",
     demandeAvis(texte, ctx),
     "",
