@@ -7,6 +7,7 @@ import { TagInput, TextArea, TextField, Toggle } from "./fields";
 import { RestoreBanner, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
+import { AvisIA, IaPage } from "./AvisIA";
 
 function Interrupteur({ label, checked, onChange }: { label: string; checked: boolean; onChange: (v: boolean) => void }) {
   return (
@@ -34,7 +35,10 @@ function Bloc({ bloc, set, remove, index }: { bloc: BlocInput; set: (b: BlocInpu
           const setP = (np: typeof p) => set({ ...bloc, puces: bloc.puces.map((x, k) => (k === i ? np : x)) });
           return (
             <li key={i} style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto auto", gap: 12, alignItems: "start", padding: "12px 0", borderTop: i ? "1px solid var(--bordure)" : 0 }}>
-              <textarea className="adm-textarea" style={{ minHeight: 64 }} aria-label={`Puce ${i + 1} du ${nom}`} value={p.text} onChange={(e) => setP({ ...p, text: e.target.value })} />
+              <span style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                <textarea className="adm-textarea" style={{ minHeight: 64 }} aria-label={`Puce ${i + 1} du ${nom}`} value={p.text} onChange={(e) => setP({ ...p, text: e.target.value })} />
+                <AvisIA champ={`Puce ${i + 1} du ${nom} (une puce de CV : courte, une seule information)`} valeur={p.text} onReplace={(v) => setP({ ...p, text: v })} />
+              </span>
               <span style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <Interrupteur label="Essentiel" checked={p.essentiel} onChange={(v) => setP({ ...p, essentiel: v })} />
                 <Interrupteur label="Complet" checked={p.complet} onChange={(v) => setP({ ...p, complet: v })} />
@@ -89,6 +93,7 @@ export function ExperienceForm({ initial }: { initial: ExperienceInput }) {
     });
 
   return (
+    <IaPage page={`Expérience « ${e.poste || "nouvelle expérience"} » chez ${e.entreprise || "?"}${e.entrepriseParent ? ` by ${e.entrepriseParent}` : ""}, sur le CV`} infos={[`Période : ${e.periode}`, `Lieu et mode : ${e.lieuMode}`, `Contexte : ${e.contexteEssentiel}`, ...e.blocs.map((b) => `${b.name || "Bloc"}${b.period ? ` (${b.period})` : ""} : ${b.puces.map((x) => x.text).join(" | ")}`)].join("\n")}>
     <form
       className="adm-card"
       aria-labelledby="e-titre"
@@ -178,5 +183,6 @@ export function ExperienceForm({ initial }: { initial: ExperienceInput }) {
         </span>
       </div>
     </form>
+    </IaPage>
   );
 }

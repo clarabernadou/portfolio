@@ -8,6 +8,7 @@ import { TextArea, TextField } from "./fields";
 import { RestoreBanner, SaveBar, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
+import { IaPage } from "./AvisIA";
 
 // Maquette : docs/passation/maquettes/admin/Admin-profil-cv.jpg (colonne de gauche).
 export function ProfileForm({ initial }: { initial: SiteProfile }) {
@@ -34,13 +35,14 @@ export function ProfileForm({ initial }: { initial: SiteProfile }) {
     });
 
   return (
+    <IaPage page={"Profil de Clara : en-tête du CV, accueil et pied de page du portfolio"} infos={[`Intitulé : ${p.intitule}`, `Disponibilité : ${p.contrat} · ${p.disponibilite}`, `Lieu : ${p.lieu}`, `Texte de profil du CV : ${p.profilEssentiel}`].join("\n")}>
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <RestoreBanner show={!!draft.restorable} onRestore={draft.restore} onDismiss={draft.dismiss} />
       <section className="adm-card" aria-labelledby="p-identite">
         <h2 className="adm-h2" id="p-identite">Identité</h2>
         <div className="adm-grid-2">
           <TextField label="Nom" required value={p.nom} onChange={(v) => set("nom", v)} />
-          <TextField label="Intitulé" value={p.intitule} onChange={(v) => set("intitule", v)} />
+          <TextField ia label="Intitulé" value={p.intitule} onChange={(v) => set("intitule", v)} />
           <TextField label="Contrat recherché" value={p.contrat} onChange={(v) => set("contrat", v)} placeholder="CDI" />
           <TextField label="Disponibilité" value={p.disponibilite} onChange={(v) => set("disponibilite", v)} placeholder="disponible en mars 2027" help={`Affiché : « ${[p.contrat, p.disponibilite].filter(Boolean).join(" · ")} »`} />
           <TextField label="Lieu et télétravail" value={p.lieu} onChange={(v) => set("lieu", v)} help="Vannes et Auray deviennent des liens vers leur carte." />
@@ -51,7 +53,7 @@ export function ProfileForm({ initial }: { initial: SiteProfile }) {
           <TextField label="GitHub" type="url" value={p.github} onChange={(v) => set("github", v)} />
         </div>
         <TextField label="Disponibilités d’entretien" value={p.entretiens} onChange={(v) => set("entretiens", v)} help="Phrase reprise dans le pied de page du site." />
-        <TextField label="Accroche de l’accueil" value={p.accroche} onChange={(v) => set("accroche", v)} />
+        <TextField ia label="Accroche de l’accueil" value={p.accroche} onChange={(v) => set("accroche", v)} />
         <TextField label="Texte alternatif de la photo" value={p.photoAlt} onChange={(v) => set("photoAlt", v)} help="Lu par les lecteurs d’écran à la place de la photo du CV." />
       </section>
 
@@ -100,5 +102,6 @@ export function ProfileForm({ initial }: { initial: SiteProfile }) {
         </button>
       </SaveBar>
     </div>
+    </IaPage>
   );
 }

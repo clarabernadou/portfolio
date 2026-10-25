@@ -47,8 +47,8 @@ function RecoForm({ initial, onDone }: { initial: RecoInput; onDone: () => void 
         <TextField label="Lien de l’entreprise" type="url" value={r.entrepriseHref} onChange={(v) => set("entrepriseHref", v)} />
         <TextField label="Mot du rôle relié à l’entreprise" value={r.lienTexte} onChange={(v) => set("lienTexte", v)} help="Par exemple « IntuitLearn »." />
       </div>
-      <TextArea label="Citation courte (carte de l’accueil)" value={r.citationCourte} onChange={(v) => set("citationCourte", v)} rows={2} />
-      <TextArea label="Texte intégral (fenêtre « Lire en entier »)" value={r.texteIntegral} onChange={(v) => set("texteIntegral", v)} rows={8} help="Une ligne vide entre deux paragraphes." />
+      <TextArea ia={false} label="Citation courte (carte de l’accueil)" value={r.citationCourte} onChange={(v) => set("citationCourte", v)} rows={2} />
+      <TextArea ia={false} label="Texte intégral (fenêtre « Lire en entier »)" value={r.texteIntegral} onChange={(v) => set("texteIntegral", v)} rows={8} help="Une ligne vide entre deux paragraphes." />
       <Toggle label="Lien « Voir sur LinkedIn » sous la carte" checked={r.voirLinkedin} onChange={(v) => set("voirLinkedin", v)} />
       <SelectField label="Statut" value={r.status === "draft" ? "Brouillon (non affiché)" : "Publiée"} onChange={(v) => set("status", v === "Publiée" ? "published" : "draft")} options={["Publiée", "Brouillon (non affiché)"]} />
       {error && (

@@ -11,6 +11,7 @@ import { TextArea, TextField } from "./fields";
 import { RestoreBanner, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
+import { IaPage } from "./AvisIA";
 
 type Orientation = { id: OrientationId; name: string; featured: string[]; firstFormation: string; title: string; skillOrder: { category: string; visible: boolean }[] };
 type Fichier = { name: string; generatedAt: string | null };
@@ -81,6 +82,7 @@ export function CvOrienteEditor({ initial, sources, orientations, candidats, fic
   );
 
   return (
+    <IaPage page={`CV orienté d’une page « ${o.name} » (intitulé : ${o.title})`} infos={`Texte de profil : ${o.profile}`}>
     <>
       <div className="adm-head">
         <div>
@@ -121,7 +123,7 @@ export function CvOrienteEditor({ initial, sources, orientations, candidats, fic
               <h2 className="adm-h2" id="o-profil">En-tête et profil</h2>
               <p className="adm-sub">Une page d’un seul tenant : le texte de profil reste court.</p>
             </div>
-            <TextField label="Intitulé affiché" value={o.title} onChange={(v) => set("title", v)} />
+            <TextField ia label="Intitulé affiché" value={o.title} onChange={(v) => set("title", v)} />
             <TextArea label="Texte de profil" value={o.profile} onChange={(v) => set("profile", v)} max={PROFIL_MAX} rows={5} />
           </section>
 
@@ -334,5 +336,6 @@ export function CvOrienteEditor({ initial, sources, orientations, candidats, fic
         </aside>
       </div>
     </>
+    </IaPage>
   );
 }

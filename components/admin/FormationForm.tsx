@@ -7,6 +7,7 @@ import { SelectField, TagInput, TextArea, TextField } from "./fields";
 import { RestoreBanner, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
+import { IaPage } from "./AvisIA";
 
 // Maquette : docs/passation/maquettes/admin/Admin-formations.jpg (panneau de droite).
 export function FormationForm({ initial, rattaches }: { initial: FormationInput; rattaches: number }) {
@@ -34,6 +35,7 @@ export function FormationForm({ initial, rattaches }: { initial: FormationInput;
     });
 
   return (
+    <IaPage page={`Formation « ${f.intitule || "nouvelle formation"} » sur le CV et l’accueil`} infos={[`Années : ${f.annees}`, `Niveau : ${f.niveauComplet}`, `Mode : ${f.mode}`, `Statut : ${f.statut}`, `Projets : ${f.projets}`].join("\n")}>
     <form
       className="adm-card"
       aria-labelledby="f-titre"
@@ -125,5 +127,6 @@ export function FormationForm({ initial, rattaches }: { initial: FormationInput;
         </span>
       </div>
     </form>
+    </IaPage>
   );
 }

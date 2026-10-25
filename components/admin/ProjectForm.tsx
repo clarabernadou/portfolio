@@ -10,6 +10,7 @@ import { useToast } from "./Toast";
 import { Icon } from "./icons";
 import { BlobUpload } from "./BlobUpload";
 import { slugify } from "@/lib/admin/projects";
+import { IaPage } from "./AvisIA";
 
 const ETAPES = ["Fait", "En cours", "À venir"];
 
@@ -57,6 +58,7 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
     });
 
   return (
+    <IaPage page={`Fiche projet « ${p.name || "nouveau projet"} » du portfolio · cadre : ${p.parcours || "non précisé"} · types : ${p.types.join(", ") || "non précisés"}`} infos={[`Accroche : ${p.line}`, `Contexte : ${p.context}`, `Tags : ${p.tags.join(", ")}`, `Étapes : ${p.steps.map((s) => `${s.label} (${s.status})`).join(" ; ")}`, `Compétences validées : ${p.skillsValidated.join(", ")}`].join("\n")}>
     <>
       <div>
         <div className="adm-crumb">
@@ -272,5 +274,6 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
         </button>
       </SaveBar>
     </>
+    </IaPage>
   );
 }

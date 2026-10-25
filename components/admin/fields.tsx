@@ -2,6 +2,7 @@
 
 import { useId, useState, type ReactNode } from "react";
 import { Icon } from "./icons";
+import { AvisIA } from "./AvisIA";
 
 // Champs de formulaire de l'administration : un libellé visible relié à son champ,
 // une aide facultative reliée par aria-describedby.
@@ -26,27 +27,39 @@ export function Field({ label, required, help, children, id }: { label: string; 
   );
 }
 
-export function TextField({ label, value, onChange, required, help, placeholder, type = "text" }: { label: string; value: string; onChange: (v: string) => void; required?: boolean; help?: ReactNode; placeholder?: string; type?: string }) {
+// « ia » ajoute le bouton « Avis de l'IA » (components/admin/AvisIA.tsx) aux champs de rédaction.
+export function TextField({ label, value, onChange, required, help, placeholder, type = "text", ia, max }: { label: string; value: string; onChange: (v: string) => void; required?: boolean; help?: ReactNode; placeholder?: string; type?: string; ia?: boolean; max?: number }) {
   return (
     <Field label={label} required={required} help={help}>
-      {(id, helpId) => <input id={id} className="adm-input" type={type} value={value} required={required} placeholder={placeholder} aria-describedby={helpId} onChange={(e) => onChange(e.target.value)} />}
+      {(id, helpId) => (
+        <>
+          <input id={id} className="adm-input" type={type} value={value} required={required} placeholder={placeholder} aria-describedby={helpId} onChange={(e) => onChange(e.target.value)} />
+          {ia && <AvisIA champ={label} valeur={value} max={max} onReplace={onChange} />}
+        </>
+      )}
     </Field>
   );
 }
 
 // Zone de texte avec compteur : le dépassement est signalé, sans bloquer
-// l'enregistrement d'un texte déjà validé.
-export function TextArea({ label, value, onChange, max, help, rows = 3 }: { label: string; value: string; onChange: (v: string) => void; max?: number; help?: ReactNode; rows?: number }) {
+// l'enregistrement d'un texte déjà validé. Le bouton « Avis de l'IA » est présent
+// par défaut ; ia={false} le retire (textes d'autrui, comme les recommandations).
+export function TextArea({ label, value, onChange, max, help, rows = 3, ia = true }: { label: string; value: string; onChange: (v: string) => void; max?: number; help?: ReactNode; rows?: number; ia?: boolean }) {
   const over = max ? value.length > max : false;
   return (
     <Field label={label} help={help}>
       {(id, helpId) => (
         <>
           <textarea id={id} className="adm-textarea" rows={rows} value={value} aria-describedby={helpId} onChange={(e) => onChange(e.target.value)} />
-          {max && (
-            <span className="adm-count" data-over={over}>
-              {value.length} / {max}
-              {over ? " · au-delà de la longueur conseillée" : ""}
+          {(max || ia) && (
+            <span className="adm-field-pied">
+              {max && (
+                <span className="adm-count" data-over={over}>
+                  {value.length} / {max}
+                  {over ? " · au-delà de la longueur conseillée" : ""}
+                </span>
+              )}
+              {ia && <AvisIA champ={label} valeur={value} max={max} onReplace={onChange} />}
             </span>
           )}
         </>

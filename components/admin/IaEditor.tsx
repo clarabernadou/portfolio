@@ -9,6 +9,7 @@ import { TagInput, TextArea, TextField, Toggle } from "./fields";
 import { RestoreBanner, SaveBar, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
+import { IaPage } from "./AvisIA";
 
 type Lists = Pick<IaContent, "tools" | "skills" | "routines">;
 type Onglet = keyof Lists;
@@ -53,6 +54,7 @@ export function IaEditor({ initial, stats }: { initial: Lists; stats: IaContent[
   };
 
   return (
+    <IaPage page={"Page « IA » du portfolio : ma façon de travailler avec l’IA (outils, skills, routines)"}>
     <>
       <RestoreBanner show={!!draft.restorable} onRestore={draft.restore} onDismiss={draft.dismiss} />
       <div className="adm-edit" style={{ gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)" }}>
@@ -192,5 +194,6 @@ export function IaEditor({ initial, stats }: { initial: Lists; stats: IaContent[
         </button>
       </SaveBar>
     </>
+    </IaPage>
   );
 }
