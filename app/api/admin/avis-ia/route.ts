@@ -6,6 +6,7 @@ import { consignesAvis, demandeAvis, SCHEMA_AVIS, type Avis, type ContexteAvis, 
 export const maxDuration = 60;
 
 const MODELE = process.env.GEMINI_MODEL || "gemini-3.8-flash";
+const MODELE_SECOURS = process.env.GEMINI_MODEL_SECOURS || "gemini-3.5-flash-lite";
 // GEMINI_API_URL ne sert qu'aux tests (faux serveur local).
 const URL_GEMINI = process.env.GEMINI_API_URL || "https://generativelanguage.googleapis.com/v1beta/interactions";
 
@@ -30,26 +31,47 @@ export async function POST(request: Request) {
   };
   const aRelire = texte(corps.texte, 8000);
 
-  let reponse: Response;
-  try {
-    reponse = await fetch(URL_GEMINI, {
-      method: "POST",
-      headers: { "x-goog-api-key": cle, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: MODELE,
-        system_instruction: consignesAvis(ctx, recruteur),
-        input: demandeAvis(aRelire, ctx),
-        generation_config: { thinking_level: "medium" },
-        response_format: { type: "text", mime_type: "application/json", schema: SCHEMA_AVIS },
-      }),
-      signal: AbortSignal.timeout(55_000),
-    });
-  } catch {
-    return Response.json({ error: "Gemini ne répond pas : réessaie dans un instant." }, { status: 504 });
+  // Modèle principal, puis modèle de secours plus léger si le premier est saturé (503,
+  // fréquent sur l'offre gratuite) ou trop lent : le tout reste sous la limite de 60 s.
+  const essais = [
+    { model: MODELE, delai: 30_000 },
+    { model: MODELE_SECOURS, delai: 22_000 },
+  ];
+  let reponse: Response | null = null;
+  let modele = MODELE;
+  for (const essai of essais) {
+    modele = essai.model;
+    try {
+      reponse = await fetch(URL_GEMINI, {
+        method: "POST",
+        headers: { "x-goog-api-key": cle, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: essai.model,
+          system_instruction: consignesAvis(ctx, recruteur),
+          input: demandeAvis(aRelire, ctx),
+          generation_config: { thinking_level: "low" },
+          response_format: { type: "text", mime_type: "application/json", schema: SCHEMA_AVIS },
+        }),
+        signal: AbortSignal.timeout(essai.delai),
+      });
+    } catch {
+      reponse = null; // délai dépassé : on passe au modèle suivant
+      continue;
+    }
+    if (reponse.status !== 503 && reponse.status !== 500) break;
+    console.error("Gemini", essai.model, reponse.status, (await reponse.text().catch(() => "")).slice(0, 200));
   }
 
+  if (!reponse || reponse.status === 503 || reponse.status === 500) return Response.json({ error: "Gemini est saturé en ce moment (offre gratuite) : réessaie dans un instant, ou utilise l’option Claude." }, { status: 503 });
   if (reponse.status === 429) return Response.json({ error: "Quota gratuit de Gemini atteint : réessaie dans une minute." }, { status: 429 });
-  if (reponse.status === 401 || reponse.status === 403) return Response.json({ error: "Clé Gemini refusée : vérifie GEMINI_API_KEY dans Vercel." }, { status: 502 });
+  if (reponse.status === 401 || reponse.status === 403) {
+    const detail = await reponse.text().catch(() => "");
+    console.error("Gemini", modele, reponse.status, detail.slice(0, 300));
+    // Clé neuve : Google active l'API sur le projet pendant quelques minutes.
+    if (/has not been used|is disabled|SERVICE_DISABLED/i.test(detail))
+      return Response.json({ error: "L’API Gemini est encore en cours d’activation sur ton compte Google : réessaie dans quelques minutes. Si ça dure, active « Generative Language API » dans la console Google Cloud du projet de ta clé." }, { status: 503 });
+    return Response.json({ error: "Clé Gemini refusée : vérifie GEMINI_API_KEY dans Vercel." }, { status: 502 });
+  }
   if (!reponse.ok) {
     console.error("Gemini", reponse.status, (await reponse.text().catch(() => "")).slice(0, 500));
     return Response.json({ error: "L’analyse a échoué : réessaie dans un instant." }, { status: 502 });
@@ -71,5 +93,6 @@ export async function POST(request: Request) {
     aAmeliorer: Array.isArray(avis.aAmeliorer) ? avis.aAmeliorer.map((a) => ({ point: String(a?.point ?? ""), raison: String(a?.raison ?? "") })) : [],
     questions: Array.isArray(avis.questions) ? avis.questions.map(String).filter((q) => q && q.toLowerCase() !== "aucune") : [],
     proposition: avis.proposition.trim(),
-  } satisfies Avis);
+    modele,
+  } satisfies Avis & { modele: string });
 }

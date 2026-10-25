@@ -18,7 +18,7 @@ export function IaPage({ page, infos, children }: Page & { children: ReactNode }
 
 const CLE_RECRUTEUR = "admin-avis-ia-recruteur";
 
-type Etat = { type: "vide" } | { type: "chargement" } | { type: "erreur"; message: string } | { type: "avis"; avis: Avis };
+type Etat = { type: "vide" } | { type: "chargement" } | { type: "erreur"; message: string } | { type: "avis"; avis: Avis & { modele?: string } };
 
 export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeur: string; max?: number; onReplace: (v: string) => void }) {
   const page = useContext(IaContexte);
@@ -144,7 +144,7 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
         </p>
 
         <div aria-live="polite">
-          {etat.type === "chargement" && <p className="adm-help">L’IA relit ton texte, cela prend quelques secondes.</p>}
+          {etat.type === "chargement" && <p className="adm-help">L’IA relit ton texte : comptez 10 à 40 secondes selon la charge de Gemini.</p>}
           {etat.type === "erreur" && (
             <p className="adm-error" role="alert">
               {etat.message}
@@ -188,6 +188,7 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
                 </>
               )}
               <Proposition texte={etat.avis.proposition} max={max} idBase={titreId} onReplace={remplacer} />
+              {etat.avis.modele && <p className="adm-help">Analyse faite par {etat.avis.modele}{etat.avis.modele.includes("lite") ? " (modèle de secours, le principal était saturé)" : ""}.</p>}
             </div>
           )}
         </div>
