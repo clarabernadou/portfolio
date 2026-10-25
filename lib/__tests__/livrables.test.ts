@@ -10,6 +10,8 @@ describe("formats de livrables", () => {
     expect(formatLivrable("/livrables/demo.mp4")).toBe("Vidéo");
     expect(formatLivrable("/livrables/maquette.fig")).toBe("FIG");
     expect(formatLivrable(null)).toBe("Fichier");
+    expect(formatLivrable("https://github.com/clarabernadou/ClaraBernadou_P7_Frontend_28032022")).toBe("GitHub");
+    expect(formatLivrable("https://www.figma.com/design/abc/Maquette")).toBe("Figma");
   });
 
   it("utilise une image comme son propre aperçu", () => {

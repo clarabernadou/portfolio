@@ -17,6 +17,10 @@ const extension = (href: string) => href.split(/[?#]/)[0].split(".").pop()?.toLo
 /** Nom lisible du format d'un livrable (« PDF », « Image », « Document »…), d'après son adresse. */
 export function formatLivrable(href: string | null | undefined): string {
   if (!href) return "Fichier";
+  // Liens vers un service plutôt qu'un fichier (dépôt de code, maquette en ligne…).
+  const hote = /^https?:\/\/(?:www\.)?([^/]+)/i.exec(href)?.[1]?.toLowerCase() ?? "";
+  if (hote === "github.com") return "GitHub";
+  if (hote.endsWith("figma.com")) return "Figma";
   const ext = extension(href);
   return FORMATS.find((f) => f.ext.includes(ext))?.nom ?? (ext && ext.length <= 5 ? ext.toUpperCase() : "Fichier");
 }
