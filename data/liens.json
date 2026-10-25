@@ -1,0 +1,106 @@
+{
+ "profil": {
+  "email": "clarabernadou56690@gmail.com",
+  "linkedin": "https://www.linkedin.com/in/clarabernadou/",
+  "linkedinRecommandations": "https://www.linkedin.com/in/clarabernadou/details/recommendations/",
+  "github": "https://github.com/clarabernadou",
+  "githubId": 92588607,
+  "githubLogin": "clarabernadou"
+ },
+ "entreprises": [
+  {
+   "nom": "Fruggr",
+   "url": "https://fr.linkedin.com/company/fruggr"
+  },
+  {
+   "nom": "Digital4Better",
+   "url": "https://digital4better.com"
+  },
+  {
+   "nom": "CarbonScore",
+   "url": "https://fr.linkedin.com/showcase/carbonscore/"
+  },
+  {
+   "nom": "TechUpClimate",
+   "url": "https://fr.linkedin.com/company/techupclimate"
+  },
+  {
+   "nom": "IntuitLearn",
+   "url": "https://intuitlearn.com/fr"
+  }
+ ],
+ "formations": [
+  {
+   "nom": "Développeur Web",
+   "url": "https://openclassrooms.com/fr/paths/185-developpeur-web"
+  },
+  {
+   "nom": "Application JavaScript React",
+   "url": "https://openclassrooms.com/fr/paths/516-developpeur-dapplication-javascript-react"
+  },
+  {
+   "nom": "Full Stack Java & Angular",
+   "url": "https://openclassrooms.com/fr/paths/533-developpeur-full-stack-java-et-angular"
+  },
+  {
+   "nom": "UX Design / Product Designer",
+   "url": "https://openclassrooms.com/fr/paths/778-ux-designer"
+  }
+ ],
+ "recommandations": [
+  {
+   "auteur": "Delphine Cournil",
+   "linkedin": "https://www.linkedin.com/in/delphine-cournil-130475/",
+   "lettrePdf": "assets/Lettre_recommandation_Delphine_Cournil.pdf"
+  },
+  {
+   "auteur": "Roxane Antouly",
+   "linkedin": "https://www.linkedin.com/in/roxane-antouly-490782a5/"
+  },
+  {
+   "auteur": "Frédéric Lépy",
+   "linkedin": "https://www.linkedin.com/in/fr%C3%A9d%C3%A9ric-lepy-a9570229/",
+   "entreprise": "https://intuitlearn.com/fr"
+  }
+ ],
+ "lieux": [
+  {
+   "nom": "Vannes",
+   "url": "https://www.google.com/maps/search/?api=1&query=Vannes%2C%20Morbihan%2C%20France"
+  },
+  {
+   "nom": "Auray",
+   "url": "https://www.google.com/maps/search/?api=1&query=Auray%2C%20Morbihan%2C%20France"
+  }
+ ],
+ "videos": [
+  {
+   "film": 1,
+   "titre": "See your AI",
+   "url": "https://youtu.be/Zk05A3LNVs8",
+   "youtubeId": "Zk05A3LNVs8"
+  },
+  {
+   "film": 2,
+   "titre": "Own your AI",
+   "url": "https://youtu.be/Ad5-OWm0v0o",
+   "youtubeId": "Ad5-OWm0v0o"
+  },
+  {
+   "film": 3,
+   "titre": "Stay ahead of AI",
+   "url": "https://youtu.be/m7mV_bQUArs",
+   "youtubeId": "m7mV_bQUArs"
+  }
+ ],
+ "hebergeur": {
+  "nom": "Vercel Inc.",
+  "adresse": "440 N Barranca Ave #4133, Covina, CA 91723, États-Unis",
+  "telephone": "+1 951 383 6898"
+ },
+ "site": {
+  "domaine": null,
+  "note": "Domaine à choisir avec Clara. Ajouter ?source=carte à l'adresse du QR code de la carte de visite."
+ },
+ "note": "Les trois champs « linkedin » des recommandations sont à renseigner avec les URL exactes copiées depuis la page des recommandations du profil LinkedIn de Clara. Le site utilise aujourd'hui des liens de recherche LinkedIn en attendant."
+}

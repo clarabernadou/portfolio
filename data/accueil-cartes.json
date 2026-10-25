@@ -1,0 +1,72 @@
+[
+ {
+  "id": "intuitlearn",
+  "section": "Design",
+  "eyebrow": "Audit UX / UI",
+  "name": "IntuitLearn",
+  "line": "Audit d’une application d’apprentissage des langues : détail visuel et accessibilité.",
+  "tags": [
+   "Audit",
+   "Accessibilité",
+   "UI"
+  ]
+ },
+ {
+  "id": "les-bambinets",
+  "section": "Design",
+  "eyebrow": "UX Design · OpenClassrooms",
+  "name": "Les Bambinets",
+  "line": "Prototype d’une application mobile.",
+  "tags": [
+   "Figma",
+   "Prototypage"
+  ]
+ },
+ {
+  "id": "equi-libre",
+  "section": "Design",
+  "eyebrow": "UX Design · OpenClassrooms",
+  "name": "Équi-libre",
+  "line": "Architecture de l’information : tri de cartes, parcours utilisateurs et wireframes.",
+  "tags": [
+   "Tri de cartes",
+   "Wireframes"
+  ]
+ },
+ {
+  "id": "watchedthis",
+  "section": "Développement",
+  "eyebrow": "Projet perso",
+  "name": "WatchedThis",
+  "line": "Suivi de films et séries, conçu et développé de bout en bout, maintenu plusieurs mois.",
+  "tags": [
+   "React",
+   "Redux",
+   "Node.js",
+   "MySQL"
+  ]
+ },
+ {
+  "id": "monde-de-dev",
+  "section": "Développement",
+  "eyebrow": "Full-Stack · OpenClassrooms",
+  "name": "Monde de Dév",
+  "line": "Mise en relation de développeurs par centres d’intérêt techniques.",
+  "tags": [
+   "Spring Boot",
+   "Angular",
+   "MySQL"
+  ]
+ },
+ {
+  "id": "sportsee",
+  "section": "Développement",
+  "eyebrow": "Front-end · OpenClassrooms",
+  "name": "SportSee",
+  "line": "Tableau de bord d’analytics développé avec React.",
+  "tags": [
+   "React",
+   "JavaScript"
+  ]
+ }
+]

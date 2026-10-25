@@ -1,0 +1,166 @@
+{
+ "orientations": [
+  {
+   "id": "ux",
+   "name": "UX Design, avec appétence pour le développement",
+   "title": "UX/UI Designer, appétence développement front-end",
+   "profile": "UX/UI Designer à double compétence : je conçois les parcours, les maquettes et les prototypes sur Figma, et je développe moi-même les interfaces en React et TypeScript. En alternance depuis décembre 2023 sur 2 plateformes SaaS, formation UX Design / Product Designer en cours, diplômée Bac+5 en développement (titre RNCP niveau 7).",
+   "skillOrder": [
+    {
+     "category": "UI/UX",
+     "visible": true
+    },
+    {
+     "category": "Front-end",
+     "visible": true
+    },
+    {
+     "category": "Back-end et données",
+     "visible": true
+    },
+    {
+     "category": "Outils",
+     "visible": true
+    },
+    {
+     "category": "IA",
+     "visible": true
+    }
+   ],
+   "featuredProjects": [
+    "intuitlearn",
+    "les-bambinets",
+    "equi-libre"
+   ],
+   "firstFormation": "UX Design / Product Designer",
+   "fileName": "CV_Clara_Bernadou_UX.pdf"
+  },
+  {
+   "id": "dev",
+   "name": "Développement, avec appétence pour le design",
+   "title": "Développeuse front-end, appétence design UI/UX",
+   "profile": "Développeuse front-end (React, TypeScript) avec une sensibilité UI/UX : je développe les interfaces et je les conçois sur Figma quand il le faut. En alternance depuis décembre 2023 sur 2 plateformes SaaS, diplômée Bac+5 (titre RNCP niveau 7 et Master’s degree américain).",
+   "skillOrder": [
+    {
+     "category": "Front-end",
+     "visible": true
+    },
+    {
+     "category": "Back-end et données",
+     "visible": true
+    },
+    {
+     "category": "UI/UX",
+     "visible": true
+    },
+    {
+     "category": "Outils",
+     "visible": true
+    },
+    {
+     "category": "IA",
+     "visible": true
+    }
+   ],
+   "featuredProjects": [
+    "watchedthis",
+    "monde-de-dev",
+    "sportsee"
+   ],
+   "firstFormation": "Full Stack Java & Angular",
+   "fileName": "CV_Clara_Bernadou_Dev.pdf"
+  }
+ ],
+ "profileMaxLength": 360,
+ "pageFormat": "A4",
+ "pages": 1,
+ "bullets": [
+  {
+   "experience": "Fruggr · Équipe Produit",
+   "text": "Développement front-end en React et TypeScript de la plateforme : plus de 70 pull requests fusionnées en 15 mois (fonctionnalités, refontes, corrections)",
+   "ux": true,
+   "dev": true
+  },
+  {
+   "experience": "Fruggr · Équipe Produit",
+   "text": "Refonte de la barre de navigation, de la page d’accueil par offre et de tableaux de bord ; passage des modules Services et Infra à la nouvelle charte UI",
+   "ux": false,
+   "dev": false
+  },
+  {
+   "experience": "Fruggr · Équipe Produit",
+   "text": "Module d’accessibilité : génération de la déclaration d’accessibilité, repérage des quick wins, corrections de critères RGAA, export CSV",
+   "ux": false,
+   "dev": false
+  },
+  {
+   "experience": "Fruggr · Équipe Produit",
+   "text": "Seule designer UI/UX de l’équipe Produit après le départ de l’alternante en design, sous la supervision du PO : maquettes et évolutions sur Figma, ateliers de conception",
+   "ux": true,
+   "dev": true
+  },
+  {
+   "experience": "Fruggr · Équipe Produit",
+   "text": "Évolutions back-end ponctuelles en NestJS et MongoDB ; tests unitaires, relecture de code, déploiements de la préproduction à la production (Azure)",
+   "ux": false,
+   "dev": false
+  },
+  {
+   "experience": "Fruggr · Équipe Marketing",
+   "text": "Développement du thème WordPress du site Fruggr : 9 nouveaux blocs sur mesure (frise, cartes, bannières, FAQ, cas clients), pied de page et type de contenu « ressource » ; 22 pull requests depuis juillet 2026",
+   "ux": false,
+   "dev": false
+  },
+  {
+   "experience": "Fruggr · Équipe Marketing",
+   "text": "Nouveau site WordPress de Digital4Better : maquettes Figma et mise en page complète",
+   "ux": true,
+   "dev": true
+  },
+  {
+   "experience": "Fruggr · Équipe Marketing",
+   "text": "Audits UI/UX, accessibilité (WCAG, RGAA) et SEO technique de sites, avec recommandations priorisées ; correction des erreurs et avertissements relevés par Semrush",
+   "ux": true,
+   "dev": false
+  },
+  {
+   "experience": "Fruggr · Équipe Marketing",
+   "text": "Participation au repositionnement de Fruggr : saga de 3 films bilingues réalisée de A à Z, du script validé au rendu (Remotion en React, voix off ElevenLabs)",
+   "ux": false,
+   "dev": false
+  },
+  {
+   "experience": "Fruggr · Transverse",
+   "text": "Création de 6 skills Claude pour automatiser des tâches récurrentes de mon poste (visuels LinkedIn, intégration d’articles WordPress, audits de sites), proposés à l’équipe",
+   "ux": false,
+   "dev": false
+  },
+  {
+   "experience": "CarbonScore · TechUpClimate",
+   "text": "Intégration des maquettes, refontes de pages et évolutions de la plateforme : front-end Vue.js (Vuetify, Pinia) et TypeScript, back-end NestJS et PostgreSQL",
+   "ux": true,
+   "dev": true
+  },
+  {
+   "experience": "CarbonScore · TechUpClimate",
+   "text": "Conception sur Figma des maquettes des nouvelles fonctionnalités",
+   "ux": true,
+   "dev": false
+  },
+  {
+   "experience": "CarbonScore · TechUpClimate",
+   "text": "Méthode agile (dailies, tickets Jira, documentation Confluence), sur des environnements personnels, de préproduction et de production",
+   "ux": false,
+   "dev": false
+  }
+ ],
+ "note": "Valeurs de départ proposées dans l’écran « CV orienté ». Les puces suggérées par orientation se règlent ensuite dans la rubrique Expériences (drapeaux UX et Dev par puce).",
+ "languages": [
+  "fr",
+  "en"
+ ],
+ "fileSuffix": {
+  "fr": "",
+  "en": "_EN"
+ }
+}

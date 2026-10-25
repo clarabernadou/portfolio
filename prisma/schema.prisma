@@ -1,0 +1,181 @@
+// Étape 8 : schéma de la base MySQL (TiDB Cloud).
+// Modèle de données : docs/passation/ADMIN-et-SYNCHRONISATION.md, §4.
+// Les structures imbriquées (étapes, livrables, blocs d'expérience, versions
+// anglaises) sont en JSON : elles se modifient toujours d'un bloc, avec l'élément.
+// `fieldMeta` garde, pour chaque champ importé, sa provenance et le drapeau `locked`
+// ({ "nom": { "origin": "github", "locked": true } }) : une synchronisation
+// n'écrase jamais un champ verrouillé (§6.3).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Project {
+  id              String    @id @db.VarChar(120)
+  position        Int       @default(0)
+  name            String    @db.VarChar(200)
+  date            String    @db.VarChar(80)
+  type            String    @db.VarChar(80)
+  types           Json
+  parcours        String    @db.VarChar(120)
+  line            String    @db.VarChar(400)
+  tags            Json
+  pdf             String?   @db.VarChar(400)
+  docs            Json
+  steps           Json
+  videos          Json?
+  github          String?   @db.VarChar(400)
+  figma           String?   @db.VarChar(400)
+  context         String    @db.Text
+  skillsValidated Json
+  onHome          Boolean   @default(false)
+  // Carte de l'accueil : rubrique (Design / Développement), surtitre, accroche et tags propres.
+  homeCard        Json?
+  featured        Boolean   @default(false)
+  visible         Boolean   @default(true)
+  status          String    @default("published") @db.VarChar(20)
+  origin          String    @default("manual") @db.VarChar(20)
+  fieldMeta       Json?
+  i18n            Json?
+  deletedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([position])
+}
+
+model Category {
+  id       Int    @id @default(autoincrement())
+  kind     String @db.VarChar(20) // "type" ou "cadre"
+  name     String @db.VarChar(120)
+  // Nature d'un cadre : Formation, Entreprise, Projet perso ou Audit.
+  nature   String? @db.VarChar(20)
+  position Int    @default(0)
+
+  @@unique([kind, name])
+}
+
+model Formation {
+  id                    Int      @id @default(autoincrement())
+  position              Int      @default(0)
+  intitule              String   @db.VarChar(200)
+  url                   String?  @db.VarChar(400)
+  annees                String   @db.VarChar(40)
+  diplome               String   @db.VarChar(80)
+  niveauComplet         String   @db.VarChar(300)
+  mode                  String   @db.VarChar(40)
+  statut                String   @db.VarChar(40)
+  projets               String   @db.VarChar(120)
+  competencesAcquises   Json?
+  mentionComplementaire String?  @db.Text
+  origin                String   @default("manual") @db.VarChar(20)
+  fieldMeta             Json?
+  i18n                  Json?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model Experience {
+  id                         Int      @id @default(autoincrement())
+  position                   Int      @default(0)
+  poste                      String   @db.VarChar(200)
+  entreprise                 String   @db.VarChar(200)
+  entrepriseParent           String?  @db.VarChar(200)
+  entrepriseHref             String?  @db.VarChar(400)
+  entrepriseParentHref       String?  @db.VarChar(400)
+  periode                    String   @db.VarChar(80)
+  lieuMode                   String   @db.VarChar(300)
+  contexteEssentiel          String   @db.Text
+  contexteComplet            String   @db.Text
+  blocs                      Json
+  competencesAcquisesComplet Json?
+  // Carte « Parcours en alternance » de l'accueil : lieu et mode courts, technologies.
+  homeCard                   Json?
+  note                       String?  @db.Text
+  origin                     String   @default("manual") @db.VarChar(20)
+  fieldMeta                  Json?
+  i18n                       Json?
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+}
+
+model SkillGroup {
+  id       Int    @id @default(autoincrement())
+  version  String @db.VarChar(20) // "essentiel" ou "complet"
+  name     String @db.VarChar(120)
+  items    Json
+  position Int    @default(0)
+
+  @@unique([version, name])
+}
+
+model Recommendation {
+  id             Int      @id @default(autoincrement())
+  position       Int      @default(0)
+  auteur         String   @db.VarChar(120)
+  initiales      String   @db.VarChar(8)
+  linkedin       String?  @db.VarChar(400)
+  poste          String   @db.VarChar(200)
+  relation       String   @db.VarChar(200)
+  citationCourte String   @db.Text
+  texteIntegral  Json
+  lettrePdf      String?  @db.VarChar(400)
+  entrepriseHref String?  @db.VarChar(400)
+  // Mot du rôle relié à entrepriseHref (« IntuitLearn » dans « Créateur d’IntuitLearn »).
+  lienTexte      String?  @db.VarChar(120)
+  // Lien « Voir sur LinkedIn » sous la carte (page des recommandations de Clara).
+  voirLinkedin   Boolean  @default(false)
+  status         String   @default("published") @db.VarChar(20)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// Contenus d'un seul tenant : profil et CV, page IA, liens.
+model Singleton {
+  key       String   @id @db.VarChar(40) // "profil", "ia", "liens"
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+model CvOrientation {
+  id          String    @id @db.VarChar(10) // "ux" ou "dev"
+  data        Json
+  generatedAt Json?
+  updatedAt   DateTime  @updatedAt
+}
+
+model SyncLog {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  source    String   @db.VarChar(20) // "github", "linkedin", "import"
+  entity    String   @db.VarChar(40)
+  entityId  String   @db.VarChar(120)
+  action    String   @db.VarChar(20) // "created", "updated", "skipped"
+  state     String   @db.VarChar(40)
+  message   String?  @db.Text
+
+  @@index([createdAt])
+}
+
+model GeneratedFile {
+  name        String   @id @db.VarChar(120)
+  kind        String   @db.VarChar(20) // "essentiel", "complet", "ux", "dev"
+  lang        String   @db.VarChar(5)
+  generatedAt DateTime @default(now())
+  // Contenu du PDF généré depuis l'administration (le disque de Vercel est en lecture seule).
+  data        Bytes?   @db.MediumBlob
+}
+
+// Fichiers envoyés depuis l'administration (photo du profil) : le disque de Vercel
+// est en lecture seule, ils sont donc gardés en base et servis par /media/[key].
+model Asset {
+  key       String   @id @db.VarChar(40)
+  mime      String   @db.VarChar(40)
+  data      Bytes    @db.MediumBlob
+  updatedAt DateTime @updatedAt
+}

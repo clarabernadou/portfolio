@@ -1,0 +1,48 @@
+:root {
+  /* Couleurs */
+  --encre: #1A1033;
+  --amethyste: #6A4FB6;
+  --lilas: #C4B5FD;
+  --brume: #F3EFFF;
+  --ardoise: #5B5470;
+  --erreur: #B42318;
+  --succes: #067647;
+  --succes-fond: #E7F6EE;
+  --alerte: #B54708;
+
+  /* Couleurs d’interface */
+  --nuit: #2E1065;
+  --halo: #E9E2FB;
+  --bordure: #E4DCF7;
+  --bordure-tag: #B9A8EC;
+
+  /* Rôles, thème clair */
+  --fond: #FFFFFF;
+  --fond-section: var(--brume);
+  --texte: var(--encre);
+  --texte-secondaire: var(--ardoise);
+  --accent: var(--amethyste);
+  --focus: var(--amethyste);
+
+  /* Typographies */
+  --font-titre: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-texte: "Manrope", system-ui, sans-serif;
+  --font-code: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Rayons, ombre */
+  --r-sm: 8px; --r-md: 12px; --r-14: 14px; --r-card: 16px; --r-lg: 20px; --r-22: 22px; --r-24: 24px; --r-xl: 28px; --r-pill: 999px;
+  --ombre: 0 8px 24px rgb(26 16 51 / 0.08);
+  --ombre-forte: 0 8px 24px rgb(0 0 0 / 0.2);
+  --ombre-modale: 0 8px 24px rgb(26 16 51 / 0.18);
+}
+
+[data-theme="dark"] {
+  --fond: var(--encre);
+  --fond-section: #2E1065;
+  --texte: #FFFFFF;
+  --texte-secondaire: var(--lilas);
+  --accent: var(--lilas);
+  --focus: var(--lilas);
+  --erreur: #FDA29B;
+  --succes: #75E0A7;
+}

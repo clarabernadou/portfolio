@@ -1,0 +1,1585 @@
+[
+ {
+  "id": "portfolio",
+  "name": "Ce portfolio",
+  "date": "oct. 2026 · en cours",
+  "type": "UX / UI · Développement · Gestion",
+  "types": [
+   "UX / UI",
+   "Développement",
+   "Conception et gestion"
+  ],
+  "parcours": "Projet personnel",
+  "line": "Mon portfolio, mené seule : charte graphique, architecture, wireframes et prototype, puis développement.",
+  "tags": [
+   "Charte graphique",
+   "Wireframes",
+   "Prototype",
+   "React",
+   "Tailwind CSS"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [
+   {
+    "label": "Charte graphique : logo, couleurs, typographies, composants",
+    "status": "Fait"
+   },
+   {
+    "label": "Architecture de l’information et parcours (règle des 3 clics)",
+    "status": "Fait"
+   },
+   {
+    "label": "Wireframes desktop et mobile",
+    "status": "Fait"
+   },
+   {
+    "label": "Maquettes et prototype interactif",
+    "status": "Fait"
+   },
+   {
+    "label": "Développement React et Tailwind CSS",
+    "status": "À venir"
+   },
+   {
+    "label": "Mise en ligne",
+    "status": "À venir"
+   }
+  ],
+  "github": null,
+  "figma": null,
+  "context": "Projet mené seule, de la charte graphique au développement : il réunit UI, UX, développement et gestion de projet.",
+  "skillsValidated": [],
+  "onHome": false,
+  "featured": true
+ },
+ {
+  "id": "audit-fruggr",
+  "name": "Audit du site Fruggr",
+  "date": "oct. 2026 · en cours",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "Alternance · Fruggr",
+  "line": "Audit UX de la version française du site WordPress de Fruggr, mené pour l’entreprise dans laquelle je fais mon alternance.",
+  "tags": [
+   "Audit",
+   "UX",
+   "WordPress"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [
+   {
+    "label": "Audit du site WordPress (version française)",
+    "status": "En cours"
+   },
+   {
+    "label": "Extrait anonymisé de l’audit",
+    "status": "À venir"
+   }
+  ],
+  "github": null,
+  "figma": null,
+  "context": "Audit UX de la version française du site WordPress de Fruggr, réalisé dans le cadre de mon alternance chez Fruggr by Digital4Better.",
+  "skillsValidated": [],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "repositionnement-fruggr",
+  "name": "Repositionnement de Fruggr",
+  "date": "été 2026 · en cours",
+  "type": "Conception et gestion",
+  "types": [
+   "Conception et gestion"
+  ],
+  "parcours": "Alternance · Fruggr",
+  "line": "Participation au repositionnement de Fruggr, de plateforme de numérique responsable à plateforme de gouvernance de l’IA : déclinaison de la nouvelle identité et du nouveau discours sur l’ensemble des points de contact.",
+  "tags": [
+   "Identité de marque",
+   "Positionnement",
+   "Vidéo",
+   "FR / EN"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Fruggr recentre son offre et son discours sur la gouvernance de l’IA. Mission en alternance : traduire ce positionnement en supports concrets et cohérents, en français et en anglais. Nouvelle identité visuelle (seul le logo Fruggr est conservé, les anciennes déclinaisons sont retirées), signatures e-mail, bannières LinkedIn et fonds Teams en versions FR et US, saga de 3 films pour le marché nord-américain, puis audit de la présence de la marque sur le web et mise à jour des annuaires et sites partenaires. Les propositions sont maquettées sur Figma et validées par la responsable marketing avant déploiement.",
+  "skillsValidated": [],
+  "onHome": false,
+  "featured": false,
+  "videos": [
+   {
+    "n": 1,
+    "kicker": "Film 1 sur 3",
+    "title": "See your AI",
+    "youtubeId": "Zk05A3LNVs8",
+    "url": "https://youtu.be/Zk05A3LNVs8"
+   },
+   {
+    "n": 2,
+    "kicker": "Film 2 sur 3",
+    "title": "Own your AI",
+    "youtubeId": "Ad5-OWm0v0o",
+    "url": "https://youtu.be/Ad5-OWm0v0o"
+   },
+   {
+    "n": 3,
+    "kicker": "Film 3 sur 3",
+    "title": "Stay ahead of AI",
+    "youtubeId": "m7mV_bQUArs",
+    "url": "https://youtu.be/m7mV_bQUArs"
+   }
+  ]
+ },
+ {
+  "id": "intuitlearn",
+  "name": "IntuitLearn",
+  "date": "oct. 2026",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "Audit indépendant",
+  "line": "Audit d’une application d’apprentissage des langues : détail visuel et accessibilité.",
+  "tags": [
+   "Audit",
+   "Accessibilité"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Audit UX/UI de l’application d’apprentissage des langues créée par Frédéric Lépy et de son site vitrine : constats classés par gravité, tests sur ordinateur et mobile, contrôle d’accessibilité, puis plan d’action priorisé (P0 à P2) avec effort estimé et critère de réussite pour chaque action.",
+  "skillsValidated": [],
+  "onHome": true,
+  "featured": true
+ },
+ {
+  "id": "watchedthis",
+  "name": "WatchedThis",
+  "date": "projet perso",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Projet personnel",
+  "line": "Suivi de films et séries, conçu et développé de bout en bout, maintenu plusieurs mois.",
+  "tags": [
+   "React",
+   "Redux",
+   "Node.js",
+   "MySQL"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/watchedthis",
+  "figma": null,
+  "context": "Charte graphique, logo et maquettes, puis développement : base de données et back-end avec authentification (jetons JWT, mots de passe hachés) et synchronisation quotidienne des données via l’API TMDB, front-end avec recherche, filtres et listes personnalisées. Plateforme maintenue plusieurs mois après son lancement.",
+  "skillsValidated": [],
+  "onHome": true,
+  "featured": true
+ },
+ {
+  "id": "les-bambinets",
+  "name": "Les Bambinets",
+  "date": "oct. 2026 · soutenance planifiée",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "UX Design / Product Designer",
+  "line": "Prototype interactif d’une application mobile.",
+  "tags": [
+   "Figma",
+   "Prototypage"
+  ],
+  "pdf": "/livrables/Livrables_UX_Designer_2.pdf#page=129",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Brief",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=129",
+    "thumb": "assets/apercus/les-bambinets/1.jpg",
+    "alt": "Aperçu : Brief"
+   },
+   {
+    "n": 2,
+    "label": "Wireframes",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=133",
+    "thumb": "assets/apercus/les-bambinets/2.jpg",
+    "alt": "Aperçu : Wireframes"
+   },
+   {
+    "n": 3,
+    "label": "Prototype interactif",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=134",
+    "thumb": "assets/apercus/les-bambinets/3.jpg",
+    "alt": "Aperçu : Prototype interactif"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": "https://www.figma.com/proto/VCBCiq8Y3JGBatHiMJ0gRm/",
+  "context": "Concevoir un produit minimum viable en collaboration avec un UI Designer : brief, wireframes et prototype interactif d’une application mobile.",
+  "skillsValidated": [
+   "Concevoir un PMV en collaboration avec un UI Designer"
+  ],
+  "onHome": true,
+  "featured": false
+ },
+ {
+  "id": "equi-libre",
+  "name": "Équi-libre",
+  "date": "août 2026",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "UX Design / Product Designer",
+  "line": "Architecture de l’information : tri de cartes, parcours, wireframes.",
+  "tags": [
+   "Tri de cartes",
+   "Wireframes"
+  ],
+  "pdf": "/livrables/Livrables_UX_Designer_2.pdf#page=102",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Note de synthèse",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=102",
+    "thumb": "assets/apercus/equi-libre/1.jpg",
+    "alt": "Aperçu : Note de synthèse"
+   },
+   {
+    "n": 2,
+    "label": "Diagramme d’architecture",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=119",
+    "thumb": "assets/apercus/equi-libre/2.jpg",
+    "alt": "Aperçu : Diagramme d’architecture"
+   },
+   {
+    "n": 3,
+    "label": "Parcours utilisateurs",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=120",
+    "thumb": "assets/apercus/equi-libre/3.jpg",
+    "alt": "Aperçu : Parcours utilisateurs"
+   },
+   {
+    "n": 4,
+    "label": "Wireframes",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=125",
+    "thumb": "assets/apercus/equi-libre/4.jpg",
+    "alt": "Aperçu : Wireframes"
+   },
+   {
+    "n": 5,
+    "label": "Tri de cartes · P3",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=126",
+    "thumb": "assets/apercus/equi-libre/5.jpg",
+    "alt": "Aperçu : Tri de cartes · P3"
+   },
+   {
+    "n": 6,
+    "label": "Tri de cartes · P4",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=127",
+    "thumb": "assets/apercus/equi-libre/6.jpg",
+    "alt": "Aperçu : Tri de cartes · P4"
+   },
+   {
+    "n": 7,
+    "label": "Tri de cartes · P1",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=128",
+    "thumb": "assets/apercus/equi-libre/7.jpg",
+    "alt": "Aperçu : Tri de cartes · P1"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Architecture de l’information d’une application mobile de bien-être et de santé mentale : note de synthèse comparant deux applications concurrentes (Headspace et Petit Bambou), tri de cartes, diagramme d’architecture, parcours utilisateurs et wireframes basse fidélité.",
+  "skillsValidated": [
+   "Définir des parcours à partir de données utilisateurs",
+   "Concevoir une solution basse fidélité (wireframes)"
+  ],
+  "onHome": true,
+  "featured": false
+ },
+ {
+  "id": "avenirs",
+  "name": "Avenirs",
+  "date": "juin 2026",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "UX Design / Product Designer",
+  "line": "Conception d’application vue côté développeur.",
+  "tags": [
+   "Flowchart",
+   "Style guide"
+  ],
+  "pdf": "/livrables/Livrables_UX_Designer_2.pdf#page=66",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Présentation",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=66",
+    "thumb": "assets/apercus/avenirs/1.jpg",
+    "alt": "Aperçu : Présentation"
+   },
+   {
+    "n": 2,
+    "label": "Application",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=76",
+    "thumb": "assets/apercus/avenirs/2.jpg",
+    "alt": "Aperçu : Application"
+   },
+   {
+    "n": 3,
+    "label": "Flowchart",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=77",
+    "thumb": "assets/apercus/avenirs/3.jpg",
+    "alt": "Aperçu : Flowchart"
+   },
+   {
+    "n": 4,
+    "label": "Style guide",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=78",
+    "thumb": "assets/apercus/avenirs/4.jpg",
+    "alt": "Aperçu : Style guide"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Comprendre comment les choix de design impactent le développement : cadrage avec une équipe technique, flowchart, style guide et application en no-code.",
+  "skillsValidated": [
+   "Cadrer un projet UX avec une équipe technique",
+   "Concevoir en no-code"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "foodles",
+  "name": "Foodles",
+  "date": "janv. 2026",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "UX Design / Product Designer",
+  "line": "Tests utilisateurs d’un service de commande de repas : 13 hypothèses, 5 participants, recommandations.",
+  "tags": [
+   "Hypothèses",
+   "Tests"
+  ],
+  "pdf": "/livrables/Livrables_UX_Designer_2.pdf#page=22",
+  "docs": [
+   {
+    "n": 1,
+    "label": "E-mail",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=22",
+    "thumb": "assets/apercus/foodles/1.jpg",
+    "alt": "Aperçu : E-mail"
+   },
+   {
+    "n": 2,
+    "label": "Hypothèses",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=24",
+    "thumb": "assets/apercus/foodles/2.jpg",
+    "alt": "Aperçu : Hypothèses"
+   },
+   {
+    "n": 3,
+    "label": "Support de test",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=26",
+    "thumb": "assets/apercus/foodles/3.jpg",
+    "alt": "Aperçu : Support de test"
+   },
+   {
+    "n": 4,
+    "label": "Matrice",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=48",
+    "thumb": "assets/apercus/foodles/4.jpg",
+    "alt": "Aperçu : Matrice"
+   },
+   {
+    "n": 5,
+    "label": "Recommandations",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=49",
+    "thumb": "assets/apercus/foodles/5.jpg",
+    "alt": "Aperçu : Recommandations"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Tests utilisateurs d’un service de commande de repas : 13 hypothèses UX formulées en amont, test mené auprès de 5 participants de profils variés, analyse selon l’Atomic UX Research (expériences, faits, insights, recommandations) et rapport de recommandations. Constat principal : l’icône d’ajout au panier n’est comprise par aucun des 5 participants.",
+  "skillsValidated": [
+   "Optimiser un parcours à partir des retours utilisateurs",
+   "Formaliser une stratégie UX pour prioriser les fonctionnalités"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "les-cordons-bleus",
+  "name": "Les Cordons Bleus",
+  "date": "oct. 2025",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "UX Design / Product Designer",
+  "line": "Définition d’une promesse de service.",
+  "tags": [
+   "Brief UX",
+   "UX canvas"
+  ],
+  "pdf": "/livrables/Livrables_UX_Designer_2.pdf#page=1",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Brief UX",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=1",
+    "thumb": "assets/apercus/les-cordons-bleus/1.jpg",
+    "alt": "Aperçu : Brief UX"
+   },
+   {
+    "n": 2,
+    "label": "UX canvas",
+    "href": "/livrables/Livrables_UX_Designer_2.pdf#page=21",
+    "thumb": "assets/apercus/les-cordons-bleus/2.jpg",
+    "alt": "Aperçu : UX canvas"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Pour une école de cuisine, double casquette UX Designer et cheffe de projet : un brief UX aligné sur les objectifs business et un UX Business Model Canvas.",
+  "skillsValidated": [
+   "Élaborer un brief UX adapté à des objectifs business",
+   "Concevoir une feuille de route à partir de la recherche UX"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "cafeo",
+  "name": "Caféo",
+  "date": "sept. 2025",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "UX Design / Product Designer",
+  "line": "Préparation et animation d’un atelier de co-conception.",
+  "tags": [
+   "Atelier",
+   "Co-conception"
+  ],
+  "pdf": "/livrables/Livrables_UX_Designer_1.pdf#page=32",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Canevas",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=32",
+    "thumb": "assets/apercus/cafeo/1.jpg",
+    "alt": "Aperçu : Canevas"
+   },
+   {
+    "n": 2,
+    "label": "E-mail d’invitation",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=33",
+    "thumb": "assets/apercus/cafeo/2.jpg",
+    "alt": "Aperçu : E-mail d’invitation"
+   },
+   {
+    "n": 3,
+    "label": "Compte rendu",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=34",
+    "thumb": "assets/apercus/cafeo/3.jpg",
+    "alt": "Aperçu : Compte rendu"
+   },
+   {
+    "n": 4,
+    "label": "Parcours",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=47",
+    "thumb": "assets/apercus/cafeo/4.jpg",
+    "alt": "Aperçu : Parcours"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Préparation et animation d’un atelier de co-conception en Design Thinking, puis rédaction du parcours utilisateur idéal.",
+  "skillsValidated": [
+   "Animer un atelier de co-conception",
+   "Développer des parcours utilisateurs à partir de méthodes de terrain"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "camping-luxe",
+  "name": "Camping.Luxe",
+  "date": "juil. 2025",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "UX Design / Product Designer",
+  "line": "Audit UX d’un site de campings avec les critères ergonomiques de Bastien et Scapin.",
+  "tags": [
+   "Audit",
+   "Ergonomie"
+  ],
+  "pdf": "/livrables/Livrables_UX_Designer_1.pdf#page=10",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Audit",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=10",
+    "thumb": "assets/apercus/camping-luxe/1.jpg",
+    "alt": "Aperçu : Audit"
+   },
+   {
+    "n": 2,
+    "label": "Recommandations",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=21",
+    "thumb": "assets/apercus/camping-luxe/2.jpg",
+    "alt": "Aperçu : Recommandations"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Audit UX du site Campings.luxe avec les critères ergonomiques de Bastien et Scapin (incitation, groupement et distinction des items, guidage), puis recommandations d’amélioration.",
+  "skillsValidated": [
+   "Auditer l’expérience utilisateur d’un service digital",
+   "Élaborer des recommandations à partir d’un audit"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "hero-lines",
+  "name": "Hero Lines",
+  "date": "mai 2025",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "UX Design / Product Designer",
+  "line": "Étude utilisateurs sur l’achat de billets de train : de la recherche secondaire aux personas.",
+  "tags": [
+   "Recherche",
+   "Entretiens",
+   "Personas"
+  ],
+  "pdf": "/livrables/Livrables_UX_Designer_1.pdf#page=1",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Note de recherche secondaire",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=1",
+    "thumb": "assets/apercus/hero-lines/1.jpg",
+    "alt": "Aperçu : Note de recherche secondaire"
+   },
+   {
+    "n": 2,
+    "label": "Protocole de recherche",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=3",
+    "thumb": "assets/apercus/hero-lines/2.jpg",
+    "alt": "Aperçu : Protocole de recherche"
+   },
+   {
+    "n": 3,
+    "label": "Grille d’achat",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=5",
+    "thumb": "assets/apercus/hero-lines/3.jpg",
+    "alt": "Aperçu : Grille d’achat"
+   },
+   {
+    "n": 4,
+    "label": "Guide d’entretien",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=6",
+    "thumb": "assets/apercus/hero-lines/4.jpg",
+    "alt": "Aperçu : Guide d’entretien"
+   },
+   {
+    "n": 5,
+    "label": "Personas",
+    "href": "/livrables/Livrables_UX_Designer_1.pdf#page=9",
+    "thumb": "assets/apercus/hero-lines/5.jpg",
+    "alt": "Aperçu : Personas"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Étude utilisateurs sur l’achat de billets de train : recherche secondaire sur l’ouverture du marché ferroviaire à la concurrence, protocole de recherche, grille d’achat et guide d’entretien, puis personas.",
+  "skillsValidated": [
+   "Collecter des données utilisateurs (recherche primaire et secondaire)",
+   "Définir les usages réels et les personas cibles"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "your-car-your-way",
+  "name": "Your Car Your Way",
+  "date": "fév. 2025",
+  "type": "Conception et gestion",
+  "types": [
+   "Conception et gestion"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Solution fonctionnelle et architecture d’une application.",
+  "tags": [
+   "Architecture",
+   "POC",
+   "Angular",
+   "Spring Boot",
+   "MySQL"
+  ],
+  "pdf": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=132",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Exigences métier",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=132",
+    "thumb": "assets/apercus/your-car-your-way/1.jpg",
+    "alt": "Aperçu : Exigences métier"
+   },
+   {
+    "n": 2,
+    "label": "Document d’architecture",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=137",
+    "thumb": "assets/apercus/your-car-your-way/2.jpg",
+    "alt": "Aperçu : Document d’architecture"
+   },
+   {
+    "n": 3,
+    "label": "Évaluation de conformité",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=153",
+    "thumb": "assets/apercus/your-car-your-way/3.jpg",
+    "alt": "Aperçu : Évaluation de conformité"
+   },
+   {
+    "n": 4,
+    "label": "Présentation",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=160",
+    "thumb": "assets/apercus/your-car-your-way/4.jpg",
+    "alt": "Aperçu : Présentation"
+   }
+  ],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/Bernadou_Clara_5_poc_012025",
+  "figma": null,
+  "context": "Conception d’une application web de location de voitures : exigences métier, architecture, conformité et preuve de concept (front-end Angular, back-end Spring Boot, base MySQL avec utilisateurs, conversations et messages).",
+  "skillsValidated": [
+   "Concevoir l’architecture d’une application",
+   "Structurer une base de données",
+   "Valider la solution par un POC"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "maison-en-place",
+  "name": "Maison en Place",
+  "date": "déc. 2024",
+  "type": "Conception et gestion",
+  "types": [
+   "Conception et gestion"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Plan de tests, surveillance et sauvegardes.",
+  "tags": [
+   "Tests",
+   "Sécurité"
+  ],
+  "pdf": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=116",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Plan de test",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=116",
+    "thumb": "assets/apercus/maison-en-place/1.jpg",
+    "alt": "Aperçu : Plan de test"
+   },
+   {
+    "n": 2,
+    "label": "Sécurité",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=122",
+    "thumb": "assets/apercus/maison-en-place/2.jpg",
+    "alt": "Aperçu : Sécurité"
+   },
+   {
+    "n": 3,
+    "label": "Données",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=126",
+    "thumb": "assets/apercus/maison-en-place/3.jpg",
+    "alt": "Aperçu : Données"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Plan de test en Gherkin, plan de sauvegarde des données et sécurité des opérations.",
+  "skillsValidated": [
+   "Créer un plan de sauvegarde des données",
+   "Élaborer un plan de test qualité et sécurité"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "catasterre",
+  "name": "Catasterre",
+  "date": "nov. 2024",
+  "type": "Conception et gestion",
+  "types": [
+   "Conception et gestion"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Formation et encadrement d’une équipe de développement.",
+  "tags": [
+   "Agile",
+   "RGPD"
+  ],
+  "pdf": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=93",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Sprint backlog",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=93",
+    "thumb": "assets/apercus/catasterre/1.jpg",
+    "alt": "Aperçu : Sprint backlog"
+   },
+   {
+    "n": 2,
+    "label": "Document RGPD / ITIL",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=94",
+    "thumb": "assets/apercus/catasterre/2.jpg",
+    "alt": "Aperçu : Document RGPD / ITIL"
+   },
+   {
+    "n": 3,
+    "label": "Plan d’action",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=103",
+    "thumb": "assets/apercus/catasterre/3.jpg",
+    "alt": "Aperçu : Plan d’action"
+   },
+   {
+    "n": 4,
+    "label": "Fiche de poste",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=113",
+    "thumb": "assets/apercus/catasterre/4.jpg",
+    "alt": "Aperçu : Fiche de poste"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Encadrement d’une équipe technique avec Scrum : plan de formation, suivi de l’exécution et respect des normes (RGPD, ITIL).",
+  "skillsValidated": [
+   "Construire un plan de formation",
+   "Superviser l’exécution d’un projet",
+   "Faire respecter les normes de qualité"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "bobapp",
+  "name": "BobApp",
+  "date": "nov. 2024",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Projet collaboratif avec une démarche CI/CD.",
+  "tags": [
+   "CI/CD",
+   "Docker",
+   "Tests automatisés"
+  ],
+  "pdf": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=76",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Explication de la démarche CI/CD",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=76",
+    "thumb": "assets/apercus/bobapp/1.jpg",
+    "alt": "Aperçu : Explication de la démarche CI/CD"
+   }
+  ],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/Gerez-un-projet-collaboratif-en-int-grant-une-demarche-CI-CD",
+  "figma": null,
+  "context": "Mise en place de l’intégration et de la livraison continues sur une application open-source Angular et Spring Boot, dont le front-end et le back-end sont conteneurisés avec Docker.",
+  "skillsValidated": [
+   "Automatiser la compilation et les tests",
+   "Gérer l’intégration et la livraison continues"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "deliveryfit",
+  "name": "DeliveryFit",
+  "date": "oct. 2024",
+  "type": "Conception et gestion",
+  "types": [
+   "Conception et gestion"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Validation, chiffrage et cadrage d’un projet.",
+  "tags": [
+   "Cadrage",
+   "Chiffrage"
+  ],
+  "pdf": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=57",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Dossier de cadrage",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=57",
+    "thumb": "assets/apercus/deliveryfit/1.jpg",
+    "alt": "Aperçu : Dossier de cadrage"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Proposition commerciale pour un système de gestion des expéditions en ligne : risques, budget et faisabilité.",
+  "skillsValidated": [
+   "Anticiper les risques d’un projet",
+   "Confirmer rentabilité et faisabilité par un budget"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "livrai",
+  "name": "LiVrai",
+  "date": "sept. 2024",
+  "type": "Conception et gestion",
+  "types": [
+   "Conception et gestion"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Cahier des charges fonctionnel et technique d’une application.",
+  "tags": [
+   "Cahier des charges",
+   "Audit"
+  ],
+  "pdf": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=16",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Audit",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=16",
+    "thumb": "assets/apercus/livrai/1.jpg",
+    "alt": "Aperçu : Audit"
+   },
+   {
+    "n": 2,
+    "label": "Cahier des charges",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=25",
+    "thumb": "assets/apercus/livrai/2.jpg",
+    "alt": "Aperçu : Cahier des charges"
+   },
+   {
+    "n": 3,
+    "label": "Présentation",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=39",
+    "thumb": "assets/apercus/livrai/3.jpg",
+    "alt": "Aperçu : Présentation"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Identification des besoins client, audit de l’existant et rédaction du cahier des charges fonctionnel et technique d’une application.",
+  "skillsValidated": [
+   "Définir les exigences client",
+   "Réaliser un audit fonctionnel et technique",
+   "Justifier la conception d’une application"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "monde-de-dev",
+  "name": "Monde de Dév",
+  "date": "sept. 2024",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Application full-stack complète de mise en relation de développeurs.",
+  "tags": [
+   "Spring Boot",
+   "Angular",
+   "MySQL"
+  ],
+  "pdf": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=10",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Fiche de choix techniques",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=10",
+    "thumb": "assets/apercus/monde-de-dev/1.jpg",
+    "alt": "Aperçu : Fiche de choix techniques"
+   }
+  ],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/ClaraBernadou_6_MDD_062024",
+  "figma": null,
+  "context": "Application complète reliant front-end et back-end par une API, avec une fiche de justification des choix techniques : Spring Boot, MySQL et Spring Security côté back-end ; Angular, Angular Material, RxJS et Sass côté front-end ; design patterns Service Layer, Repository et Observable.",
+  "skillsValidated": [
+   "Intégrer front-end et back-end via une API",
+   "Documenter les outils de développement choisis"
+  ],
+  "onHome": true,
+  "featured": false
+ },
+ {
+  "id": "numdev",
+  "name": "NumDev",
+  "date": "juin 2024",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Tests d’une application full-stack.",
+  "tags": [
+   "Jest",
+   "Cypress",
+   "JUnit",
+   "TDD"
+  ],
+  "pdf": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=7",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Couverture back-end",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=7",
+    "thumb": "assets/apercus/numdev/1.jpg",
+    "alt": "Aperçu : Couverture back-end"
+   },
+   {
+    "n": 2,
+    "label": "Couverture Cypress",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=8",
+    "thumb": "assets/apercus/numdev/2.jpg",
+    "alt": "Aperçu : Couverture Cypress"
+   },
+   {
+    "n": 3,
+    "label": "Couverture Jest",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=9",
+    "thumb": "assets/apercus/numdev/3.jpg",
+    "alt": "Aperçu : Couverture Jest"
+   }
+  ],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/Clara_Bernadou_P4_NumDev_042024",
+  "figma": null,
+  "context": "Tests automatisés d’une application full-stack Angular et Spring Boot, en suivant les principes du Test-Driven Development : tests du front-end avec Jest, tests de bout en bout avec Cypress, tests du back-end avec JUnit, et rapports de couverture pour chacun.",
+  "skillsValidated": [
+   "Écrire des tests automatisés back-end",
+   "Écrire des tests automatisés front-end"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "genz",
+  "name": "GenZ",
+  "date": "avr. 2024",
+  "type": "Conception et gestion",
+  "types": [
+   "Conception et gestion"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Choix des technologies et des paradigmes d’une application.",
+  "tags": [
+   "Architecture"
+  ],
+  "pdf": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=1",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Document d’architecture",
+    "href": "/livrables/Livrables_Full-Stack_Java_Angular.pdf#page=1",
+    "thumb": "assets/apercus/genz/1.jpg",
+    "alt": "Aperçu : Document d’architecture"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Veille technologique front-end et back-end (Angular, Java), choix des outils et du paradigme de programmation d’une application.",
+  "skillsValidated": [
+   "Réaliser une veille technologique",
+   "Choisir les outils d’un projet",
+   "Définir un paradigme de programmation"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "chatop",
+  "name": "ChâTop",
+  "date": "mars 2024",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Back-end développé avec Java et Spring.",
+  "tags": [
+   "Java",
+   "Spring Boot"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/Chatop_022024_ClaraB",
+  "figma": null,
+  "context": "Back-end d’un portail de mise en relation entre locataires et propriétaires : API REST, authentification avec Spring Security, base de données MySQL (comptes, locations, messages).",
+  "skillsValidated": [
+   "Développer un back-end Java maintenable"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "telesport",
+  "name": "TéléSport",
+  "date": "janv. 2024",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Full Stack Java & Angular",
+  "line": "Front-end développé avec Angular.",
+  "tags": [
+   "Angular",
+   "TypeScript"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/P2_Telesport_122023_ClaraBernadou",
+  "figma": null,
+  "context": "Développement du front-end d’une application avec Angular, framework TypeScript, en code maintenable versionné sur GitHub.",
+  "skillsValidated": [
+   "Développer un front-end Angular maintenable",
+   "Versionner son code avec Git et GitHub"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "hrnet",
+  "name": "HRnet",
+  "date": "juin 2023",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Application JavaScript React",
+  "line": "Migration d’une librairie jQuery vers React.",
+  "tags": [
+   "React",
+   "Performance"
+  ],
+  "pdf": "/livrables/Livrables_Front-end_React.pdf#page=12",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Rapport de performance",
+    "href": "/livrables/Livrables_Front-end_React.pdf#page=12",
+    "thumb": "assets/apercus/hrnet/1.jpg",
+    "alt": "Aperçu : Rapport de performance"
+   }
+  ],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/WealthHealth_Bernadou_Clara",
+  "figma": null,
+  "context": "Conversion d’une application jQuery vers React pour une grande société financière.",
+  "skillsValidated": [
+   "Analyser la performance",
+   "Réduire la dette technique",
+   "Déployer une application front-end"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "argent-bank",
+  "name": "Argent Bank",
+  "date": "juin 2023",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Application JavaScript React",
+  "line": "Compte utilisateur bancaire connecté à une API, avec React.",
+  "tags": [
+   "React",
+   "Redux",
+   "API"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/Argent_Bank_Bernadou_Clara",
+  "figma": null,
+  "context": "Front-end d’une application bancaire avec React et Redux, connecté à une API sécurisée.",
+  "skillsValidated": [
+   "S’authentifier à une API",
+   "Gérer l’état avec Redux",
+   "Modéliser une API"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "sportsee",
+  "name": "SportSee",
+  "date": "mai 2023",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Application JavaScript React",
+  "line": "Tableau de bord d’analytics avec React.",
+  "tags": [
+   "React",
+   "Graphiques"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/SportSee",
+  "figma": null,
+  "context": "Tableau de bord d’analytics pour du coaching sportif : graphiques et appels à un service web.",
+  "skillsValidated": [
+   "Développer des graphiques avancés",
+   "Interagir avec un service web",
+   "Assurer la qualité des données"
+  ],
+  "onHome": true,
+  "featured": false
+ },
+ {
+  "id": "kasa",
+  "name": "Kasa",
+  "date": "avr. 2023",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Application JavaScript React",
+  "line": "Application web avec React et React Router.",
+  "tags": [
+   "React"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/Kasa",
+  "figma": null,
+  "context": "Front-end d’une application de location immobilière avec React et React Router.",
+  "skillsValidated": [
+   "Créer des composants React",
+   "Développer les routes avec React Router"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "learn-home",
+  "name": "Learn@Home",
+  "date": "mars 2023",
+  "type": "Conception et gestion",
+  "types": [
+   "Conception et gestion"
+  ],
+  "parcours": "Application JavaScript React",
+  "line": "Définition des besoins d’une app de soutien scolaire.",
+  "tags": [
+   "User stories",
+   "Figma"
+  ],
+  "pdf": "/livrables/Livrables_Front-end_React.pdf#page=7",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Diagramme de cas d’usage",
+    "href": "/livrables/Livrables_Front-end_React.pdf#page=7",
+    "thumb": "assets/apercus/learn-home/1.jpg",
+    "alt": "Aperçu : Diagramme de cas d’usage"
+   },
+   {
+    "n": 2,
+    "label": "User stories",
+    "href": "/livrables/Livrables_Front-end_React.pdf#page=8",
+    "thumb": "assets/apercus/learn-home/2.jpg",
+    "alt": "Aperçu : User stories"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": "https://www.figma.com/file/0bHZYf6QvJSKBYDwnPL3Yw/Learn%40Home?node-id=401%3A2106&t=tOnUwkfe536Zy2aF-1",
+  "context": "Pour une association de soutien scolaire : besoins tirés du cahier des charges, maquette et modélisation technique, en méthode agile.",
+  "skillsValidated": [
+   "Créer une maquette pour un client",
+   "Identifier les besoins d’une application",
+   "Modéliser une solution technique"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "billed",
+  "name": "Billed",
+  "date": "avr. 2023",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Application JavaScript React",
+  "line": "Débogage et tests d’un SaaS RH.",
+  "tags": [
+   "Jest",
+   "Tests"
+  ],
+  "pdf": "/livrables/Livrables_Front-end_React.pdf#page=3",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Rapport de tests",
+    "href": "/livrables/Livrables_Front-end_React.pdf#page=3",
+    "thumb": "assets/apercus/billed/1.jpg",
+    "alt": "Aperçu : Rapport de tests"
+   },
+   {
+    "n": 2,
+    "label": "Rapport de couverture",
+    "href": "/livrables/Livrables_Front-end_React.pdf#page=4",
+    "thumb": "assets/apercus/billed/2.jpg",
+    "alt": "Aperçu : Rapport de couverture"
+   },
+   {
+    "n": 3,
+    "label": "Plan de test",
+    "href": "/livrables/Livrables_Front-end_React.pdf#page=5",
+    "thumb": "assets/apercus/billed/3.jpg",
+    "alt": "Aperçu : Plan de test"
+   }
+  ],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/Billed-app-FR-Front",
+  "figma": null,
+  "context": "Débogage et tests d’un SaaS RH : tests unitaires et d’intégration avec Jest et suivi de la couverture de test, plan de test de bout en bout.",
+  "skillsValidated": [
+   "Débugger avec Chrome DevTools",
+   "Écrire des tests unitaires et d’intégration",
+   "Rédiger un plan de test"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "les-petits-plats",
+  "name": "Les Petits Plats",
+  "date": "fév. 2023",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Application JavaScript React",
+  "line": "Algorithme de recherche en JavaScript.",
+  "tags": [
+   "JavaScript",
+   "Algorithmie"
+  ],
+  "pdf": "/livrables/Livrables_Front-end_React.pdf#page=1",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Fiche d’investigation",
+    "href": "/livrables/Livrables_Front-end_React.pdf#page=1",
+    "thumb": "assets/apercus/les-petits-plats/1.jpg",
+    "alt": "Aperçu : Fiche d’investigation"
+   }
+  ],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/LesPetitsPlats",
+  "figma": null,
+  "context": "Algorithme de recherche performant pour une plateforme de recettes de cuisine.",
+  "skillsValidated": [
+   "Analyser un problème informatique",
+   "Développer un algorithme de résolution"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "fisheye",
+  "name": "FishEye",
+  "date": "nov. 2022",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Application JavaScript React",
+  "line": "Site accessible pour une plateforme de photographes.",
+  "tags": [
+   "JavaScript",
+   "Accessibilité"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/Bernadou_Clara_P6_Fisheye_22-09-2022",
+  "figma": null,
+  "context": "Site accessible pour une plateforme d’artistes photographes, en JavaScript modulaire.",
+  "skillsValidated": [
+   "Assurer l’accessibilité d’un site web",
+   "Développer avec des design patterns",
+   "Gérer les événements"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "gameon",
+  "name": "GameOn",
+  "date": "sept. 2022",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Application JavaScript React",
+  "line": "Landing page avec formulaire en JavaScript.",
+  "tags": [
+   "JavaScript"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/Bernadou_Clara_P4_GameOn__15-09-2022",
+  "figma": null,
+  "context": "Landing page pour une entreprise organisant des concours de jeux, avec formulaire d’inscription en JavaScript.",
+  "skillsValidated": [
+   "Programmer en JavaScript"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "groupomania",
+  "name": "Groupomania",
+  "date": "juin 2022",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Développeur Web",
+  "line": "Réseau social d’entreprise, front-end et back-end.",
+  "tags": [
+   "JavaScript",
+   "Node.js",
+   "SQL"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Réseau social interne pour les salariés d’une entreprise, développé côté front-end et back-end.",
+  "skillsValidated": [],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "piiquante",
+  "name": "Piiquante",
+  "date": "mars 2022",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Développeur Web",
+  "line": "API sécurisée pour une application d’avis gastronomiques.",
+  "tags": [
+   "Node.js",
+   "Express",
+   "MongoDB"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "API sécurisée de Hot Takes, l’application de critiques de sauces piquantes de la marque Piiquante.",
+  "skillsValidated": [
+   "Construire une API REST sécurisée",
+   "Gérer une base de données"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "kanap",
+  "name": "Kanap",
+  "date": "fév. 2022",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Développeur Web",
+  "line": "Site e-commerce dynamique en JavaScript.",
+  "tags": [
+   "JavaScript",
+   "API"
+  ],
+  "pdf": "/livrables/Livrables_Developpeur_Web.pdf#page=19",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Plan de test",
+    "href": "/livrables/Livrables_Developpeur_Web.pdf#page=19",
+    "thumb": "assets/apercus/kanap/1.jpg",
+    "alt": "Aperçu : Plan de test"
+   }
+  ],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Pour Kanap, marque de canapés vendus en boutique : une plateforme e-commerce en JavaScript connectée à une API.",
+  "skillsValidated": [
+   "Développer un site dynamique en JavaScript",
+   "Interagir avec une API",
+   "Rédiger un plan de test"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "la-chouette-agence",
+  "name": "La Chouette Agence",
+  "date": "janv. 2022",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Développeur Web",
+  "line": "Audit et optimisation d’un site existant : performance et référencement.",
+  "tags": [
+   "SEO",
+   "Performance"
+  ],
+  "pdf": "/livrables/Livrables_Developpeur_Web.pdf#page=1",
+  "docs": [
+   {
+    "n": 1,
+    "label": "Rapport d’analyse",
+    "href": "/livrables/Livrables_Developpeur_Web.pdf#page=1",
+    "thumb": "assets/apercus/la-chouette-agence/1.jpg",
+    "alt": "Aperçu : Rapport d’analyse"
+   },
+   {
+    "n": 2,
+    "label": "Rapport d’optimisation",
+    "href": "/livrables/Livrables_Developpeur_Web.pdf#page=2",
+    "thumb": "assets/apercus/la-chouette-agence/2.jpg",
+    "alt": "Aperçu : Rapport d’optimisation"
+   }
+  ],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/ClaraBernadou_4_09122021",
+  "figma": null,
+  "context": "Pour une agence de web design reléguée en deuxième page des moteurs de recherche : audit, optimisation SEO et performance.",
+  "skillsValidated": [
+   "Optimiser le référencement",
+   "Optimiser la performance"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "ohmyfood",
+  "name": "Ohmyfood",
+  "date": "déc. 2021",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Développeur Web",
+  "line": "Page web dynamisée avec des animations CSS.",
+  "tags": [
+   "CSS",
+   "Animations"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": "https://github.com/clarabernadou/ClaraBernadou_3_16112021",
+  "figma": null,
+  "context": "Interface mobile-first du site d’une start-up, animée en CSS.",
+  "skillsValidated": [
+   "Effets CSS avancés",
+   "Cohérence graphique",
+   "Structure de navigation"
+  ],
+  "onHome": false,
+  "featured": false
+ },
+ {
+  "id": "booki",
+  "name": "Booki",
+  "date": "nov. 2021",
+  "type": "Développement",
+  "types": [
+   "Développement"
+  ],
+  "parcours": "Développeur Web",
+  "line": "Intégration d’une maquette en site web.",
+  "tags": [
+   "HTML",
+   "CSS"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Page d’accueil d’une agence de voyage intégrée en HTML et CSS, fidèle à la maquette et responsive.",
+  "skillsValidated": [
+   "Intégrer une maquette",
+   "Implémenter une interface responsive"
+  ],
+  "onHome": false,
+  "featured": false
+ }
+]

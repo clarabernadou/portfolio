@@ -1,0 +1,45 @@
+{
+ "note": "Texte intégral de chaque recommandation, affiché dans la fenêtre « Lire en entier ». Les liens LinkedIn sont à renseigner (icône affichée uniquement quand l'URL existe).",
+ "items": [
+  {
+   "role": "Cheffe de projets, Pôle Études / DSI",
+   "context": "Mentore OpenClassrooms · Web et Full-Stack",
+   "excerpt": "« […] elle a démontré sa capacité à analyser les besoins, concevoir des solutions pertinentes et développer des applications de qualité. […] »",
+   "letterPdf": "Lettre_recommandation_Delphine_Cournil.pdf",
+   "linkedin": null,
+   "name": "Delphine Cournil",
+   "fullText": [
+    "En tant que mentore chez OpenClassrooms, j’ai eu le plaisir d’accompagner Clara Bernadou durant deux parcours de formation : Développeur Web puis Développeur Full-Stack Java/Angular.",
+    "Tout au long de ces formations, Clara s’est distinguée par son investissement exceptionnel, son sérieux et ses remarquables capacités d’apprentissage. Elle a su acquérir et mettre en œuvre avec aisance les compétences techniques attendues, tout en faisant preuve d’une grande autonomie et d’une réelle curiosité professionnelle.",
+    "Au travers des différents projets réalisés, elle a démontré sa capacité à analyser les besoins, concevoir des solutions pertinentes et développer des applications de qualité. Sa rigueur, sa persévérance et sa volonté constante de progresser lui ont permis d’atteindre un excellent niveau tout au long de son parcours.",
+    "Après avoir accompagné de nombreux apprenants au cours de mon activité de mentorat, Clara fait partie des profils les plus remarquables que j’ai eu l’occasion de suivre. Son implication, la qualité constante de son travail et sa progression exemplaire la distinguent particulièrement.",
+    "Je suis convaincue qu’elle saura mettre ses compétences techniques et humaines au service de ses futurs projets professionnels. C’est pourquoi je recommande sa candidature avec la plus grande confiance et sans aucune réserve."
+   ]
+  },
+  {
+   "role": "Ergonome, UX Designer et Product Owner",
+   "context": "Mentore OpenClassrooms · UX Designer",
+   "excerpt": "« […] Ses compétences techniques lui permettent d’appréhender les contraintes liées à la mise en œuvre des solutions et de dialoguer efficacement avec les autres équipes. […] »",
+   "letterPdf": null,
+   "linkedin": null,
+   "name": "Roxane Antouly",
+   "fullText": [
+    "Autonome et proactive, Clara sait mener la démarche de conception centrée utilisateurs de bout en bout. Elle fait preuve d’initiative dans l’avancement de ses travaux et sait structurer sa méthodologie. Ses compétences techniques lui permettent d’appréhender les contraintes liées à la mise en œuvre des solutions et de dialoguer efficacement avec les autres équipes. Clara présente ainsi un profil particulièrement complet et polyvalent pour une professionnelle en début de carrière !"
+   ]
+  },
+  {
+   "role": "Créateur d’IntuitLearn",
+   "context": "Mentor OpenClassrooms · Application",
+   "excerpt": "« […] Clara possède une réelle sensibilité esthétique, un sens aiguisé du détail visuel et un souci constant des normes d’accessibilité. […] »",
+   "letterPdf": null,
+   "linkedin": null,
+   "company": "https://intuitlearn.com/fr",
+   "name": "Frédéric Lépy",
+   "fullText": [
+    "J’ai eu le plaisir d’être le mentor de Clara en 2023 lors de son parcours en développement web. Récemment, elle a accepté de tester mon application d’apprentissage de langues, IntuitLearn.",
+    "Ses retours ont été d’une excellente précision : Clara possède une réelle sensibilité esthétique, un sens aiguisé du détail visuel et un souci constant des normes d’accessibilité. Son analyse constructive et rigoureuse témoigne d’une vraie maturité professionnelle et d’une belle évolution vers l’UI Design.",
+    "Je recommande Clara à toute équipe recherchant une UI Designer exigeante sur la qualité visuelle et engagée pour un web inclusif et accessible."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,223 @@
+{
+ "intro": {
+  "title": "Ma façon de travailler avec l’IA",
+  "lead": "J’utilise l’IA tous les jours pour développer, concevoir et produire du contenu. Je choisis l’outil le plus adapté à chaque tâche, je construis des skills pour automatiser le répétitif, et je vérifie toujours le résultat avant de le livrer."
+ },
+ "stats": [
+  {
+   "value": "6",
+   "label": "skills créés pour mon poste chez Digital4Better",
+   "computed": "nombre de skills"
+  },
+  {
+   "value": "4",
+   "label": "outils Claude au quotidien",
+   "computed": "nombre d’outils Claude"
+  },
+  {
+   "value": "8",
+   "label": "autres outils, choisis selon la tâche",
+   "computed": "nombre d’outils hors Claude"
+  },
+  {
+   "value": "3",
+   "label": "routines au quotidien",
+   "computed": "nombre de routines"
+  }
+ ],
+ "tools": [
+  {
+   "name": "Claude",
+   "category": "Réflexion et rédaction",
+   "description": "Cadrage, rédaction et analyses : scripts et documents de production des films, audits, recommandations.",
+   "favorite": true
+  },
+  {
+   "name": "Claude Code",
+   "category": "Développement",
+   "description": "Développement au quotidien dans VS Code, des fonctionnalités front-end au montage vidéo en React.",
+   "favorite": false
+  },
+  {
+   "name": "Claude Design",
+   "category": "Conception et visuels",
+   "description": "Posts LinkedIn et réseaux sociaux, bannières, miniatures YouTube, présentations, et ce portfolio : logo, design system, écrans desktop et mobile.",
+   "favorite": false
+  },
+  {
+   "name": "Claude Cowork",
+   "category": "Tâches en autonomie",
+   "description": "Tâches en plusieurs étapes dans le navigateur et les outils de l’équipe : audits, préparation de contenus, veille.",
+   "favorite": false
+  },
+  {
+   "name": "ChatGPT, Gemini et Mistral",
+   "category": "Seconds avis",
+   "description": "Quand Claude ne répond pas à mon besoin, ou pour croiser les avis et tester plusieurs modèles. Par exemple, un audit rédigé avec Claude, puis relu avec ChatGPT.",
+   "favorite": false
+  },
+  {
+   "name": "Perplexity",
+   "category": "Recherche sourcée",
+   "description": "Documents et recherches dont les sources sont citées et vérifiables.",
+   "favorite": false
+  },
+  {
+   "name": "Nano Banana",
+   "category": "Images",
+   "description": "Génération d’images pour les visuels.",
+   "favorite": false
+  },
+  {
+   "name": "Remotion et ElevenLabs",
+   "category": "Vidéo",
+   "description": "Saga de 3 films pour Fruggr : montage en code avec Remotion, voix off de synthèse avec ElevenLabs.",
+   "favorite": false
+  },
+  {
+   "name": "Gamma",
+   "category": "Présentations",
+   "description": "Mes présentations de soutenance de formation. Depuis peu, je les réalise avec Claude Design.",
+   "favorite": false
+  }
+ ],
+ "toolsIntro": "Chaque IA a ses points forts. Je choisis la plus adaptée à chaque tâche.",
+ "skills": [
+  {
+   "name": "Visuels LinkedIn",
+   "description": "À partir d’un texte validé, produit des carrousels et des posts LinkedIn prêts à publier, dans la charte de l’entreprise : logo, motifs et illustrations de la marque, avec des slides qui s’enchaînent visuellement.",
+   "deliverables": [
+    "Carrousels PDF",
+    "Posts image",
+    "Charte respectée"
+   ]
+  },
+  {
+   "name": "Miniatures YouTube",
+   "description": "Miniatures 1280×720 à la charte, avec personnes détourées, variantes A/B et contrôle de lisibilité.",
+   "deliverables": [
+    "Variantes A/B",
+    "Contrôle de lisibilité"
+   ]
+  },
+  {
+   "name": "Intégration d’articles WordPress",
+   "description": "Transforme un brouillon en code prêt à coller dans WordPress : image mise en avant, espacements, FAQ et encadré des points clés.",
+   "deliverables": [
+    "Code prêt à coller",
+    "FAQ"
+   ]
+  },
+  {
+   "name": "Audit UX et accessibilité",
+   "description": "Pré-audit, audit et ré-audit d’un site : parcours du site, captures annotées et fiches de constats priorisées, avec un PDF à la charte et un fichier de suivi des corrections.",
+   "deliverables": [
+    "PDF à la charte",
+    "Fichier de suivi"
+   ]
+  },
+  {
+   "name": "Audit de la présence de marque",
+   "description": "Retrouve où la marque est mentionnée et repère les anciens logos et les présentations obsolètes, puis livre un PDF avec captures et la liste des mentions.",
+   "deliverables": [
+    "PDF avec captures",
+    "Liste des mentions"
+   ]
+  },
+  {
+   "name": "Suivi post-webinar",
+   "description": "Prépare le replay d’un webinar de bout en bout : e-mail automatisé, formulaire, liste et workflow HubSpot, vignette et page ressource.",
+   "deliverables": [
+    "HubSpot",
+    "Brouillons à valider"
+   ]
+  }
+ ],
+ "skillsIntro": "Des skills Claude réutilisables, créés pour mon poste chez Digital4Better, l’entreprise où je suis alternante, et proposés à l’équipe. Chaque skill regroupe les consignes, les modèles et les vérifications d’une tâche récurrente, pour la refaire à l’identique. Ils restent internes à l’entreprise : je décris ce qu’ils font, sans en montrer le contenu.",
+ "routines": [
+  {
+   "title": "Point du matin",
+   "when": "Chaque matin de travail",
+   "description": "Une page lisible en quelques secondes qui rassemble mon agenda du jour, les messages qui attendent ma réponse et mes tâches, pour démarrer la journée sans rien oublier.",
+   "note": "Règle de sécurité : l’IA ne clique sur aucun lien et n’ouvre aucun e-mail suspect."
+  },
+  {
+   "title": "Veille IA quotidienne",
+   "when": "Chaque matin de travail",
+   "description": "Une synthèse de l’actualité de l’IA à partir des sources officielles des laboratoires et de la presse de référence, avec le niveau de fiabilité de chaque information. Le lundi récapitule le week-end, le jeudi conclut la semaine."
+  },
+  {
+   "title": "Pratique de l’anglais à l’oral",
+   "when": "Chaque jour ouvré · 15 min",
+   "description": "Une conversation quotidienne avec l’IA, sur des sujets qui m’intéressent plutôt que des leçons génériques : actualité de l’IA et de la tech, design et UX, développement web, jeux vidéo, vie quotidienne."
+  }
+ ],
+ "routinesIntro": "Deux de ces routines se déclenchent toutes seules chaque matin ; la troisième est une pratique quotidienne. Je les ai mises en place pour mon propre quotidien.",
+ "method": [
+  {
+   "order": 1,
+   "title": "Repérer",
+   "description": "Une tâche récurrente ou longue, qui se prête à l’automatisation."
+  },
+  {
+   "order": 2,
+   "title": "Cadrer",
+   "description": "Le texte source fourni, le format attendu et ce que l’IA ne doit pas toucher."
+  },
+  {
+   "order": 3,
+   "title": "Itérer",
+   "description": "Je fais produire, je relis, je corrige avec des consignes précises."
+  },
+  {
+   "order": 4,
+   "title": "Vérifier",
+   "description": "Contrastes, cohérence avec la charte, fidélité au texte d’origine."
+  },
+  {
+   "order": 5,
+   "title": "Partager",
+   "description": "Ce qui marche devient un skill, utilisable par l’équipe."
+  }
+ ],
+ "rules": [
+  {
+   "title": "Ne rien inventer",
+   "description": "L’IA travaille à partir des textes et des données que je fournis."
+  },
+  {
+   "title": "Vérifier avant de livrer",
+   "description": "Contrastes, cohérence de la charte et relecture, à chaque livrable."
+  },
+  {
+   "title": "Garder l’humain dans la boucle",
+   "description": "Chaque livrable est relu et validé par moi, puis par les personnes concernées si besoin, avant toute publication."
+  },
+  {
+   "title": "Verrouiller le périmètre",
+   "description": "Je précise ce que l’IA ne doit pas modifier et les étapes de vérification imposées."
+  },
+  {
+   "title": "Protéger les secrets",
+   "description": "Je ne confie jamais à l’IA de clés d’API, de secrets, de jetons ni d’identifiants."
+  }
+ ],
+ "rulesIntro": "Utiliser l’IA vite ne sert à rien si le résultat n’est pas fiable. Voici ce que je m’impose.",
+ "cases": [
+  {
+   "title": "Saga de 3 films pour Fruggr",
+   "description": "Du script au rendu final : Remotion, voix off ElevenLabs, musique, déclinaison en 16:9, 9:16 et 1:1, publiée sur YouTube.",
+   "href": "/projets/repositionnement-fruggr"
+  },
+  {
+   "title": "Ce portfolio",
+   "description": "Maquettes avec Claude Design, développement avec Claude Code, charte, design system et dossier de passation.",
+   "href": "/projets/portfolio"
+  },
+  {
+   "title": "Audits de sites",
+   "description": "Skills d’audit UX, accessibilité et marque appliqués au site Fruggr et à une application tierce.",
+   "href": "/projets/intuitlearn"
+  }
+ ]
+}
