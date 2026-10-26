@@ -137,26 +137,32 @@
   ]
  },
  {
-  "id": "design-plateforme-fruggr",
-  "name": "Design de la plateforme Fruggr",
-  "date": "mars 2025 – juin 2026",
+  "id": "refonte-site-d4b",
+  "name": "Refonte du site Digital4Better",
+  "date": "2026",
   "type": "UX / UI",
   "types": [
    "UX / UI"
   ],
   "parcours": "En entreprise",
-  "line": "Maquettes et évolutions UI/UX de la plateforme sur Figma, en autonomie",
+  "line": "Refonte totale du site WordPress de Digital4Better, reprise de zéro avec la librairie de composants commune à Fruggr : maquettes UX/UI sur Figma, puis montage du site.",
   "tags": [
    "Figma",
+   "UX",
    "UI",
-   "UX"
+   "WordPress"
   ],
   "pdf": null,
   "docs": [],
-  "steps": [],
+  "steps": [
+   {
+    "label": "Maquettes anonymisées",
+    "status": "À venir"
+   }
+  ],
   "github": null,
   "figma": null,
-  "context": "Plateforme SaaS de numérique responsable (gouvernance de l’IA, accessibilité, impact environnemental), utilisée par de grands comptes. Prise en charge du design de la plateforme en autonomie : maquettes et évolutions UI/UX sur Figma, dont les maquettes des refontes de pages.",
+  "context": "Refonte totale du site de Digital4Better, reprise depuis le départ avec la librairie de composants commune à Fruggr, que j’avais en partie retravaillée auparavant. J’ai conçu l’UX et l’UI et réalisé les maquettes sur Figma, puis monté le site sur WordPress.",
   "skillsValidated": [],
   "onHome": true,
   "featured": false
