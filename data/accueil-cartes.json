@@ -34,6 +34,19 @@
   ]
  },
  {
+  "id": "portfolio",
+  "section": "Développement",
+  "eyebrow": "Projet perso",
+  "name": "Ce portfolio",
+  "line": "Mon portfolio, mené seule de A à Z : charte graphique, UX, prototype, puis développement Next.js avec une administration sur mesure.",
+  "tags": [
+   "Next.js",
+   "TypeScript",
+   "Prisma",
+   "Accessibilité"
+  ]
+ },
+ {
   "id": "watchedthis",
   "section": "Développement",
   "eyebrow": "Projet perso",
@@ -56,17 +69,6 @@
    "Spring Boot",
    "Angular",
    "MySQL"
-  ]
- },
- {
-  "id": "sportsee",
-  "section": "Développement",
-  "eyebrow": "Front-end · OpenClassrooms",
-  "name": "SportSee",
-  "line": "Tableau de bord d’analytics développé avec React.",
-  "tags": [
-   "React",
-   "JavaScript"
   ]
  }
 ]

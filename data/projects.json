@@ -50,7 +50,7 @@
   "figma": null,
   "context": "Projet mené seule, de la charte graphique au développement : il réunit UI, UX, développement et gestion de projet.",
   "skillsValidated": [],
-  "onHome": false,
+  "onHome": true,
   "featured": true
  },
  {
@@ -1186,7 +1186,7 @@
    "Interagir avec un service web",
    "Assurer la qualité des données"
   ],
-  "onHome": true,
+  "onHome": false,
   "featured": false
  },
  {

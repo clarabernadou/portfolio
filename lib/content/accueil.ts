@@ -35,6 +35,13 @@ export const projetsDesign: AccueilProjectCard[] = [
 
 export const projetsDeveloppement: AccueilProjectCard[] = [
   {
+    id: "portfolio",
+    eyebrow: "Projet perso",
+    name: "Ce portfolio",
+    line: "Mon portfolio, mené seule de A à Z : charte graphique, UX, prototype, puis développement Next.js avec une administration sur mesure.",
+    tags: ["Next.js", "TypeScript", "Prisma", "Accessibilité"],
+  },
+  {
     id: "watchedthis",
     eyebrow: "Projet perso",
     name: "WatchedThis",
@@ -47,13 +54,6 @@ export const projetsDeveloppement: AccueilProjectCard[] = [
     name: "Monde de Dév",
     line: "Mise en relation de développeurs par centres d’intérêt techniques.",
     tags: ["Spring Boot", "Angular", "MySQL"],
-  },
-  {
-    id: "sportsee",
-    eyebrow: "Front-end · OpenClassrooms",
-    name: "SportSee",
-    line: "Tableau de bord d’analytics développé avec React.",
-    tags: ["React", "JavaScript"],
   },
 ];
 

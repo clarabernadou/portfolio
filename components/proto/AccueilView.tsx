@@ -233,10 +233,10 @@ export function AccueilView({ v }: { v: any }) {
           {" "}
           <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
-              {"Design"}
+              {"Développement"}
             </h3>
             <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
-              {v.homeDesign.map((c: any) => (
+              {v.homeDev.map((c: any) => (
                 <li key={c.id}>
                   <Link href={`/projets/${c.id}`} style={css(`text-decoration: none; color: #1A1033; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; padding: 24px; display: flex; flex-direction: column; gap: 12px; height: 100%; box-sizing: border-box`)}>
                     {" "}
@@ -270,10 +270,10 @@ export function AccueilView({ v }: { v: any }) {
           {" "}
           <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
-              {"Développement"}
+              {"Design"}
             </h3>
             <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
-              {v.homeDev.map((c: any) => (
+              {v.homeDesign.map((c: any) => (
                 <li key={c.id}>
                   <Link href={`/projets/${c.id}`} style={css(`text-decoration: none; color: #1A1033; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; padding: 24px; display: flex; flex-direction: column; gap: 12px; height: 100%; box-sizing: border-box`)}>
                     {" "}
