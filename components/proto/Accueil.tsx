@@ -17,11 +17,12 @@ function cards(home: SiteProject[], section: string) {
     }));
 }
 
-export function Accueil({ home, experiences, formations, profil, recos }: { home: SiteProject[]; experiences: SiteExperience[]; formations: SiteFormation[]; profil: SiteProfile; recos: SiteReco[] }) {
+export function Accueil({ home, total, experiences, formations, profil, recos }: { home: SiteProject[]; total: number; experiences: SiteExperience[]; formations: SiteFormation[]; profil: SiteProfile; recos: SiteReco[] }) {
   const v: Record<string, unknown> = {
     cvUrl: siteContact.cvPdfHref,
     profil,
     dispo: dispoLabel(profil),
+    total,
     homeEntreprise: cards(home, "En entreprise"),
     homeDesign: cards(home, "Design"),
     homeDev: cards(home, "Développement"),

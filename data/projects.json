@@ -84,7 +84,7 @@
   "figma": null,
   "context": "Audit UX de la version française du site WordPress de Fruggr, réalisé dans le cadre de mon alternance chez Fruggr by Digital4Better.",
   "skillsValidated": [],
-  "onHome": true,
+  "onHome": false,
   "featured": false
  },
  {
@@ -110,7 +110,7 @@
   "figma": null,
   "context": "Fruggr recentre son offre et son discours sur la gouvernance de l’IA. Mission en alternance : traduire ce positionnement en supports concrets et cohérents, en français et en anglais. Nouvelle identité visuelle (seul le logo Fruggr est conservé, les anciennes déclinaisons sont retirées), signatures e-mail, bannières LinkedIn et fonds Teams en versions FR et US, saga de 3 films pour le marché nord-américain, puis audit de la présence de la marque sur le web et mise à jour des annuaires et sites partenaires. Les propositions sont maquettées sur Figma et validées par la responsable marketing avant déploiement.",
   "skillsValidated": [],
-  "onHome": true,
+  "onHome": false,
   "featured": false,
   "videos": [
    {
@@ -135,37 +135,6 @@
     "url": "https://youtu.be/m7mV_bQUArs"
    }
   ]
- },
- {
-  "id": "refonte-site-d4b",
-  "name": "Refonte du site Digital4Better",
-  "date": "2026",
-  "type": "UX / UI",
-  "types": [
-   "UX / UI"
-  ],
-  "parcours": "En entreprise",
-  "line": "Refonte totale du site WordPress de Digital4Better, reprise de zéro avec la librairie de composants commune à Fruggr : maquettes UX/UI sur Figma, puis montage du site.",
-  "tags": [
-   "Figma",
-   "UX",
-   "UI",
-   "WordPress"
-  ],
-  "pdf": null,
-  "docs": [],
-  "steps": [
-   {
-    "label": "Maquettes anonymisées",
-    "status": "À venir"
-   }
-  ],
-  "github": null,
-  "figma": null,
-  "context": "Refonte totale du site de Digital4Better, reprise depuis le départ avec la librairie de composants commune à Fruggr, que j’avais en partie retravaillée auparavant. J’ai conçu l’UX et l’UI et réalisé les maquettes sur Figma, puis monté le site sur WordPress.",
-  "skillsValidated": [],
-  "onHome": true,
-  "featured": false
  },
  {
   "id": "intuitlearn",

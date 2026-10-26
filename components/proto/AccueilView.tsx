@@ -196,7 +196,7 @@ export function AccueilView({ v }: { v: any }) {
             </li>
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
-                {"40"}
+                {v.total}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
                 {"projets, dont 23 avec livrables"}
@@ -227,7 +227,7 @@ export function AccueilView({ v }: { v: any }) {
               </h2>
             </div>
             <Link href={"/projets"} style={css(`padding: 12px 0; font-size: 16px; font-weight: 700`)}>
-              {"Les 40 projets →"}
+              {`Les ${v.total} projets →`}
             </Link>
           </div>
           {" "}

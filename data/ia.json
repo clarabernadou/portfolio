@@ -139,42 +139,12 @@
    "title": "Point du matin",
    "when": "Chaque matin de travail",
    "description": "Une page lisible en quelques secondes qui rassemble mon agenda du jour, les messages qui attendent ma réponse et mes tâches, pour démarrer la journée sans rien oublier.",
-   "note": "Règle de sécurité : l’IA ne clique sur aucun lien et n’ouvre aucun e-mail suspect.",
-   "examples": {
-    "title": "Deux mails, chaque matin",
-    "note": "Exemples réels du 26 octobre 2026. Noms et informations internes floutés.",
-    "items": [
-     {
-      "tab": "Point du jour",
-      "caption": "Envoyé vers 8 h 45 : l’urgent, les nouveautés, ce qui attend une réponse et le focus du jour.",
-      "image": "https://dwadyuuedgcexv44.public.blob.vercel-storage.com/ia/point-du-jour.png",
-      "alt": "Exemple du mail « Bonjour Clara » : focus du jour, urgent, nouveautés, en attente ; noms et informations internes floutés"
-     },
-     {
-      "tab": "Board Notion",
-      "caption": "Envoyé à 9 h 35 : mes tâches en retard, en cours, à faire et en attente, avec leur échéance.",
-      "image": "https://dwadyuuedgcexv44.public.blob.vercel-storage.com/ia/board-notion.png",
-      "alt": "Exemple du mail « Ton board Notion » : tâches en retard, en cours, à faire et en attente ; noms et sujets floutés"
-     }
-    ]
-   }
+   "note": "Règle de sécurité : l’IA ne clique sur aucun lien et n’ouvre aucun e-mail suspect."
   },
   {
    "title": "Veille IA quotidienne",
    "when": "Chaque matin de travail",
-   "description": "Une synthèse de l’actualité de l’IA à partir des sources officielles des laboratoires et de la presse de référence, avec le niveau de fiabilité de chaque information. Le lundi récapitule le week-end, le jeudi conclut la semaine.",
-   "examples": {
-    "title": "Le Brief IA, chaque matin",
-    "note": "Exemple réel : édition du mardi 20 octobre 2026.",
-    "items": [
-     {
-      "tab": "Le Brief IA",
-      "caption": "Fil rouge, brèves avec « Et pour moi ? », fun fact, quiz et vidéos, à lire en 3 minutes ou à écouter.",
-      "image": "https://dwadyuuedgcexv44.public.blob.vercel-storage.com/ia/brief-ia.jpg",
-      "alt": "Édition du 20 octobre 2026 du Brief IA, en mode sombre : fil rouge, suivis, brèves, fun fact, quiz, vidéos et points à surveiller"
-     }
-    ]
-   }
+   "description": "Une synthèse de l’actualité de l’IA à partir des sources officielles des laboratoires et de la presse de référence, avec le niveau de fiabilité de chaque information. Le lundi récapitule le week-end, le jeudi conclut la semaine."
   },
   {
    "title": "Pratique de l’anglais à l’oral",
