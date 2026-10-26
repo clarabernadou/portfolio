@@ -61,7 +61,7 @@
   "types": [
    "UX / UI"
   ],
-  "parcours": "Alternance · Fruggr",
+  "parcours": "En entreprise",
   "line": "Audit UX de la version française du site WordPress de Fruggr, mené pour l’entreprise dans laquelle je fais mon alternance.",
   "tags": [
    "Audit",
@@ -84,7 +84,7 @@
   "figma": null,
   "context": "Audit UX de la version française du site WordPress de Fruggr, réalisé dans le cadre de mon alternance chez Fruggr by Digital4Better.",
   "skillsValidated": [],
-  "onHome": false,
+  "onHome": true,
   "featured": false
  },
  {
@@ -95,7 +95,7 @@
   "types": [
    "Conception et gestion"
   ],
-  "parcours": "Alternance · Fruggr",
+  "parcours": "En entreprise",
   "line": "Participation au repositionnement de Fruggr, de plateforme de numérique responsable à plateforme de gouvernance de l’IA : déclinaison de la nouvelle identité et du nouveau discours sur l’ensemble des points de contact.",
   "tags": [
    "Identité de marque",
@@ -110,7 +110,7 @@
   "figma": null,
   "context": "Fruggr recentre son offre et son discours sur la gouvernance de l’IA. Mission en alternance : traduire ce positionnement en supports concrets et cohérents, en français et en anglais. Nouvelle identité visuelle (seul le logo Fruggr est conservé, les anciennes déclinaisons sont retirées), signatures e-mail, bannières LinkedIn et fonds Teams en versions FR et US, saga de 3 films pour le marché nord-américain, puis audit de la présence de la marque sur le web et mise à jour des annuaires et sites partenaires. Les propositions sont maquettées sur Figma et validées par la responsable marketing avant déploiement.",
   "skillsValidated": [],
-  "onHome": false,
+  "onHome": true,
   "featured": false,
   "videos": [
    {
@@ -135,6 +135,31 @@
     "url": "https://youtu.be/m7mV_bQUArs"
    }
   ]
+ },
+ {
+  "id": "design-plateforme-fruggr",
+  "name": "Design de la plateforme Fruggr",
+  "date": "mars 2025 – juin 2026",
+  "type": "UX / UI",
+  "types": [
+   "UX / UI"
+  ],
+  "parcours": "En entreprise",
+  "line": "Maquettes et évolutions UI/UX de la plateforme sur Figma, en autonomie",
+  "tags": [
+   "Figma",
+   "UI",
+   "UX"
+  ],
+  "pdf": null,
+  "docs": [],
+  "steps": [],
+  "github": null,
+  "figma": null,
+  "context": "Plateforme SaaS de numérique responsable (gouvernance de l’IA, accessibilité, impact environnemental), utilisée par de grands comptes. Prise en charge du design de la plateforme en autonomie : maquettes et évolutions UI/UX sur Figma, dont les maquettes des refontes de pages.",
+  "skillsValidated": [],
+  "onHome": true,
+  "featured": false
  },
  {
   "id": "intuitlearn",

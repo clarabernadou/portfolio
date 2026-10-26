@@ -60,7 +60,7 @@ export const projetsDeveloppement: AccueilProjectCard[] = [
 export const stats = [
   { value: "4", label: "formations OpenClassrooms" },
   { value: "Bac+5", label: "Full Stack Java & Angular" },
-  { value: "39", label: "projets, dont 23 avec livrables" },
+  { value: "40", label: "projets, dont 23 avec livrables" },
   { value: "2", label: "alternances depuis 2023" },
 ];
 

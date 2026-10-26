@@ -7,10 +7,10 @@ import { recommendations } from "../content/recommendations";
 
 // Vérifications de la couche de données (étape 3, README §3/§7).
 describe("couche de données", () => {
-  it("compte 39 projets, 3 phares, 6 à l’accueil", () => {
-    expect(getAllProjects()).toHaveLength(39);
+  it("compte 40 projets, 3 phares, 9 à l’accueil", () => {
+    expect(getAllProjects()).toHaveLength(40);
     expect(getFeaturedProjects()).toHaveLength(3);
-    expect(getHomeProjects()).toHaveLength(6);
+    expect(getHomeProjects()).toHaveLength(9);
   });
 
   it("les projets phares sont Ce portfolio, WatchedThis, IntuitLearn", () => {

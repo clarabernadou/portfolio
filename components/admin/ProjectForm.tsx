@@ -187,7 +187,7 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
             />
             {p.onHome && p.homeCard && (
               <div style={{ display: "flex", flexDirection: "column", gap: 12, paddingLeft: 52 }}>
-                <SelectField label="Rubrique de l’accueil" value={p.homeCard.section} onChange={(v) => set("homeCard", { ...p.homeCard!, section: v })} options={["Design", "Développement"]} />
+                <SelectField label="Rubrique de l’accueil" value={p.homeCard.section} onChange={(v) => set("homeCard", { ...p.homeCard!, section: v })} options={["En entreprise", "Design", "Développement"]} />
                 <TextField label="Surtitre de la carte" value={p.homeCard.eyebrow} onChange={(v) => set("homeCard", { ...p.homeCard!, eyebrow: v })} />
                 <TextArea label="Accroche de la carte" value={p.homeCard.line} onChange={(v) => set("homeCard", { ...p.homeCard!, line: v })} rows={2} />
                 <TagInput label="Tags de la carte" value={p.homeCard.tags} onChange={(v) => set("homeCard", { ...p.homeCard!, tags: v })} suggestions={p.tags} />

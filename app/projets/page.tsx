@@ -4,7 +4,7 @@ import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata(
   "Projets de développement web et de design UX/UI",
-  "Les 39 projets de Clara Bernadou : développement, UX/UI et conception, avec leurs livrables.",
+  "Les 40 projets de Clara Bernadou : développement, UX/UI et conception, avec leurs livrables.",
   "/projets",
 );
 

@@ -1,5 +1,41 @@
 [
  {
+  "id": "audit-fruggr",
+  "section": "En entreprise",
+  "eyebrow": "UX / UI · En entreprise",
+  "name": "Audit du site Fruggr",
+  "line": "Audit UX de la version française du site WordPress de Fruggr.",
+  "tags": [
+   "Audit",
+   "UX",
+   "WordPress"
+  ]
+ },
+ {
+  "id": "repositionnement-fruggr",
+  "section": "En entreprise",
+  "eyebrow": "Conception et gestion · En entreprise",
+  "name": "Repositionnement de Fruggr",
+  "line": "Nouvelle identité et nouveau discours sur l’ensemble des points de contact.",
+  "tags": [
+   "Identité de marque",
+   "Positionnement",
+   "Vidéo"
+  ]
+ },
+ {
+  "id": "design-plateforme-fruggr",
+  "section": "En entreprise",
+  "eyebrow": "UX / UI · En entreprise",
+  "name": "Design de la plateforme Fruggr",
+  "line": "Maquettes et évolutions UI/UX de la plateforme sur Figma, en autonomie.",
+  "tags": [
+   "Figma",
+   "UI",
+   "UX"
+  ]
+ },
+ {
   "id": "intuitlearn",
   "section": "Design",
   "eyebrow": "Audit UX / UI",

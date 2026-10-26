@@ -1,7 +1,7 @@
 // Règles communes aux écrans Projets et au tableau de bord.
 
 // Cadres qui ne sont pas des formations (les autres parcours le sont).
-const CADRES_HORS_FORMATION = ["Alternance · Fruggr", "Projet personnel", "Audit indépendant"];
+const CADRES_HORS_FORMATION = ["En entreprise", "Projet personnel", "Audit indépendant"];
 
 export const enCours = (p: { date: string }) => /en cours/i.test(p.date);
 export const estFormation = (p: { parcours: string }) => !CADRES_HORS_FORMATION.includes(p.parcours);

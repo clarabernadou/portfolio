@@ -22,6 +22,7 @@ export function Accueil({ home, experiences, formations, profil, recos }: { home
     cvUrl: siteContact.cvPdfHref,
     profil,
     dispo: dispoLabel(profil),
+    homeEntreprise: cards(home, "En entreprise"),
     homeDesign: cards(home, "Design"),
     homeDev: cards(home, "Développement"),
     // Parcours : alternances et frise, de la plus ancienne à la plus récente.

@@ -39,8 +39,8 @@ const MODELES: Record<string, { titre: string; texte: string; puces: string[]; d
     titre: "Projet en entreprise",
     texte: "Cadre alternance, contexte, rôle, sans livrable public.",
     puces: ["Alternance", "Contexte"],
-    data: { parcours: "Alternance · Fruggr" },
-    note: "Champ prérempli : cadre « Alternance · Fruggr ». Vérifie-le avant d’enregistrer.",
+    data: { parcours: "En entreprise" },
+    note: "Champ prérempli : cadre « En entreprise ». Vérifie-le avant d’enregistrer.",
   },
 };
 

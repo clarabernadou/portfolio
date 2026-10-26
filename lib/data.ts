@@ -154,7 +154,7 @@ async function getCategoriesSource(): Promise<{ types: string[]; cadres: string[
   if (!hasDb()) {
     return {
       types: ["Développement", "UX / UI", "Conception et gestion"],
-      cadres: ["UX Design / Product Designer", "Full Stack Java & Angular", "Application JavaScript React", "Développeur Web", "Alternance · Fruggr", "Projet personnel", "Audit indépendant"],
+      cadres: ["UX Design / Product Designer", "Full Stack Java & Angular", "Application JavaScript React", "Développeur Web", "En entreprise", "Projet personnel", "Audit indépendant"],
     };
   }
   const rows = await (await prisma()).category.findMany({ orderBy: [{ position: "asc" }, { id: "asc" }] });

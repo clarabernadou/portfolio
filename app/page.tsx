@@ -8,7 +8,7 @@ import { IMAGE_PARTAGE } from "@/lib/metadata";
 // Titre et description de l'accueil : la page qui doit sortir sur une recherche du nom de Clara.
 const titre = "Clara Bernadou · Développeuse front-end & UI/UX designer · Portfolio";
 const description =
-  "Portfolio de Clara Bernadou, développeuse front-end (React, TypeScript) et UI/UX designer, en alternance depuis 2023. 39 projets de développement web et de design. CDI recherché, disponible en mars 2027, en full remote ou à Vannes / Auray.";
+  "Portfolio de Clara Bernadou, développeuse front-end (React, TypeScript) et UI/UX designer, en alternance depuis 2023. 40 projets de développement web et de design. CDI recherché, disponible en mars 2027, en full remote ou à Vannes / Auray.";
 
 export const metadata: Metadata = {
   title: { absolute: titre },
