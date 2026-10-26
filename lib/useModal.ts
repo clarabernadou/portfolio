@@ -16,7 +16,7 @@ export function useModal(dialogId: string | null, onClose: () => void) {
 
     // Rend inertes tous les éléments hors de la fenêtre, en remontant ses ancêtres.
     const inerted: Element[] = [];
-    const overlay = dialog.closest(".reco-modal") ?? dialog;
+    const overlay = dialog.closest(".reco-modal, .ex-modal") ?? dialog;
     let node: Element | null = overlay;
     while (node && node !== document.body) {
       const parent: Element | null = node.parentElement;
@@ -32,7 +32,7 @@ export function useModal(dialogId: string | null, onClose: () => void) {
     }
 
     const focusables = () =>
-      Array.from(dialog.querySelectorAll<HTMLElement>('button, a[href], [tabindex]:not([tabindex="-1"])'));
+      Array.from(dialog.querySelectorAll<HTMLElement>('button:not([tabindex="-1"]), a[href], [tabindex]:not([tabindex="-1"])'));
     focusables()[0]?.focus();
 
     function onKeyDown(e: KeyboardEvent) {

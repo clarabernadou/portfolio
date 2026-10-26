@@ -139,7 +139,25 @@
    "title": "Point du matin",
    "when": "Chaque matin de travail",
    "description": "Une page lisible en quelques secondes qui rassemble mon agenda du jour, les messages qui attendent ma réponse et mes tâches, pour démarrer la journée sans rien oublier.",
-   "note": "Règle de sécurité : l’IA ne clique sur aucun lien et n’ouvre aucun e-mail suspect."
+   "note": "Règle de sécurité : l’IA ne clique sur aucun lien et n’ouvre aucun e-mail suspect.",
+   "examples": {
+    "title": "Deux mails, chaque matin",
+    "note": "Exemples réels du 26 octobre 2026. Noms et informations internes floutés.",
+    "items": [
+     {
+      "tab": "Point du jour",
+      "caption": "Envoyé vers 8 h 45 : l’urgent, les nouveautés, ce qui attend une réponse et le focus du jour.",
+      "image": "https://dwadyuuedgcexv44.public.blob.vercel-storage.com/ia/point-du-jour.png",
+      "alt": "Exemple du mail « Bonjour Clara » : focus du jour, urgent, nouveautés, en attente ; noms et informations internes floutés"
+     },
+     {
+      "tab": "Board Notion",
+      "caption": "Envoyé à 9 h 35 : mes tâches en retard, en cours, à faire et en attente, avec leur échéance.",
+      "image": "https://dwadyuuedgcexv44.public.blob.vercel-storage.com/ia/board-notion.png",
+      "alt": "Exemple du mail « Ton board Notion » : tâches en retard, en cours, à faire et en attente ; noms et sujets floutés"
+     }
+    ]
+   }
   },
   {
    "title": "Veille IA quotidienne",
