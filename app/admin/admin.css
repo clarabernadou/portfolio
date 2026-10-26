@@ -212,3 +212,12 @@
 .adm-ia-alerte { padding: 12px 14px; border-radius: var(--r-md); border: 1.5px solid var(--alerte); color: var(--alerte); }
 .adm-ia-alerte h3 { margin: 0 0 6px; color: var(--alerte); }
 .adm-ia-alerte ul { color: var(--encre); }
+/* Avis de l'IA : avancement de l'analyse (étape réelle, durée estimée) et annulation. */
+.adm-ia-progression { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+.adm-ia-progression-tete { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.adm-ia-progression-tete .adm-help { margin: 0; color: var(--encre); font-weight: 600; }
+.adm-ia-annuler { flex-shrink: 0; }
+.adm-ia-progression > .adm-help { margin: 0; }
+.adm-ia-barre { height: 8px; border-radius: 999px; background: var(--brume); border: 1px solid var(--bordure); overflow: hidden; }
+.adm-ia-barre span { display: block; height: 100%; border-radius: 999px; background: var(--amethyste); transition: width 0.25s linear; }
+@media (prefers-reduced-motion: reduce) { .adm-ia-barre span { transition: none; } }

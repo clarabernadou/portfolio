@@ -18,7 +18,15 @@ export function IaPage({ page, infos, children }: Page & { children: ReactNode }
 
 const CLE_RECRUTEUR = "admin-avis-ia-recruteur";
 
-type Etat = { type: "vide" } | { type: "chargement" } | { type: "erreur"; message: string } | { type: "avis"; avis: Avis & { modele?: string } };
+type Etape = { etape: "envoi" | "principal" | "secours"; debut: number; delai: number };
+type Etat = { type: "vide" } | { type: "chargement"; etape: Etape } | { type: "erreur"; message: string } | { type: "avis"; avis: Avis & { modele?: string } };
+
+// Libellés des étapes réelles envoyées par l'API (app/api/admin/avis-ia/route.ts).
+const LIBELLE_ETAPE = {
+  envoi: "Envoi du texte à Gemini…",
+  principal: "Gemini relit ton texte et prépare sa proposition…",
+  secours: "Le modèle principal est saturé ou trop lent : passage au modèle de secours, plus rapide…",
+};
 
 export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeur: string; max?: number; onReplace: (v: string) => void }) {
   const page = useContext(IaContexte);
@@ -31,6 +39,7 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
   const [reponse, setReponse] = useState("");
   const [voirPrompt, setVoirPrompt] = useState(false);
   const [profilIA, setProfilIA] = useState("");
+  const requete = useRef<AbortController | null>(null);
 
   const ctx: ContexteAvis = { page: page?.page ?? "Administration du portfolio", infos: page?.infos, champ, max };
   const prompt = promptAvis(valeur, ctx, recruteur, profilIA);
@@ -58,7 +67,11 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
   useEffect(() => {
     const d = dialog.current;
     if (!d) return;
-    const fermer = () => document.documentElement.classList.remove("adm-modale-ouverte");
+    const fermer = () => {
+      document.documentElement.classList.remove("adm-modale-ouverte");
+      // Fermer le panneau arrête aussi une analyse en cours.
+      requete.current?.abort();
+    };
     const obs = new MutationObserver(() => document.documentElement.classList.toggle("adm-modale-ouverte", d.open));
     obs.observe(d, { attributes: true, attributeFilter: ["open"] });
     d.addEventListener("close", fermer);
@@ -81,18 +94,45 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
   };
 
   const analyser = async () => {
-    setEtat({ type: "chargement" });
+    const ctrl = new AbortController();
+    requete.current = ctrl;
+    setEtat({ type: "chargement", etape: { etape: "envoi", debut: Date.now(), delai: 3000 } });
     try {
-      const r = await fetch("/api/admin/avis-ia", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texte: valeur, ctx, recruteur }) });
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok) {
+      const r = await fetch("/api/admin/avis-ia", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texte: valeur, ctx, recruteur }), signal: ctrl.signal });
+      // Erreurs immédiates (clé absente, session expirée) : réponse JSON classique.
+      if (!r.ok || !r.body || !r.headers.get("content-type")?.includes("ndjson")) {
+        const data = await r.json().catch(() => ({}));
         if (data.sansCle) setModeClaude(true);
         return setEtat({ type: "erreur", message: data.error ?? (r.status === 401 ? "Ta session a expiré : reconnecte-toi." : "L’analyse a échoué.") });
       }
-      setEtat({ type: "avis", avis: data as Avis });
+      // Sinon, une ligne JSON par événement : étapes, puis résultat ou erreur.
+      const lecteur = r.body.pipeThrough(new TextDecoderStream()).getReader();
+      let tampon = "";
+      for (;;) {
+        const { value, done } = await lecteur.read();
+        if (done) break;
+        tampon += value;
+        const lignes = tampon.split("\n");
+        tampon = lignes.pop() ?? "";
+        for (const ligne of lignes.filter(Boolean)) {
+          const e = JSON.parse(ligne);
+          if (e.type === "etape") setEtat({ type: "chargement", etape: { etape: e.etape, debut: Date.now(), delai: e.delai } });
+          else if (e.type === "resultat") setEtat({ type: "avis", avis: e as Avis });
+          else if (e.type === "erreur") setEtat({ type: "erreur", message: e.error });
+        }
+      }
     } catch {
+      if (ctrl.signal.aborted) return;
       setEtat({ type: "erreur", message: "Connexion impossible : réessaie dans un instant." });
+    } finally {
+      if (requete.current === ctrl) requete.current = null;
     }
+  };
+
+  const annuler = () => {
+    requete.current?.abort();
+    requete.current = null;
+    setEtat({ type: "erreur", message: "Analyse annulée. Tu peux la relancer quand tu veux." });
   };
 
   const copierEtOuvrir = async () => {
@@ -150,7 +190,7 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
         </p>
 
         <div aria-live="polite">
-          {etat.type === "chargement" && <p className="adm-help">L’IA relit ton texte : comptez 10 à 40 secondes selon la charge de Gemini.</p>}
+          {etat.type === "chargement" && <Progression etape={etat.etape} onAnnuler={annuler} />}
           {etat.type === "erreur" && (
             <p className="adm-error" role="alert">
               {etat.message}
@@ -242,6 +282,40 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
         </details>
       </dialog>
     </>
+  );
+}
+
+// Barre de progression : l'étape vient de l'API, l'avancement dans l'étape est estimé
+// d'après le temps écoulé (Gemini ne dit pas où il en est), sans jamais atteindre 100 %.
+function Progression({ etape, onAnnuler }: { etape: Etape; onAnnuler: () => void }) {
+  const [maintenant, setMaintenant] = useState(() => Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setMaintenant(Date.now()), 250);
+    return () => clearInterval(t);
+  }, []);
+  const ecoule = Math.max(0, maintenant - etape.debut);
+  const part = 1 - Math.exp(-ecoule / (etape.delai / 3));
+  const pct = Math.round(etape.etape === "envoi" ? 2 + 6 * part : etape.etape === "principal" ? 8 + 80 * part : 55 + 40 * part);
+  const secondes = Math.floor(ecoule / 1000);
+  return (
+    <div className="adm-ia-progression">
+      <div className="adm-ia-progression-tete">
+        {/* Seul le libellé de l'étape est annoncé (zone aria-live parente), pas chaque seconde. */}
+        <p className="adm-help">{LIBELLE_ETAPE[etape.etape]}</p>
+        <button type="button" className="adm-btn adm-btn--outline adm-ia-annuler" onClick={onAnnuler}>
+          <Icon name="close" size={14} />
+          Annuler
+          <span className="adm-sr"> l’analyse</span>
+        </button>
+      </div>
+      <div className="adm-ia-barre" role="progressbar" aria-label="Avancement de l’analyse (estimation)" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-valuetext={LIBELLE_ETAPE[etape.etape]}>
+        <span style={{ width: `${pct}%` }} />
+      </div>
+      <p className="adm-help" aria-hidden="true">
+        {secondes > 0 ? `${secondes} s · ` : ""}
+        {"en général 10 à 60 secondes selon la charge de Gemini"}
+      </p>
+    </div>
   );
 }
 

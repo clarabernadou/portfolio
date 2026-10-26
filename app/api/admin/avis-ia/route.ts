@@ -47,18 +47,59 @@ export async function POST(request: Request) {
   const aRelire = texte(corps.texte, 8000);
   const profil = await profilIA();
 
+  // Réponse envoyée au fil de l'eau (une ligne JSON par événement) : le panneau affiche l'étape
+  // réelle (modèle principal, puis modèle de secours) et peut annuler la demande à tout moment.
+  const flux = new TransformStream<string, string>();
+  const ecrire = flux.writable.getWriter();
+  const envoyer = (e: Record<string, unknown>) => ecrire.write(`${JSON.stringify(e)}\n`).catch(() => {});
+  (async () => {
+    try {
+      const resultat = await analyser(cle, ctx, recruteur, profil, aRelire, request.signal, (etape, modele, delai) => envoyer({ type: "etape", etape, modele, delai }));
+      await envoyer(resultat);
+    } catch {
+      await envoyer({ type: "erreur", error: "L’analyse a échoué : réessaie dans un instant." });
+    } finally {
+      await ecrire.close().catch(() => {});
+    }
+  })();
+  return new Response(flux.readable.pipeThrough(new TextEncoderStream()), {
+    headers: { "Content-Type": "application/x-ndjson; charset=utf-8", "Cache-Control": "no-store" },
+  });
+}
+
+type Evenement = Record<string, unknown> & { type: "resultat" | "erreur" };
+
+async function analyser(
+  cle: string,
+  ctx: ContexteAvis,
+  recruteur: Recruteur,
+  profil: string,
+  aRelire: string,
+  annulation: AbortSignal,
+  etape: (etape: "principal" | "secours", modele: string, delai: number) => void,
+): Promise<Evenement> {
   // Modèle principal, puis modèle de secours plus léger si le premier est saturé (503,
   // fréquent sur l'offre gratuite) ou trop lent : le tout reste sous la limite de 60 s.
   const essais = [
-    { model: MODELE, delai: 34_000 },
-    { model: MODELE_SECOURS, delai: 20_000 },
+    // Délais mesurés le 26 oct. 2026 : le modèle de secours répond en 20 à 25 s quand Gemini est
+    // chargé, le principal peut dépasser 90 s. 24 + 32 s restent sous la limite de 60 s de Vercel.
+    { model: MODELE, delai: 24_000, etape: "principal" as const },
+    { model: MODELE_SECOURS, delai: 32_000, etape: "secours" as const },
   ];
   let reponse: Response | null = null;
   let modele = MODELE;
   for (const essai of essais) {
+    if (annulation.aborted) return { type: "erreur", error: "Analyse annulée." };
     modele = essai.model;
+    etape(essai.etape, essai.model, essai.delai);
+    // Délai de coupure fait main : dans Next.js, AbortSignal.any / AbortSignal.timeout passés à fetch
+    // n'interrompaient pas l'appel (constaté le 26 oct. 2026 : 100 s au lieu de 34 s).
+    const ctrl = new AbortController();
+    const arreter = () => ctrl.abort();
+    const minuterie = setTimeout(arreter, essai.delai);
+    annulation.addEventListener("abort", arreter);
     try {
-      reponse = await fetch(URL_GEMINI, {
+      const appel = fetch(URL_GEMINI, {
         method: "POST",
         headers: { "x-goog-api-key": cle, "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -68,29 +109,40 @@ export async function POST(request: Request) {
           generation_config: { thinking_level: essai.model === MODELE ? "medium" : "low" },
           response_format: { type: "text", mime_type: "application/json", schema: SCHEMA_AVIS },
         }),
-        signal: AbortSignal.timeout(essai.delai),
+        signal: ctrl.signal,
       });
+      // Filet de sécurité : la course rend la main au délai prévu même si fetch ignore le signal.
+      const coupure = new Promise<never>((_, rejeter) => ctrl.signal.addEventListener("abort", () => rejeter(new Error("délai"))));
+      reponse = await Promise.race([appel, coupure]);
+      // Le corps est lu plus bas : on le lit ici, sous la même minuterie, pour qu'il ne puisse pas bloquer.
+      const corps = await Promise.race([reponse.text(), coupure]);
+      reponse = new Response(corps, { status: reponse.status, headers: reponse.headers });
     } catch {
-      reponse = null; // délai dépassé : on passe au modèle suivant
+      reponse = null; // délai dépassé (ou annulation) : on passe au modèle suivant
       continue;
+    } finally {
+      clearTimeout(minuterie);
+      annulation.removeEventListener("abort", arreter);
     }
     if (reponse.status !== 503 && reponse.status !== 500) break;
     console.error("Gemini", essai.model, reponse.status, (await reponse.text().catch(() => "")).slice(0, 200));
   }
 
-  if (!reponse || reponse.status === 503 || reponse.status === 500) return Response.json({ error: "Gemini est saturé en ce moment (offre gratuite) : réessaie dans un instant, ou utilise l’option Claude." }, { status: 503 });
-  if (reponse.status === 429) return Response.json({ error: "Quota gratuit de Gemini atteint : réessaie dans une minute." }, { status: 429 });
+  const erreur = (error: string) => ({ type: "erreur" as const, error });
+  if (annulation.aborted) return erreur("Analyse annulée.");
+  if (!reponse || reponse.status === 503 || reponse.status === 500) return erreur("Gemini est saturé en ce moment (offre gratuite) : réessaie dans un instant, ou utilise l’option Claude.");
+  if (reponse.status === 429) return erreur("Quota gratuit de Gemini atteint : réessaie dans une minute.");
   if (reponse.status === 401 || reponse.status === 403) {
     const detail = await reponse.text().catch(() => "");
     console.error("Gemini", modele, reponse.status, detail.slice(0, 300));
     // Clé neuve : Google active l'API sur le projet pendant quelques minutes.
     if (/has not been used|is disabled|SERVICE_DISABLED/i.test(detail))
-      return Response.json({ error: "L’API Gemini est encore en cours d’activation sur ton compte Google : réessaie dans quelques minutes. Si ça dure, active « Generative Language API » dans la console Google Cloud du projet de ta clé." }, { status: 503 });
-    return Response.json({ error: "Clé Gemini refusée : vérifie GEMINI_API_KEY dans Vercel." }, { status: 502 });
+      return erreur("L’API Gemini est encore en cours d’activation sur ton compte Google : réessaie dans quelques minutes. Si ça dure, active « Generative Language API » dans la console Google Cloud du projet de ta clé.");
+    return erreur("Clé Gemini refusée : vérifie GEMINI_API_KEY dans Vercel.");
   }
   if (!reponse.ok) {
     console.error("Gemini", reponse.status, (await reponse.text().catch(() => "")).slice(0, 500));
-    return Response.json({ error: "L’analyse a échoué : réessaie dans un instant." }, { status: 502 });
+    return erreur("L’analyse a échoué : réessaie dans un instant.");
   }
 
   const data = (await reponse.json().catch(() => null)) as { steps?: Etape[] } | null;
@@ -101,9 +153,10 @@ export async function POST(request: Request) {
     if (typeof avis.proposition !== "string" || typeof avis.verdict !== "string") throw new Error("forme");
   } catch {
     console.error("Gemini : réponse inattendue", JSON.stringify(data).slice(0, 500));
-    return Response.json({ error: "La réponse de l’IA est incomplète : réessaie." }, { status: 502 });
+    return erreur("La réponse de l’IA est incomplète : réessaie.");
   }
-  return Response.json({
+  return {
+    type: "resultat",
     verdict: avis.verdict,
     pointsForts: Array.isArray(avis.pointsForts) ? avis.pointsForts.map(String) : [],
     aAmeliorer: Array.isArray(avis.aAmeliorer) ? avis.aAmeliorer.map((a) => ({ point: String(a?.point ?? ""), raison: String(a?.raison ?? "") })) : [],
@@ -111,5 +164,5 @@ export async function POST(request: Request) {
     proposition: avis.proposition.trim(),
     affirmationsNonSourcees: Array.isArray(avis.affirmationsNonSourcees) ? avis.affirmationsNonSourcees.map(String).filter(Boolean) : [],
     modele,
-  } satisfies Avis & { modele: string });
+  } satisfies Avis & { modele: string; type: "resultat" };
 }

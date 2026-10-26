@@ -24,7 +24,8 @@ function Bloc({ bloc, set, remove, index }: { bloc: BlocInput; set: (b: BlocInpu
     <fieldset className="adm-card" style={{ padding: 18, gap: 12 }}>
       <legend className="adm-sr">{`Bloc ${index + 1}`}</legend>
       <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) 200px auto", gap: 10, alignItems: "end" }}>
-        <TextField label="Nom du bloc (équipe)" value={bloc.name} onChange={(v) => set({ ...bloc, name: v })} help="Facultatif." />
+        {/* Pas de texte d'aide ici : les 3 éléments sont alignés par le bas, une aide sous un seul champ les décalerait. */}
+        <TextField label="Nom du bloc (équipe, facultatif)" value={bloc.name} onChange={(v) => set({ ...bloc, name: v })} />
         <TextField label="Période du bloc" value={bloc.period} onChange={(v) => set({ ...bloc, period: v })} />
         <button type="button" className="adm-icon-btn adm-icon-btn--danger" aria-label={`Supprimer le ${nom}`} onClick={remove}>
           <Icon name="trash" size={16} />

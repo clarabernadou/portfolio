@@ -86,7 +86,9 @@ export default async function NouveauProjet({ searchParams }: { searchParams: Pr
         <p className="adm-sub">Choisis le point de départ le plus proche : le formulaire se remplit pour toi.</p>
       </div>
       <div className="adm-grid-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
-        <form className="adm-card" action="/admin/projets/nouveau" style={{ borderColor: "var(--amethyste)", borderWidth: 2 }}>
+        {/* Les 3 boutons sont posés en bas de leur carte (marginTop auto) pour être alignés ;
+            la carte mise en avant garde une bordure de 1 px (+ ombre intérieure) pour ne pas décaler son bouton. */}
+        <form className="adm-card" action="/admin/projets/nouveau" style={{ borderColor: "var(--amethyste)", boxShadow: "inset 0 0 0 1px var(--amethyste)" }}>
           <h2 className="adm-h2">Importer depuis GitHub</h2>
           <p className="adm-sub" style={{ margin: 0 }}>
             Colle l’adresse du dépôt : le nom, la description, les langages et le lien sont préremplis.
@@ -103,7 +105,7 @@ export default async function NouveauProjet({ searchParams }: { searchParams: Pr
               {erreur}
             </p>
           )}
-          <button className="adm-btn" type="submit">
+          <button className="adm-btn" type="submit" style={{ marginTop: "auto" }}>
             Importer le dépôt
           </button>
         </form>
@@ -122,7 +124,7 @@ export default async function NouveauProjet({ searchParams }: { searchParams: Pr
               ))}
             </select>
           </label>
-          <button className="adm-btn adm-btn--outline" type="submit">
+          <button className="adm-btn adm-btn--outline" type="submit" style={{ marginTop: "auto" }}>
             Dupliquer
           </button>
         </form>
