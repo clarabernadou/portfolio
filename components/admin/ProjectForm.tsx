@@ -181,7 +181,7 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
             <Toggle label="Visible sur le site" help="Désactive pour masquer le projet sans le supprimer." checked={p.visible} onChange={(v) => set("visible", v)} />
             <Toggle
               label="Afficher à l’accueil"
-              help={`${counts.onHome} projets sur 6${counts.onHome >= 6 && !initial.onHome ? " : retire d’abord l’un d’eux." : "."}`}
+              help={`${counts.onHome} projets sur 9${counts.onHome >= 9 && !initial.onHome ? " : retire d’abord l’un d’eux." : "."}`}
               checked={p.onHome}
               onChange={(v) => draft.setValue({ ...p, onHome: v, homeCard: p.homeCard ?? { section: p.types.includes("Développement") ? "Développement" : "Design", eyebrow: p.parcours, line: p.line, tags: p.tags.slice(0, 3) } })}
             />
