@@ -162,7 +162,19 @@
   {
    "title": "Veille IA quotidienne",
    "when": "Chaque matin de travail",
-   "description": "Une synthèse de l’actualité de l’IA à partir des sources officielles des laboratoires et de la presse de référence, avec le niveau de fiabilité de chaque information. Le lundi récapitule le week-end, le jeudi conclut la semaine."
+   "description": "Une synthèse de l’actualité de l’IA à partir des sources officielles des laboratoires et de la presse de référence, avec le niveau de fiabilité de chaque information. Le lundi récapitule le week-end, le jeudi conclut la semaine.",
+   "examples": {
+    "title": "Le Brief IA, chaque matin",
+    "note": "Exemple réel : édition du mardi 20 octobre 2026.",
+    "items": [
+     {
+      "tab": "Le Brief IA",
+      "caption": "Fil rouge, brèves avec « Et pour moi ? », fun fact, quiz et vidéos, à lire en 3 minutes ou à écouter.",
+      "image": "https://dwadyuuedgcexv44.public.blob.vercel-storage.com/ia/brief-ia.jpg",
+      "alt": "Édition du 20 octobre 2026 du Brief IA, en mode sombre : fil rouge, suivis, brèves, fun fact, quiz, vidéos et points à surveiller"
+     }
+    ]
+   }
   },
   {
    "title": "Pratique de l’anglais à l’oral",

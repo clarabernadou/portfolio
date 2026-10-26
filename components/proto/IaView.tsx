@@ -97,10 +97,10 @@ export function IaView({ v }: { v: any }) {
             </p>
           </div>
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
-            {v.routines.map((t: any) => (
+            {v.routines.map((t: any, i_t: number) => (
               <li key={t.title} style={css(`display: grid`)}>
                 <IaCard kicker={t.when} title={t.title} text={t.description} note={t.note}>
-                  {t.examples && <IaExemples ex={t.examples} />}
+                  {t.examples && <IaExemples ex={t.examples} routine={t.title} id={`ia-exemples-${i_t}`} />}
                 </IaCard>
               </li>
             ))}
