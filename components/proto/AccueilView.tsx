@@ -196,7 +196,7 @@ export function AccueilView({ v }: { v: any }) {
             </li>
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
-                {"39"}
+                {v.total}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
                 {"projets, dont 23 avec livrables"}
@@ -227,8 +227,45 @@ export function AccueilView({ v }: { v: any }) {
               </h2>
             </div>
             <Link href={"/projets"} style={css(`padding: 12px 0; font-size: 16px; font-weight: 700`)}>
-              {"Les 39 projets →"}
+              {`Les ${v.total} projets →`}
             </Link>
+          </div>
+          {" "}
+          <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
+            <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
+              {"En entreprise"}
+            </h3>
+            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
+              {v.homeEntreprise.map((c: any) => (
+                <li key={c.id}>
+                  <Link href={`/projets/${c.id}`} style={css(`text-decoration: none; color: #1A1033; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; padding: 24px; display: flex; flex-direction: column; gap: 12px; height: 100%; box-sizing: border-box`)}>
+                    {" "}
+                    <div style={css(`display: flex; justify-content: space-between; align-items: center; gap: 8px`)}>
+                      <span style={css(`font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
+                        {c.eyebrow}
+                      </span>
+                    </div>
+                    {" "}
+                    <h4 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: break-word`)}>
+                      {c.name}
+                    </h4>
+                    {" "}
+                    <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470; overflow-wrap: break-word`)}>
+                      {c.line}
+                    </span>
+                    {" "}
+                    <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
+                      {c.tags.map((t: string, i_t: number) => (
+                        <li key={i_t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                    {" "}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
           {" "}
           <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>

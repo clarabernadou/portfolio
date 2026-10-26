@@ -36,7 +36,7 @@ export interface ProjectInput {
 
 export type SaveResult = { ok: true; id: string } | { ok: false; error: string; session?: boolean };
 
-const MAX_ACCUEIL = 6;
+const MAX_ACCUEIL = 9;
 const MAX_PHARES = 3;
 
 // Libellé court affiché sur les cartes (« UX / UI · Développement · Gestion »).

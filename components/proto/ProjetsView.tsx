@@ -36,22 +36,6 @@ export function ProjetsView({ v }: { v: any }) {
                   </h1>
                 </div>
                 {" "}
-                <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px`)}>
-                  <span style={css(`font-size: 16px; font-weight: 700`)} aria-live={"polite"}>
-                    <span>{v.countLabel}</span>
-                  </span>{" "}
-                  <span style={css(`font-size: 14px; color: #5B5470`)}>
-                    {"Du plus récent au plus ancien."}
-                  </span>
-                  {v.filtered && (
-                    <>
-                      <button type={"button"} onClick={v.reset} style={css(`min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer`)}>
-                        {"Réinitialiser les filtres"}
-                      </button>
-                    </>
-                  )}
-                </div>
-                {" "}
               </div>
               {" "}
               {v.showHonor && (
@@ -152,6 +136,22 @@ export function ProjetsView({ v }: { v: any }) {
                   ))}
                 </div>
                 {" "}
+              </div>
+              {" "}
+              <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px`)}>
+                <span style={css(`font-size: 16px; font-weight: 700`)} aria-live={"polite"}>
+                  <span>{v.countLabel}</span>
+                </span>{" "}
+                <span style={css(`font-size: 14px; color: #5B5470`)}>
+                  {"Du plus récent au plus ancien."}
+                </span>
+                {v.filtered && (
+                  <>
+                    <button type={"button"} onClick={v.reset} style={css(`min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer`)}>
+                      {"Réinitialiser les filtres"}
+                    </button>
+                  </>
+                )}
               </div>
               {" "}
               <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 1.25rem`)}>

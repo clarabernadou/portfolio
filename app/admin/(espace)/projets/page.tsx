@@ -98,7 +98,7 @@ export default async function ProjetsAdmin({ searchParams }: { searchParams: Pro
       </AutoFilters>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center" }}>
-        <span className="adm-pill">À l’accueil : {all.filter((p) => p.onHome).length} / 6</span>
+        <span className="adm-pill">À l’accueil : {all.filter((p) => p.onHome).length} / 9</span>
         <span className="adm-pill">Projets phares : {all.filter((p) => p.featured).length} / 3</span>
         <span className="adm-help" aria-live="polite">
           {filtered.length} {filtered.length > 1 ? "projets" : "projet"}

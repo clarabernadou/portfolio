@@ -181,13 +181,13 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
             <Toggle label="Visible sur le site" help="Désactive pour masquer le projet sans le supprimer." checked={p.visible} onChange={(v) => set("visible", v)} />
             <Toggle
               label="Afficher à l’accueil"
-              help={`${counts.onHome} projets sur 6${counts.onHome >= 6 && !initial.onHome ? " : retire d’abord l’un d’eux." : "."}`}
+              help={`${counts.onHome} projets sur 9${counts.onHome >= 9 && !initial.onHome ? " : retire d’abord l’un d’eux." : "."}`}
               checked={p.onHome}
               onChange={(v) => draft.setValue({ ...p, onHome: v, homeCard: p.homeCard ?? { section: p.types.includes("Développement") ? "Développement" : "Design", eyebrow: p.parcours, line: p.line, tags: p.tags.slice(0, 3) } })}
             />
             {p.onHome && p.homeCard && (
               <div style={{ display: "flex", flexDirection: "column", gap: 12, paddingLeft: 52 }}>
-                <SelectField label="Rubrique de l’accueil" value={p.homeCard.section} onChange={(v) => set("homeCard", { ...p.homeCard!, section: v })} options={["Design", "Développement"]} />
+                <SelectField label="Rubrique de l’accueil" value={p.homeCard.section} onChange={(v) => set("homeCard", { ...p.homeCard!, section: v })} options={["En entreprise", "Design", "Développement"]} />
                 <TextField label="Surtitre de la carte" value={p.homeCard.eyebrow} onChange={(v) => set("homeCard", { ...p.homeCard!, eyebrow: v })} />
                 <TextArea label="Accroche de la carte" value={p.homeCard.line} onChange={(v) => set("homeCard", { ...p.homeCard!, line: v })} rows={2} />
                 <TagInput label="Tags de la carte" value={p.homeCard.tags} onChange={(v) => set("homeCard", { ...p.homeCard!, tags: v })} suggestions={p.tags} />

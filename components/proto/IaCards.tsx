@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { css } from "@/lib/css";
 
 // Cartes de la page IA (repères, outils, skills, routines) rendues depuis les données
@@ -29,7 +30,7 @@ function Note({ text }: { text: string }) {
   );
 }
 
-export function IaCard({ kicker, title, text, favorite, note }: { kicker: string; title: string; text: string; favorite?: boolean; note?: string }) {
+export function IaCard({ kicker, title, text, favorite, note, children }: { kicker: string; title: string; text: string; favorite?: boolean; note?: string; children?: ReactNode }) {
   return (
     <article style={css(`border-radius: 20px; border: ${favorite ? "2px solid #6A4FB6" : "1px solid #E4DCF7"}; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`)}>
       <div style={css(`display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px`)}>
@@ -39,6 +40,7 @@ export function IaCard({ kicker, title, text, favorite, note }: { kicker: string
       <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>{title}</h3>
       <p style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>{text}</p>
       {note && <Note text={note} />}
+      {children}
     </article>
   );
 }

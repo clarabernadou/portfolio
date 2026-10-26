@@ -69,6 +69,14 @@ export interface IaRoutine {
   when: string;
   description: string;
   note?: string;
+  /** Captures d'exemple, ouvertes par « Voir un exemple » (README §18). */
+  examples?: IaExamples;
+}
+
+export interface IaExamples {
+  title: string;
+  note: string;
+  items: { tab: string; caption: string; image: string; alt: string }[];
 }
 
 export interface IaMethodStep {
