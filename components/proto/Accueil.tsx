@@ -17,12 +17,14 @@ function cards(home: SiteProject[], section: string) {
     }));
 }
 
-export function Accueil({ home, total, experiences, formations, profil, recos }: { home: SiteProject[]; total: number; experiences: SiteExperience[]; formations: SiteFormation[]; profil: SiteProfile; recos: SiteReco[] }) {
+export function Accueil({ home, total, avecLivrables, experiences, formations, profil, recos }: { home: SiteProject[]; total: number; avecLivrables: number; experiences: SiteExperience[]; formations: SiteFormation[]; profil: SiteProfile; recos: SiteReco[] }) {
   const v: Record<string, unknown> = {
     cvUrl: siteContact.cvPdfHref,
     profil,
     dispo: dispoLabel(profil),
     total,
+    // « En bref » : calculé sur les projets publics, pour rester juste pendant leur publication un par un.
+    enBref: `${total > 1 ? "projets" : "projet"}${avecLivrables > 0 ? `, dont ${avecLivrables} avec livrables` : ""}`,
     homeEntreprise: cards(home, "En entreprise"),
     homeDesign: cards(home, "Design"),
     homeDev: cards(home, "Développement"),

@@ -99,6 +99,14 @@ export function ProjetsView({ v }: { v: any }) {
                 </>
               )}
               {" "}
+              {/* Aucun projet public (tous privés ou en brouillon, relecture du 28 octobre 2026) :
+                  une phrase à la place des filtres et de la liste vides. */}
+              {v.vide ? (
+                <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
+                  {"Les projets sont en cours de relecture et seront publiés très prochainement."}
+                </p>
+              ) : (
+                <>
               <h2 className={"visuellement-masque"}>{"Liste des projets"}</h2>
               <div style={css(`display: flex; flex-direction: column; gap: 16px; padding: 20px; border-radius: 20px; border: 1px solid #E4DCF7`)}>
                 {" "}
@@ -227,6 +235,8 @@ export function ProjetsView({ v }: { v: any }) {
                   </>
                 )}
               </div>
+                </>
+              )}
               {" "}
             </div>
           </>

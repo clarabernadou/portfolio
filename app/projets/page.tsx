@@ -7,7 +7,7 @@ export async function generateMetadata() {
   const n = (await getSiteProjects()).length;
   return pageMetadata(
     "Projets de développement web et de design UX/UI",
-    `Les ${n} projets de Clara Bernadou : développement, UX/UI et conception, avec leurs livrables.`,
+    `Les ${n > 0 ? `${n} ` : ""}projets de Clara Bernadou : développement, UX/UI et conception, avec leurs livrables.`,
     "/projets",
   );
 }

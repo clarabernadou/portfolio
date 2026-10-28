@@ -194,14 +194,16 @@ export function AccueilView({ v }: { v: any }) {
                 {"Full Stack Java & Angular"}
               </span>
             </li>
+            {v.total > 0 && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {v.total}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
-                {"projets, dont 23 avec livrables"}
+                {v.enBref}
               </span>
             </li>
+            )}
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {"2"}
@@ -212,6 +214,8 @@ export function AccueilView({ v }: { v: any }) {
             </li>
           </ul>
         </section>
+        {/* Section masquée tant qu'aucun projet de l'accueil n'est public. */}
+        {v.homeEntreprise.length + v.homeDev.length + v.homeDesign.length > 0 && (
         <section id={"projets"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem 4.5rem; display: flex; flex-direction: column; gap: 1.5rem`)}>
           {" "}
           <div style={css(`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem`)}>
@@ -227,7 +231,7 @@ export function AccueilView({ v }: { v: any }) {
               </h2>
             </div>
             <Link href={"/projets"} style={css(`padding: 12px 0; font-size: 16px; font-weight: 700`)}>
-              {`Les ${v.total} projets →`}
+              {v.total > 1 ? `Les ${v.total} projets →` : "Voir le projet →"}
             </Link>
           </div>
           {" "}
@@ -352,6 +356,7 @@ export function AccueilView({ v }: { v: any }) {
           )}
           {" "}
         </section>
+        )}
         <section id={"parcours"} style={css(`background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 4.5rem 0`)}>
           {" "}
           <div style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; flex-direction: column; gap: 1.75rem`)}>

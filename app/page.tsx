@@ -10,7 +10,7 @@ const titre = "Clara Bernadou · Développeuse front-end & UI/UX designer · Por
 // Le nombre de projets vient de la base : aucun compteur écrit en dur.
 export async function generateMetadata(): Promise<Metadata> {
   const n = (await getSiteProjects()).length;
-  const description = `Portfolio de Clara Bernadou, développeuse front-end (React, TypeScript) et UI/UX designer, en alternance depuis 2023. ${n} projets de développement web et de design. CDI recherché, disponible en mars 2027, en full remote ou à Vannes / Auray.`;
+  const description = `Portfolio de Clara Bernadou, développeuse front-end (React, TypeScript) et UI/UX designer, en alternance depuis 2023. ${n > 0 ? `${n} projets` : "Projets"} de développement web et de design. CDI recherché, disponible en mars 2027, en full remote ou à Vannes / Auray.`;
   return {
     title: { absolute: titre },
     description,
@@ -26,7 +26,7 @@ export default async function Home() {
   return (
     <>
       <JsonLd data={[personneJsonLd(publique, skills.essentiel.flatMap((g) => g.items), photoUrl), siteJsonLd()]} />
-      <Accueil home={homeProjects(projects)} total={projects.length} experiences={experiences.map(experiencePublique)} formations={formations.map(formationPublique)} profil={publique} recos={recos} />
+      <Accueil home={homeProjects(projects)} total={projects.length} avecLivrables={projects.filter((p) => p.pdf || p.docs.length > 0).length} experiences={experiences.map(experiencePublique)} formations={formations.map(formationPublique)} profil={publique} recos={recos} />
     </>
   );
 }

@@ -80,7 +80,8 @@ export function ProjetsListe({ projects: PROJECTS, featuredOrder, categories }: 
     isList: true,
     isDetail: false,
     honored: sortFeatured(PROJECTS, featuredOrder).map(card),
-    showHonor: type === "Tous" && par === "Tous les parcours",
+    vide: PROJECTS.length === 0,
+    showHonor: type === "Tous" && par === "Tous les parcours" && PROJECTS.some((p) => p.featured),
     filtered: type !== "Tous" || par !== "Tous les parcours",
     reset: () => {
       setType("Tous");
