@@ -11,6 +11,7 @@ import { Icon } from "./icons";
 import { BlobUpload } from "./BlobUpload";
 import { slugify } from "@/lib/admin/projects";
 import { IaPage } from "./AvisIA";
+import { CompleterFicheIA } from "./CompleterFicheIA";
 import { ACCEPT_LIVRABLES } from "@/lib/livrables";
 
 const ETAPES = ["Fait", "En cours", "À venir"];
@@ -89,7 +90,28 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
           </section>
 
           <section className="adm-card" aria-labelledby="s-contenu">
-            <h2 className="adm-h2" id="s-contenu">Contenu</h2>
+            <div className="adm-card-tete">
+              <h2 className="adm-h2" id="s-contenu">Contenu</h2>
+              <CompleterFicheIA
+                fiche={{
+                  page: `Fiche projet « ${p.name || "nouveau projet"} » du portfolio · cadre : ${p.parcours || "non précisé"} · types : ${p.types.join(", ") || "non précisés"}`,
+                  infos: [`Date : ${p.date || "non précisée"}`, `Étapes : ${p.steps.map((s) => `${s.label} (${s.status})`).join(" ; ") || "aucune"}`, `Compétences validées : ${p.skillsValidated.join(", ") || "aucune"}`, `Livrables : ${p.docs.map((d) => d.label).join(", ") || "aucun"}`].join("\n"),
+                  github: p.github || undefined,
+                  valeurs: { accroche: p.line, contexte: p.context, ...(p.onHome && p.homeCard ? { carte: p.homeCard.line } : {}) },
+                  tags: p.tags,
+                }}
+                onAppliquer={({ valeurs, tags }) => {
+                  draft.setValue({
+                    ...p,
+                    line: valeurs.accroche ?? p.line,
+                    context: valeurs.contexte ?? p.context,
+                    homeCard: p.homeCard && valeurs.carte !== undefined ? { ...p.homeCard, line: valeurs.carte } : p.homeCard,
+                    tags: [...p.tags, ...tags],
+                  });
+                  toast({ message: "Propositions appliquées : relis la fiche, puis enregistre." });
+                }}
+              />
+            </div>
             <TextArea label="Accroche" value={p.line} onChange={(v) => set("line", v)} max={140} rows={2} help="Une phrase, affichée sur la carte du projet." />
             <TextArea label="Contexte" value={p.context} onChange={(v) => set("context", v)} max={500} rows={5} />
             <TagInput label="Tags" value={p.tags} onChange={(v) => set("tags", v)} suggestions={tagSuggestions[p.parcours] ?? []} />

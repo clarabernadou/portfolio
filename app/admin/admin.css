@@ -197,21 +197,10 @@
 .adm-ia-etapes p { margin: 0; }
 .adm-ia-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .adm-ia-prompt { font-family: var(--font-code); font-size: 13px; }
-.adm-ia-proposition { margin-top: 18px; padding: 16px; border-radius: var(--r-md); background: var(--brume); display: flex; flex-direction: column; gap: 10px; }
-.adm-ia-proposition h3 { margin: 0; }
-.adm-ia-proposition p { margin: 0; white-space: pre-wrap; text-wrap: pretty; }
-.adm-ia-proposition .adm-count { align-self: flex-start; }
 .adm-ia-tete .adm-icon-btn { width: 44px; height: 44px; }
-.adm-ia-avis { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.5; }
-.adm-ia-avis p { margin: 0; }
-.adm-ia-avis h3 { margin: 6px 0 0; }
-.adm-ia-avis ul, .adm-ia-avis ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
 .adm-ia-claude { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--bordure); }
 .adm-ia-claude summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 700; color: var(--amethyste); }
 .adm-ia-claude[open] summary { margin-bottom: 10px; }
-.adm-ia-alerte { padding: 12px 14px; border-radius: var(--r-md); border: 1.5px solid var(--alerte); color: var(--alerte); }
-.adm-ia-alerte h3 { margin: 0 0 6px; color: var(--alerte); }
-.adm-ia-alerte ul { color: var(--encre); }
 /* Avis de l'IA : avancement de l'analyse (étape réelle, durée estimée) et annulation. */
 .adm-ia-progression { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
 .adm-ia-progression-tete { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -230,3 +219,48 @@
 /* Mode « Compléter » de l'avis de l'IA : notes de Clara. */
 .adm-ia-notes { display: flex; flex-direction: column; gap: 6px; margin: 0 0 16px; }
 .adm-ia-notes .adm-help { margin: 0; }
+
+/* Résultat de l'IA : un bloc par partie, chacun avec son titre et sa couleur (28 oct. 2026).
+   Proposition (Brume, ce qu'on peut accepter) · À vérifier (Alerte) · Questions (contour
+   Améthyste) · Avis du recruteur (neutre, repliable). */
+.adm-card-tete { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.adm-ia-reglages { display: flex; flex-direction: column; gap: 12px; }
+.adm-ia-reglages > .adm-help, .adm-ia-reglages .adm-ia-recruteur, .adm-ia-reglages .adm-ia-notes { margin: 0; }
+.adm-ia-resultat { margin-top: 24px; padding-top: 20px; border-top: 2px solid var(--bordure); display: flex; flex-direction: column; gap: 16px; font-size: 15px; line-height: 1.5; }
+.adm-ia-resultat-tete { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+.adm-ia-resultat-tete h3:focus { outline: none; }
+.adm-ia-resultat-tete h3:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.adm-ia-resultat-tete p, .adm-ia-resultat p, .adm-ia-bloc p { margin: 0; }
+.adm-ia-resultat ul, .adm-ia-resultat ol:not(.adm-ia-champs) { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.adm-ia-bloc { padding: 16px; border-radius: var(--r-md); display: flex; flex-direction: column; gap: 10px; }
+.adm-ia-bloc-titre { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; }
+.adm-ia-bloc--proposition { background: var(--brume); border: 1.5px solid var(--bordure-tag); }
+.adm-ia-bloc--proposition > .adm-ia-bloc-titre { color: var(--amethyste); }
+.adm-ia-bloc--questions { border: 1.5px solid var(--amethyste); background: var(--fond); }
+.adm-ia-bloc--avis { border: 1px solid var(--bordure); background: var(--fond); }
+.adm-ia-bloc--avis summary { min-height: 44px; display: flex; align-items: center; gap: 8px; margin: -16px; padding: 0 16px; cursor: pointer; font-size: 16px; font-weight: 800; }
+.adm-ia-bloc--avis[open] summary { margin-bottom: 0; }
+.adm-ia-bloc--avis summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: var(--r-md); }
+.adm-ia-avis { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
+.adm-ia-avis h5 { margin: 0 0 2px; }
+.adm-ia-alerte { padding: 12px 14px; border-radius: var(--r-md); border: 1.5px solid var(--alerte); background: var(--fond); display: flex; flex-direction: column; gap: 6px; }
+.adm-ia-alerte .adm-ia-bloc-titre { color: var(--alerte); font-size: 15px; }
+.adm-ia-avant-apres { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 10px; }
+.adm-ia-avant, .adm-ia-apres { padding: 12px; border-radius: var(--r-sm); display: flex; flex-direction: column; gap: 6px; }
+.adm-ia-avant { background: transparent; border: 1px dashed var(--bordure-tag); color: var(--ardoise); }
+.adm-ia-apres { background: var(--fond); border: 1px solid var(--bordure-tag); }
+.adm-ia-avant p, .adm-ia-apres p { white-space: pre-wrap; text-wrap: pretty; }
+.adm-ia-apres .adm-count { align-self: flex-start; }
+.adm-ia-etiquette { font-size: 13px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ardoise); }
+.adm-ia-apres .adm-ia-etiquette { color: var(--amethyste); }
+.adm-ia-champs { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.adm-ia-champ { display: flex; flex-direction: column; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--bordure-tag); }
+.adm-ia-champ:last-child { padding-bottom: 0; border-bottom: 0; }
+.adm-ia-champ-titre { min-height: 44px; display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 800; }
+p.adm-ia-champ-titre { color: var(--succes); }
+p.adm-ia-champ-titre .adm-help { color: var(--ardoise); }
+.adm-ia-champ-titre .adm-help { font-weight: 400; }
+.adm-ia-tags { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px; }
+.adm-ia-tags .adm-check { min-height: 44px; }
+.adm-ia-bloc .adm-check input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+@media (max-width: 640px) { .adm-ia-avant-apres { grid-template-columns: 1fr; } }

@@ -1,6 +1,6 @@
 import { adminApiGuard } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { consignesAvis, demandeAvis, SCHEMA_AVIS, type Avis, type ContexteAvis, type Mode, type Recruteur, type Sources } from "@/lib/admin/avis-ia";
+import { CHAMPS_FICHE, consignesAvis, consignesFiche, demandeAvis, demandeFiche, normaliserFiche, SCHEMA_AVIS, SCHEMA_FICHE, type Avis, type CleFiche, type ContexteAvis, type FicheIA, type Mode, type Recruteur, type Sources } from "@/lib/admin/avis-ia";
 import { resumeDepot } from "@/lib/admin/depot-ia";
 
 // Avis de l'IA intégré à l'administration : Google Gemini, offre gratuite, avec la clé
@@ -39,7 +39,15 @@ export async function POST(request: Request) {
   const cle = process.env.GEMINI_API_KEY;
   if (!cle) return Response.json({ error: "La clé Gemini n’est pas encore configurée (GEMINI_API_KEY). Utilise le mode « Copier pour Claude » en attendant.", sansCle: true }, { status: 503 });
 
-  const corps = (await request.json().catch(() => null)) as { texte?: unknown; ctx?: Partial<Record<keyof ContexteAvis, unknown>>; recruteur?: unknown; mode?: unknown; notes?: unknown } | null;
+  const corps = (await request.json().catch(() => null)) as {
+    texte?: unknown;
+    ctx?: Partial<Record<keyof ContexteAvis, unknown>>;
+    recruteur?: unknown;
+    mode?: unknown;
+    notes?: unknown;
+    cible?: unknown;
+    fiche?: { page?: unknown; infos?: unknown; github?: unknown; valeurs?: Record<string, unknown>; tags?: unknown };
+  } | null;
   if (!corps) return Response.json({ error: "Requête illisible." }, { status: 400 });
   const recruteur: Recruteur = corps.recruteur === "tech" || corps.recruteur === "design" ? corps.recruteur : "hybride";
   const ctx: ContexteAvis = {
@@ -49,8 +57,18 @@ export async function POST(request: Request) {
     infos: texte(corps.ctx?.infos, 6000) || undefined,
   };
   const aRelire = texte(corps.texte, 8000);
-  const mode: Mode = corps.mode === "completer" ? "completer" : "relire";
-  const github = texte(corps.ctx?.github, 300);
+  // « fiche » : toute la fiche projet en un appel (toujours en mode « Compléter »).
+  const fiche: FicheIA | null =
+    corps.cible === "fiche" && corps.fiche
+      ? {
+          page: texte(corps.fiche.page, 300) || "Fiche projet du portfolio",
+          infos: texte(corps.fiche.infos, 6000) || undefined,
+          valeurs: Object.fromEntries(CHAMPS_FICHE.filter((c) => typeof corps.fiche?.valeurs?.[c.cle] === "string").map((c) => [c.cle, texte(corps.fiche?.valeurs?.[c.cle], 4000)])) as Partial<Record<CleFiche, string>>,
+          tags: Array.isArray(corps.fiche.tags) ? corps.fiche.tags.slice(0, 40).map((t) => texte(t, 60)).filter(Boolean) : [],
+        }
+      : null;
+  const mode: Mode = fiche || corps.mode === "completer" ? "completer" : "relire";
+  const github = fiche ? texte(corps.fiche?.github, 300) : texte(corps.ctx?.github, 300);
 
   // Réponse envoyée au fil de l'eau (une ligne JSON par événement) : le panneau affiche l'étape
   // réelle (modèle principal, puis modèle de secours) et peut annuler la demande à tout moment.
@@ -62,8 +80,16 @@ export async function POST(request: Request) {
       // Le dépôt GitHub n'est lu qu'en mode « Compléter » (6 s au plus par appel).
       const [profil, depot] = await Promise.all([profilIA(), mode === "completer" && github ? resumeDepot(github) : Promise.resolve("")]);
       const sources: Sources = { notes: mode === "completer" ? texte(corps.notes, 3000) : "", depot };
-      const resultat = await analyser(cle, ctx, recruteur, profil, aRelire, mode, sources, request.signal, (etape, modele, delai) => envoyer({ type: "etape", etape, modele, delai }));
-      await envoyer(resultat);
+      const demande: Demande = fiche
+        ? { system: consignesFiche(recruteur, profil), input: demandeFiche(fiche, sources), schema: SCHEMA_FICHE, reflexion: "low" }
+        : { system: consignesAvis(ctx, recruteur, profil, mode), input: demandeAvis(aRelire, ctx, sources, mode), schema: SCHEMA_AVIS, reflexion: mode === "relire" ? "medium" : "low" };
+      const r = await analyser(cle, demande, request.signal, (etape, modele, delai) => envoyer({ type: "etape", etape, modele, delai }));
+      if (r.type === "erreur") await envoyer(r);
+      else if (fiche) {
+        const avis = normaliserFiche(r.json, fiche);
+        if (!avis) console.error("Gemini : fiche inattendue", JSON.stringify(r.json).slice(0, 500));
+        await envoyer(avis ? { type: "resultat", ...avis, modele: r.modele } : { type: "erreur", error: "La réponse de l’IA est incomplète : réessaie." });
+      } else await envoyer(normaliserAvis(r.json, r.modele));
     } catch {
       await envoyer({ type: "erreur", error: "L’analyse a échoué : réessaie dans un instant." });
     } finally {
@@ -75,19 +101,10 @@ export async function POST(request: Request) {
   });
 }
 
-type Evenement = Record<string, unknown> & { type: "resultat" | "erreur" };
+type Demande = { system: string; input: string; schema: object; reflexion: "low" | "medium" };
+type Brut = { type: "brut"; json: unknown; modele: string } | { type: "erreur"; error: string };
 
-async function analyser(
-  cle: string,
-  ctx: ContexteAvis,
-  recruteur: Recruteur,
-  profil: string,
-  aRelire: string,
-  mode: Mode,
-  sources: Sources,
-  annulation: AbortSignal,
-  etape: (etape: "principal" | "secours", modele: string, delai: number) => void,
-): Promise<Evenement> {
+async function analyser(cle: string, demande: Demande, annulation: AbortSignal, etape: (etape: "principal" | "secours", modele: string, delai: number) => void): Promise<Brut> {
   // Modèle principal, puis modèle de secours plus léger si le premier est saturé (503,
   // fréquent sur l'offre gratuite) ou trop lent : le tout reste sous la limite de 60 s.
   const essais = [
@@ -114,11 +131,11 @@ async function analyser(
         headers: { "x-goog-api-key": cle, "Content-Type": "application/json" },
         body: JSON.stringify({
           model: essai.model,
-          system_instruction: consignesAvis(ctx, recruteur, profil, mode),
-          input: demandeAvis(aRelire, ctx, sources, mode),
+          system_instruction: demande.system,
+          input: demande.input,
           // Compléter : réflexion courte, pour répondre avant le délai malgré les sources plus longues.
-          generation_config: { thinking_level: essai.model === MODELE && mode === "relire" ? "medium" : "low" },
-          response_format: { type: "text", mime_type: "application/json", schema: SCHEMA_AVIS },
+          generation_config: { thinking_level: essai.model === MODELE ? demande.reflexion : "low" },
+          response_format: { type: "text", mime_type: "application/json", schema: demande.schema },
         }),
         signal: ctrl.signal,
       });
@@ -158,13 +175,19 @@ async function analyser(
 
   const data = (await reponse.json().catch(() => null)) as { steps?: Etape[] } | null;
   const sortie = data?.steps?.filter((e) => e.type === "model_output").flatMap((e) => e.content ?? []).filter((c) => c.type === "text").map((c) => c.text ?? "").join("");
-  let avis: Avis;
   try {
-    avis = JSON.parse(sortie ?? "") as Avis;
-    if (typeof avis.proposition !== "string" || typeof avis.verdict !== "string") throw new Error("forme");
+    return { type: "brut", json: JSON.parse(sortie ?? ""), modele };
   } catch {
     console.error("Gemini : réponse inattendue", JSON.stringify(data).slice(0, 500));
     return erreur("La réponse de l’IA est incomplète : réessaie.");
+  }
+}
+
+function normaliserAvis(brut: unknown, modele: string) {
+  const avis = brut as Avis;
+  if (typeof avis?.proposition !== "string" || typeof avis.verdict !== "string") {
+    console.error("Gemini : avis inattendu", JSON.stringify(brut).slice(0, 500));
+    return { type: "erreur", error: "La réponse de l’IA est incomplète : réessaie." };
   }
   return {
     type: "resultat",
