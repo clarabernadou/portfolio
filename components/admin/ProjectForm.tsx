@@ -11,7 +11,8 @@ import { Icon } from "./icons";
 import { BlobUpload } from "./BlobUpload";
 import { slugify } from "@/lib/admin/projects";
 import { IaPage } from "./AvisIA";
-import { CompleterFicheIA } from "./CompleterFicheIA";
+import { AvisGlobalIA } from "./AvisGlobalIA";
+import { CHAMPS_PROJET } from "@/lib/admin/avis-ia";
 import { ACCEPT_LIVRABLES } from "@/lib/livrables";
 
 const ETAPES = ["Fait", "En cours", "À venir"];
@@ -93,12 +94,19 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
           <section className="adm-card" aria-labelledby="s-contenu">
             <div className="adm-card-tete">
               <h2 className="adm-h2" id="s-contenu">Contenu</h2>
-              <CompleterFicheIA
+              <AvisGlobalIA
+                titre="Compléter la fiche avec l’IA"
+                intro="L’IA propose en une fois l’accroche, le contexte, l’accroche de la carte d’accueil (si le projet y figure) et les tags qui manquent."
                 fiche={{
+                  objet: "projet",
                   page: `Fiche projet « ${p.name || "nouveau projet"} » du portfolio · cadre : ${p.parcours || "non précisé"} · types : ${p.types.join(", ") || "non précisés"}`,
                   infos: [`Date : ${p.date || "non précisée"}`, `Étapes : ${p.steps.map((s) => `${s.label} (${s.status})`).join(" ; ") || "aucune"}`, `Compétences validées : ${p.skillsValidated.join(", ") || "aucune"}`, `Livrables : ${p.docs.map((d) => d.label).join(", ") || "aucun"}`].join("\n"),
                   github: p.github || undefined,
-                  valeurs: { accroche: p.line, contexte: p.context, ...(p.onHome && p.homeCard ? { carte: p.homeCard.line } : {}) },
+                  champs: [
+                    { cle: "accroche", ...CHAMPS_PROJET.accroche, valeur: p.line },
+                    { cle: "contexte", ...CHAMPS_PROJET.contexte, valeur: p.context },
+                    ...(p.onHome && p.homeCard ? [{ cle: "carte", ...CHAMPS_PROJET.carte, valeur: p.homeCard.line }] : []),
+                  ],
                   tags: p.tags,
                 }}
                 onAppliquer={({ valeurs, tags }) => {

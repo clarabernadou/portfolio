@@ -1,6 +1,6 @@
 import { adminApiGuard } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { CHAMPS_FICHE, consignesAvis, consignesFiche, demandeAvis, demandeFiche, normaliserFiche, SCHEMA_AVIS, SCHEMA_FICHE, type Avis, type CleFiche, type ContexteAvis, type FicheIA, type Mode, type Recruteur, type Sources } from "@/lib/admin/avis-ia";
+import { CLE_CHAMP, consignesAvis, consignesFiche, demandeAvis, demandeFiche, normaliserFiche, SCHEMA_AVIS, SCHEMA_FICHE, type Avis, type ContexteAvis, type FicheIA, type Mode, type Recruteur, type Sources } from "@/lib/admin/avis-ia";
 import { resumeDepot } from "@/lib/admin/depot-ia";
 
 // Avis de l'IA intégré à l'administration : Google Gemini, offre gratuite, avec la clé
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     mode?: unknown;
     notes?: unknown;
     cible?: unknown;
-    fiche?: { page?: unknown; infos?: unknown; github?: unknown; valeurs?: Record<string, unknown>; tags?: unknown };
+    fiche?: { objet?: unknown; page?: unknown; infos?: unknown; github?: unknown; champs?: unknown; tags?: unknown };
   } | null;
   if (!corps) return Response.json({ error: "Requête illisible." }, { status: 400 });
   const recruteur: Recruteur = corps.recruteur === "tech" || corps.recruteur === "design" ? corps.recruteur : "hybride";
@@ -57,16 +57,22 @@ export async function POST(request: Request) {
     infos: texte(corps.ctx?.infos, 6000) || undefined,
   };
   const aRelire = texte(corps.texte, 8000);
-  // « fiche » : toute la fiche projet en un appel (toujours en mode « Compléter »).
+  // « fiche » : toute une fiche (projet ou expérience) en un appel. Les champs viennent du
+  // navigateur : clés, longueurs et nombre sont bornés avant d'entrer dans le prompt.
+  const champsRecus = Array.isArray(corps.fiche?.champs) ? (corps.fiche.champs as Record<string, unknown>[]).slice(0, 40) : [];
   const fiche: FicheIA | null =
     corps.cible === "fiche" && corps.fiche
       ? {
-          page: texte(corps.fiche.page, 300) || "Fiche projet du portfolio",
+          objet: corps.fiche.objet === "experience" ? "experience" : "projet",
+          page: texte(corps.fiche.page, 300) || "Fiche du portfolio",
           infos: texte(corps.fiche.infos, 6000) || undefined,
-          valeurs: Object.fromEntries(CHAMPS_FICHE.filter((c) => typeof corps.fiche?.valeurs?.[c.cle] === "string").map((c) => [c.cle, texte(corps.fiche?.valeurs?.[c.cle], 4000)])) as Partial<Record<CleFiche, string>>,
-          tags: Array.isArray(corps.fiche.tags) ? corps.fiche.tags.slice(0, 40).map((t) => texte(t, 60)).filter(Boolean) : [],
+          champs: champsRecus
+            .filter((c) => typeof c?.cle === "string" && CLE_CHAMP.test(c.cle))
+            .map((c) => ({ cle: c.cle as string, champ: texte(c.champ, 120) || (c.cle as string), max: typeof c.max === "number" && c.max > 0 ? Math.min(c.max, 2000) : 500, role: texte(c.role, 300), valeur: texte(c.valeur, 4000) })),
+          tags: Array.isArray(corps.fiche.tags) ? corps.fiche.tags.slice(0, 40).map((t) => texte(t, 60)).filter(Boolean) : undefined,
         }
       : null;
+  if (fiche && fiche.champs.length === 0) return Response.json({ error: "Aucun texte à relire." }, { status: 400 });
   const mode: Mode = fiche || corps.mode === "completer" ? "completer" : "relire";
   const github = fiche ? texte(corps.fiche?.github, 300) : texte(corps.ctx?.github, 300);
 
@@ -81,7 +87,7 @@ export async function POST(request: Request) {
       const [profil, depot] = await Promise.all([profilIA(), mode === "completer" && github ? resumeDepot(github) : Promise.resolve("")]);
       const sources: Sources = { notes: mode === "completer" ? texte(corps.notes, 3000) : "", depot };
       const demande: Demande = fiche
-        ? { system: consignesFiche(recruteur, profil), input: demandeFiche(fiche, sources), schema: SCHEMA_FICHE, reflexion: "low" }
+        ? { system: consignesFiche(fiche.objet, recruteur, profil), input: demandeFiche(fiche, sources), schema: SCHEMA_FICHE, reflexion: "low" }
         : { system: consignesAvis(ctx, recruteur, profil, mode), input: demandeAvis(aRelire, ctx, sources, mode), schema: SCHEMA_AVIS, reflexion: mode === "relire" ? "medium" : "low" };
       const r = await analyser(cle, demande, request.signal, (etape, modele, delai) => envoyer({ type: "etape", etape, modele, delai }));
       if (r.type === "erreur") await envoyer(r);

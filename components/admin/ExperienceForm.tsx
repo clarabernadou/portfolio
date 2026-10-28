@@ -7,7 +7,8 @@ import { TagInput, TextArea, TextField, Toggle } from "./fields";
 import { RestoreBanner, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
-import { AvisIA, IaPage } from "./AvisIA";
+import { AvisGlobalIA } from "./AvisGlobalIA";
+import type { ChampIA } from "@/lib/admin/avis-ia";
 
 function Bloc({ bloc, set, remove, index }: { bloc: BlocInput; set: (b: BlocInput) => void; remove: () => void; index: number }) {
   const nom = bloc.name || `bloc ${index + 1}`;
@@ -27,10 +28,7 @@ function Bloc({ bloc, set, remove, index }: { bloc: BlocInput; set: (b: BlocInpu
           const setP = (np: string) => set({ ...bloc, puces: bloc.puces.map((x, k) => (k === i ? np : x)) });
           return (
             <li key={i} style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto", gap: 12, alignItems: "start", padding: "12px 0", borderTop: i ? "1px solid var(--bordure)" : 0 }}>
-              <span style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <textarea className="adm-textarea" style={{ minHeight: 64 }} aria-label={`Puce ${i + 1} du ${nom}`} value={p} onChange={(e) => setP(e.target.value)} />
-                <AvisIA champ={`Puce ${i + 1} du ${nom} (une puce de CV : courte, une seule information)`} valeur={p} onReplace={setP} />
-              </span>
+              <textarea className="adm-textarea" style={{ minHeight: 64 }} aria-label={`Puce ${i + 1} du ${nom}`} value={p} onChange={(e) => setP(e.target.value)} />
               <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <button type="button" className="adm-icon-btn" style={{ width: 32, height: 32 }} aria-label={`Monter la puce ${i + 1}`} disabled={i === 0} onClick={() => {
                   const c = [...bloc.puces]; [c[i - 1], c[i]] = [c[i], c[i - 1]]; set({ ...bloc, puces: c });
@@ -52,6 +50,17 @@ function Bloc({ bloc, set, remove, index }: { bloc: BlocInput; set: (b: BlocInpu
       </button>
     </fieldset>
   );
+}
+
+// Textes de l'expérience soumis à l'IA : contexte, puces non vides (clé puce-<bloc>-<puce>), note si remplie.
+function champsIA(e: ExperienceInput): ChampIA[] {
+  return [
+    { cle: "contexte", champ: "Contexte", max: 200, role: "une phrase de présentation de l'entreprise, sous le poste", valeur: e.contexteEssentiel },
+    ...e.blocs.flatMap((b, ib) =>
+      b.puces.flatMap((p, ip) => (p.trim() ? [{ cle: `puce-${ib + 1}-${ip + 1}`, champ: `${b.name || `Bloc ${ib + 1}`} · puce ${ip + 1}`, max: 220, role: "une puce de CV : courte, une seule réalisation concrète", valeur: p }] : [])),
+    ),
+    ...(e.note.trim() ? [{ cle: "note", champ: "Note", max: 200, role: "une note facultative sous l'expérience, précédée d'une flèche", valeur: e.note }] : []),
+  ];
 }
 
 // Maquette : docs/passation/maquettes/admin/Admin-experiences.jpg (panneau de droite).
@@ -80,7 +89,6 @@ export function ExperienceForm({ initial }: { initial: ExperienceInput }) {
     });
 
   return (
-    <IaPage page={`Expérience « ${e.poste || "nouvelle expérience"} » chez ${e.entreprise || "?"}${e.entrepriseParent ? ` by ${e.entrepriseParent}` : ""}, sur le CV`} infos={[`Période : ${e.periode}`, `Lieu et mode : ${e.lieuMode}`, `Contexte : ${e.contexteEssentiel}`, ...e.blocs.map((b) => `${b.name || "Bloc"}${b.period ? ` (${b.period})` : ""} : ${b.puces.join(" | ")}`)].join("\n")}>
     <form
       className="adm-card"
       aria-labelledby="e-titre"
@@ -89,9 +97,31 @@ export function ExperienceForm({ initial }: { initial: ExperienceInput }) {
         save();
       }}
     >
-      <h2 className="adm-h2" id="e-titre">
-        {initial.id ? `Modifier « ${titre} »` : "Nouvelle expérience"}
-      </h2>
+      <div className="adm-card-tete">
+        <h2 className="adm-h2" id="e-titre">
+          {initial.id ? `Modifier « ${titre} »` : "Nouvelle expérience"}
+        </h2>
+        {/* Un seul avis de l'IA pour toute l'expérience (demande de Clara, 28 oct. 2026). */}
+        <AvisGlobalIA
+          titre="Avis de l’IA sur l’expérience"
+          intro="L’IA relit en une fois le contexte, chaque puce et la note, et propose une version améliorée de chacun."
+          fiche={{
+            objet: "experience",
+            page: `Expérience « ${e.poste || "nouvelle expérience"} » chez ${e.entreprise || "?"}${e.entrepriseParent ? ` by ${e.entrepriseParent}` : ""}, sur le CV`,
+            infos: [`Période : ${e.periode}`, `Lieu et mode : ${e.lieuMode}`, ...(e.accueil.technologies.length ? [`Technologies : ${e.accueil.technologies.join(", ")}`] : [])].join("\n"),
+            champs: champsIA(e),
+          }}
+          onAppliquer={({ valeurs }) => {
+            draft.setValue({
+              ...e,
+              contexteEssentiel: valeurs.contexte ?? e.contexteEssentiel,
+              note: valeurs.note ?? e.note,
+              blocs: e.blocs.map((b, ib) => ({ ...b, puces: b.puces.map((x, ip) => valeurs[`puce-${ib + 1}-${ip + 1}`] ?? x) })),
+            });
+            toast({ message: "Propositions appliquées : relis l’expérience, puis enregistre." });
+          }}
+        />
+      </div>
       <RestoreBanner show={!!draft.restorable} onRestore={draft.restore} onDismiss={draft.dismiss} />
       <div className="adm-grid-2">
         <TextField label="Poste" required value={e.poste} onChange={(v) => set("poste", v)} />
@@ -102,7 +132,7 @@ export function ExperienceForm({ initial }: { initial: ExperienceInput }) {
         <TextField label="Lien du groupe" type="url" value={e.entrepriseParentHref} onChange={(v) => set("entrepriseParentHref", v)} />
       </div>
       <TextField label="Lieu et mode" value={e.lieuMode} onChange={(v) => set("lieuMode", v)} placeholder="Alternance · Nantes, en télétravail" />
-      <TextArea label="Contexte" value={e.contexteEssentiel} onChange={(v) => set("contexteEssentiel", v)} rows={2} help="Une phrase de présentation de l’entreprise, sous le poste." />
+      <TextArea ia={false} label="Contexte" value={e.contexteEssentiel} onChange={(v) => set("contexteEssentiel", v)} rows={2} help="Une phrase de présentation de l’entreprise, sous le poste." />
 
       <div className="adm-field">
         <span className="adm-label">Blocs et puces</span>
@@ -116,7 +146,7 @@ export function ExperienceForm({ initial }: { initial: ExperienceInput }) {
         Ajouter un bloc (équipe, période)
       </button>
 
-      <TextArea label="Note" value={e.note} onChange={(v) => set("note", v)} rows={2} help="Facultatif : affichée sous l’expérience, précédée d’une flèche." />
+      <TextArea ia={false} label="Note" value={e.note} onChange={(v) => set("note", v)} rows={2} help="Facultatif : affichée sous l’expérience, précédée d’une flèche." />
 
       <fieldset className="adm-card" style={{ padding: 18, gap: 12, background: "var(--brume)" }}>
         <legend className="adm-sr">Accueil</legend>
@@ -168,6 +198,5 @@ export function ExperienceForm({ initial }: { initial: ExperienceInput }) {
         </span>
       </div>
     </form>
-    </IaPage>
   );
 }

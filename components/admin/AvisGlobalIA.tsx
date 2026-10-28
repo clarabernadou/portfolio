@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { CHAMPS_FICHE, extraireFiche, promptFiche, type AvisFiche, type CleFiche, type FicheIA } from "@/lib/admin/avis-ia";
+import { extraireFiche, memeTexte, promptFiche, type AvisFiche, type FicheIA } from "@/lib/admin/avis-ia";
 import {
   AvantApres,
   BlocAvisRecruteur,
@@ -21,18 +21,20 @@ import {
 } from "./AvisIA";
 import { Icon } from "./icons";
 
-// « Compléter la fiche avec l'IA » (demande de Clara, 28 oct. 2026) : un seul appel propose tous
-// les textes de la fiche projet (accroche, contexte, accroche de la carte d'accueil) et des tags
-// tirés des sources. Clara coche ce qu'elle garde ; rien n'est enregistré sans elle.
+// Avis de l'IA sur une fiche entière (demandes de Clara, 28 oct. 2026) : un seul appel propose
+// tous les textes d'un projet (accroche, contexte, carte d'accueil, tags tirés des sources) ou
+// d'une expérience (contexte, puces, note). Clara coche ce qu'elle garde ; rien n'est enregistré
+// sans elle.
 
 export interface Changements {
-  valeurs: Partial<Record<CleFiche, string>>;
+  /** Texte retenu pour chaque clé de champ cochée. */
+  valeurs: Record<string, string>;
   tags: string[];
 }
 
 type Propositions = Pick<AvisFiche, "champs" | "tagsProposes">;
 
-export function CompleterFicheIA({ fiche, onAppliquer }: { fiche: FicheIA; onAppliquer: (c: Changements) => void }) {
+export function AvisGlobalIA({ fiche, titre, intro, onAppliquer }: { fiche: FicheIA; titre: string; intro: string; onAppliquer: (c: Changements) => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const notesRef = useRef<HTMLTextAreaElement>(null);
   const titreId = useId();
@@ -70,12 +72,12 @@ export function CompleterFicheIA({ fiche, onAppliquer }: { fiche: FicheIA; onApp
     <>
       <button type="button" className="adm-btn adm-btn--outline" onClick={ouvrir}>
         <Icon name="sparkle" />
-        Compléter la fiche avec l’IA
+        {titre}
       </button>
       <dialog ref={dialog} className="adm-ia" aria-labelledby={titreId}>
         <div className="adm-ia-tete">
           <h2 className="adm-h2" id={titreId}>
-            Compléter la fiche avec l’IA
+            {titre}
           </h2>
           <button type="button" className="adm-icon-btn" aria-label="Fermer" onClick={() => dialog.current?.close()}>
             ×
@@ -84,18 +86,18 @@ export function CompleterFicheIA({ fiche, onAppliquer }: { fiche: FicheIA; onApp
 
         <div className="adm-ia-reglages">
           <p className="adm-help">
-            L’IA propose en une fois {CHAMPS_FICHE.filter((c) => fiche.valeurs[c.cle] !== undefined).map((c) => c.champ.toLowerCase()).join(", ")} et les tags qui manquent, à partir de la fiche, de ton profil{fiche.github ? ", du code de ton dépôt GitHub" : ""} et de tes notes. Elle n’invente rien : ce qui ne vient pas de ces sources est signalé. Tu choisis ensuite ce que tu gardes.
+            {intro} L’IA s’appuie sur la fiche, ton profil{fiche.github ? ", le code de ton dépôt GitHub" : ""} et tes notes. Elle n’invente rien : ce qui ne vient pas de ces sources est signalé. Tu choisis ensuite ce que tu gardes.
           </p>
           <NotesIA id={`${titreId}-notes`} valeur={notes} onChange={setNotes} champRef={notesRef} />
           <ChoixRecruteur recruteur={recruteur} onChoisir={(r) => (choisir(r), reinit())} />
           <div className="adm-ia-actions">
             <button type="button" className="adm-btn" onClick={analyser} disabled={etat.type === "chargement"} aria-describedby={`${titreId}-gemini`}>
               <Icon name="sparkle" />
-              {etat.type === "chargement" ? "Rédaction en cours…" : etat.type === "avis" ? "Relancer la rédaction" : "Compléter la fiche"}
+              {etat.type === "chargement" ? "Analyse en cours…" : etat.type === "avis" ? "Relancer l’analyse" : "Lancer l’analyse"}
             </button>
           </div>
           <p className="adm-help" id={`${titreId}-gemini`}>
-            Rédaction par Google Gemini (offre gratuite) : la fiche, tes notes et le code de ton dépôt GitHub public sont envoyés à Google, qui peut s’en servir pour améliorer ses services.
+            Analyse par Google Gemini (offre gratuite) : la fiche, tes notes{fiche.github ? " et le code de ton dépôt GitHub public" : ""} sont envoyés à Google, qui peut s’en servir pour améliorer ses services.
           </p>
         </div>
 
@@ -123,7 +125,7 @@ export function CompleterFicheIA({ fiche, onAppliquer }: { fiche: FicheIA; onApp
           reponse={reponse}
           onReponse={setReponse}
           idBase={titreId}
-          introuvable={reponse && !propositionsClaude ? "Je ne trouve aucune proposition : vérifie que la réponse collée contient bien les lignes « <<<ACCROCHE », « <<<CONTEXTE »… et leurs marqueurs de fin." : null}
+          introuvable={reponse && !propositionsClaude ? "Je ne trouve aucune proposition : vérifie que la réponse collée contient bien les marqueurs « <<<… » et leurs marqueurs de fin." : null}
         >
           {propositionsClaude && <ChoixPropositions key={reponse} fiche={fiche} propositions={propositionsClaude} onAppliquer={appliquer} />}
         </OptionClaude>
@@ -132,12 +134,17 @@ export function CompleterFicheIA({ fiche, onAppliquer }: { fiche: FicheIA; onApp
   );
 }
 
-/** Les propositions champ par champ, chacune avec son avant/après et ses points à vérifier ; Clara coche ce qu'elle garde. */
+/**
+ * Les propositions champ par champ, chacune avec son avant/après et ses points à vérifier ;
+ * Clara coche ce qu'elle garde. Les textes que l'IA juge déjà bons sont regroupés sur une ligne.
+ */
 function ChoixPropositions({ fiche, propositions, onAppliquer }: { fiche: FicheIA; propositions: Propositions; onAppliquer: (c: Changements) => void }) {
   const id = useId();
-  const champs = CHAMPS_FICHE.filter((c) => propositions.champs[c.cle]);
+  const avecProposition = fiche.champs.filter((c) => propositions.champs[c.cle]);
+  const changes = avecProposition.filter((c) => !memeTexte(propositions.champs[c.cle].proposition, c.valeur));
+  const inchanges = avecProposition.filter((c) => memeTexte(propositions.champs[c.cle].proposition, c.valeur));
   // Par défaut : les textes sont cochés (il faut les relire), les tags non (à ajouter un par un).
-  const [gardes, setGardes] = useState<Set<CleFiche>>(() => new Set(champs.filter((c) => propositions.champs[c.cle]!.proposition !== (fiche.valeurs[c.cle] ?? "").trim()).map((c) => c.cle)));
+  const [gardes, setGardes] = useState<Set<string>>(() => new Set(changes.map((c) => c.cle)));
   const [tags, setTags] = useState<Set<string>>(new Set());
   const basculer = <T,>(s: Set<T>, v: T) => {
     const n = new Set(s);
@@ -154,31 +161,35 @@ function ChoixPropositions({ fiche, propositions, onAppliquer }: { fiche: FicheI
         Propositions
       </h4>
       <p className="adm-help">Coche ce que tu gardes. Les textes non cochés restent tels quels.</p>
-      <ol className="adm-ia-champs">
-        {champs.map((c) => {
-          const p = propositions.champs[c.cle]!;
-          const identique = p.proposition === (fiche.valeurs[c.cle] ?? "").trim();
-          return (
-            <li key={c.cle} className="adm-ia-champ">
-              {identique ? (
-                <p className="adm-ia-champ-titre">
-                  <Icon name="check" size={16} />
-                  {c.champ} <span className="adm-help">· déjà bon selon l’IA, rien à changer</span>
-                </p>
-              ) : (
-                <>
-                  <label className="adm-check adm-ia-champ-titre">
-                    <input type="checkbox" checked={gardes.has(c.cle)} onChange={() => setGardes((s) => basculer(s, c.cle))} />
-                    {c.champ}
-                  </label>
-                  <AvantApres actuel={fiche.valeurs[c.cle] ?? ""} texte={p.proposition} max={c.max} />
-                  <BlocAVerifier items={p.nonSourcees} />
-                </>
-              )}
-            </li>
-          );
-        })}
-      </ol>
+      {changes.length > 0 && (
+        <ol className="adm-ia-champs">
+          {changes.map((c) => {
+            const p = propositions.champs[c.cle];
+            return (
+              <li key={c.cle} className="adm-ia-champ">
+                <label className="adm-check adm-ia-champ-titre">
+                  <input type="checkbox" checked={gardes.has(c.cle)} onChange={() => setGardes((s) => basculer(s, c.cle))} />
+                  {c.champ}
+                </label>
+                <AvantApres actuel={c.valeur} texte={p.proposition} max={c.max} />
+                <BlocAVerifier items={p.nonSourcees} />
+              </li>
+            );
+          })}
+        </ol>
+      )}
+      {inchanges.length > 0 && (
+        <p className="adm-ia-champ-titre">
+          <Icon name="check" size={16} />
+          <span>
+            {changes.length ? "Déjà bons selon l’IA" : "Tout est déjà bon selon l’IA"}
+            <span className="adm-help">
+              {" · "}
+              {inchanges.length > 4 ? `${inchanges.length} textes, rien à changer` : inchanges.map((c) => c.champ).join(", ")}
+            </span>
+          </span>
+        </p>
+      )}
       {propositions.tagsProposes.length > 0 && (
         <fieldset className="adm-ia-tags">
           <legend className="adm-label">Tags à ajouter</legend>
@@ -193,18 +204,22 @@ function ChoixPropositions({ fiche, propositions, onAppliquer }: { fiche: FicheI
           </div>
         </fieldset>
       )}
-      <div className="adm-ia-actions">
-        <button
-          type="button"
-          className="adm-btn"
-          disabled={total === 0}
-          onClick={() => onAppliquer({ valeurs: Object.fromEntries([...gardes].map((k) => [k, propositions.champs[k]!.proposition])), tags: [...tags] })}
-        >
-          <Icon name="check" />
-          Appliquer à la fiche{total > 0 ? ` (${total})` : ""}
-        </button>
-      </div>
-      <p className="adm-help">Rien n’est enregistré : relis la fiche, puis enregistre comme d’habitude.</p>
+      {(changes.length > 0 || propositions.tagsProposes.length > 0) && (
+        <>
+          <div className="adm-ia-actions">
+            <button
+              type="button"
+              className="adm-btn"
+              disabled={total === 0}
+              onClick={() => onAppliquer({ valeurs: Object.fromEntries([...gardes].map((k) => [k, propositions.champs[k].proposition])), tags: [...tags] })}
+            >
+              <Icon name="check" />
+              Appliquer{total > 0 ? ` (${total})` : ""}
+            </button>
+          </div>
+          <p className="adm-help">Rien n’est enregistré : relis, puis enregistre comme d’habitude.</p>
+        </>
+      )}
     </section>
   );
 }
