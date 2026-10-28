@@ -33,7 +33,9 @@ GEMINI_MODEL=
 # Référencement. Adresse publique du site (nom de domaine personnalisé), par exemple
 # https://clarabernadou.fr : adresses canoniques, plan du site, robots.txt, et redirection
 # 308 de clarabernadou-portfolio-2026.vercel.app vers ce domaine. À définir dans Vercel
-# (Production) seulement une fois le domaine branché et vérifié.
+# (Production). Valeur en production depuis le 28 octobre 2026 : https://clarabernadou.fr
+# (NEXTAUTH_URL a la même valeur, et l'application OAuth GitHub renvoie vers
+# https://clarabernadou.fr/api/auth/callback/github).
 NEXT_PUBLIC_SITE_URL=
 # Facultatif : code de vérification Google Search Console (propriété « préfixe d'URL »,
 # méthode « balise HTML » : la valeur de content="…"). Inutile avec une propriété « Domaine ».

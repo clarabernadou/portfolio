@@ -13,7 +13,7 @@ Portfolio et CV de recherche d'emploi (CDI, développeuse front-end & UI/UX desi
 5. `docs/passation/assets/projects.json` et `docs/passation/data/*.json` : les données.
 
 ## Stack
-Next.js (App Router) et TypeScript, Tailwind CSS (`tokens.css` et `tailwind.config.js` fournis), base MySQL gratuite (TiDB Cloud, ou Aiven en secours) avec Prisma, Auth.js avec GitHub (plan B : Google), Playwright pour les PDF du CV. Hébergement gratuit sur Vercel (usage personnel). Décisions validées par Clara ; ne pas les remettre en question sans lui en parler.
+Next.js (App Router) et TypeScript, Tailwind CSS (`tokens.css` et `tailwind.config.js` fournis), base MySQL gratuite (TiDB Cloud, ou Aiven en secours) avec Prisma, Auth.js avec GitHub (plan B : Google), Playwright pour les PDF du CV. Hébergement gratuit sur Vercel (usage personnel). Nom de domaine `clarabernadou.fr` (OVH, zone DNS chez OVH) depuis le 28 octobre 2026 ; l'adresse vercel.app redirige vers lui. Décisions validées par Clara ; ne pas les remettre en question sans lui en parler.
 
 ## Règles de contenu
 - Ne rien inventer : aucun texte, chiffre, lien ni projet qui ne figure pas dans `contenu/` ou dans les données. En cas de manque, poser la question.

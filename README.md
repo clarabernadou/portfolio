@@ -2,7 +2,7 @@
 
 Portfolio et CV de Clara Bernadou, développeuse front-end & UI/UX designer, avec une administration sur mesure.
 
-**Site en ligne** : https://clarabernadou-portfolio-2026.vercel.app
+**Site en ligne** : https://clarabernadou.fr
 
 Projet personnel mené seule, de la charte graphique à la mise en ligne, avec Claude Code comme assistant de développement.
 

@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
 
-// Référencement : une fois le nom de domaine branché (NEXT_PUBLIC_SITE_URL), l'ancienne
-// adresse vercel.app redirige définitivement (308) vers lui, page par page : une seule
+// Référencement : l'ancienne adresse vercel.app redirige définitivement (308) vers le nom
+// de domaine (clarabernadou.fr depuis le 28 octobre 2026), page par page : une seule
 // adresse indexée par Google. Les déploiements de prévisualisation ne sont pas touchés.
 const ANCIENNE_ADRESSE = "clarabernadou-portfolio-2026.vercel.app";
-const domaine = process.env.NEXT_PUBLIC_SITE_URL ? new URL(process.env.NEXT_PUBLIC_SITE_URL).host : ANCIENNE_ADRESSE;
+const domaine = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://clarabernadou.fr").host;
 
 const PDF = ["./public/fonts/**", "./public/photo-clara.jpg", "./node_modules/@sparticuz/chromium/bin/**", "./node_modules/playwright-core/**"];
 
