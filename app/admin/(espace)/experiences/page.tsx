@@ -22,9 +22,7 @@ const VIDE: ExperienceInput = {
   periode: "",
   lieuMode: "",
   contexteEssentiel: "",
-  contexteComplet: "",
-  blocs: [{ name: "", period: "", puces: [{ text: "", essentiel: true, complet: true }], technologies: [] }],
-  competencesAcquisesComplet: [],
+  blocs: [{ name: "", period: "", puces: [""] }],
   note: "",
   accueil: { visible: false, lieuMode: "", technologies: [] },
 };
@@ -47,9 +45,7 @@ export default async function Experiences({ searchParams }: { searchParams: Prom
         periode: r.periode,
         lieuMode: r.lieuMode,
         contexteEssentiel: r.contexteEssentiel,
-        contexteComplet: r.contexteComplet,
         blocs: (r.blocs as unknown as ExperienceBloc[]).map(toBloc),
-        competencesAcquisesComplet: (r.competencesAcquisesComplet as string[] | null) ?? [],
         note: r.note ?? "",
         accueil: hc ? { visible: true, lieuMode: hc.lieuMode, technologies: hc.technologies } : { visible: false, lieuMode: "", technologies: [] },
       }
@@ -60,7 +56,7 @@ export default async function Experiences({ searchParams }: { searchParams: Prom
       <div className="adm-head">
         <div>
           <h1 className="adm-h1">Expériences</h1>
-          <p className="adm-sub">Les expériences de l’accueil et du CV, en version essentielle et complète.</p>
+          <p className="adm-sub">Les expériences de l’accueil et du CV.</p>
         </div>
         <Link className="adm-btn" href="/admin/experiences?nouvelle=1">
           <Icon name="plus" />

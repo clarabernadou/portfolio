@@ -9,15 +9,6 @@ import { useToast } from "./Toast";
 import { Icon } from "./icons";
 import { AvisIA, IaPage } from "./AvisIA";
 
-function Interrupteur({ label, checked, onChange }: { label: string; checked: boolean; onChange: (v: boolean) => void }) {
-  return (
-    <label className="adm-toggle" style={{ alignItems: "center" }}>
-      <input type="checkbox" role="switch" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-      <b style={{ fontSize: 14 }}>{label}</b>
-    </label>
-  );
-}
-
 function Bloc({ bloc, set, remove, index }: { bloc: BlocInput; set: (b: BlocInput) => void; remove: () => void; index: number }) {
   const nom = bloc.name || `bloc ${index + 1}`;
   return (
@@ -33,16 +24,12 @@ function Bloc({ bloc, set, remove, index }: { bloc: BlocInput; set: (b: BlocInpu
       </div>
       <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column" }}>
         {bloc.puces.map((p, i) => {
-          const setP = (np: typeof p) => set({ ...bloc, puces: bloc.puces.map((x, k) => (k === i ? np : x)) });
+          const setP = (np: string) => set({ ...bloc, puces: bloc.puces.map((x, k) => (k === i ? np : x)) });
           return (
-            <li key={i} style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto auto", gap: 12, alignItems: "start", padding: "12px 0", borderTop: i ? "1px solid var(--bordure)" : 0 }}>
+            <li key={i} style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto", gap: 12, alignItems: "start", padding: "12px 0", borderTop: i ? "1px solid var(--bordure)" : 0 }}>
               <span style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <textarea className="adm-textarea" style={{ minHeight: 64 }} aria-label={`Puce ${i + 1} du ${nom}`} value={p.text} onChange={(e) => setP({ ...p, text: e.target.value })} />
-                <AvisIA champ={`Puce ${i + 1} du ${nom} (une puce de CV : courte, une seule information)`} valeur={p.text} onReplace={(v) => setP({ ...p, text: v })} />
-              </span>
-              <span style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <Interrupteur label="Essentiel" checked={p.essentiel} onChange={(v) => setP({ ...p, essentiel: v })} />
-                <Interrupteur label="Complet" checked={p.complet} onChange={(v) => setP({ ...p, complet: v })} />
+                <textarea className="adm-textarea" style={{ minHeight: 64 }} aria-label={`Puce ${i + 1} du ${nom}`} value={p} onChange={(e) => setP(e.target.value)} />
+                <AvisIA champ={`Puce ${i + 1} du ${nom} (une puce de CV : courte, une seule information)`} valeur={p} onReplace={setP} />
               </span>
               <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <button type="button" className="adm-icon-btn" style={{ width: 32, height: 32 }} aria-label={`Monter la puce ${i + 1}`} disabled={i === 0} onClick={() => {
@@ -59,11 +46,10 @@ function Bloc({ bloc, set, remove, index }: { bloc: BlocInput; set: (b: BlocInpu
           );
         })}
       </ol>
-      <button type="button" className="adm-btn adm-btn--link" style={{ alignSelf: "center" }} onClick={() => set({ ...bloc, puces: [...bloc.puces, { text: "", essentiel: true, complet: true }] })}>
+      <button type="button" className="adm-btn adm-btn--link" style={{ alignSelf: "center" }} onClick={() => set({ ...bloc, puces: [...bloc.puces, ""] })}>
         <Icon name="plus" />
         Ajouter une puce
       </button>
-      <TagInput label="Technologies du bloc (CV complet)" value={bloc.technologies} onChange={(v) => set({ ...bloc, technologies: v })} />
     </fieldset>
   );
 }
@@ -94,7 +80,7 @@ export function ExperienceForm({ initial }: { initial: ExperienceInput }) {
     });
 
   return (
-    <IaPage page={`Expérience « ${e.poste || "nouvelle expérience"} » chez ${e.entreprise || "?"}${e.entrepriseParent ? ` by ${e.entrepriseParent}` : ""}, sur le CV`} infos={[`Période : ${e.periode}`, `Lieu et mode : ${e.lieuMode}`, `Contexte : ${e.contexteEssentiel}`, ...e.blocs.map((b) => `${b.name || "Bloc"}${b.period ? ` (${b.period})` : ""} : ${b.puces.map((x) => x.text).join(" | ")}`)].join("\n")}>
+    <IaPage page={`Expérience « ${e.poste || "nouvelle expérience"} » chez ${e.entreprise || "?"}${e.entrepriseParent ? ` by ${e.entrepriseParent}` : ""}, sur le CV`} infos={[`Période : ${e.periode}`, `Lieu et mode : ${e.lieuMode}`, `Contexte : ${e.contexteEssentiel}`, ...e.blocs.map((b) => `${b.name || "Bloc"}${b.period ? ` (${b.period})` : ""} : ${b.puces.join(" | ")}`)].join("\n")}>
     <form
       className="adm-card"
       aria-labelledby="e-titre"
@@ -116,22 +102,20 @@ export function ExperienceForm({ initial }: { initial: ExperienceInput }) {
         <TextField label="Lien du groupe" type="url" value={e.entrepriseParentHref} onChange={(v) => set("entrepriseParentHref", v)} />
       </div>
       <TextField label="Lieu et mode" value={e.lieuMode} onChange={(v) => set("lieuMode", v)} placeholder="Alternance · Nantes, en télétravail" />
-      <TextArea label="Contexte (CV essentiel)" value={e.contexteEssentiel} onChange={(v) => set("contexteEssentiel", v)} rows={2} />
-      <TextArea label="Contexte (CV complet)" value={e.contexteComplet} onChange={(v) => set("contexteComplet", v)} rows={3} />
+      <TextArea label="Contexte" value={e.contexteEssentiel} onChange={(v) => set("contexteEssentiel", v)} rows={2} help="Une phrase de présentation de l’entreprise, sous le poste." />
 
       <div className="adm-field">
         <span className="adm-label">Blocs et puces</span>
-        <span className="adm-help">Chaque puce s’affiche dans la version essentielle, complète, ou les deux.</span>
+        <span className="adm-help">Une puce par réalisation, courte, avec une seule information.</span>
       </div>
       {e.blocs.map((b, i) => (
         <Bloc key={i} index={i} bloc={b} set={(nb) => set("blocs", e.blocs.map((x, k) => (k === i ? nb : x)))} remove={() => window.confirm("Supprimer ce bloc et ses puces ?") && set("blocs", e.blocs.filter((_, k) => k !== i))} />
       ))}
-      <button type="button" className="adm-btn adm-btn--outline" onClick={() => set("blocs", [...e.blocs, { name: "", period: "", puces: [{ text: "", essentiel: true, complet: true }], technologies: [] }])}>
+      <button type="button" className="adm-btn adm-btn--outline" onClick={() => set("blocs", [...e.blocs, { name: "", period: "", puces: [""] }])}>
         <Icon name="plus" />
         Ajouter un bloc (équipe, période)
       </button>
 
-      <TagInput label="Compétences acquises (CV complet)" value={e.competencesAcquisesComplet} onChange={(v) => set("competencesAcquisesComplet", v)} />
       <TextArea label="Note" value={e.note} onChange={(v) => set("note", v)} rows={2} help="Facultatif : affichée sous l’expérience, précédée d’une flèche." />
 
       <fieldset className="adm-card" style={{ padding: 18, gap: 12, background: "var(--brume)" }}>

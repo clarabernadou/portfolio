@@ -29,9 +29,6 @@ export const langues: Langue[] = [
 export const profilCv: ProfilCv = {
   profilCourt:
     "Développeuse front-end (React, TypeScript) à double compétence UI/UX. En alternance depuis décembre 2023 sur 2 plateformes SaaS : je développe des fonctionnalités et des refontes de pages, et je conçois leurs maquettes sur Figma. Diplômée Bac+5 en développement logiciel (titre RNCP niveau 7), formation UX/UI Designer en cours.",
-  // Version complète non publique (décision de Clara, 25 oct. 2026) : même texte que l'essentiel.
-  profilLong:
-    "Développeuse front-end (React, TypeScript) à double compétence UI/UX. En alternance depuis décembre 2023 sur 2 plateformes SaaS : je développe des fonctionnalités et des refontes de pages, et je conçois leurs maquettes sur Figma. Diplômée Bac+5 en développement logiciel (titre RNCP niveau 7), formation UX/UI Designer en cours.",
 };
 
 export const competencesEssentiel: CompetenceCategorie[] = [
@@ -42,5 +39,3 @@ export const competencesEssentiel: CompetenceCategorie[] = [
   { categorie: "IA", items: ["Claude Code","Cursor","Création de skills Claude"] },
 ];
 
-// Version complète non publique : mêmes compétences que l'essentiel.
-export const competencesComplet: CompetenceCategorie[] = competencesEssentiel;

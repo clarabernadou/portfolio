@@ -8,32 +8,32 @@ import { RestoreBanner, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
 
-// Catégories de compétences d'une version du CV : renommer, réordonner, ajouter,
-// retirer ; compétences ajoutées ou retirées dans chaque catégorie.
-export function SkillsEditor({ version, initial, suggestions }: { version: "essentiel" | "complet"; initial: Groupe[]; suggestions: string[] }) {
+// Catégories de compétences du CV : renommer, réordonner, ajouter, retirer ;
+// compétences ajoutées ou retirées dans chaque catégorie.
+export function SkillsEditor({ initial, suggestions }: { initial: Groupe[]; suggestions: string[] }) {
   const router = useRouter();
   const toast = useToast();
-  const draft = useDraft<Groupe[]>(`admin-competences-${version}`, initial);
+  const draft = useDraft<Groupe[]>("admin-competences-essentiel", initial);
   const groupes = draft.value;
   const set = (i: number, g: Groupe) => draft.setValue(groupes.map((x, k) => (k === i ? g : x)));
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
-  const titre = version === "essentiel" ? "CV essentiel" : "CV complet";
+  const titre = "Compétences du CV";
 
   return (
-    <section className="adm-card" aria-labelledby={`s-${version}`}>
+    <section className="adm-card" aria-labelledby="s-competences">
       <div>
-        <h2 className="adm-h2" id={`s-${version}`}>
+        <h2 className="adm-h2" id="s-competences">
           {titre}
         </h2>
-        <p className="adm-sub">{version === "essentiel" ? "Version courte : celle du PDF et de la page CV par défaut." : "Version détaillée, affichée avec le bouton « Complet »."}</p>
+        <p className="adm-sub">Celles de la page CV et du PDF : les catégories se renomment et se réordonnent ici.</p>
       </div>
       <RestoreBanner show={!!draft.restorable} onRestore={draft.restore} onDismiss={draft.dismiss} />
       {groupes.map((g, i) => (
         <fieldset key={i} className="adm-card" style={{ padding: 16, gap: 10, background: "var(--brume)" }}>
           <legend className="adm-sr">{g.name || `Catégorie ${i + 1}`}</legend>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <input className="adm-input" style={{ fontWeight: 800 }} aria-label={`Nom de la catégorie ${i + 1} (${titre})`} value={g.name} onChange={(e) => set(i, { ...g, name: e.target.value })} />
+            <input className="adm-input" style={{ fontWeight: 800 }} aria-label={`Nom de la catégorie ${i + 1}`} value={g.name} onChange={(e) => set(i, { ...g, name: e.target.value })} />
             <button type="button" className="adm-icon-btn" aria-label={`Monter « ${g.name} »`} disabled={i === 0} onClick={() => {
               const c = [...groupes]; [c[i - 1], c[i]] = [c[i], c[i - 1]]; draft.setValue(c);
             }}>↑</button>
@@ -70,18 +70,18 @@ export function SkillsEditor({ version, initial, suggestions }: { version: "esse
           onClick={() =>
             start(async () => {
               setError(null);
-              const r = await saveSkills(version, groupes);
+              const r = await saveSkills(groupes);
               if (!r.ok) {
                 if (r.session) return router.push(`/admin/connexion?expire=1&callbackUrl=/admin/competences`);
                 return setError(r.error);
               }
               draft.markSaved(groupes);
-              toast({ message: `Compétences du ${titre} enregistrées.` });
+              toast({ message: "Compétences du CV enregistrées." });
               router.refresh();
             })
           }
         >
-          Enregistrer le {titre}
+          Enregistrer les compétences
         </button>
       </div>
     </section>

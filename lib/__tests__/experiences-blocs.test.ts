@@ -8,20 +8,17 @@ describe("puces d'expérience : écran ⇄ base", () => {
       for (const b of e.blocs) {
         const back = fromBloc(toBloc(b));
         expect(back.bulletsEssentiel).toEqual(b.bulletsEssentiel);
-        expect(back.bulletsComplet).toEqual(b.bulletsComplet);
         expect(back.name).toEqual(b.name);
-        expect(back.technologies ?? []).toEqual(b.technologies ?? []);
       }
     }
   });
 
-  it("une puce commune aux deux versions porte les deux drapeaux", () => {
-    const b = toBloc({ bulletsEssentiel: ["A", "C"], bulletsComplet: ["B", "C", "D"] });
-    expect(b.puces).toEqual([
-      { text: "B", essentiel: false, complet: true },
-      { text: "A", essentiel: true, complet: false },
-      { text: "C", essentiel: true, complet: true },
-      { text: "D", essentiel: false, complet: true },
-    ]);
+  it("ignore les puces vides et les espaces superflus", () => {
+    expect(fromBloc({ name: " Équipe ", period: "", puces: [" A ", "", "B"] })).toEqual({ name: "Équipe", bulletsEssentiel: ["A", "B"] });
+  });
+
+  it("ne garde de l'ancienne version complète que les puces du CV", () => {
+    const ancien = { bulletsEssentiel: ["A"], bulletsComplet: ["A", "B"], technologies: ["React"] } as unknown as Parameters<typeof toBloc>[0];
+    expect(fromBloc(toBloc(ancien))).toEqual({ bulletsEssentiel: ["A"] });
   });
 });

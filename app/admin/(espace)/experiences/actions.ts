@@ -7,11 +7,9 @@ import { logActivity } from "@/lib/admin/activity";
 import { fromBloc, type BlocInput } from "@/lib/admin/experiences";
 import { Prisma } from "@/lib/generated/prisma/client";
 
-// Écran Expériences. Chaque puce porte deux drapeaux (version essentielle, version
-// complète), comme sur la maquette ; en base, les deux versions restent deux listes
-// de textes indépendantes, celles du CV validé (lib/types.ts, ExperienceBloc).
+// Écran Expériences : une seule version du CV (décision de Clara, 28 oct. 2026).
 
-export type { BlocInput, Puce } from "@/lib/admin/experiences";
+export type { BlocInput } from "@/lib/admin/experiences";
 
 export interface ExperienceInput {
   id: number | null;
@@ -23,9 +21,7 @@ export interface ExperienceInput {
   periode: string;
   lieuMode: string;
   contexteEssentiel: string;
-  contexteComplet: string;
   blocs: BlocInput[];
-  competencesAcquisesComplet: string[];
   note: string;
   accueil: { visible: boolean; lieuMode: string; technologies: string[] };
 }
@@ -44,9 +40,7 @@ function toDb(input: ExperienceInput, homeOrder: number) {
     periode: input.periode.trim(),
     lieuMode: input.lieuMode.trim(),
     contexteEssentiel: input.contexteEssentiel.trim(),
-    contexteComplet: input.contexteComplet.trim(),
     blocs: input.blocs.map(fromBloc) as unknown as Prisma.InputJsonArray,
-    competencesAcquisesComplet: input.competencesAcquisesComplet,
     note: input.note.trim() || null,
     homeCard: input.accueil.visible ? { lieuMode: input.accueil.lieuMode.trim(), technologies: input.accueil.technologies, order: homeOrder } : undefined,
   };
@@ -91,7 +85,7 @@ export async function restoreExperience(snapshot: Record<string, unknown>) {
   await requireAdmin();
   // Les champs JSON vides doivent être recréés comme « nul en base » (Prisma.DbNull).
   const data = Object.fromEntries(
-    Object.entries(snapshot).map(([k, v]) => [k, v === null && ["competencesAcquisesComplet", "fieldMeta", "i18n", "homeCard"].includes(k) ? Prisma.DbNull : v]),
+    Object.entries(snapshot).map(([k, v]) => [k, v === null && ["fieldMeta", "i18n", "homeCard"].includes(k) ? Prisma.DbNull : v]),
   );
   await db().experience.create({ data: data as never });
   await logActivity("experience", "", `Suppression de l’expérience « ${String(snapshot.entreprise)} » annulée`, "restored");

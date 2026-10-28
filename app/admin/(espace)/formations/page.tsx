@@ -10,7 +10,7 @@ import { moveFormation, type FormationInput } from "./actions";
 export const metadata: Metadata = { title: "Formations" };
 export const dynamic = "force-dynamic";
 
-const VIDE: FormationInput = { id: null, intitule: "", url: "", annees: "", diplome: "", niveauComplet: "OpenClassrooms · ", mode: "En alternance", statut: "En cours", projets: "", competencesAcquises: [], mentionComplementaire: "" };
+const VIDE: FormationInput = { id: null, intitule: "", url: "", annees: "", diplome: "", niveauComplet: "OpenClassrooms · ", mode: "En alternance", statut: "En cours", projets: "", mentionComplementaire: "" };
 
 // Maquette : docs/passation/maquettes/admin/Admin-formations.jpg.
 export default async function Formations({ searchParams }: { searchParams: Promise<{ id?: string; nouvelle?: string }> }) {
@@ -33,7 +33,6 @@ export default async function Formations({ searchParams }: { searchParams: Promi
         mode: selected.mode,
         statut: selected.statut,
         projets: selected.projets,
-        competencesAcquises: (selected.competencesAcquises as string[] | null) ?? [],
         mentionComplementaire: selected.mentionComplementaire ?? "",
       }
     : VIDE;

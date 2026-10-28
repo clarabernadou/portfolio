@@ -27,7 +27,7 @@ export function PdfCard({ essentiel, orientes }: { essentiel: Fichier; orientes:
       <ul className="adm-list">
         <li>
           <span>
-            <b>CV essentiel</b>
+            <b>CV</b>
             <small className="adm-muted" style={{ display: "block", whiteSpace: "normal" }}>
               {date(essentiel)}
             </small>

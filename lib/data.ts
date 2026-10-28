@@ -5,7 +5,7 @@ import type { AlternanceCard, HomeCard, SiteExperience, SiteFormation, SiteProfi
 import { experiences as experiencesJson } from "./content/experiences";
 import { formations as formationsJson } from "./content/formations";
 import { alternances } from "./content/accueil";
-import { competencesComplet, competencesEssentiel, identite, langues, profilCv } from "./content/profile";
+import { competencesEssentiel, identite, langues, profilCv } from "./content/profile";
 import liensJson from "@/data/liens.json";
 import iaJson from "@/data/ia.json";
 import { siteContact } from "./site-data";
@@ -113,9 +113,7 @@ async function getExperiencesSource(): Promise<SiteExperience[]> {
     periode: r.periode,
     lieuMode: r.lieuMode,
     contexteEssentiel: r.contexteEssentiel,
-    contexteComplet: r.contexteComplet,
-    blocs: r.blocs as unknown as Experience["blocs"],
-    competencesAcquisesComplet: (r.competencesAcquisesComplet as string[] | null) ?? undefined,
+    blocs: (r.blocs as unknown as Experience["blocs"]).map((b) => ({ ...(b.name ? { name: b.name } : {}), ...(b.period ? { period: b.period } : {}), bulletsEssentiel: b.bulletsEssentiel ?? [] })),
     note: r.note ?? undefined,
     ...(r.homeCard ? { homeCard: r.homeCard as unknown as AlternanceCard } : {}),
   }));
@@ -134,20 +132,15 @@ async function getFormationsSource(): Promise<SiteFormation[]> {
     mode: r.mode as Formation["mode"],
     statut: r.statut as Formation["statut"],
     projets: r.projets,
-    competencesAcquises: (r.competencesAcquises as string[] | null) ?? undefined,
     mentionComplementaire: r.mentionComplementaire ?? undefined,
   }));
 }
 
-// Compétences du CV, par version : catégories et éléments dans l'ordre de l'administration.
-async function getSkillsSource(): Promise<{ essentiel: { name: string; items: string[] }[]; complet: { name: string; items: string[] }[] }> {
-  if (!hasDb()) {
-    const map = (l: { categorie: string; items: string[] }[]) => l.map((g) => ({ name: g.categorie, items: g.items }));
-    return { essentiel: map(competencesEssentiel), complet: map(competencesComplet) };
-  }
-  const rows = await (await prisma()).skillGroup.findMany({ orderBy: [{ position: "asc" }, { id: "asc" }] });
-  const of = (v: string) => rows.filter((r) => r.version === v).map((r) => ({ name: r.name, items: r.items as string[] }));
-  return { essentiel: of("essentiel"), complet: of("complet") };
+// Compétences du CV : catégories et éléments dans l'ordre de l'administration.
+async function getSkillsSource(): Promise<{ essentiel: { name: string; items: string[] }[] }> {
+  if (!hasDb()) return { essentiel: competencesEssentiel.map((g) => ({ name: g.categorie, items: g.items })) };
+  const rows = await (await prisma()).skillGroup.findMany({ where: { version: "essentiel" }, orderBy: [{ position: "asc" }, { id: "asc" }] });
+  return { essentiel: rows.map((r) => ({ name: r.name, items: r.items as string[] })) };
 }
 
 // Listes des filtres de la page Projets (rubrique Catégories de l'administration).
@@ -180,7 +173,6 @@ export const PROFIL_DEFAUT: SiteProfile = {
   linkedin: liensJson.profil.linkedin,
   github: liensJson.profil.github,
   profilEssentiel: profilCv.profilCourt,
-  profilComplet: profilCv.profilLong,
   langues,
   photoAlt: "Clara Bernadou",
 };

@@ -15,7 +15,6 @@ export interface FormationInput {
   mode: string;
   statut: string;
   projets: string;
-  competencesAcquises: string[];
   mentionComplementaire: string;
 }
 
@@ -39,7 +38,6 @@ export async function saveFormation(input: FormationInput): Promise<FormationRes
     mode: input.mode,
     statut: input.statut,
     projets: input.projets.trim(),
-    competencesAcquises: input.competencesAcquises,
     mentionComplementaire: input.mentionComplementaire.trim() || null,
   };
   let id = input.id;
@@ -80,7 +78,6 @@ export async function deleteFormation(id: number): Promise<FormationInput & { po
     mode: f.mode,
     statut: f.statut,
     projets: f.projets,
-    competencesAcquises: (f.competencesAcquises as string[] | null) ?? [],
     mentionComplementaire: f.mentionComplementaire ?? "",
   };
 }

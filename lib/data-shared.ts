@@ -49,7 +49,6 @@ export interface SiteProfile {
   linkedin: string;
   github: string;
   profilEssentiel: string;
-  profilComplet: string;
   langues: { nom: string; niveau: string[] }[];
   photoAlt: string;
   /** Profil pour l'IA de relecture (administration) : privé, jamais envoyé aux pages publiques. */
@@ -83,14 +82,6 @@ export function iaStats(ia: Pick<IaContent, "stats" | "tools" | "skills" | "rout
   return ia.stats.map((st, i) => ({ value: String(valeurs[i] ?? st.value), label: st.label }));
 }
 
-// Données envoyées aux pages publiques (décisions de Clara, 25 oct. 2026) : ni le
-// téléphone (seulement dans le PDF du CV), ni la version complète du CV, qui reste
-// dans l'administration. Ces champs sont vidés côté serveur, jamais seulement cachés.
-export const profilPublic = (p: SiteProfile): SiteProfile => ({ ...p, telephone: "", profilComplet: "", noteIA: "" });
-export const experiencePublique = (e: SiteExperience): SiteExperience => ({
-  ...e,
-  contexteComplet: "",
-  competencesAcquisesComplet: undefined,
-  blocs: e.blocs.map((b) => ({ ...b, bulletsComplet: [] })),
-});
-export const formationPublique = (f: SiteFormation): SiteFormation => ({ ...f, competencesAcquises: undefined });
+// Données envoyées aux pages publiques (décision de Clara, 25 oct. 2026) : ni le téléphone
+// (seulement dans le PDF du CV), ni le profil pour l'IA. Vidés côté serveur, jamais seulement cachés.
+export const profilPublic = (p: SiteProfile): SiteProfile => ({ ...p, telephone: "", noteIA: "" });

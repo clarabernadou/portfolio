@@ -14,8 +14,10 @@ export async function saveProfile(p: SiteProfile): Promise<Result> {
   if (!p.nom.trim()) return { ok: false, error: "Le nom est obligatoire." };
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.email)) return { ok: false, error: "L’e-mail de contact n’est pas valide." };
   for (const [k, v] of [["LinkedIn", p.linkedin], ["GitHub", p.github]] as const) if (v && !/^https:\/\//.test(v)) return { ok: false, error: `Le lien ${k} doit commencer par https://.` };
+  // Le CV n'a plus qu'une version (28 oct. 2026) : un ancien brouillon peut encore porter « profilComplet ».
+  const { profilComplet: _ancien, ...profil } = p as SiteProfile & { profilComplet?: string };
   const data = {
-    ...p,
+    ...profil,
     langues: p.langues.filter((l) => l.nom.trim()).map((l) => ({ nom: l.nom.trim(), niveau: l.niveau.map((n) => n.trim()).filter(Boolean) })),
   };
   await db().singleton.upsert({ where: { key: "profil" }, create: { key: "profil", data }, update: { data } });
@@ -127,7 +129,7 @@ export async function generateEssentiel(): Promise<{ ok: true; pages: number } |
     const { pdf, pages } = await renderPdf(cvHtml(essentielFr(sources), assets, "complete"));
     const name = "CV_Clara_Bernadou_FR.pdf";
     await storeFile(name, "essentiel", "fr", pdf);
-    await logActivity("cv", name, "CV essentiel généré");
+    await logActivity("cv", name, "CV en PDF généré");
     return { ok: true, pages };
   } catch (e) {
     console.error(e);

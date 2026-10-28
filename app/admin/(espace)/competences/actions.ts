@@ -10,8 +10,11 @@ export interface Groupe {
   items: string[];
 }
 
-// Remplace d'un bloc les catégories de compétences d'une version du CV.
-export async function saveSkills(version: "essentiel" | "complet", groupes: Groupe[]): Promise<{ ok: true } | { ok: false; error: string; session?: boolean }> {
+// Le CV n'a qu'une version : ses compétences sont rangées en base sous « essentiel ».
+const version = "essentiel";
+
+// Remplace d'un bloc les catégories de compétences du CV.
+export async function saveSkills(groupes: Groupe[]): Promise<{ ok: true } | { ok: false; error: string; session?: boolean }> {
   if (!(await isAdminSession())) return { ok: false, error: "Ta session a expiré.", session: true };
   const clean = groupes.map((g) => ({ name: g.name.trim(), items: g.items.map((i) => i.trim()).filter(Boolean) }));
   if (clean.some((g) => !g.name)) return { ok: false, error: "Chaque catégorie doit avoir un nom." };
@@ -21,7 +24,7 @@ export async function saveSkills(version: "essentiel" | "complet", groupes: Grou
     prisma.skillGroup.deleteMany({ where: { version } }),
     prisma.skillGroup.createMany({ data: clean.map((g, position) => ({ version, name: g.name, items: g.items, position })) }),
   ]);
-  await logActivity("skills", version, `Compétences du CV ${version === "essentiel" ? "essentiel" : "complet"} modifiées`);
+  await logActivity("skills", version, "Compétences du CV modifiées");
   revalidatePath("/", "layout");
   return { ok: true };
 }

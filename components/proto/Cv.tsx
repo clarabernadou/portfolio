@@ -16,9 +16,7 @@ const sansProtocole = (url: string) => (url ?? "").replace(/^https?:\/\/(www\.)?
 
 export function Cv({ experiences, formations, skills, profil, photoUrl }: { experiences: SiteExperience[]; formations: SiteFormation[]; skills: Groupes; profil: SiteProfile; photoUrl: string }) {
   const v = {
-    // Seule la version essentielle est publique (décision de Clara, 25 oct. 2026).
-    isFull: false,
-    // Le PDF téléchargeable est toujours la version essentielle (demande de Clara).
+    // Le CV n'a qu'une version, la même sur la page et dans le PDF (décisions de Clara, 25 et 28 oct. 2026).
     cvUrl: siteContact.cvPdfHref,
     experiences,
     formations,

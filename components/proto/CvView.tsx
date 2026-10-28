@@ -129,7 +129,7 @@ export function CvView({ v }: { v: any }) {
                 {"Expériences professionnelles"}
               </h2>
               {v.experiences.map((e: any, i_e: number) => (
-                <CvExperience key={i_e} e={e} full={v.isFull} />
+                <CvExperience key={i_e} e={e} />
               ))}
             </section>
             <section>
@@ -137,7 +137,7 @@ export function CvView({ v }: { v: any }) {
                 {"Formations"}
               </h2>
               {v.formations.map((f: any, i_f: number) => (
-                <CvFormation key={i_f} f={f} full={v.isFull} />
+                <CvFormation key={i_f} f={f} />
               ))}
             </section>
             {" "}

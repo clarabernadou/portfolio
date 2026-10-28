@@ -112,15 +112,12 @@ export interface IaContent {
   cases: IaCase[];
 }
 
-// Les textes essentiel et complet sont deux versions indépendantes et déjà
-// validées (contenu/cv-essentiel.txt, contenu/cv-complet.txt), pas une liste
-// unique de puces avec drapeau partagé : on les garde donc chacune telle quelle.
+// Un bloc d'expérience (équipe, période) et ses puces. Le CV n'a plus qu'une version
+// (décision de Clara, 28 oct. 2026) : le nom « bulletsEssentiel » reste celui de la base.
 export interface ExperienceBloc {
   name?: string;
   period?: string;
   bulletsEssentiel: string[];
-  bulletsComplet: string[];
-  technologies?: string[];
 }
 
 export interface Experience {
@@ -132,9 +129,7 @@ export interface Experience {
   periode: string;
   lieuMode: string;
   contexteEssentiel: string;
-  contexteComplet: string;
   blocs: ExperienceBloc[];
-  competencesAcquisesComplet?: string[];
   note?: string;
 }
 
@@ -147,7 +142,6 @@ export interface Formation {
   mode: "En alternance" | "Autodidacte";
   statut: "Obtenu" | "En cours";
   projets: string;
-  competencesAcquises?: string[];
   mentionComplementaire?: string;
 }
 
@@ -175,6 +169,5 @@ export interface Recommendation {
 
 export interface ProfilCv {
   profilCourt: string;
-  profilLong: string;
 }
 

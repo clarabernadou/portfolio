@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { deleteFormation, readOpenClassrooms, restoreFormation, saveFormation, type FormationInput } from "@/app/admin/(espace)/formations/actions";
-import { SelectField, TagInput, TextArea, TextField } from "./fields";
+import { SelectField, TextArea, TextField } from "./fields";
 import { RestoreBanner, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
@@ -86,7 +86,6 @@ export function FormationForm({ initial, rattaches }: { initial: FormationInput;
         <SelectField label="Statut" required value={f.statut} onChange={(v) => set("statut", v)} options={["En cours", "Obtenu"]} />
         <TextField label="Projets validés" value={f.projets} onChange={(v) => set("projets", v)} placeholder="8 projets validés sur 11" help={`${rattaches} ${rattaches > 1 ? "projets rattachés" : "projet rattaché"} à cette formation sur le site.`} />
       </div>
-      <TagInput label="Compétences acquises" value={f.competencesAcquises} onChange={(v) => set("competencesAcquises", v)} help="Affichées dans le CV complet." />
       <TextArea label="Mention complémentaire" value={f.mentionComplementaire} onChange={(v) => set("mentionComplementaire", v)} rows={2} help="Facultatif : affichée en italique sous la formation (par exemple, une équivalence)." />
       {error && (
         <p className="adm-error" role="alert" style={{ margin: 0 }}>

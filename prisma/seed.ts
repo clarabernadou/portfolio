@@ -12,7 +12,7 @@ import cartesAccueil from "../data/accueil-cartes.json";
 import { experiences } from "../lib/content/experiences";
 import { alternances } from "../lib/content/accueil";
 import { formations } from "../lib/content/formations";
-import { identite, langues, profilCv, competencesEssentiel, competencesComplet } from "../lib/content/profile";
+import { identite, langues, profilCv, competencesEssentiel } from "../lib/content/profile";
 import { recommendations } from "../lib/content/recommendations";
 import type { Project } from "../lib/types";
 
@@ -102,7 +102,6 @@ async function main() {
         mode: f.mode,
         statut: f.statut,
         projets: f.projets,
-        competencesAcquises: f.competencesAcquises,
         mentionComplementaire: f.mentionComplementaire,
       })),
     });
@@ -132,9 +131,7 @@ async function main() {
         periode: e.periode,
         lieuMode: e.lieuMode,
         contexteEssentiel: e.contexteEssentiel,
-        contexteComplet: e.contexteComplet,
         blocs: e.blocs as unknown as object[],
-        competencesAcquisesComplet: e.competencesAcquisesComplet,
         note: e.note,
         homeCard: alternanceCard(e.entreprise),
       })),
@@ -146,7 +143,6 @@ async function main() {
   if ((await prisma.skillGroup.count()) === 0) {
     const groups = [
       ...competencesEssentiel.map((g, position) => ({ version: "essentiel", name: g.categorie, items: g.items, position })),
-      ...competencesComplet.map((g, position) => ({ version: "complet", name: g.categorie, items: g.items, position })),
     ];
     await prisma.skillGroup.createMany({ data: groups });
     created += groups.length;

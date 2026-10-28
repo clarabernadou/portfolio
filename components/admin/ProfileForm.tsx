@@ -17,7 +17,6 @@ export function ProfileForm({ initial }: { initial: SiteProfile }) {
   const draft = useDraft<SiteProfile>("admin-profil", initial);
   const p = draft.value;
   const set = <K extends keyof SiteProfile>(k: K, v: SiteProfile[K]) => draft.setValue({ ...p, [k]: v });
-  const [version, setVersion] = useState<"essentiel" | "complet">("essentiel");
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
 
@@ -59,18 +58,7 @@ export function ProfileForm({ initial }: { initial: SiteProfile }) {
 
       <section className="adm-card" aria-labelledby="p-profil">
         <h2 className="adm-h2" id="p-profil">Profil du CV</h2>
-        <div role="group" aria-label="Version du profil" style={{ display: "inline-flex", alignSelf: "flex-start", padding: 4, borderRadius: 999, background: "var(--brume)", border: "1px solid var(--bordure)" }}>
-          {(["essentiel", "complet"] as const).map((v) => (
-            <button key={v} type="button" aria-pressed={version === v} onClick={() => setVersion(v)} className="adm-btn" style={{ minHeight: 40, border: 0, background: version === v ? "var(--amethyste)" : "transparent", color: version === v ? "var(--fond)" : "var(--encre)" }}>
-              {v === "essentiel" ? "Essentiel" : "Complet"}
-            </button>
-          ))}
-        </div>
-        {version === "essentiel" ? (
-          <TextArea label="Profil · version essentielle" value={p.profilEssentiel} onChange={(v) => set("profilEssentiel", v)} rows={4} />
-        ) : (
-          <TextArea label="Profil · version complète" value={p.profilComplet} onChange={(v) => set("profilComplet", v)} rows={6} />
-        )}
+        <TextArea label="Profil" value={p.profilEssentiel} onChange={(v) => set("profilEssentiel", v)} rows={4} help="Le paragraphe de présentation en tête de la page CV et du PDF." />
       </section>
 
       <section className="adm-card" aria-labelledby="p-ia">

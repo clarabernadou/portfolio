@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { css } from "@/lib/css";
 import type { SiteExperience, SiteFormation } from "@/lib/data-shared";
 
@@ -6,7 +5,6 @@ import type { SiteExperience, SiteFormation } from "@/lib/data-shared";
 // et les styles recopiés tels quels de CvView / AccueilView (sources du prototype).
 
 const TAG_TECHNO = `padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`;
-const TAG_INFO = `padding: 5px 11px; border-radius: 8px; background: #F3EFFF; color: #1A1033; font-size: 14px; font-weight: 600`;
 const LIEN = `color: #6A4FB6; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px`;
 const STATUT_EN_COURS = `padding: 3px 9px; border-radius: 6px; background: #FFFFFF; border: 1.5px dashed #6A4FB6; color: #6A4FB6; font-size: 13px; font-weight: 800`;
 const MODE = `padding: 3px 9px; border-radius: 6px; background: #F3EFFF; color: #1A1033; font-size: 13px; font-weight: 700`;
@@ -59,10 +57,6 @@ export function Etiquettes({ items, style, label, marge }: { items: string[]; st
   );
 }
 
-function Technos({ items }: { items: string[] }) {
-  return <Etiquettes items={items} style={TAG_TECHNO} label={"Technologies"} marge={"6px"} />;
-}
-
 function EnTeteBloc({ name, period }: { name?: string; period?: string }) {
   return (
     <div style={css(`display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px`)}>
@@ -85,7 +79,7 @@ function Mention({ texte }: { texte: string }) {
   );
 }
 
-export function CvExperience({ e, full }: { e: SiteExperience; full: boolean }) {
+export function CvExperience({ e }: { e: SiteExperience }) {
   return (
     <article style={css(`display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 22px 0; border-top: 1px solid #E4DCF7`)}>
       <span style={css(`flex: 0 0 150px; font-size: 14px; font-weight: 700; color: #5B5470`)}>{e.periode}</span>
@@ -93,36 +87,18 @@ export function CvExperience({ e, full }: { e: SiteExperience; full: boolean }) 
         <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</h3>
         <Entreprise e={e} />
         <span style={css(`font-size: 14px; color: #5B5470`)}>{e.lieuMode}</span>
-        <p style={css(`margin: 4px 0 0; font-size: 15px; line-height: 1.55`)}>{full ? e.contexteComplet : e.contexteEssentiel}</p>
+        <p style={css(`margin: 4px 0 0; font-size: 15px; line-height: 1.55`)}>{e.contexteEssentiel}</p>
         {e.blocs.map((b, i) => {
-          const puces = full ? b.bulletsComplet : b.bulletsEssentiel;
+          const puces = b.bulletsEssentiel;
           if (!puces.length) return null;
-          if (!b.name)
-            return (
-              <Fragment key={i}>
-                <Puces items={puces} />
-                {full && b.technologies?.length ? <Technos items={b.technologies} /> : null}
-              </Fragment>
-            );
-          return full ? (
-            <div key={i} style={css(`display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border-radius: 14px; border: 1px solid #E4DCF7; margin-top: 8px`)}>
-              <EnTeteBloc name={b.name} period={b.period} />
-              <Puces items={puces} />
-              {b.technologies?.length ? <Technos items={b.technologies} /> : null}
-            </div>
-          ) : (
+          if (!b.name) return <Puces key={i} items={puces} />;
+          return (
             <div key={i} style={css(`display: flex; flex-direction: column; gap: 4px; margin-top: 8px`)}>
               <EnTeteBloc name={b.name} period={b.period} />
               <Puces items={puces} />
             </div>
           );
         })}
-        {full && e.competencesAcquisesComplet?.length ? (
-          <>
-            <h4 style={css(`margin: 6px 0 0; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{"Compétences acquises"}</h4>
-            <Etiquettes items={e.competencesAcquisesComplet} style={TAG_INFO} />
-          </>
-        ) : null}
         {e.note && <p style={css(`margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: #5B5470`)}>{`→ ${e.note}`}</p>}
       </div>
     </article>
@@ -142,7 +118,7 @@ function LienFormation({ f, style }: { f: SiteFormation; style: string }) {
   );
 }
 
-export function CvFormation({ f, full }: { f: SiteFormation; full: boolean }) {
+export function CvFormation({ f }: { f: SiteFormation }) {
   return (
     <div style={css(`display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 18px 0; border-top: 1px solid #E4DCF7`)}>
       <span style={css(`flex: 0 0 150px; font-size: 14px; font-weight: 700; color: #5B5470`)}>{f.annees}</span>
@@ -160,12 +136,6 @@ export function CvFormation({ f, full }: { f: SiteFormation; full: boolean }) {
             <Mention texte={f.mentionComplementaire} />
           </span>
         )}
-        {full && f.competencesAcquises?.length ? (
-          <div style={css(`display: flex; flex-direction: column; gap: 6px; margin-top: 4px`)}>
-            <h4 style={css(`margin: 6px 0 0; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{"Compétences acquises"}</h4>
-            <Etiquettes items={f.competencesAcquises} style={TAG_INFO} />
-          </div>
-        ) : null}
       </div>
     </div>
   );

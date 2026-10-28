@@ -73,7 +73,6 @@ model Formation {
   mode                  String   @db.VarChar(40)
   statut                String   @db.VarChar(40)
   projets               String   @db.VarChar(120)
-  competencesAcquises   Json?
   mentionComplementaire String?  @db.Text
   origin                String   @default("manual") @db.VarChar(20)
   fieldMeta             Json?
@@ -93,9 +92,7 @@ model Experience {
   periode                    String   @db.VarChar(80)
   lieuMode                   String   @db.VarChar(300)
   contexteEssentiel          String   @db.Text
-  contexteComplet            String   @db.Text
   blocs                      Json
-  competencesAcquisesComplet Json?
   // Carte « Parcours en alternance » de l'accueil : lieu et mode courts, technologies.
   homeCard                   Json?
   note                       String?  @db.Text
