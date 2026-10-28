@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { getExperiences, getFormations, getProfile, getSiteProjects, getSkills } from "@/lib/data";
+import { getExperiences, getFormations, getProfile, getSkills } from "@/lib/data";
 import type { CvAssets } from "./cv-html";
 import type { CvSources } from "./cv-data";
 
@@ -13,13 +13,12 @@ async function prisma() {
 }
 
 export async function loadSources(): Promise<CvSources> {
-  const [profil, skills, experiences, formations, projets] = await Promise.all([getProfile(), getSkills(), getExperiences(), getFormations(), getSiteProjects()]);
+  const [profil, skills, experiences, formations] = await Promise.all([getProfile(), getSkills(), getExperiences(), getFormations()]);
   return {
     profil,
     skills: skills.essentiel,
     experiences,
     formations,
-    projets: projets.map((p) => ({ id: p.id, name: p.name, parcours: p.parcours, line: p.line, homeCard: p.homeCard })),
   };
 }
 

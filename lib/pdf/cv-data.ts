@@ -1,6 +1,5 @@
-// Données des CV en PDF, assemblées à partir du site (étape 10) : CV essentiel
-// et CV orientés d'une page, en français (version anglaise retirée le 24 oct. 2026). Pur : utilisable côté serveur
-// et dans l'aperçu de l'administration.
+// Données des CV en PDF, assemblées à partir du site (étape 10) : CV en
+// français (version anglaise retirée le 24 oct. 2026). Pur, sans accès à la base.
 import type { CvDoc, Lien } from "./cv-html";
 import type { SiteExperience, SiteFormation, SiteProfile } from "@/lib/data-shared";
 
@@ -9,22 +8,9 @@ export interface CvSources {
   skills: { name: string; items: string[] }[];
   experiences: SiteExperience[];
   formations: SiteFormation[];
-  projets: { id: string; name: string; parcours: string; line: string; homeCard?: { eyebrow: string; line: string } }[];
 }
 
-export interface OrientationState {
-  id: string;
-  name: string;
-  title: string;
-  profile: string;
-  skillOrder: { category: string; visible: boolean }[];
-  featuredProjects: string[];
-  firstFormation: string;
-  fileName: string;
-  bullets: string[];
-}
-
-const H_FR: CvDoc["h"] = { skills: "Compétences", langs: "Langues", exp: "Expériences professionnelles", edu: "Formations", projets: "Projets phares" };
+const H_FR: CvDoc["h"] = { skills: "Compétences", langs: "Langues", exp: "Expériences professionnelles", edu: "Formations" };
 
 const telHref = (t: string) => "tel:" + t.replace(/ /g, "").replace(/^0/, "+33");
 const co = (e: SiteExperience): Lien[] => [
@@ -71,32 +57,3 @@ export function essentielFr(s: CvSources): CvDoc {
     })),
   };
 }
-
-// CV orienté d'une page (§5 bis) : intitulé, profil, ordre des compétences, projets
-// phares, puces cochées et formation mise en premier selon l'orientation.
-export function oriente(s: CvSources, o: OrientationState): CvDoc {
-  const base = essentielFr(s);
-
-  const groupes = o.skillOrder
-    .filter((g) => g.visible)
-    .map((g) => base.skills.find((x) => x.name === g.category))
-    .filter((g): g is { name: string; items: string[] } => !!g);
-
-  const projets = o.featuredProjects.slice(0, 3).map((id) => {
-    const p = s.projets.find((x) => x.id === id);
-    return { name: p?.name ?? id, kicker: p?.homeCard?.eyebrow ?? p?.parcours ?? "", line: p?.homeCard?.line ?? p?.line ?? "" };
-  });
-
-  // Seules les puces cochées sont gardées.
-  const exp = base.exp.map((e) => ({
-    ...e,
-    blocks: e.blocks.map((b) => ({ name: b.name, period: undefined, bullets: b.bullets.filter((t) => o.bullets.includes(t)) })),
-  }));
-
-  const ordre = [...base.edu.keys()].sort((a, b) => Number(base.edu[b].t === o.firstFormation) - Number(base.edu[a].t === o.firstFormation));
-  const edu = ordre.map((i) => ({ ...base.edu[i], tags: base.edu[i].tags.slice(0, 1) }));
-
-  return { ...base, role: o.title, profile: o.profile, skills: groupes, projets, exp, edu };
-}
-
-export const nomFichier = (o: Pick<OrientationState, "fileName">) => o.fileName;

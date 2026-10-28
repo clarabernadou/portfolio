@@ -1,8 +1,6 @@
 // Gabarit HTML des CV en PDF (étapes 5 et 10). Fonction pure, sans accès aux fichiers
-// ni à la base : elle sert à l'aperçu de l'administration (dans le navigateur), à la
-// génération en ligne (Vercel) et à « npm run pdf ».
-// - variante « complete » : CV essentiel validé par Clara (bandeau sombre, photo, deux pages) ;
-// - variante « une-page » : CV orienté, compact, qui doit tenir sur une page A4.
+// ni à la base : elle sert à la génération en ligne (Vercel) et à « npm run pdf ».
+// CV validé par Clara : bandeau sombre, photo, deux pages.
 
 export type Lien = { text: string; href?: string };
 
@@ -15,7 +13,7 @@ export interface CvDoc {
   itw: string;
   contact: { email: string; telephone: string; telephoneAffiche: string; linkedin: string; github: string };
   profile: string;
-  h: { skills: string; langs: string; exp: string; edu: string; projets: string };
+  h: { skills: string; langs: string; exp: string; edu: string };
   skills: { name: string; items: string[] }[];
   langs: { nom: string; niveau: string[] }[];
   exp: {
@@ -28,7 +26,6 @@ export interface CvDoc {
     nt?: string;
   }[];
   edu: { d: string; t: string; url?: string; tags: { text: string; kind: "ok" | "cours" | "info" }[]; mt: string; note?: string }[];
-  projets?: { name: string; kicker: string; line: string }[];
 }
 
 export interface CvAssets {
@@ -119,41 +116,6 @@ li{margin:0 0 1.5pt}
 .us{font-size:8pt}
 `;
 
-// Variante une page : mêmes couleurs et polices, en plus serré, sans bandeau ni photo.
-const UNE_PAGE_CSS = `
-@page{size:A4;margin:0}
-body{font-size:8.6pt;line-height:1.38}
-.page{width:210mm;padding:11mm 12mm}
-.hd1{display:flex;justify-content:space-between;align-items:flex-end;gap:12pt;padding-bottom:7pt;border-bottom:1.5pt solid #6A4FB6}
-h1{font-size:22pt}h1 .l{color:#6A4FB6}
-.ti{font-size:10pt;font-weight:700;color:#6A4FB6;margin-top:3pt}
-.pills{display:flex;flex-wrap:wrap;gap:3pt;margin-top:5pt}
-.pills span{padding:1.5pt 6pt;border-radius:99pt;background:#F3EFFF;font-size:7.2pt;font-weight:700}
-.ct{display:flex;flex-direction:column;gap:2pt;font-size:7.6pt;text-align:right;color:#5B5470}
-.ct b{color:#1A1033}
-.itw{margin:5pt 0 0;font-size:7.6pt;font-style:italic;color:#5B5470}
-.pf{margin:7pt 0 8pt;background:#F3EFFF;border-left:2pt solid #6A4FB6;border-radius:5pt;padding:5pt 8pt}
-.cols{display:grid;grid-template-columns:52mm 1fr;gap:12pt;align-items:start}
-h2{margin:0 0 4pt;font-size:10.5pt;font-weight:800;letter-spacing:-0.02em;padding-bottom:2pt;border-bottom:1pt solid #E4DCF7}
-section{margin-bottom:8pt}
-h3{font-size:6.6pt;margin-bottom:2pt}
-.sk{margin-bottom:5pt}
-.tags span{padding:1pt 4.5pt;font-size:7pt}
-.lg{font-size:7.6pt;margin-bottom:2pt}.lg b{font-weight:800}.lg span{color:#5B5470}
-.pj{padding:3pt 0;border-top:0.75pt solid #E4DCF7}.pj:first-of-type{border-top:0}
-.pj b{font-weight:800}.pj small{font-size:7pt;color:#6A4FB6;font-weight:700;margin-left:4pt}
-.pj div{color:#5B5470;font-size:7.8pt}
-.ex{padding:3pt 0 4pt;border-top:0.75pt solid #E4DCF7}.ex:first-of-type{border-top:0;padding-top:0}
-.r{font-weight:800;font-size:9pt}.d{font-size:7.2pt;font-weight:800;color:#6A4FB6;margin-left:5pt}
-.co{font-size:8pt}
-.mt{font-size:7.2pt}
-.bt{font-weight:800;font-size:7.8pt;margin-top:2pt;display:block}
-li{margin:0 0 1pt}
-.fo{padding:2.5pt 0;border-top:0.75pt solid #E4DCF7;font-size:7.8pt}.fo:first-of-type{border-top:0}
-.fo b{font-weight:800}.fo .d{margin-left:0;margin-right:5pt}
-.st{font-size:6.6pt;margin-left:3pt}
-`;
-
 function header(c: CvDoc, a: CvAssets) {
   const [prenom, ...reste] = c.nom.split(" ");
   return `<header class="hd">
@@ -213,65 +175,8 @@ ${c.edu
 </div>`;
 }
 
-function unePage(c: CvDoc) {
-  const [prenom, ...reste] = c.nom.split(" ");
-  return `<div class="page">
-<header class="hd1">
-  <div>
-    <h1 class="bri"><span class="b">${esc(prenom)}</span> <span class="l">${esc(reste.join(" "))}</span></h1>
-    <div class="ti">${esc(c.role)}</div>
-    <div class="pills">${c.pills.map((p) => `<span>${esc(p)}</span>`).join("")}</div>
-  </div>
-  <div class="ct">
-    <a href="mailto:${esc(c.contact.email)}"><b>${esc(c.contact.email)}</b></a>
-    <a href="${esc(c.contact.telephone)}">${esc(c.contact.telephoneAffiche)}</a>
-    <a href="${esc(c.contact.linkedin)}">${esc(pretty(c.contact.linkedin))}</a>
-    <a href="${esc(c.contact.github)}">${esc(pretty(c.contact.github))}</a>
-  </div>
-</header>
-<p class="itw">${esc(c.itw)}</p>
-<div class="pf">${esc(c.profile)}</div>
-<div class="cols">
-<div class="aside">
-  <section><h2 class="bri">${esc(c.h.skills)}</h2>
-  ${c.skills.map((g) => `<div class="sk"><h3>${esc(g.name)}</h3><div class="tags">${g.items.map((s) => `<span>${esc(s)}</span>`).join("")}</div></div>`).join("")}
-  </section>
-  <section><h2 class="bri">${esc(c.h.langs)}</h2>
-  ${c.langs.map((l) => `<div class="lg"><b>${esc(l.nom)}</b> <span>${esc(l.niveau.join(" · "))}</span></div>`).join("")}
-  </section>
-</div>
-<div class="main">
-  ${
-    c.projets?.length
-      ? `<section><h2 class="bri">${esc(c.h.projets)}</h2>${c.projets.map((p) => `<div class="pj"><b>${esc(p.name)}</b><small>${esc(p.kicker)}</small><div>${esc(p.line)}</div></div>`).join("")}</section>`
-      : ""
-  }
-  <section><h2 class="bri">${esc(c.h.exp)}</h2>
-  ${c.exp
-    .map(
-      (e) => `<div class="ex"><span class="r bri">${esc(e.r)}</span><span class="d">${esc(e.d)}</span>
-    <div class="co">${e.co.map(lien).join("")}</div>
-    ${e.blocks
-      .filter((b) => b.bullets.length)
-      .map((b) => `${b.name ? `<span class="bt">${esc(b.name)}</span>` : ""}<ul>${b.bullets.map((l) => `<li>${esc(l)}</li>`).join("")}</ul>`)
-      .join("")}
-  </div>`,
-    )
-    .join("")}
-  </section>
-  <section><h2 class="bri">${esc(c.h.edu)}</h2>
-  ${c.edu.map((f) => `<div class="fo"><span class="d">${esc(f.d)}</span><b>${esc(f.t)}</b>${f.tags.map((t) => `<span class="st ${t.kind}">${esc(t.text)}</span>`).join("")}</div>`).join("")}
-  </section>
-</div>
-</div>
-</div>`;
-}
-
-export function cvHtml(c: CvDoc, a: CvAssets, variante: "complete" | "une-page"): string {
-  const css = BASE_CSS(a) + (variante === "complete" ? COMPLETE_CSS : UNE_PAGE_CSS);
-  const body = variante === "complete" ? complete(c, a) : unePage(c);
+export function cvHtml(c: CvDoc, a: CvAssets): string {
+  const css = BASE_CSS(a) + COMPLETE_CSS;
+  const body = complete(c, a);
   return `<!doctype html><html lang="${c.lang}"><head><meta charset="utf-8"><title>${esc(c.title)}</title><style>${css}</style></head><body>${body}</body></html>`;
 }
-
-// Hauteur d'une page A4 en pixels CSS (96 px par pouce) : sert à mesurer le remplissage.
-export const A4_HAUTEUR_PX = (297 / 25.4) * 96;

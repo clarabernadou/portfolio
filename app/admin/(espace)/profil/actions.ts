@@ -126,7 +126,7 @@ export async function generateEssentiel(): Promise<{ ok: true; pages: number } |
   const { loadAssets, loadSources, renderPdf, storeFile } = await import("@/lib/pdf/server");
   const [sources, assets] = await Promise.all([loadSources(), loadAssets()]);
   try {
-    const { pdf, pages } = await renderPdf(cvHtml(essentielFr(sources), assets, "complete"));
+    const { pdf, pages } = await renderPdf(cvHtml(essentielFr(sources), assets));
     const name = "CV_Clara_Bernadou_FR.pdf";
     await storeFile(name, "essentiel", "fr", pdf);
     await logActivity("cv", name, "CV en PDF généré");

@@ -16,7 +16,7 @@ const { loadAssets, loadSources, renderPdf } = await import("../lib/pdf/server")
 const [sources, assets] = await Promise.all([loadSources(), loadAssets()]);
 const jobs = [{ out: "public/CV_Clara_Bernadou_FR.pdf", doc: essentielFr(sources) }];
 for (const j of jobs) {
-  const { pdf, pages } = await renderPdf(cvHtml(j.doc, assets, "complete"));
+  const { pdf, pages } = await renderPdf(cvHtml(j.doc, assets));
   await writeFile(path.join(process.cwd(), j.out), pdf);
   console.log(`${j.out} généré (${pages} pages).`);
 }

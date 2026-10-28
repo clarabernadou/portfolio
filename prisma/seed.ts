@@ -7,7 +7,6 @@ import { Prisma } from "../lib/generated/prisma/client";
 import projectsData from "../data/projects.json";
 import iaData from "../data/ia.json";
 import liensData from "../data/liens.json";
-import orientationsData from "../data/cv-orientations.json";
 import cartesAccueil from "../data/accueil-cartes.json";
 import { experiences } from "../lib/content/experiences";
 import { alternances } from "../lib/content/accueil";
@@ -184,10 +183,6 @@ async function main() {
   };
   for (const [key, data] of Object.entries(singletons)) {
     await prisma.singleton.upsert({ where: { key }, create: { key, data }, update: {} });
-  }
-
-  for (const o of orientationsData.orientations) {
-    await prisma.cvOrientation.upsert({ where: { id: o.id }, create: { id: o.id, data: o }, update: {} });
   }
 
   console.log(`Import terminé : ${created} éléments créés (les éléments déjà présents sont conservés).`);

@@ -44,11 +44,10 @@ const nextConfig: NextConfig = {
   // Génération des PDF du CV sur Vercel (étape 10) : Chromium « serverless » reste hors
   // du bundle, et les fonctions de l'administration embarquent polices et photo.
   serverExternalPackages: ["@sparticuz/chromium", "playwright-core"],
-  // Seules les 2 pages qui génèrent un PDF embarquent Chromium (environ 80 Mo) : l'inclure dans
+  // Seule la page qui génère le PDF embarque Chromium (environ 80 Mo) : l'inclure dans
   // toute l'administration faisait dépasser le stockage gratuit des fonctions de Vercel.
   outputFileTracingIncludes: {
-    // Pages /admin/(espace)/profil et /admin/(espace)/profil/cv-oriente/[id] : parenthèses et
-    // crochets étant des caractères de motif, on passe par des jokers.
+    // Page /admin/(espace)/profil : les parenthèses étant des caractères de motif, on passe par des jokers.
     "/admin/*/profil/**": PDF,
   },
   // Envoi de la photo du profil depuis l'administration (2 Mo au plus, plus l'enveloppe).

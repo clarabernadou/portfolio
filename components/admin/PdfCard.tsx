@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { generateEssentiel } from "@/app/admin/(espace)/profil/actions";
@@ -11,7 +10,7 @@ type Fichier = { name: string; generatedAt: string | null };
 
 // Bloc « CV en PDF » de Profil et CV (maquette Admin-profil-cv.jpg, critère 7 ter).
 // Version anglaise retirée (décision de Clara, 24 oct. 2026) : CV en français seulement.
-export function PdfCard({ essentiel, orientes }: { essentiel: Fichier; orientes: { id: string; name: string; fichier: Fichier }[] }) {
+export function PdfCard({ essentiel }: { essentiel: Fichier }) {
   const router = useRouter();
   const toast = useToast();
   const [error, setError] = useState<string | null>(null);
@@ -64,35 +63,6 @@ export function PdfCard({ essentiel, orientes }: { essentiel: Fichier; orientes:
           <b className="adm-error">{error}</b>
         </div>
       )}
-      <div className="adm-field">
-        <span className="adm-label" style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--ardoise)" }}>
-          CV orientés · 1 page
-        </span>
-        <span className="adm-help">Pour candidater : un CV d’une page, orienté selon le poste visé.</span>
-      </div>
-      <ul className="adm-list">
-        {orientes.map((o) => (
-          <li key={o.id}>
-            <span>
-              <b>{o.name}</b>
-              <small className="adm-muted" style={{ display: "block", whiteSpace: "normal" }}>
-                Une page · {date(o.fichier)}
-              </small>
-            </span>
-            <span style={{ display: "flex", gap: 6, alignItems: "center" }}>
-              <Link className="adm-btn adm-btn--outline" href={`/admin/profil/cv-oriente/${o.id}`}>
-                Personnaliser
-              </Link>
-              {o.fichier.generatedAt && (
-                <a className="adm-btn adm-btn--link" href={`/media/cv/${o.fichier.name}`} target="_blank" rel="noopener noreferrer">
-                  <Icon name="external" />
-                  Télécharger
-                </a>
-              )}
-            </span>
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }
