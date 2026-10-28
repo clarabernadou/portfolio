@@ -55,6 +55,7 @@ Next.js (App Router) et TypeScript, Tailwind CSS (`tokens.css` et `tailwind.conf
 - Aucun secret dans le code ni dans le dépôt : tout va dans `.env.local` (ignoré par Git), avec un `.env.example` sans valeurs.
 - Le compte administrateur est identifié par son identifiant numérique GitHub (variable `ADMIN_GITHUB_ID`), jamais par le nom d'utilisateur ou l'e-mail.
 - Toutes les routes `/admin/*` et toutes les API d'écriture sont protégées côté serveur.
+- En-têtes de sécurité dans `next.config.ts` (28 octobre 2026) : politique de sécurité du contenu (CSP) stricte, `X-Frame-Options: DENY`, `Cross-Origin-Opener-Policy`, HSTS, sans `X-Powered-By`. Toute nouvelle ressource externe (police, image, vidéo, API appelée du navigateur) doit être ajoutée à la CSP, sinon le navigateur la bloque.
 - Les vidéos YouTube se chargent seulement après un clic (`youtube-nocookie.com`). Aucun cookie pour les visiteurs.
 
 ## Méthode de travail
