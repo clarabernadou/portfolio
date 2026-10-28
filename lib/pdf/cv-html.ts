@@ -10,10 +10,9 @@ export interface CvDoc {
   nom: string;
   role: string;
   pills: string[];
-  itw: string;
-  contact: { email: string; telephone: string; telephoneAffiche: string; linkedin: string; github: string };
+  contact: { email: string; telephone: string; telephoneAffiche: string; linkedin: string; github: string; site: string };
   profile: string;
-  h: { skills: string; langs: string; exp: string; edu: string };
+  h: { skills: string; langs: string; exp: string; edu: string; projets: string };
   skills: { name: string; items: string[] }[];
   langs: { nom: string; niveau: string[] }[];
   exp: {
@@ -25,6 +24,7 @@ export interface CvDoc {
     blocks: { name?: string; period?: string; bullets: string[] }[];
     nt?: string;
   }[];
+  projets: { titre: string; href?: string; d: string; bullets: string[] }[];
   edu: { d: string; t: string; url?: string; tags: { text: string; kind: "ok" | "cours" | "info" }[]; mt: string; note?: string }[];
 }
 
@@ -39,6 +39,7 @@ const lien = (l: Lien) => (l.href ? `<a href="${esc(l.href)}">${esc(l.text)}</a>
 const pretty = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 
 const ICON = {
+  web: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
   tel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>',
   mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
   in: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/></svg>',
@@ -49,10 +50,11 @@ const BASE_CSS = (a: CvAssets) => `
 @font-face{font-family:'Manrope';src:url('${a.manrope}');font-weight:200 800}
 @font-face{font-family:'Bricolage Grotesque';src:url('${a.bricolage}');font-weight:200 800}
 *{box-sizing:border-box}html,body{margin:0}
-body{font-family:'Manrope',sans-serif;color:#1A1033;-webkit-print-color-adjust:exact;print-color-adjust:exact;background:#FFFFFF}
+body{font-family:'Manrope',sans-serif;font-variant-ligatures:none;font-feature-settings:'liga' 0,'clig' 0,'dlig' 0;color:#1A1033;-webkit-print-color-adjust:exact;print-color-adjust:exact;background:#FFFFFF}
 a{color:inherit;text-decoration:none}
+/* Logiciels de tri (ATS) : sans ligatures, « ff » et « tt » restent lisibles à l'extraction du texte ; les titres resserrés gardent un espace net entre les mots. */
 .bri{font-family:'Bricolage Grotesque',sans-serif;font-variation-settings:'opsz' 96}
-h1{margin:0;letter-spacing:-0.04em;line-height:1}
+h1{margin:0;letter-spacing:-0.04em;word-spacing:0.12em;line-height:1}
 h1 .l{font-weight:300}h1 .b{font-weight:800}
 h3{margin:0;letter-spacing:.09em;text-transform:uppercase;color:#6A4FB6;font-weight:800}
 .tags{display:flex;flex-wrap:wrap;gap:3pt}
@@ -80,16 +82,15 @@ h1{font-size:28pt}h1 .l{color:#C4B5FD}
 .ti{font-size:11.5pt;font-weight:700;color:#C4B5FD;margin-top:4pt}
 .pills{display:flex;flex-wrap:wrap;gap:4pt;margin-top:8pt}
 .pills span{padding:2.5pt 8pt;border-radius:99pt;background:rgba(255,255,255,0.08);border:0.75pt solid rgba(196,181,253,0.45);font-size:7.8pt;font-weight:700}
-.ct{display:flex;justify-content:space-between;gap:10pt;margin-top:8mm;padding:7pt 0 8pt;border-top:0.75pt solid rgba(196,181,253,0.3);font-size:8.2pt}
-.ct a{display:flex;align-items:center;gap:5pt;font-weight:700}
+.ct{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4pt 10pt;margin-top:8mm;padding:7pt 0 8pt;border-top:0.75pt solid rgba(196,181,253,0.3);font-size:8.2pt}
+.ct a{display:flex;align-items:center;gap:5pt;font-weight:700;white-space:nowrap}
 .ct svg{width:10pt;height:10pt;flex-shrink:0;color:#C4B5FD}
 .wrap{padding:0 13mm}
-.itw{margin:7pt 0 0;font-size:8.4pt;font-style:italic;font-weight:600;color:#C4B5FD}
 .pf{margin-top:12pt;background:#F3EFFF;border-left:2.5pt solid #6A4FB6;border-radius:6pt;padding:7pt 10pt;margin-bottom:12pt;font-size:9.2pt}
 .skl{break-inside:avoid}
 .row{display:grid;grid-template-columns:30mm 1fr;gap:10pt;align-items:baseline;padding:4.5pt 0;border-top:1pt solid #E4DCF7}
 .row:first-of-type{border-top:0;padding-top:2pt}
-h2{margin:0 0 7pt;font-size:13pt;font-weight:800;letter-spacing:-0.02em;break-after:avoid-page}
+h2{margin:0 0 7pt;font-size:13pt;font-weight:800;letter-spacing:-0.02em;word-spacing:0.06em;break-after:avoid-page}
 h3{font-size:7.2pt}
 .tags span{padding:1.5pt 5.5pt;font-size:7.6pt}
 .lgs{display:flex;flex-direction:column;gap:3pt}
@@ -100,17 +101,17 @@ h2.sec{border-bottom:1pt solid #E4DCF7;padding-bottom:4pt}
 .ex:first-of-type{border-top:0;padding-top:2pt}
 .ex > .d{position:absolute;left:0;width:30mm}
 .d{font-size:8pt;font-weight:800;color:#6A4FB6;line-height:1.35;padding-top:1.5pt}
-.r{font-weight:800;font-size:11pt;letter-spacing:-0.02em;line-height:1.15}
+.r{font-weight:800;font-size:11pt;letter-spacing:-0.02em;word-spacing:0.06em;line-height:1.15}
 .co{font-size:9.2pt;margin-top:2pt}
 .mt{font-size:7.9pt}
 .ds{margin-top:3pt}
-.bl{margin-top:5pt;break-inside:avoid}.bt{font-weight:800;font-size:9pt}.bd{font-size:7.8pt;font-weight:700;color:#5B5470;margin-left:5pt}
+.bl{margin-top:5pt}.bl > div{break-after:avoid}li{break-inside:avoid}.bt{font-weight:800;font-size:9pt}.bd{font-size:7.8pt;font-weight:700;color:#5B5470;margin-left:5pt}
 li{margin:0 0 1.5pt}
 .nt{font-size:8pt;color:#5B5470;margin-top:4pt}
 .fo{display:grid;grid-template-columns:30mm 1fr;gap:10pt;padding:6pt 0;border-top:1pt solid #E4DCF7;break-inside:avoid}
 .fo:first-of-type{border-top:0;padding-top:2pt}
 .ft{display:flex;flex-wrap:wrap;align-items:center;gap:4pt}
-.ft a,.ft b{font-weight:800;font-size:10pt;letter-spacing:-0.02em}
+.ft a,.ft b{font-weight:800;font-size:10pt;letter-spacing:-0.02em;word-spacing:0.06em}
 .ft a::after{content:'';display:inline-block;width:6.5pt;height:6.5pt;margin-left:3pt;vertical-align:1pt;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none' stroke='%236A4FB6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 8 8 2M3.5 2H8v4.5'/%3E%3C/svg%3E") no-repeat center/contain}
 .st{font-size:7pt}
 .us{font-size:8pt}
@@ -125,7 +126,6 @@ function header(c: CvDoc, a: CvAssets) {
       <h1 class="bri"><span class="b">${esc(prenom)}</span> <span class="l">${esc(reste.join(" "))}</span></h1>
       <div class="ti">${esc(c.role)}</div>
       <div class="pills">${c.pills.map((p) => `<span>${esc(p)}</span>`).join("")}</div>
-      <p class="itw">${esc(c.itw)}</p>
     </div>
   </div>
   <div class="ct">
@@ -133,6 +133,7 @@ function header(c: CvDoc, a: CvAssets) {
     <a href="${esc(c.contact.telephone)}">${ICON.tel}${esc(c.contact.telephoneAffiche)}</a>
     <a href="${esc(c.contact.linkedin)}">${ICON.in}${esc(pretty(c.contact.linkedin))}</a>
     <a href="${esc(c.contact.github)}">${ICON.gh}${esc(pretty(c.contact.github))}</a>
+    <a href="${esc(c.contact.site)}">${ICON.web}${esc(pretty(c.contact.site))}</a>
   </div>
 </header>`;
 }
@@ -160,6 +161,21 @@ ${c.exp
   )
   .join("")}
 </section>
+${
+  c.projets.length
+    ? `<section><h2 class="bri sec">${esc(c.h.projets)}</h2>
+${c.projets
+  .map(
+    (pj) => `<div class="ex"><div class="d">${esc(pj.d)}</div><div>
+  <div class="r bri">${esc(pj.titre)}</div>
+  ${pj.href ? `<div class="co"><a href="${esc(pj.href)}">${esc(pretty(pj.href))}</a></div>` : ""}
+  <ul>${pj.bullets.map((l) => `<li>${esc(l)}</li>`).join("")}</ul>
+</div></div>`,
+  )
+  .join("")}
+</section>`
+    : ""
+}
 <section><h2 class="bri sec">${esc(c.h.edu)}</h2>
 ${c.edu
   .map(

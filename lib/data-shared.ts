@@ -53,6 +53,8 @@ export interface SiteProfile {
   photoAlt: string;
   /** Premier chiffre de « En bref » sur l'accueil (ex. « 70+ » pull requests) : masqué s'il est absent. */
   chiffreCle?: { valeur: string; libelle: string };
+  /** Section « Projet » du CV PDF, entre expériences et formations : masquée si vide. */
+  projetsCv?: { titre: string; lien?: string; periode: string; puces: string[] }[];
   /** Profil pour l'IA de relecture (administration) : privé, jamais envoyé aux pages publiques. */
   noteIA?: string;
 }

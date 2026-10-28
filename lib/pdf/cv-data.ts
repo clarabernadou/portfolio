@@ -2,6 +2,7 @@
 // français (version anglaise retirée le 24 oct. 2026). Pur, sans accès à la base.
 import type { CvDoc, Lien } from "./cv-html";
 import type { SiteExperience, SiteFormation, SiteProfile } from "@/lib/data-shared";
+import { siteUrl } from "@/lib/site-url";
 
 export interface CvSources {
   profil: SiteProfile;
@@ -10,7 +11,7 @@ export interface CvSources {
   formations: SiteFormation[];
 }
 
-const H_FR: CvDoc["h"] = { skills: "Compétences", langs: "Langues", exp: "Expériences professionnelles", edu: "Formations" };
+const H_FR: CvDoc["h"] = { skills: "Compétences", langs: "Langues", exp: "Expériences professionnelles", edu: "Formations", projets: "Projet" };
 
 const telHref = (t: string) => "tel:" + t.replace(/ /g, "").replace(/^0/, "+33");
 const co = (e: SiteExperience): Lien[] => [
@@ -20,7 +21,7 @@ const co = (e: SiteExperience): Lien[] => [
 const statut = (f: SiteFormation) => ({ text: f.statut, kind: (f.statut === "En cours" ? "cours" : "ok") as "ok" | "cours" });
 
 function contact(p: SiteProfile) {
-  return { email: p.email, telephone: telHref(p.telephone), telephoneAffiche: p.telephone, linkedin: p.linkedin, github: p.github };
+  return { email: p.email, telephone: telHref(p.telephone), telephoneAffiche: p.telephone, linkedin: p.linkedin, github: p.github, site: siteUrl };
 }
 
 // CV essentiel en français : le contenu du site, version essentielle.
@@ -32,7 +33,6 @@ export function essentielFr(s: CvSources): CvDoc {
     nom: p.nom,
     role: p.intitule,
     pills: [[p.contrat, p.disponibilite].filter(Boolean).join(" · "), p.lieu, p.mobilite].filter(Boolean),
-    itw: p.entretiens,
     contact: contact(p),
     profile: p.profilEssentiel,
     h: H_FR,
@@ -47,6 +47,7 @@ export function essentielFr(s: CvSources): CvDoc {
       blocks: e.blocs.map((b) => ({ name: b.name, period: b.period, bullets: b.bulletsEssentiel })).filter((b) => b.bullets.length),
       nt: e.note,
     })),
+    projets: (p.projetsCv ?? []).map((pj) => ({ titre: pj.titre, href: pj.lien || undefined, d: pj.periode, bullets: pj.puces })),
     edu: s.formations.map((f) => ({
       d: f.annees,
       t: f.intitule,
