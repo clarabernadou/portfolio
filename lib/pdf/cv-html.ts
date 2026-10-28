@@ -82,9 +82,9 @@ h1{font-size:28pt}h1 .l{color:#C4B5FD}
 .ti{font-size:11.5pt;font-weight:700;color:#C4B5FD;margin-top:4pt}
 .pills{display:flex;flex-wrap:wrap;gap:4pt;margin-top:8pt}
 .pills span{padding:2.5pt 8pt;border-radius:99pt;background:rgba(255,255,255,0.08);border:0.75pt solid rgba(196,181,253,0.45);font-size:7.8pt;font-weight:700}
-.ct{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:6pt 22pt;margin-top:8mm;padding:7pt 0 8pt;border-top:0.75pt solid rgba(196,181,253,0.3);font-size:7.6pt}
-.ct a{display:flex;align-items:center;gap:5pt;font-weight:700;white-space:nowrap}
-.ct svg{width:9pt;height:9pt;flex-shrink:0;color:#C4B5FD}
+.ct{display:flex;flex-wrap:nowrap;justify-content:space-between;gap:6pt;margin-top:8mm;padding:7pt 0 8pt;border-top:0.75pt solid rgba(196,181,253,0.3);font-size:7.6pt}
+.ct a{display:flex;align-items:center;gap:4pt;font-weight:700;white-space:nowrap}
+.ct svg{width:8.5pt;height:8.5pt;flex-shrink:0;color:#C4B5FD}
 .wrap{padding:0 13mm}
 .pf{margin-top:12pt;background:#F3EFFF;border-left:2.5pt solid #6A4FB6;border-radius:6pt;padding:7pt 10pt;margin-bottom:14pt;font-size:9.2pt}
 /* Deux colonnes : la principale (expériences, projet) d'abord dans le document, pour l'ordre de lecture des logiciels de tri ; la latérale (compétences, langues, formations) s'affiche à gauche. */

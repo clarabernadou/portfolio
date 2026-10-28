@@ -47,8 +47,8 @@ export function MentionsView({ v }: { v: any }) {
               {"Contact"}
             </dt>
             <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
-              <a href={"mailto:clarabernadou56690@gmail.com"}>
-                {"clarabernadou56690@gmail.com"}
+              <a href={"mailto:contact@clarabernadou.fr"}>
+                {"contact@clarabernadou.fr"}
               </a>
             </dd>
           </div>
@@ -130,8 +130,8 @@ export function MentionsView({ v }: { v: any }) {
             </dt>
             <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
               {"Accès, rectification et suppression : "}
-              <a href={"mailto:clarabernadou56690@gmail.com"}>
-                {"clarabernadou56690@gmail.com"}
+              <a href={"mailto:contact@clarabernadou.fr"}>
+                {"contact@clarabernadou.fr"}
               </a>
               {". Vous pouvez aussi saisir la CNIL."}
             </dd>
