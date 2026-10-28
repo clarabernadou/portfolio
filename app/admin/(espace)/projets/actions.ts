@@ -6,6 +6,7 @@ import { isAdminSession, requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { logActivity } from "@/lib/admin/activity";
 import { slugify } from "@/lib/admin/projects";
+import { parseRepoUrl, siteDuDepot } from "@/lib/admin/github";
 
 // Actions serveur des écrans Projets. Chacune revérifie la session (requireAdmin) :
 // une action serveur est un point d'entrée public, la vérification de la page ne suffit pas.
@@ -23,6 +24,7 @@ export interface ProjectInput {
   skillsValidated: string[];
   github: string;
   figma: string;
+  site: string;
   pdf: string;
   docs: { label: string; href: string; thumb?: string; alt?: string }[];
   steps: { label: string; status: string }[];
@@ -106,6 +108,7 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
     skillsValidated: input.skillsValidated,
     github: input.github.trim() || null,
     figma: input.figma.trim() || null,
+    site: input.site.trim() || null,
     pdf: input.pdf.trim() || input.docs[0]?.href || null,
     docs: input.docs.map((d, i) => ({ n: i + 1, label: d.label, href: d.href, ...(d.thumb ? { thumb: d.thumb, alt: d.alt || `Aperçu : ${d.label}` } : {}) })),
     steps: input.steps.filter((s) => s.label.trim()),
@@ -208,4 +211,17 @@ export async function duplicateFromForm(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("source") ?? "");
   if (id) await duplicateProject(id);
+}
+
+/** Adresse du site en ligne déclarée sur le dépôt GitHub du projet (Website ou GitHub Pages). */
+export async function siteGithub(adresse: string): Promise<{ ok: true; site: string } | { ok: false; error: string }> {
+  await requireAdmin();
+  const r = parseRepoUrl(adresse);
+  if (!r) return { ok: false, error: "Indique d’abord l’adresse du dépôt GitHub." };
+  try {
+    const site = await siteDuDepot(r.owner, r.repo);
+    return site ? { ok: true, site } : { ok: false, error: "Ce dépôt n’indique aucun site : ni « Website », ni GitHub Pages." };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "GitHub ne répond pas : réessaie." };
+  }
 }

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition, useState } from "react";
-import { saveProject, deleteProject, restoreProject, type ProjectInput } from "@/app/admin/(espace)/projets/actions";
+import { saveProject, deleteProject, restoreProject, siteGithub, type ProjectInput } from "@/app/admin/(espace)/projets/actions";
 import { Checks, InlineInput, ListEditor, SelectField, TagInput, TextArea, TextField, Toggle } from "./fields";
 import { RestoreBanner, SaveBar, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
@@ -37,6 +37,7 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
   const set = <K extends keyof ProjectInput>(k: K, v: ProjectInput[K]) => draft.setValue({ ...p, [k]: v });
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
+  const [cherche, setCherche] = useState(false);
   const autoSlug = isNew && (!p.id || p.id === slugify(initial.name));
   const skills = [...new Set([...(skillSuggestions[p.parcours] ?? []), ...p.skillsValidated])];
 
@@ -131,6 +132,35 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
               <TextField label="Dépôt GitHub" type="url" value={p.github} onChange={(v) => set("github", v)} placeholder="https://github.com/…" help="Optionnel." />
               <TextField label="Maquette Figma" type="url" value={p.figma} onChange={(v) => set("figma", v)} placeholder="https://figma.com/…" help="Optionnel." />
             </div>
+            <TextField
+              label="Site en ligne"
+              type="url"
+              value={p.site}
+              onChange={(v) => set("site", v)}
+              placeholder="https://…"
+              help="Optionnel. Affiché en tête de la fiche du projet : « Voir le site »."
+            />
+            {p.github && !p.site && (
+              <div>
+                <button
+                  type="button"
+                  className="adm-btn adm-btn--outline"
+                  disabled={cherche}
+                  onClick={async () => {
+                    setCherche(true);
+                    const r = await siteGithub(p.github);
+                    setCherche(false);
+                    if (r.ok) {
+                      set("site", r.site);
+                      toast({ message: "Adresse du site reprise de GitHub : vérifie-la, puis enregistre." });
+                    } else toast({ message: r.error });
+                  }}
+                >
+                  <Icon name="sync" />
+                  {cherche ? "Recherche sur GitHub…" : "Reprendre l’adresse du site depuis GitHub"}
+                </button>
+              </div>
+            )}
             <ListEditor
               label="Livrables"
               items={p.docs}

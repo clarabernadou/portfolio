@@ -34,6 +34,8 @@ function detail(p: Project) {
     ghh: p.github,
     hasFig: !!p.figma,
     figh: p.figma,
+    hasSite: !!p.site,
+    siteh: p.site,
     hasSteps: p.steps.length > 0,
     steps: p.steps.map((s) => {
       const fait = s.status === "Fait";

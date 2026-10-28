@@ -48,6 +48,13 @@ export async function fetchRepo(owner: string, repo: string): Promise<RepoInfo> 
   return toRepoInfo(r as RepoJson, Object.keys(langs as Record<string, number>));
 }
 
+/** Site en ligne d'un dépôt : le champ « Website » du dépôt, sinon son adresse GitHub Pages ; "" s'il n'y en a pas. */
+export async function siteDuDepot(owner: string, repo: string): Promise<string> {
+  const r = (await gh(`/repos/${owner}/${repo}`)) as { name: string; owner: { login: string }; homepage: string | null; has_pages: boolean };
+  if (r.homepage?.trim()) return /^https?:\/\//.test(r.homepage.trim()) ? r.homepage.trim() : `https://${r.homepage.trim()}`;
+  return r.has_pages ? `https://${r.owner.login.toLowerCase()}.github.io/${r.name}/` : "";
+}
+
 export async function listPublicRepos(login: string): Promise<RepoJson[]> {
   return (await gh(`/users/${login}/repos?type=owner&per_page=100&sort=created`)) as RepoJson[];
 }

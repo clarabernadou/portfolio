@@ -38,6 +38,7 @@ export interface Project {
   steps: ProjectStep[];
   github: string | null;
   figma: string | null;
+  site?: string | null;
   context: string;
   skillsValidated: string[];
   onHome: boolean;

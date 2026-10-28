@@ -69,6 +69,7 @@ function fromRow(r: ProjectRow): SiteProject {
     steps: r.steps as unknown as Project["steps"],
     github: r.github,
     figma: r.figma,
+    site: r.site,
     context: r.context,
     skillsValidated: r.skillsValidated as string[],
     onHome: r.onHome,
