@@ -20,6 +20,8 @@ function card(p: Project) {
     ctx: p.context,
     hasGh: !!p.github,
     ghh: p.github,
+    hasSite: !!p.site,
+    siteh: p.site,
     href: `/projets/${p.id}`,
   };
 }

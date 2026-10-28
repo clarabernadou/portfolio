@@ -23,7 +23,11 @@ async function gh(path: string) {
   const headers: Record<string, string> = { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
   if (process.env.GITHUB_SYNC_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_SYNC_TOKEN}`;
   const r = await fetch(`https://api.github.com${path}`, { headers, cache: "no-store" });
-  if (!r.ok) throw new Error(r.status === 404 ? "Dépôt introuvable ou privé." : `GitHub a répondu ${r.status}.`);
+  if (!r.ok) {
+    if (r.status === 404) throw new Error("Dépôt introuvable ou privé.");
+    if ((r.status === 403 || r.status === 429) && r.headers.get("x-ratelimit-remaining") === "0") throw new Error("Limite de requêtes GitHub atteinte pour l’heure : réessaie un peu plus tard.");
+    throw new Error(`GitHub a répondu ${r.status}.`);
+  }
   return r.json();
 }
 

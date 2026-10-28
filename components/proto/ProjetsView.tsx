@@ -82,6 +82,13 @@ export function ProjetsView({ v }: { v: any }) {
                                 <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
                                   {"Voir le projet"}
                                 </Link>
+                                {p.hasSite && (
+                                  <>
+                                    <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #6A4FB6; color: #6A4FB6; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
+                                      {"Site ↗"}
+                                    </a>
+                                  </>
+                                )}
                                 {p.hasGh && (
                                   <>
                                     <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
@@ -203,6 +210,17 @@ export function ProjetsView({ v }: { v: any }) {
                           <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
                             {"Voir le projet"}
                           </Link>
+                          {" "}
+                          {p.hasSite && (
+                            <>
+                              <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #6A4FB6; color: #6A4FB6; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
+                                {"Site "}
+                                <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                                  <path d={"M7 17L17 7M9 7h8v8"} />
+                                </svg>
+                              </a>
+                            </>
+                          )}
                           {" "}
                           {p.hasGh && (
                             <>
