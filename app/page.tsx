@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { profilPublic } from "@/lib/data-shared";
+import { dureeAlternance, profilPublic } from "@/lib/data-shared";
 import { Accueil } from "@/components/proto/Accueil";
 import { getExperiences, getFormations, getPhotoUrl, getProfile, getRecommendations, getSiteProjects, getSkills, homeProjects } from "@/lib/data";
 import { JsonLd, personneJsonLd, siteJsonLd } from "@/lib/seo";
@@ -26,7 +26,7 @@ export default async function Home() {
   return (
     <>
       <JsonLd data={[personneJsonLd(publique, skills.essentiel.flatMap((g) => g.items), photoUrl), siteJsonLd()]} />
-      <Accueil home={homeProjects(projects)} total={projects.length} avecLivrables={projects.filter((p) => p.pdf || p.docs.length > 0).length} experiences={experiences} formations={formations} profil={publique} recos={recos} />
+      <Accueil home={homeProjects(projects)} total={projects.length} avecLivrables={projects.filter((p) => p.pdf || p.docs.length > 0).length} experiences={experiences} duree={dureeAlternance(experiences)} formations={formations} profil={publique} recos={recos} />
     </>
   );
 }

@@ -51,6 +51,8 @@ export interface SiteProfile {
   profilEssentiel: string;
   langues: { nom: string; niveau: string[] }[];
   photoAlt: string;
+  /** Premier chiffre de « En bref » sur l'accueil (ex. « 70+ » pull requests) : masqué s'il est absent. */
+  chiffreCle?: { valeur: string; libelle: string };
   /** Profil pour l'IA de relecture (administration) : privé, jamais envoyé aux pages publiques. */
   noteIA?: string;
 }
@@ -84,4 +86,17 @@ export function iaStats(ia: Pick<IaContent, "stats" | "tools" | "skills" | "rout
 
 // Données envoyées aux pages publiques (décision de Clara, 25 oct. 2026) : ni le téléphone
 // (seulement dans le PDF du CV), ni le profil pour l'IA. Vidés côté serveur, jamais seulement cachés.
-export const profilPublic = (p: SiteProfile): SiteProfile => ({ ...p, telephone: "", noteIA: "" });
+// Durée d'alternance depuis le début de la plus ancienne expérience (« déc. 2023 – … ») : calculée, jamais écrite à la main.
+const MOIS = ["janv", "fév", "mars", "avr", "mai", "juin", "juil", "août", "sept", "oct", "nov", "déc"];
+export function dureeAlternance(experiences: Pick<Experience, "periode">[], maintenant = new Date()): { ans: number; mois: number } | null {
+  const debuts = experiences.flatMap((e) => {
+    const m = e.periode.match(/^(\p{L}+)\.?\s+(\d{4})/u);
+    const i = m ? MOIS.indexOf(m[1].toLowerCase()) : -1;
+    return i < 0 ? [] : [Number(m![2]) * 12 + i];
+  });
+  if (!debuts.length) return null;
+  const total = maintenant.getFullYear() * 12 + maintenant.getMonth() - Math.min(...debuts);
+  return total > 0 ? { ans: Math.floor(total / 12), mois: total % 12 } : null;
+}
+
+export const profilPublic =(p: SiteProfile): SiteProfile => ({ ...p, telephone: "", noteIA: "" });

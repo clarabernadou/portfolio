@@ -17,11 +17,17 @@ function cards(home: SiteProject[], section: string) {
     }));
 }
 
-export function Accueil({ home, total, avecLivrables, experiences, formations, profil, recos }: { home: SiteProject[]; total: number; avecLivrables: number; experiences: SiteExperience[]; formations: SiteFormation[]; profil: SiteProfile; recos: SiteReco[] }) {
+export function Accueil({ home, total, avecLivrables, experiences, duree, formations, profil, recos }: { home: SiteProject[]; total: number; avecLivrables: number; experiences: SiteExperience[]; duree: { ans: number; mois: number } | null; formations: SiteFormation[]; profil: SiteProfile; recos: SiteReco[] }) {
   const v: Record<string, unknown> = {
     cvUrl: siteContact.cvPdfHref,
     profil,
     dispo: dispoLabel(profil),
+    chiffreCle: profil.chiffreCle,
+    // « 2 ans » + « et 11 mois d'alternance… » : la durée reste exacte, sans arrondi.
+    duree: duree && duree.ans > 0 && {
+      valeur: `${duree.ans} an${duree.ans > 1 ? "s" : ""}`,
+      libelle: `${duree.mois ? `et ${duree.mois} mois ` : ""}d’alternance en développement et design`,
+    },
     total,
     // « En bref » : calculé sur les projets publics, pour rester juste pendant leur publication un par un.
     enBref: `${total > 1 ? "projets" : "projet"}${avecLivrables > 0 ? `, dont ${avecLivrables} avec livrables` : ""}`,

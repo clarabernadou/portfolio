@@ -178,14 +178,16 @@ export function AccueilView({ v }: { v: any }) {
         </section>
         <section aria-label={"En bref"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem 4.5rem`)}>
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
+            {v.chiffreCle && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
-                {"4"}
+                {v.chiffreCle.valeur}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
-                {"formations OpenClassrooms"}
+                {v.chiffreCle.libelle}
               </span>
             </li>
+            )}
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {"Bac+5"}
@@ -204,14 +206,16 @@ export function AccueilView({ v }: { v: any }) {
               </span>
             </li>
             )}
+            {v.duree && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
-                {"2"}
+                {v.duree.valeur}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
-                {"alternances depuis 2023"}
+                {v.duree.libelle}
               </span>
             </li>
+            )}
           </ul>
         </section>
         {/* Section masquée tant qu'aucun projet de l'accueil n'est public. */}
