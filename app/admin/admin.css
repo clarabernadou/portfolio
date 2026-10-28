@@ -226,3 +226,7 @@
 .adm-publication { width: auto; min-width: 130px; border-radius: var(--r-pill); font-size: 14px; font-weight: 700; }
 .adm-publication--publie { background: var(--succes-fond); color: var(--succes); }
 .adm-publication--prive, .adm-publication--brouillon { background: var(--brume); color: var(--ardoise); }
+
+/* Mode « Compléter » de l'avis de l'IA : notes de Clara. */
+.adm-ia-notes { display: flex; flex-direction: column; gap: 6px; margin: 0 0 16px; }
+.adm-ia-notes .adm-help { margin: 0; }

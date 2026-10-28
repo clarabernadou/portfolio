@@ -1,6 +1,7 @@
 import { adminApiGuard } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { consignesAvis, demandeAvis, SCHEMA_AVIS, type Avis, type ContexteAvis, type Recruteur } from "@/lib/admin/avis-ia";
+import { consignesAvis, demandeAvis, SCHEMA_AVIS, type Avis, type ContexteAvis, type Mode, type Recruteur, type Sources } from "@/lib/admin/avis-ia";
+import { resumeDepot } from "@/lib/admin/depot-ia";
 
 // Avis de l'IA intégré à l'administration : Google Gemini, offre gratuite, avec la clé
 // personnelle de Clara (GEMINI_API_KEY, jamais envoyée au navigateur). Réservé à sa session.
@@ -18,11 +19,14 @@ async function profilIA(): Promise<string> {
   return ((row?.data as { noteIA?: string } | undefined)?.noteIA ?? "").slice(0, 8000);
 }
 
-// Pour le mode « Copier pour Claude » : le navigateur récupère le même profil.
+// Pour le mode « Copier pour Claude » : le navigateur récupère le même profil (et, en mode
+// « Compléter », le résumé du dépôt GitHub, que Claude ne pourrait pas lire seul).
 export async function GET(request: Request) {
   const refus = await adminApiGuard(request);
   if (refus) return refus;
-  return Response.json({ profil: await profilIA() });
+  const github = new URL(request.url).searchParams.get("github") ?? undefined;
+  const [profil, depot] = await Promise.all([profilIA(), github ? resumeDepot(github) : Promise.resolve("")]);
+  return Response.json({ profil, depot });
 }
 
 type Etape = { type?: string; content?: { type?: string; text?: string }[] };
@@ -35,7 +39,7 @@ export async function POST(request: Request) {
   const cle = process.env.GEMINI_API_KEY;
   if (!cle) return Response.json({ error: "La clé Gemini n’est pas encore configurée (GEMINI_API_KEY). Utilise le mode « Copier pour Claude » en attendant.", sansCle: true }, { status: 503 });
 
-  const corps = (await request.json().catch(() => null)) as { texte?: unknown; ctx?: Partial<Record<keyof ContexteAvis, unknown>>; recruteur?: unknown } | null;
+  const corps = (await request.json().catch(() => null)) as { texte?: unknown; ctx?: Partial<Record<keyof ContexteAvis, unknown>>; recruteur?: unknown; mode?: unknown; notes?: unknown } | null;
   if (!corps) return Response.json({ error: "Requête illisible." }, { status: 400 });
   const recruteur: Recruteur = corps.recruteur === "tech" || corps.recruteur === "design" ? corps.recruteur : "hybride";
   const ctx: ContexteAvis = {
@@ -45,7 +49,8 @@ export async function POST(request: Request) {
     infos: texte(corps.ctx?.infos, 6000) || undefined,
   };
   const aRelire = texte(corps.texte, 8000);
-  const profil = await profilIA();
+  const mode: Mode = corps.mode === "completer" ? "completer" : "relire";
+  const github = texte(corps.ctx?.github, 300);
 
   // Réponse envoyée au fil de l'eau (une ligne JSON par événement) : le panneau affiche l'étape
   // réelle (modèle principal, puis modèle de secours) et peut annuler la demande à tout moment.
@@ -54,7 +59,10 @@ export async function POST(request: Request) {
   const envoyer = (e: Record<string, unknown>) => ecrire.write(`${JSON.stringify(e)}\n`).catch(() => {});
   (async () => {
     try {
-      const resultat = await analyser(cle, ctx, recruteur, profil, aRelire, request.signal, (etape, modele, delai) => envoyer({ type: "etape", etape, modele, delai }));
+      // Le dépôt GitHub n'est lu qu'en mode « Compléter » (6 s au plus par appel).
+      const [profil, depot] = await Promise.all([profilIA(), mode === "completer" && github ? resumeDepot(github) : Promise.resolve("")]);
+      const sources: Sources = { notes: mode === "completer" ? texte(corps.notes, 3000) : "", depot };
+      const resultat = await analyser(cle, ctx, recruteur, profil, aRelire, mode, sources, request.signal, (etape, modele, delai) => envoyer({ type: "etape", etape, modele, delai }));
       await envoyer(resultat);
     } catch {
       await envoyer({ type: "erreur", error: "L’analyse a échoué : réessaie dans un instant." });
@@ -75,6 +83,8 @@ async function analyser(
   recruteur: Recruteur,
   profil: string,
   aRelire: string,
+  mode: Mode,
+  sources: Sources,
   annulation: AbortSignal,
   etape: (etape: "principal" | "secours", modele: string, delai: number) => void,
 ): Promise<Evenement> {
@@ -104,9 +114,10 @@ async function analyser(
         headers: { "x-goog-api-key": cle, "Content-Type": "application/json" },
         body: JSON.stringify({
           model: essai.model,
-          system_instruction: consignesAvis(ctx, recruteur, profil),
-          input: demandeAvis(aRelire, ctx),
-          generation_config: { thinking_level: essai.model === MODELE ? "medium" : "low" },
+          system_instruction: consignesAvis(ctx, recruteur, profil, mode),
+          input: demandeAvis(aRelire, ctx, sources, mode),
+          // Compléter : réflexion courte, pour répondre avant le délai malgré les sources plus longues.
+          generation_config: { thinking_level: essai.model === MODELE && mode === "relire" ? "medium" : "low" },
           response_format: { type: "text", mime_type: "application/json", schema: SCHEMA_AVIS },
         }),
         signal: ctrl.signal,

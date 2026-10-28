@@ -1,19 +1,20 @@
 "use client";
 
 import { createContext, useContext, useEffect, useId, useRef, useState, type ReactNode } from "react";
-import { extraireProposition, promptAvis, RECRUTEURS, type Avis, type ContexteAvis, type Recruteur } from "@/lib/admin/avis-ia";
+import { extraireProposition, promptAvis, RECRUTEURS, type Avis, type ContexteAvis, type Mode, type Recruteur } from "@/lib/admin/avis-ia";
 import { Icon } from "./icons";
 
-// Bouton « Avis de l'IA » des champs de texte (lib/admin/avis-ia.ts). Mode intégré :
-// l'analyse de Google Gemini s'affiche dans le panneau. Mode de secours : prompt à copier
-// dans Claude, réponse à recoller. Dans les 2 cas, rien n'est enregistré sans Clara.
+// Bouton « Avis de l'IA » des champs de texte (lib/admin/avis-ia.ts) : relire le texte, ou le
+// compléter en un court paragraphe détaillé à partir des sources (fiche, profil, notes, dépôt
+// GitHub). Mode intégré : l'analyse de Google Gemini s'affiche dans le panneau. Mode de secours :
+// prompt à copier dans Claude, réponse à recoller. Dans les 2 cas, rien n'est enregistré sans Clara.
 
-type Page = Pick<ContexteAvis, "page" | "infos">;
+type Page = Pick<ContexteAvis, "page" | "infos" | "github">;
 const IaContexte = createContext<Page | null>(null);
 
 /** Décrit la page en cours (et les autres champs utiles) pour tous les boutons qu'elle contient. */
-export function IaPage({ page, infos, children }: Page & { children: ReactNode }) {
-  return <IaContexte.Provider value={{ page, infos }}>{children}</IaContexte.Provider>;
+export function IaPage({ page, infos, github, children }: Page & { children: ReactNode }) {
+  return <IaContexte.Provider value={{ page, infos, github }}>{children}</IaContexte.Provider>;
 }
 
 const CLE_RECRUTEUR = "admin-avis-ia-recruteur";
@@ -27,6 +28,11 @@ const LIBELLE_ETAPE = {
   principal: "Gemini relit ton texte et prépare sa proposition…",
   secours: "Le modèle principal est saturé ou trop lent : passage au modèle de secours, plus rapide…",
 };
+const LIBELLE_COMPLETER = {
+  envoi: "Lecture des sources et envoi à Gemini…",
+  principal: "Gemini rédige une version plus détaillée à partir de tes sources…",
+  secours: LIBELLE_ETAPE.secours,
+};
 
 export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeur: string; max?: number; onReplace: (v: string) => void }) {
   const page = useContext(IaContexte);
@@ -39,10 +45,14 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
   const [reponse, setReponse] = useState("");
   const [voirPrompt, setVoirPrompt] = useState(false);
   const [profilIA, setProfilIA] = useState("");
+  const [depot, setDepot] = useState("");
+  const [mode, setMode] = useState<Mode>("relire");
+  const [notes, setNotes] = useState("");
   const requete = useRef<AbortController | null>(null);
+  const completer = mode === "completer";
 
-  const ctx: ContexteAvis = { page: page?.page ?? "Administration du portfolio", infos: page?.infos, champ, max };
-  const prompt = promptAvis(valeur, ctx, recruteur, profilIA);
+  const ctx: ContexteAvis = { page: page?.page ?? "Administration du portfolio", infos: page?.infos, github: page?.github || undefined, champ, max };
+  const prompt = promptAvis(valeur, ctx, recruteur, profilIA, mode, completer ? { notes, depot } : {});
   const propositionClaude = reponse ? extraireProposition(reponse) : null;
 
   const ouvrir = () => {
@@ -56,10 +66,10 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
     setCopie("");
     setReponse("");
     dialog.current?.showModal();
-    // Profil pour l'IA (privé), utile au prompt du mode Claude.
-    fetch("/api/admin/avis-ia")
+    // Profil pour l'IA (privé) et résumé du dépôt GitHub, utiles au prompt du mode Claude.
+    fetch(`/api/admin/avis-ia${page?.github ? `?github=${encodeURIComponent(page.github)}` : ""}`)
       .then((r) => (r.ok ? r.json() : { profil: "" }))
-      .then((d) => setProfilIA(d.profil ?? ""))
+      .then((d) => (setProfilIA(d.profil ?? ""), setDepot(d.depot ?? "")))
       .catch(() => setProfilIA(""));
   };
 
@@ -98,7 +108,7 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
     requete.current = ctrl;
     setEtat({ type: "chargement", etape: { etape: "envoi", debut: Date.now(), delai: 3000 } });
     try {
-      const r = await fetch("/api/admin/avis-ia", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texte: valeur, ctx, recruteur }), signal: ctrl.signal });
+      const r = await fetch("/api/admin/avis-ia", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texte: valeur, ctx, recruteur, mode, notes: completer ? notes : "" }), signal: ctrl.signal });
       // Erreurs immédiates (clé absente, session expirée) : réponse JSON classique.
       if (!r.ok || !r.body || !r.headers.get("content-type")?.includes("ndjson")) {
         const data = await r.json().catch(() => ({}));
@@ -169,6 +179,44 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
         </div>
 
         <fieldset className="adm-ia-recruteur">
+          <legend className="adm-label">Que veux-tu faire ?</legend>
+          <div>
+            {(
+              [
+                ["relire", "Relire"],
+                ["completer", "Compléter"],
+              ] as const
+            ).map(([m, l]) => (
+              <button key={m} type="button" className="adm-btn" aria-pressed={mode === m} onClick={() => (setMode(m), setEtat({ type: "vide" }), setCopie(""))}>
+                {l}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+        {completer && (
+          <div className="adm-ia-notes">
+            <p className="adm-help">
+              L’IA rédige un court paragraphe plus détaillé à partir de la fiche, de ton profil{page?.github ? ", du code de ton dépôt GitHub" : ""} et de tes notes. Elle n’invente rien : ce qui ne vient pas de ces sources est signalé.
+            </p>
+            <label className="adm-label" htmlFor={`${titreId}-notes`}>
+              Tes notes pour l’IA <span className="adm-help">(facultatif)</span>
+            </label>
+            <textarea
+              id={`${titreId}-notes`}
+              className="adm-textarea"
+              rows={4}
+              value={notes}
+              onChange={(e) => (setNotes(e.target.value), setCopie(""))}
+              aria-describedby={`${titreId}-notes-aide`}
+              placeholder="Par exemple : ce que tu as fait, tes choix, une difficulté, le résultat."
+            />
+            <p className="adm-help" id={`${titreId}-notes-aide`}>
+              En vrac, sans mise en forme. C’est la seule source pour ce que la fiche ne dit pas ; rien n’est enregistré.
+            </p>
+          </div>
+        )}
+
+        <fieldset className="adm-ia-recruteur">
           <legend className="adm-label">Point de vue du recruteur</legend>
           <div>
             {RECRUTEURS.map((r) => (
@@ -182,15 +230,15 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
         <div className="adm-ia-actions">
           <button type="button" className="adm-btn" onClick={analyser} disabled={etat.type === "chargement"} aria-describedby={`${titreId}-gemini`}>
             <Icon name="sparkle" />
-            {etat.type === "chargement" ? "Analyse en cours…" : etat.type === "avis" ? "Relancer l’analyse" : "Analyser avec l’IA"}
+            {etat.type === "chargement" ? (completer ? "Rédaction en cours…" : "Analyse en cours…") : etat.type === "avis" ? (completer ? "Relancer la rédaction" : "Relancer l’analyse") : completer ? "Compléter avec l’IA" : "Analyser avec l’IA"}
           </button>
         </div>
         <p className="adm-help" id={`${titreId}-gemini`}>
-          Analyse par Google Gemini (offre gratuite) : le texte et son contexte sont envoyés à Google, qui peut s’en servir pour améliorer ses services.
+          Analyse par Google Gemini (offre gratuite) : le texte et son contexte{completer ? ", tes notes et le code de ton dépôt GitHub public" : ""} sont envoyés à Google, qui peut s’en servir pour améliorer ses services.
         </p>
 
         <div aria-live="polite">
-          {etat.type === "chargement" && <Progression etape={etat.etape} onAnnuler={annuler} />}
+          {etat.type === "chargement" && <Progression etape={etat.etape} libelles={completer ? LIBELLE_COMPLETER : LIBELLE_ETAPE} onAnnuler={annuler} />}
           {etat.type === "erreur" && (
             <p className="adm-error" role="alert">
               {etat.message}
@@ -287,7 +335,7 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
 
 // Barre de progression : l'étape vient de l'API, l'avancement dans l'étape est estimé
 // d'après le temps écoulé (Gemini ne dit pas où il en est), sans jamais atteindre 100 %.
-function Progression({ etape, onAnnuler }: { etape: Etape; onAnnuler: () => void }) {
+function Progression({ etape, libelles, onAnnuler }: { etape: Etape; libelles: typeof LIBELLE_ETAPE; onAnnuler: () => void }) {
   const [maintenant, setMaintenant] = useState(() => Date.now());
   useEffect(() => {
     const t = setInterval(() => setMaintenant(Date.now()), 250);
@@ -301,14 +349,14 @@ function Progression({ etape, onAnnuler }: { etape: Etape; onAnnuler: () => void
     <div className="adm-ia-progression">
       <div className="adm-ia-progression-tete">
         {/* Seul le libellé de l'étape est annoncé (zone aria-live parente), pas chaque seconde. */}
-        <p className="adm-help">{LIBELLE_ETAPE[etape.etape]}</p>
+        <p className="adm-help">{libelles[etape.etape]}</p>
         <button type="button" className="adm-btn adm-btn--outline adm-ia-annuler" onClick={onAnnuler}>
           <Icon name="close" size={14} />
           Annuler
           <span className="adm-sr"> l’analyse</span>
         </button>
       </div>
-      <div className="adm-ia-barre" role="progressbar" aria-label="Avancement de l’analyse (estimation)" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-valuetext={LIBELLE_ETAPE[etape.etape]}>
+      <div className="adm-ia-barre" role="progressbar" aria-label="Avancement de l’analyse (estimation)" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-valuetext={libelles[etape.etape]}>
         <span style={{ width: `${pct}%` }} />
       </div>
       <p className="adm-help" aria-hidden="true">

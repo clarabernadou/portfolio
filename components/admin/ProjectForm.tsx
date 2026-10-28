@@ -59,7 +59,7 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
     });
 
   return (
-    <IaPage page={`Fiche projet « ${p.name || "nouveau projet"} » du portfolio · cadre : ${p.parcours || "non précisé"} · types : ${p.types.join(", ") || "non précisés"}`} infos={[`Accroche : ${p.line}`, `Contexte : ${p.context}`, `Tags : ${p.tags.join(", ")}`, `Étapes : ${p.steps.map((s) => `${s.label} (${s.status})`).join(" ; ")}`, `Compétences validées : ${p.skillsValidated.join(", ")}`].join("\n")}>
+    <IaPage page={`Fiche projet « ${p.name || "nouveau projet"} » du portfolio · cadre : ${p.parcours || "non précisé"} · types : ${p.types.join(", ") || "non précisés"}`} infos={[`Accroche : ${p.line}`, `Contexte : ${p.context}`, `Tags : ${p.tags.join(", ")}`, `Étapes : ${p.steps.map((s) => `${s.label} (${s.status})`).join(" ; ")}`, `Compétences validées : ${p.skillsValidated.join(", ")}`, `Livrables : ${p.docs.map((d) => d.label).join(", ") || "aucun"}`].join("\n")} github={p.github ?? undefined}>
     <>
       <div>
         <div className="adm-crumb">
