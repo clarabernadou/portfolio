@@ -264,3 +264,7 @@ p.adm-ia-champ-titre .adm-help { color: var(--ardoise); }
 .adm-ia-tags .adm-check { min-height: 44px; }
 .adm-ia-bloc .adm-check input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 @media (max-width: 640px) { .adm-ia-avant-apres { grid-template-columns: 1fr; } }
+
+/* Compétences du CV : catégories sur 2 colonnes, ou 1 quand la colonne passerait sous 380 px. */
+.adm-competences { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 16px; }
+.adm-competences > .adm-card { min-width: 0; }

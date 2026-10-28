@@ -29,24 +29,30 @@ export function SkillsEditor({ initial, suggestions }: { initial: Groupe[]; sugg
         <p className="adm-sub">Celles de la page CV et du PDF : les catégories se renomment et se réordonnent ici.</p>
       </div>
       <RestoreBanner show={!!draft.restorable} onRestore={draft.restore} onDismiss={draft.dismiss} />
+      {/* Deux catégories par ligne quand la place le permet, une seule sinon (admin.css). */}
+      <div className="adm-competences">
       {groupes.map((g, i) => (
         <fieldset key={i} className="adm-card" style={{ padding: 16, gap: 10, background: "var(--brume)" }}>
           <legend className="adm-sr">{g.name || `Catégorie ${i + 1}`}</legend>
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <input className="adm-input" style={{ fontWeight: 800 }} aria-label={`Nom de la catégorie ${i + 1}`} value={g.name} onChange={(e) => set(i, { ...g, name: e.target.value })} />
-            <button type="button" className="adm-icon-btn" aria-label={`Monter « ${g.name} »`} disabled={i === 0} onClick={() => {
-              const c = [...groupes]; [c[i - 1], c[i]] = [c[i], c[i - 1]]; draft.setValue(c);
-            }}>↑</button>
-            <button type="button" className="adm-icon-btn" aria-label={`Descendre « ${g.name} »`} disabled={i === groupes.length - 1} onClick={() => {
-              const c = [...groupes]; [c[i + 1], c[i]] = [c[i], c[i + 1]]; draft.setValue(c);
-            }}>↓</button>
-            <button type="button" className="adm-icon-btn adm-icon-btn--danger" aria-label={`Supprimer la catégorie « ${g.name} »`} onClick={() => window.confirm(`Supprimer la catégorie « ${g.name} » et ses compétences ?`) && draft.setValue(groupes.filter((_, k) => k !== i))}>
-              <Icon name="trash" size={16} />
-            </button>
+          {/* Sur un écran étroit, les boutons passent sous le nom : il reste lisible en entier. */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+            <input className="adm-input" style={{ fontWeight: 800, flex: "1 1 200px", minWidth: 0 }} aria-label={`Nom de la catégorie ${i + 1}`} value={g.name} onChange={(e) => set(i, { ...g, name: e.target.value })} />
+            <span style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
+              <button type="button" className="adm-icon-btn" aria-label={`Monter « ${g.name} »`} disabled={i === 0} onClick={() => {
+                const c = [...groupes]; [c[i - 1], c[i]] = [c[i], c[i - 1]]; draft.setValue(c);
+              }}>↑</button>
+              <button type="button" className="adm-icon-btn" aria-label={`Descendre « ${g.name} »`} disabled={i === groupes.length - 1} onClick={() => {
+                const c = [...groupes]; [c[i + 1], c[i]] = [c[i], c[i + 1]]; draft.setValue(c);
+              }}>↓</button>
+              <button type="button" className="adm-icon-btn adm-icon-btn--danger" aria-label={`Supprimer la catégorie « ${g.name} »`} onClick={() => window.confirm(`Supprimer la catégorie « ${g.name} » et ses compétences ?`) && draft.setValue(groupes.filter((_, k) => k !== i))}>
+                <Icon name="trash" size={16} />
+              </button>
+            </span>
           </div>
           <TagInput label={`Compétences de « ${g.name || `catégorie ${i + 1}`} »`} value={g.items} onChange={(v) => set(i, { ...g, items: v })} suggestions={suggestions} />
         </fieldset>
       ))}
+      </div>
       <button type="button" className="adm-btn adm-btn--outline" onClick={() => draft.setValue([...groupes, { name: "", items: [] }])}>
         <Icon name="plus" />
         Ajouter une catégorie
