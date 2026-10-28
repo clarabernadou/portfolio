@@ -82,7 +82,7 @@ export function FormationForm({ initial, rattaches }: { initial: FormationInput;
         <TextField label="Années" required value={f.annees} onChange={(v) => set("annees", v)} placeholder="2025 – 2027" />
         <TextField label="Niveau" value={f.diplome} onChange={(v) => set("diplome", v)} placeholder="Bac+3/4" help="Affiché dans la frise de l’accueil." />
         <TextField label="Établissement et titre" value={f.niveauComplet} onChange={(v) => set("niveauComplet", v)} placeholder="OpenClassrooms · Titre RNCP niveau 6 (Bac+3/4)" help="Ligne du CV, avant le nombre de projets." />
-        <SelectField label="Mode" value={f.mode} onChange={(v) => set("mode", v)} options={["En alternance", "Autodidacte"]} />
+        <SelectField label="Mode" value={f.mode} onChange={(v) => set("mode", v)} options={["En alternance", "En autonomie"]} />
         <SelectField label="Statut" required value={f.statut} onChange={(v) => set("statut", v)} options={["En cours", "Obtenu"]} />
         <TextField label="Projets validés" value={f.projets} onChange={(v) => set("projets", v)} placeholder="8 projets validés sur 11" help={`${rattaches} ${rattaches > 1 ? "projets rattachés" : "projet rattaché"} à cette formation sur le site.`} />
       </div>

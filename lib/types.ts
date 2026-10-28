@@ -139,7 +139,7 @@ export interface Formation {
   annees: string;
   diplome: string;
   niveauComplet: string;
-  mode: "En alternance" | "Autodidacte";
+  mode: "En alternance" | "En autonomie";
   statut: "Obtenu" | "En cours";
   projets: string;
   mentionComplementaire?: string;
