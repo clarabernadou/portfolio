@@ -51,11 +51,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body>
-        <div style={css("width: 100%; background: #FFFFFF; font-family: 'Manrope', system-ui, sans-serif; color: #1A1033")}>
+        {/* Pied de page toujours en bas : la page occupe au moins la hauteur de l'écran et le
+            contenu s'étire, sans jamais laisser de bande blanche sous le pied de page. */}
+        <div style={css("width: 100%; min-height: 100dvh; display: flex; flex-direction: column; background: #FFFFFF; font-family: 'Manrope', system-ui, sans-serif; color: #1A1033")}>
           <span id="top" tabIndex={-1} />
           <ScrollToTop />
           <SiteHeader />
-          {children}
+          <div style={css("flex: 1 0 auto")}>{children}</div>
           <SiteFooter profil={{ email: profil.email, entretiens: profil.entretiens, linkedin: profil.linkedin, github: profil.github }} />
           {/* Après le pied de page : affiché en bas à droite, il est atteint en dernier au clavier (RGAA 12.8). */}
           <ToTop />

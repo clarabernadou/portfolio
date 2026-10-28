@@ -45,6 +45,7 @@ Next.js (App Router) et TypeScript, Tailwind CSS (`tokens.css` et `tailwind.conf
 ## Responsive
 - Aucun plafond de largeur sur les paragraphes d'introduction ; `text-wrap: pretty` sur les paragraphes, `balance` sur les titres de niveau 2 et 3.
 - Aucun texte tronqué : ni `line-clamp`, ni points de suspension.
+- Le pied de page touche toujours le bas : de l'écran quand la page est courte, de la page sinon. Jamais de bande blanche sous le pied de page (mise en page en colonne flexible sur 100dvh dans `app/layout.tsx`).
 - Points de rupture : 900 px (burger), 760 px (frise des formations), 640 px (panneau design system masqué).
 - Vérifier à 1440, 1024, 768 et 390 px avant de déclarer une page terminée.
 
