@@ -69,7 +69,7 @@ ul{margin:2pt 0 0;padding-left:10pt}li::marker{color:#6A4FB6}
 .us{font-weight:700;font-style:italic;color:#6A4FB6;margin-top:2pt}
 `;
 
-// Variante complète : reprise telle quelle du CV essentiel validé (scripts/generate-cv-pdfs).
+// Mise en page du CV : en-tête et profil sur toute la largeur, puis deux colonnes (choix de Clara, 28 oct. 2026).
 const COMPLETE_CSS = `
 @page{size:A4;margin:12mm 0}
 @page:first{margin-top:0}
@@ -82,25 +82,27 @@ h1{font-size:28pt}h1 .l{color:#C4B5FD}
 .ti{font-size:11.5pt;font-weight:700;color:#C4B5FD;margin-top:4pt}
 .pills{display:flex;flex-wrap:wrap;gap:4pt;margin-top:8pt}
 .pills span{padding:2.5pt 8pt;border-radius:99pt;background:rgba(255,255,255,0.08);border:0.75pt solid rgba(196,181,253,0.45);font-size:7.8pt;font-weight:700}
-.ct{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4pt 10pt;margin-top:8mm;padding:7pt 0 8pt;border-top:0.75pt solid rgba(196,181,253,0.3);font-size:8.2pt}
+.ct{display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;gap:5pt 12pt;margin-top:8mm;padding:7pt 0 8pt;border-top:0.75pt solid rgba(196,181,253,0.3);font-size:7.6pt}
 .ct a{display:flex;align-items:center;gap:5pt;font-weight:700;white-space:nowrap}
-.ct svg{width:10pt;height:10pt;flex-shrink:0;color:#C4B5FD}
+.ct svg{width:9pt;height:9pt;flex-shrink:0;color:#C4B5FD}
 .wrap{padding:0 13mm}
-.pf{margin-top:12pt;background:#F3EFFF;border-left:2.5pt solid #6A4FB6;border-radius:6pt;padding:7pt 10pt;margin-bottom:12pt;font-size:9.2pt}
-.skl{break-inside:avoid}
-.row{display:grid;grid-template-columns:30mm 1fr;gap:10pt;align-items:baseline;padding:4.5pt 0;border-top:1pt solid #E4DCF7}
-.row:first-of-type{border-top:0;padding-top:2pt}
+.pf{margin-top:12pt;background:#F3EFFF;border-left:2.5pt solid #6A4FB6;border-radius:6pt;padding:7pt 10pt;margin-bottom:14pt;font-size:9.2pt}
+/* Deux colonnes : la principale (expériences, projet) d'abord dans le document, pour l'ordre de lecture des logiciels de tri ; la latérale (compétences, langues, formations) s'affiche à gauche. */
+.cols{display:grid;grid-template-columns:50mm minmax(0,1fr);grid-template-areas:"aside main";column-gap:8mm;align-items:start}
+.main{grid-area:main}
+.aside{grid-area:aside;border-right:1pt solid #E4DCF7;padding-right:6mm}
 h2{margin:0 0 7pt;font-size:13pt;font-weight:800;letter-spacing:-0.02em;word-spacing:0.06em;break-after:avoid-page}
-h3{font-size:7.2pt}
-.tags span{padding:1.5pt 5.5pt;font-size:7.6pt}
-.lgs{display:flex;flex-direction:column;gap:3pt}
-.lg{display:grid;grid-template-columns:16mm 1fr;align-items:baseline;gap:4pt;font-size:8.4pt}.lg b{font-weight:800}
-section{margin-bottom:12pt}
 h2.sec{border-bottom:1pt solid #E4DCF7;padding-bottom:4pt}
-.ex{position:relative;padding:7pt 0 8pt calc(30mm + 10pt);border-top:1pt solid #E4DCF7}
-.ex:first-of-type{border-top:0;padding-top:2pt}
-.ex > .d{position:absolute;left:0;width:30mm}
-.d{font-size:8pt;font-weight:800;color:#6A4FB6;line-height:1.35;padding-top:1.5pt}
+section{margin-bottom:13pt}
+.aside h2{font-size:11.5pt}
+h3{font-size:7pt;margin-bottom:3pt}
+.sk{margin-bottom:7pt;break-inside:avoid}
+.tags span{padding:1.5pt 5pt;font-size:7.4pt}
+.lgs{break-inside:avoid}.lg{margin-bottom:5pt;font-size:8.2pt;break-inside:avoid}.lg b{font-weight:800;display:block}.lg span{display:block;color:#5B5470;font-size:7.8pt;line-height:1.35}
+.ex{padding:8pt 0 9pt;border-top:1pt solid #E4DCF7}
+.ex:first-of-type{border-top:0;padding-top:1pt}
+.eh{display:flex;justify-content:space-between;align-items:baseline;gap:8pt;break-after:avoid}
+.d{font-size:8pt;font-weight:800;color:#6A4FB6;line-height:1.35;white-space:nowrap}
 .r{font-weight:800;font-size:11pt;letter-spacing:-0.02em;word-spacing:0.06em;line-height:1.15}
 .co{font-size:9.2pt;margin-top:2pt}
 .mt{font-size:7.9pt}
@@ -108,13 +110,16 @@ h2.sec{border-bottom:1pt solid #E4DCF7;padding-bottom:4pt}
 .bl{margin-top:5pt}.bl > div{break-after:avoid}li{break-inside:avoid}.bt{font-weight:800;font-size:9pt}.bd{font-size:7.8pt;font-weight:700;color:#5B5470;margin-left:5pt}
 li{margin:0 0 1.5pt}
 .nt{font-size:8pt;color:#5B5470;margin-top:4pt}
-.fo{display:grid;grid-template-columns:30mm 1fr;gap:10pt;padding:6pt 0;border-top:1pt solid #E4DCF7;break-inside:avoid}
-.fo:first-of-type{border-top:0;padding-top:2pt}
-.ft{display:flex;flex-wrap:wrap;align-items:center;gap:4pt}
-.ft a,.ft b{font-weight:800;font-size:10pt;letter-spacing:-0.02em;word-spacing:0.06em}
-.ft a::after{content:'';display:inline-block;width:6.5pt;height:6.5pt;margin-left:3pt;vertical-align:1pt;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none' stroke='%236A4FB6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 8 8 2M3.5 2H8v4.5'/%3E%3C/svg%3E") no-repeat center/contain}
-.st{font-size:7pt}
-.us{font-size:8pt}
+.fo{padding:6pt 0;border-top:1pt solid #E4DCF7;break-inside:avoid}
+.fo:first-of-type{border-top:0;padding-top:0}
+.fo .d{display:block;margin-bottom:1pt}
+.ft{font-weight:800;font-size:9pt;letter-spacing:-0.01em;word-spacing:0.06em;line-height:1.25}
+.ft a::after{content:'';display:inline-block;width:6pt;height:6pt;margin-left:3pt;vertical-align:1pt;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none' stroke='%236A4FB6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 8 8 2M3.5 2H8v4.5'/%3E%3C/svg%3E") no-repeat center/contain}
+.fo .tags{margin-top:3pt}
+.fo .tags .st.ok,.fo .tags .st.info{border:0}
+.st{font-size:6.8pt}
+.fo .mt{font-size:7.5pt;line-height:1.35;margin-top:3pt}
+.us{font-size:7.5pt;line-height:1.35}
 `;
 
 function header(c: CvDoc, a: CvAssets) {
@@ -129,64 +134,66 @@ function header(c: CvDoc, a: CvAssets) {
     </div>
   </div>
   <div class="ct">
-    <a href="mailto:${esc(c.contact.email)}">${ICON.mail}${esc(c.contact.email)}</a>
-    <a href="${esc(c.contact.telephone)}">${ICON.tel}${esc(c.contact.telephoneAffiche)}</a>
-    <a href="${esc(c.contact.linkedin)}">${ICON.in}${esc(pretty(c.contact.linkedin))}</a>
-    <a href="${esc(c.contact.github)}">${ICON.gh}${esc(pretty(c.contact.github))}</a>
-    <a href="${esc(c.contact.site)}">${ICON.web}${esc(pretty(c.contact.site))}</a>
+    <a href="mailto:${esc(c.contact.email)}">${ICON.mail}${esc(c.contact.email)}&#160;</a>
+    <a href="${esc(c.contact.telephone)}">${ICON.tel}${esc(c.contact.telephoneAffiche)}&#160;</a>
+    <a href="${esc(c.contact.site)}">${ICON.web}${esc(pretty(c.contact.site))}&#160;</a>
+    <a href="${esc(c.contact.linkedin)}">${ICON.in}${esc(pretty(c.contact.linkedin))}&#160;</a>
+    <a href="${esc(c.contact.github)}">${ICON.gh}${esc(pretty(c.contact.github))}&#160;</a>
   </div>
 </header>`;
 }
 
 function complete(c: CvDoc, a: CvAssets) {
+  const entree = (d: string, titre: string, corps: string) => `<div class="ex"><div class="eh"><div class="r bri">${esc(titre)}</div><div class="d">${esc(d)}</div></div>${corps}</div>`;
+  const puces = (l: string[]) => `<ul>${l.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>`;
   return `${header(c, a)}
 <div class="wrap">
 <div class="pf">${esc(c.profile)}</div>
+<div class="cols">
 <div class="main">
-<section class="skl"><h2 class="bri sec">${esc(c.h.skills)}</h2>
-  ${c.skills.map((g) => `<div class="row"><h3>${esc(g.name)}</h3><div class="tags">${g.items.map((s) => `<span>${esc(s)}</span>`).join("")}</div></div>`).join("")}
-  <div class="row"><h3>${esc(c.h.langs)}</h3><div class="lgs">${c.langs.map((l) => `<div class="lg"><b>${esc(l.nom)}</b><div class="tags">${l.niveau.map((s) => `<span class="i">${esc(s)}</span>`).join("")}</div></div>`).join("")}</div></div>
-</section>
 <section><h2 class="bri sec">${esc(c.h.exp)}</h2>
 ${c.exp
-  .map(
-    (e) => `<div class="ex"><div class="d">${esc(e.d)}</div><div>
-  <div class="r bri">${esc(e.r)}</div>
-  <div class="co">${e.co.map(lien).join("")}</div>
+  .map((e) =>
+    entree(
+      e.d,
+      e.r,
+      `<div class="co">${e.co.map(lien).join("")}</div>
   <div class="mt">${esc(e.mt)}</div>
   <div class="ds">${esc(e.desc)}</div>
-  ${e.blocks.map((b) => `<div class="bl">${b.name ? `<div><span class="bt">${esc(b.name)}</span>${b.period ? `<span class="bd">${esc(b.period)}</span>` : ""}</div>` : ""}<ul>${b.bullets.map((l) => `<li>${esc(l)}</li>`).join("")}</ul></div>`).join("")}
-  ${e.nt ? `<div class="nt">→ ${esc(e.nt)}</div>` : ""}
-</div></div>`,
+  ${e.blocks.map((b) => `<div class="bl">${b.name ? `<div><span class="bt">${esc(b.name)}</span>${b.period ? `<span class="bd">${esc(b.period)}</span>` : ""}</div>` : ""}${puces(b.bullets)}</div>`).join("")}
+  ${e.nt ? `<div class="nt">→ ${esc(e.nt)}</div>` : ""}`,
+    ),
   )
   .join("")}
 </section>
 ${
   c.projets.length
     ? `<section><h2 class="bri sec">${esc(c.h.projets)}</h2>
-${c.projets
-  .map(
-    (pj) => `<div class="ex"><div class="d">${esc(pj.d)}</div><div>
-  <div class="r bri">${esc(pj.titre)}</div>
-  ${pj.href ? `<div class="co"><a href="${esc(pj.href)}">${esc(pretty(pj.href))}</a></div>` : ""}
-  <ul>${pj.bullets.map((l) => `<li>${esc(l)}</li>`).join("")}</ul>
-</div></div>`,
-  )
-  .join("")}
+${c.projets.map((pj) => entree(pj.d, pj.titre, `${pj.href ? `<div class="co"><a href="${esc(pj.href)}">${esc(pretty(pj.href))}</a></div>` : ""}${puces(pj.bullets)}`)).join("")}
 </section>`
     : ""
 }
+</div>
+<div class="aside">
+<section><h2 class="bri sec">${esc(c.h.skills)}</h2>
+  ${c.skills.map((g) => `<div class="sk"><h3>${esc(g.name)}</h3><div class="tags">${g.items.map((s) => `<span>${esc(s)}</span>`).join("")}</div></div>`).join("")}
+</section>
+<section class="lgs"><h2 class="bri sec">${esc(c.h.langs)}</h2>
+  ${c.langs.map((l) => `<div class="lg"><b>${esc(l.nom)}</b>${l.niveau.map((s) => `<span>${esc(s)}</span>`).join("")}</div>`).join("")}
+</section>
 <section><h2 class="bri sec">${esc(c.h.edu)}</h2>
 ${c.edu
   .map(
-    (f) => `<div class="fo"><div class="d">${esc(f.d)}</div><div>
-  <div class="ft">${f.url ? `<a href="${esc(f.url)}">${esc(f.t)}</a>` : `<b>${esc(f.t)}</b>`}${f.tags.map((t) => `<span class="st ${t.kind}">${esc(t.text)}</span>`).join("")}</div>
+    (f) => `<div class="fo"><span class="d">${esc(f.d)}</span>
+  <div class="ft">${f.url ? `<a href="${esc(f.url)}">${esc(f.t)}</a>` : esc(f.t)}</div>
+  <div class="tags">${f.tags.map((t) => `<span class="st ${t.kind}">${esc(t.text)}</span>`).join("")}</div>
   <div class="mt">${esc(f.mt)}</div>
   ${f.note ? `<div class="us">${esc(f.note)}</div>` : ""}
-</div></div>`,
+</div>`,
   )
   .join("")}
 </section>
+</div>
 </div>
 </div>`;
 }
