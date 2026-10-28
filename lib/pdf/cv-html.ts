@@ -81,10 +81,10 @@ body{font-size:9.2pt;line-height:1.42}
 h1{font-size:28pt}h1 .l{color:#C4B5FD}
 .ti{font-size:11.5pt;font-weight:700;color:#C4B5FD;margin-top:4pt}
 .pills{display:flex;flex-wrap:wrap;gap:4pt;margin-top:8pt}
-.pills span{padding:2.5pt 8pt;border-radius:99pt;background:rgba(255,255,255,0.08);border:0.75pt solid rgba(196,181,253,0.45);font-size:7.8pt;font-weight:700}
+.pills span{padding:2.5pt 8pt;border-radius:99pt;background:rgba(255,255,255,0.08);border:0.75pt solid rgba(196,181,253,0.45);font-size:8pt;font-weight:700}
 .ct{display:flex;flex-wrap:nowrap;justify-content:space-between;gap:6pt;margin-top:8mm;padding:7pt 0 8pt;border-top:0.75pt solid rgba(196,181,253,0.3);font-size:7.6pt}
 .ct a{display:flex;align-items:center;gap:4pt;font-weight:700;white-space:nowrap}
-.ct svg{width:8.5pt;height:8.5pt;flex-shrink:0;color:#C4B5FD}
+.ct svg{position:relative;top:0.7pt;width:8.5pt;height:8.5pt;flex-shrink:0;color:#C4B5FD}
 .wrap{padding:0 13mm}
 .pf{margin-top:12pt;background:#F3EFFF;border-left:2.5pt solid #6A4FB6;border-radius:6pt;padding:7pt 10pt;margin-bottom:14pt;font-size:9.2pt}
 /* Deux colonnes : la principale (expériences, projet) d'abord dans le document, pour l'ordre de lecture des logiciels de tri ; la latérale (compétences, langues, formations) s'affiche à gauche. */
@@ -94,19 +94,19 @@ h1{font-size:28pt}h1 .l{color:#C4B5FD}
 h2{margin:0 0 7pt;font-size:13pt;font-weight:800;letter-spacing:-0.02em;word-spacing:0.06em;break-after:avoid-page}
 h2.sec{border-bottom:1pt solid #E4DCF7;padding-bottom:4pt}
 section{margin-bottom:13pt}
-h3{font-size:7pt;margin-bottom:3pt}
+h3{font-size:7.6pt;margin-bottom:3pt}
 .sk{margin-bottom:7pt;break-inside:avoid}
-.tags span{padding:1.5pt 5pt;font-size:7.4pt}
-.lgs{break-inside:avoid}.lg{margin-bottom:5pt;font-size:8.2pt;break-inside:avoid}.lg b{font-weight:800;display:block}.lg span{display:block;color:#5B5470;font-size:7.8pt;line-height:1.35}
+.tags span{padding:1.5pt 5pt;font-size:8pt}
+.lgs{break-inside:avoid}.lg{margin-bottom:5pt;font-size:8.2pt;break-inside:avoid}.lg b{font-weight:800;display:block}.lg span{display:block;color:#5B5470;font-size:8pt;line-height:1.35}
 .ex{padding:8pt 0 9pt;border-top:1pt solid #E4DCF7}
 .ex:first-of-type{border-top:0;padding-top:1pt}
 .eh{display:flex;justify-content:space-between;align-items:baseline;gap:8pt;break-after:avoid}
 .d{font-size:8pt;font-weight:800;color:#6A4FB6;line-height:1.35;white-space:nowrap}
 .r{font-weight:800;font-size:11pt;letter-spacing:-0.02em;word-spacing:0.06em;line-height:1.15}
 .co{font-size:9.2pt;margin-top:4pt}
-.mt{font-size:7.9pt;margin-top:2pt}
+.mt{font-size:8pt;margin-top:2pt}
 .ds{margin-top:6pt}
-.bl{margin-top:7pt}.bl > div{break-after:avoid}li{break-inside:avoid}.bt{font-weight:800;font-size:9pt}.bd{font-size:7.8pt;font-weight:700;color:#5B5470;margin-left:5pt}
+.bl{margin-top:7pt}.bl > div{break-after:avoid}li{break-inside:avoid}.bt{font-weight:800;font-size:9pt}.bd{font-size:8pt;font-weight:700;color:#5B5470;margin-left:5pt}
 li{margin:0 0 2.5pt}
 .nt{font-size:8pt;color:#5B5470;margin-top:4pt}
 .fo{padding:6pt 0;border-top:1pt solid #E4DCF7;break-inside:avoid}
@@ -117,8 +117,8 @@ li{margin:0 0 2.5pt}
 .fo .tags{margin-top:3pt}
 .fo .tags .st.ok,.fo .tags .st.info{border:0}
 .st{font-size:6.8pt}
-.fo .mt{font-size:7.5pt;line-height:1.35;margin-top:3pt}
-.us{font-size:7.5pt;line-height:1.35}
+.fo .mt{font-size:8pt;line-height:1.35;margin-top:3pt}
+.us{font-size:8pt;line-height:1.35}
 `;
 
 function header(c: CvDoc, a: CvAssets) {
