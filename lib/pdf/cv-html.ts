@@ -114,7 +114,7 @@ li{margin:0 0 1.5pt}
 .fo:first-of-type{border-top:0;padding-top:2pt}
 .ft{display:flex;flex-wrap:wrap;align-items:center;gap:4pt}
 .ft a,.ft b{font-weight:800;font-size:10pt;letter-spacing:-0.02em}
-.ft a::after{content:' ↗';font-family:'Manrope',sans-serif;font-size:8pt;color:#6A4FB6}
+.ft a::after{content:'';display:inline-block;width:6.5pt;height:6.5pt;margin-left:3pt;vertical-align:1pt;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none' stroke='%236A4FB6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 8 8 2M3.5 2H8v4.5'/%3E%3C/svg%3E") no-repeat center/contain}
 .st{font-size:7pt}
 .us{font-size:8pt}
 `;
