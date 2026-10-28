@@ -71,12 +71,14 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
 
   const others = await prisma.project.findMany({
     where: { deletedAt: null, NOT: { id: input.originalId ?? "" } },
-    select: { id: true, onHome: true, featured: true },
+    select: { id: true, onHome: true, featured: true, visible: true, status: true },
   });
+  // Seuls les projets publics occupent une place à l'accueil ou parmi les phares.
+  const publics = others.filter((o) => o.visible && o.status !== "draft");
   if (others.some((o) => o.id === id)) return { ok: false, error: `L’adresse /projets/${id} est déjà utilisée par un autre projet.` };
-  if (input.onHome && others.filter((o) => o.onHome).length >= MAX_ACCUEIL)
+  if (input.onHome && input.visible && input.status !== "draft" && publics.filter((o) => o.onHome).length >= MAX_ACCUEIL)
     return { ok: false, error: `Déjà ${MAX_ACCUEIL} projets à l’accueil : retire d’abord l’un d’eux.` };
-  if (input.featured && others.filter((o) => o.featured).length >= MAX_PHARES)
+  if (input.featured && input.visible && input.status !== "draft" && publics.filter((o) => o.featured).length >= MAX_PHARES)
     return { ok: false, error: `Déjà ${MAX_PHARES} projets phares : désactive d’abord l’un d’eux.` };
 
   const existing = input.originalId ? await prisma.project.findUnique({ where: { id: input.originalId } }) : null;
@@ -131,6 +133,28 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
   await logActivity("project", id, `Projet « ${name} » ${existing ? "modifié" : "créé"}${input.status === "draft" ? " (brouillon)" : ""}`, existing ? "updated" : "created");
   refresh();
   return { ok: true, id };
+}
+
+// Publication d'un projet depuis la liste : publié, privé (masqué du site, sans être
+// supprimé) ou brouillon. Un projet privé ou en brouillon n'apparaît nulle part sur le
+// site public : liste, fiche, accueil, plan du site et sitemap.
+export type Publication = "publie" | "prive" | "brouillon";
+export async function setPublication(id: string, mode: Publication): Promise<{ ok: true } | { ok: false; error: string }> {
+  await requireAdmin();
+  if (mode === "publie") {
+    const prisma = db();
+    const p = await prisma.project.findUniqueOrThrow({ where: { id }, select: { onHome: true, featured: true } });
+    const publics = await prisma.project.findMany({ where: { deletedAt: null, visible: true, status: { not: "draft" }, NOT: { id } }, select: { onHome: true, featured: true } });
+    if (p.onHome && publics.filter((o) => o.onHome).length >= MAX_ACCUEIL)
+      return { ok: false, error: `Déjà ${MAX_ACCUEIL} projets publics à l’accueil : retire d’abord l’un d’eux de l’accueil.` };
+    if (p.featured && publics.filter((o) => o.featured).length >= MAX_PHARES)
+      return { ok: false, error: `Déjà ${MAX_PHARES} projets phares publics : retire d’abord l’un d’eux.` };
+  }
+  const data = mode === "publie" ? { visible: true, status: "published" } : mode === "prive" ? { visible: false, status: "published" } : { visible: true, status: "draft" };
+  const p = await db().project.update({ where: { id }, data });
+  await logActivity("project", id, `Projet « ${p.name} » ${mode === "publie" ? "publié" : mode === "prive" ? "passé en privé" : "repassé en brouillon"}`, "updated");
+  refresh();
+  return { ok: true };
 }
 
 export async function deleteProject(id: string) {

@@ -6,7 +6,8 @@ import { A_COMPLETER, enCours, type ACompleter } from "@/lib/admin/projects";
 import { Icon } from "@/components/admin/icons";
 import { AutoFilters } from "@/components/admin/AutoFilters";
 import { RowActions } from "@/components/admin/RowActions";
-import { deleteProject, duplicateProject, restoreProject } from "./actions";
+import { deleteProject, duplicateProject, restoreProject, setPublication } from "./actions";
+import { PublicationSelect } from "@/components/admin/PublicationSelect";
 
 export const metadata: Metadata = { title: "Projets" };
 export const dynamic = "force-dynamic";
@@ -16,7 +17,7 @@ const STATUTS = [
   ["publie", "Publié"],
   ["cours", "En cours"],
   ["brouillon", "Brouillon"],
-  ["masque", "Masqué"],
+  ["masque", "Privé"],
 ] as const;
 
 type Search = { q?: string; type?: string; cadre?: string; statut?: string; page?: string; "a-completer"?: string };
@@ -98,8 +99,8 @@ export default async function ProjetsAdmin({ searchParams }: { searchParams: Pro
       </AutoFilters>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center" }}>
-        <span className="adm-pill">À l’accueil : {all.filter((p) => p.onHome).length} / 9</span>
-        <span className="adm-pill">Projets phares : {all.filter((p) => p.featured).length} / 3</span>
+        <span className="adm-pill">À l’accueil : {all.filter((p) => p.onHome && p.visible && p.status !== "draft").length} / 9</span>
+        <span className="adm-pill">Projets phares : {all.filter((p) => p.featured && p.visible && p.status !== "draft").length} / 3</span>
         <span className="adm-help" aria-live="polite">
           {filtered.length} {filtered.length > 1 ? "projets" : "projet"}
           {ac && A_COMPLETER[ac] ? ` · ${A_COMPLETER[ac].label(filtered.length)}` : ""}
@@ -144,9 +145,10 @@ export default async function ProjetsAdmin({ searchParams }: { searchParams: Pro
                     <td>
                       {p.onHome && <span className="adm-flag">Accueil</span>}
                       {p.featured && <span className="adm-flag">Phare</span>}
+                      {s === "cours" && <span className="adm-flag">En cours</span>}
                     </td>
                     <td>
-                      <span className={`adm-badge adm-badge--${s}`}>{STATUTS.find(([v]) => v === s)![1]}</span>
+                      <PublicationSelect name={p.name} value={!p.visible ? "prive" : p.status === "draft" ? "brouillon" : "publie"} onChange={setPublication.bind(null, p.id)} />
                     </td>
                     <td>
                       <RowActions

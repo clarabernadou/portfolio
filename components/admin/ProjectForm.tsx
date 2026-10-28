@@ -178,7 +178,7 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
 
           <section className="adm-card" aria-labelledby="s-affichage">
             <h2 className="adm-h2" id="s-affichage">Affichage sur le site</h2>
-            <Toggle label="Visible sur le site" help="Désactive pour masquer le projet sans le supprimer." checked={p.visible} onChange={(v) => set("visible", v)} />
+            <Toggle label="Public" help="Désactive pour le passer en privé : il n’apparaît plus sur le site (liste, fiche, accueil), sans être supprimé." checked={p.visible} onChange={(v) => set("visible", v)} />
             <Toggle
               label="Afficher à l’accueil"
               help={`${counts.onHome} projets sur 9${counts.onHome >= 9 && !initial.onHome ? " : retire d’abord l’un d’eux." : "."}`}
@@ -228,7 +228,7 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
           <div className="adm-card">
             <h2 className="adm-h2">Publication</h2>
             <p className="adm-help" style={{ margin: 0 }}>
-              Statut actuel : <b>{initial.status === "draft" ? "Brouillon" : isNew ? "Nouveau" : "Publié"}</b>
+              Statut actuel : <b>{initial.status === "draft" ? "Brouillon" : isNew ? "Nouveau" : !initial.visible ? "Privé" : "Publié"}</b>
               {updatedAt ? ` · dernière modification : ${updatedAt}` : ""}
             </p>
             {!isNew && (

@@ -58,7 +58,8 @@ function detail(p: Project) {
 
 export function ProjetsListe({ projects: PROJECTS, featuredOrder, categories }: { projects: SiteProject[]; featuredOrder: string[]; categories: { types: string[]; cadres: string[] } }) {
   const TYPES = ["Tous", ...categories.types];
-  const PARS = ["Tous les parcours", ...categories.cadres];
+  // Un cadre sans projet public (tous privés ou en brouillon) n'est pas proposé en filtre.
+  const PARS = ["Tous les parcours", ...categories.cadres.filter((c) => PROJECTS.some((p) => p.parcours === c))];
   const [type, setType] = useState("Tous");
   const [par, setPar] = useState("Tous les parcours");
   const [limit, setLimit] = useState(12);

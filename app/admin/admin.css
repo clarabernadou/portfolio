@@ -221,3 +221,8 @@
 .adm-ia-barre { height: 8px; border-radius: 999px; background: var(--brume); border: 1px solid var(--bordure); overflow: hidden; }
 .adm-ia-barre span { display: block; height: 100%; border-radius: 999px; background: var(--amethyste); transition: width 0.25s linear; }
 @media (prefers-reduced-motion: reduce) { .adm-ia-barre span { transition: none; } }
+
+/* Publication d'un projet dans la liste (Publié / Privé / Brouillon). */
+.adm-publication { width: auto; min-width: 130px; border-radius: var(--r-pill); font-size: 14px; font-weight: 700; }
+.adm-publication--publie { background: var(--succes-fond); color: var(--succes); }
+.adm-publication--prive, .adm-publication--brouillon { background: var(--brume); color: var(--ardoise); }

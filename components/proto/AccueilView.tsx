@@ -231,6 +231,8 @@ export function AccueilView({ v }: { v: any }) {
             </Link>
           </div>
           {" "}
+          {/* Une rangée sans projet public n'est pas affichée. */}
+          {v.homeEntreprise.length > 0 && (
           <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
               {"En entreprise"}
@@ -267,7 +269,10 @@ export function AccueilView({ v }: { v: any }) {
               ))}
             </ul>
           </div>
+          )}
           {" "}
+          {/* Une rangée sans projet public n'est pas affichée. */}
+          {v.homeDev.length > 0 && (
           <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
               {"Développement"}
@@ -304,7 +309,10 @@ export function AccueilView({ v }: { v: any }) {
               ))}
             </ul>
           </div>
+          )}
           {" "}
+          {/* Une rangée sans projet public n'est pas affichée. */}
+          {v.homeDesign.length > 0 && (
           <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
               {"Design"}
@@ -341,6 +349,7 @@ export function AccueilView({ v }: { v: any }) {
               ))}
             </ul>
           </div>
+          )}
           {" "}
         </section>
         <section id={"parcours"} style={css(`background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 4.5rem 0`)}>

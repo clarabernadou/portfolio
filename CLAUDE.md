@@ -21,6 +21,7 @@ Next.js (App Router) et TypeScript, Tailwind CSS (`tokens.css` et `tailwind.conf
 - Pas de version anglaise du CV, ni sur le site ni dans l'administration (décision du 24 octobre 2026).
 - Les chiffres s'écrivent en chiffres dans les textes.
 - Parcours « En entreprise » (ex-« Alternance · Fruggr », 26 octobre 2026) pour les projets menés en alternance. Accueil : 3 rangées de 3 cartes, dans l'ordre En entreprise, Développement, Design (9 projets au plus).
+- Publication d'un projet (liste de l'administration) : Publié, Privé ou Brouillon. Un projet privé ou en brouillon n'apparaît nulle part sur le site public, et une rangée ou un filtre sans projet public est masqué. Projets de l'alternance (« En entreprise ») en privé depuis le 28 octobre 2026.
 
 ## Règles de design
 - Portage exact (décision d'octobre 2026) : les pages sont générées depuis `docs/passation/prototype-source/` (`scripts/tools/gen.mjs`) et leurs styles en ligne sont recopiés tels quels avec `css()` (`lib/css.ts`). Pas de preflight Tailwind. Toute modification de style passe d'abord par la source du prototype.

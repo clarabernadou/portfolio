@@ -59,7 +59,7 @@ export const EMPTY: ProjectInput = {
 export async function formContext(): Promise<Omit<ProjectFormProps, "initial" | "note" | "updatedAt">> {
   const prisma = db();
   const [rows, cats] = await Promise.all([
-    prisma.project.findMany({ where: { deletedAt: null }, select: { parcours: true, tags: true, skillsValidated: true, onHome: true, featured: true } }),
+    prisma.project.findMany({ where: { deletedAt: null }, select: { parcours: true, tags: true, skillsValidated: true, onHome: true, featured: true, visible: true, status: true } }),
     prisma.category.findMany({ orderBy: [{ position: "asc" }, { id: "asc" }] }),
   ]);
   const tagSuggestions: Record<string, string[]> = {};
@@ -75,6 +75,7 @@ export async function formContext(): Promise<Omit<ProjectFormProps, "initial" | 
     types: cats.filter((c) => c.kind === "type").map((c) => c.name),
     tagSuggestions,
     skillSuggestions,
-    counts: { onHome: rows.filter((r) => r.onHome).length, featured: rows.filter((r) => r.featured).length },
+    // Seuls les projets publics comptent : un projet privé ou en brouillon n'occupe pas de place.
+    counts: { onHome: rows.filter((r) => r.onHome && r.visible && r.status !== "draft").length, featured: rows.filter((r) => r.featured && r.visible && r.status !== "draft").length },
   };
 }
