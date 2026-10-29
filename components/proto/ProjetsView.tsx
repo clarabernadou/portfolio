@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { css } from "@/lib/css";
+import { ListeLivrables } from "./ListeLivrables";
 
 // Généré depuis docs/passation/prototype-source/projets.source.html
 // (scripts/tools/gen.mjs) : markup et styles recopiés à l'identique.
@@ -499,7 +500,7 @@ export function ProjetsView({ v }: { v: any }) {
                         </>
                       )}
                     </div>
-                    <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 1rem`)}>
+                    <ListeLivrables total={v.cur.docs.length}>
                       {v.cur.docs.map((d: any, i_d: number) => (
                         <li key={i_d} style={css(`display: grid`)}>
                           <a href={d.href} target={"_blank"} rel={"noopener noreferrer"} style={css(`text-decoration: none; color: #1A1033; border-radius: 18px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
@@ -532,7 +533,7 @@ export function ProjetsView({ v }: { v: any }) {
                           </a>
                         </li>
                       ))}
-                    </ul>
+                    </ListeLivrables>
                   </section>
                 </>
               )}

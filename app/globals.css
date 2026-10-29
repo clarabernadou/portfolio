@@ -90,6 +90,8 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .visuellement-masque{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Listes sans puces (9.3) : role="list" garde la liste annoncée par Safari. */
 .liste-nue{list-style:none;margin:0;padding:0}
+/* Carrousel des livrables (components/proto/ListeLivrables.tsx) : chaque carte s'aligne au début de la rangée. */
+.livrables-carrousel > li{scroll-snap-align:start}
 /* Anneau de focus sur fond Encre / Nuit (10.7) : Lilas au lieu d'Améthyste, contraste suffisant. */
 .zone-sombre a:focus-visible,.zone-sombre button:focus-visible{outline-color:var(--lilas)}
 [tabindex="-1"]:focus{outline:none}
