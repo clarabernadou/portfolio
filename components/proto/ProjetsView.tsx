@@ -491,17 +491,24 @@ export function ProjetsView({ v }: { v: any }) {
                       </h2>
                       {v.cur.hasPdf && (
                         <>
-                          <a href={v.cur.pdfh} target={"_blank"} rel={"noopener noreferrer"} style={css(`padding: 10px 0; font-size: 15px; font-weight: 700`)}>
-                            {`Tout ouvrir · ${v.cur.pdfFormat}`}
-                          </a>
+                          {/* Livrables lisibles dans la page : visionneuse (30 oct. 2026) ; sinon nouvel onglet. */}
+                          {v.cur.toutOuvrable ? (
+                            <button type={"button"} onClick={v.cur.toutOuvrir} aria-haspopup={"dialog"} style={css(`padding: 10px 0; border: 0; background: none; font: inherit; font-size: 15px; font-weight: 700; color: var(--amethyste); text-decoration: underline; cursor: pointer`)}>
+                              {`Tout ouvrir · ${v.cur.pdfFormat}`}
+                            </button>
+                          ) : (
+                            <a href={v.cur.pdfh} target={"_blank"} rel={"noopener noreferrer"} style={css(`padding: 10px 0; font-size: 15px; font-weight: 700`)}>
+                              {`Tout ouvrir · ${v.cur.pdfFormat}`}
+                            </a>
+                          )}
                         </>
                       )}
                     </div>
                     <ListeLivrables total={v.cur.docs.length}>
-                      {v.cur.docs.map((d: any, i_d: number) => (
-                        <li key={i_d} style={css(`display: grid`)}>
-                          <a href={d.href} target={"_blank"} rel={"noopener noreferrer"} style={css(`text-decoration: none; color: #1A1033; border-radius: 18px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
-                            {" "}
+                      {v.cur.docs.map((d: any, i_d: number) => {
+                        const carte = `text-decoration: none; color: #1A1033; border-radius: 18px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`;
+                        const contenu = (
+                          <>
                             <div style={css(`height: 180px; background: #F3EFFF; overflow: hidden; border-bottom: 1px solid #E4DCF7`)}>
                               {d.thumb ? (
                                 <img src={d.thumb} alt={`Aperçu : ${d.label}`} style={css(`width: 100%; height: 100%; object-fit: cover; object-position: top; display: block`)} />
@@ -511,7 +518,6 @@ export function ProjetsView({ v }: { v: any }) {
                                 </span>
                               )}
                             </div>
-                            {" "}
                             <div style={css(`padding: 14px 16px; display: flex; align-items: center; gap: 12px`)}>
                               <span style={css(`width: 30px; height: 30px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0`)}>
                                 <span>{d.n}</span>
@@ -521,16 +527,30 @@ export function ProjetsView({ v }: { v: any }) {
                                 <span style={css(`display: block; margin-top: 2px; font-size: 13px; font-weight: 600; color: var(--ardoise)`)}>{d.format}</span>
                               </span>
                               <span style={css(`color: #6A4FB6; display: inline-flex`)}>
+                                {/* Agrandir (visionneuse) ou ↗ (lien qui sort du site). */}
                                 <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
-                                  <path d={"M7 17L17 7M9 7h8v8"} />
+                                  <path d={d.ouvrable ? "M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" : "M7 17L17 7M9 7h8v8"} />
                                 </svg>
                               </span>
                             </div>
-                            {" "}
-                          </a>
-                        </li>
-                      ))}
+                          </>
+                        );
+                        return (
+                          <li key={i_d} style={css(`display: grid`)}>
+                            {d.ouvrable ? (
+                              <button type={"button"} onClick={d.ouvrir} aria-haspopup={"dialog"} style={css(`${carte}; width: 100%; padding: 0; font: inherit; text-align: left; cursor: pointer`)}>
+                                {contenu}
+                              </button>
+                            ) : (
+                              <a href={d.href} target={"_blank"} rel={"noopener noreferrer"} style={css(carte)}>
+                                {contenu}
+                              </a>
+                            )}
+                          </li>
+                        );
+                      })}
                     </ListeLivrables>
+                    {v.visionneuse}
                   </section>
                 </>
               )}

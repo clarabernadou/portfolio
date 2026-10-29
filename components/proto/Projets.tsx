@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { demanderRestauration, ecrireEtatListe, libelleRetour, lireOrigine, restaurationDemandee } from "@/lib/retour-projets";
 import { ProjetsView } from "./ProjetsView";
+import { Visionneuse, type ElementVisionneuse } from "./Visionneuse";
 import type { Project } from "@/lib/types";
 import { sortFeatured, type SiteProject } from "@/lib/data-shared";
 import { estImage, formatLivrable } from "@/lib/livrables";
@@ -11,6 +12,10 @@ import { estImage, formatLivrable } from "@/lib/livrables";
 // Les projets viennent de la base (lib/data.ts), passés par la page serveur.
 // Chemin du site (« assets/… ») ou adresse complète (fichier envoyé sur Vercel Blob).
 const asset = (p: string) => (p.startsWith("/") || /^https?:\/\//.test(p) ? p : `/${p}`);
+
+const NOMS_LIVRABLES = { un: "Livrable", precedent: "Livrable précédent", suivant: "Livrable suivant" };
+const typeVisionneuse = (href: string): ElementVisionneuse["type"] | null =>
+  ({ PDF: "pdf", Image: "image", Vidéo: "video" } as const)[formatLivrable(href) as "PDF" | "Image" | "Vidéo"] ?? null;
 
 // Le focus est déplacé après le rendu suivant (RGAA 12.8 : il ne doit pas retomber sur la page).
 const focusApres = (selecteur: string) => setTimeout(() => document.querySelector<HTMLElement>(selecteur)?.focus(), 0);
@@ -150,10 +155,34 @@ export function ProjetFiche({ id, projects: PROJECTS }: { id: string; projects: 
   const prev = PROJECTS[(i - 1 + PROJECTS.length) % PROJECTS.length];
   const next = PROJECTS[(i + 1) % PROJECTS.length];
 
+  // Livrables lisibles dans la page (PDF, image, vidéo) : ouverts dans la visionneuse.
+  // Les autres (Word, présentation, lien GitHub ou Figma…) s'ouvrent dans un nouvel onglet.
+  const [docOuvert, setDocOuvert] = useState<number | null>(null);
+  const [toutOuvert, setToutOuvert] = useState<number | null>(null);
+  const lisibles = cur.docs.flatMap((d) => {
+    const type = typeVisionneuse(d.href);
+    return type ? [{ titre: d.label, type, src: d.href, alt: d.label }] : [];
+  });
+  const rang = (href: string) => lisibles.findIndex((l) => l.src === href);
+  const toutType = cur.pdf ? typeVisionneuse(cur.pdf) : null;
+
   const v = {
     isList: false,
     isDetail: true,
-    cur: detail(cur),
+    cur: {
+      ...detail(cur),
+      docs: detail(cur).docs.map((d) => ({ ...d, ouvrable: rang(d.href) >= 0, ouvrir: () => setDocOuvert(rang(d.href)) })),
+      toutOuvrable: !!toutType,
+      toutOuvrir: () => setToutOuvert(0),
+    },
+    visionneuse: (
+      <>
+        <Visionneuse id={"livrables-fenetre"} elements={lisibles} index={docOuvert} onIndex={setDocOuvert} noms={NOMS_LIVRABLES} />
+        {cur.pdf && toutType && (
+          <Visionneuse id={"tous-livrables-fenetre"} elements={[{ titre: `Tous les livrables · ${cur.name}`, type: toutType, src: cur.pdf }]} index={toutOuvert} onIndex={setToutOuvert} noms={NOMS_LIVRABLES} />
+        )}
+      </>
+    ),
     curVideos: (cur.videos ?? []).map((vd) => ({
       ...vd,
       // Miniature YouTube servie depuis le site : rien n’est chargé chez YouTube avant le clic.
