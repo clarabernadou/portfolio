@@ -292,9 +292,10 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
               {updatedAt ? ` · dernière modification : ${updatedAt}` : ""}
             </p>
             {!isNew && (
-              <a className="adm-btn adm-btn--outline" href={`/projets/${initial.originalId}`} target="_blank" rel="noopener noreferrer">
+              // Projet non publié : sa page publique n'existe pas, l'aperçu montre le même rendu.
+              <a className="adm-btn adm-btn--outline" href={initial.status === "draft" || !initial.visible ? `/apercu/projets/${initial.originalId}` : `/projets/${initial.originalId}`} target="_blank" rel="noopener noreferrer">
                 <Icon name="external" />
-                Voir sur le site
+                {initial.status === "draft" || !initial.visible ? "Aperçu du rendu" : "Voir sur le site"}
               </a>
             )}
             {!isNew && (

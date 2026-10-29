@@ -89,6 +89,14 @@ async function getSiteProjectsSource(): Promise<SiteProject[]> {
   return rows.map(fromRow);
 }
 
+// Aperçu d'un projet pour l'administration, quel que soit son statut (brouillon, privé ou publié).
+// Jamais appelé par une page publique : seulement par /apercu, réservé à la session de Clara.
+export async function getProjetApercu(id: string): Promise<SiteProject | null> {
+  if (!hasDb()) return fromJson().find((p) => p.id === id) ?? null;
+  const row = await (await prisma()).project.findFirst({ where: { id, deletedAt: null } });
+  return row ? fromRow(row) : null;
+}
+
 async function getFeaturedOrderSource(): Promise<string[]> {
   if (!hasDb()) return FEATURED_ORDER_DEFAUT;
   const row = await (await prisma()).singleton.findUnique({ where: { key: "phares" } });
