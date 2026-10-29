@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition, useState } from "react";
 import { saveProject, deleteProject, restoreProject, siteGithub, type ProjectInput } from "@/app/admin/(espace)/projets/actions";
@@ -9,6 +8,7 @@ import { RestoreBanner, SaveBar, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
 import { BlobUpload } from "./BlobUpload";
+import { RetourProjets } from "./RetourProjets";
 import { slugify } from "@/lib/admin/projects";
 import { IaPage } from "./AvisIA";
 import { AvisGlobalIA } from "./AvisGlobalIA";
@@ -65,9 +65,7 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
     <IaPage page={`Fiche projet « ${p.name || "nouveau projet"} » du portfolio · cadre : ${p.parcours || "non précisé"} · types : ${p.types.join(", ") || "non précisés"}`} infos={[`Accroche : ${p.line}`, `Contexte : ${p.context}`, `Tags : ${p.tags.join(", ")}`, `Étapes : ${p.steps.map((s) => `${s.label} (${s.status})`).join(" ; ")}`, `Compétences validées : ${p.skillsValidated.join(", ")}`, `Livrables : ${p.docs.map((d) => d.label).join(", ") || "aucun"}`].join("\n")} github={p.github ?? undefined}>
     <>
       <div>
-        <div className="adm-crumb">
-          <Link href="/admin/projets">Projets</Link> / {isNew ? "Nouveau" : initial.name}
-        </div>
+        <RetourProjets />
         <h1 className="adm-h1">{isNew ? "Nouveau projet" : `Modifier « ${initial.name} »`}</h1>
       </div>
       <RestoreBanner show={!!draft.restorable} onRestore={draft.restore} onDismiss={draft.dismiss} />

@@ -22,6 +22,7 @@ const P: Record<string, string> = {
   check: "M5 12l5 5 9-10",
   grip: "M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01",
   close: "M6 6l12 12M18 6L6 18",
+  back: "M19 12H5M11 18l-6-6 6-6",
 };
 
 export function Icon({ name, size = 18 }: { name: keyof typeof P | string; size?: number }) {

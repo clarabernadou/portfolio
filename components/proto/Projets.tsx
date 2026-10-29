@@ -72,8 +72,8 @@ export function ProjetsListe({ projects: PROJECTS, featuredOrder, categories }: 
   const [limit, setLimit] = useState(12);
   // Retour depuis une fiche : filtres et nombre de projets affichés tels qu'on les avait laissés.
   useEffect(() => {
-    const o = lireOrigine();
-    if (!restaurationDemandee() || o?.path !== "/projets") return;
+    const o = lireOrigine("site");
+    if (!restaurationDemandee("site") || o?.path !== "/projets") return;
     // Lecture unique, au montage, du stockage de l'onglet : impossible pendant le rendu serveur, d'où l'effet.
     /* eslint-disable react-hooks/set-state-in-effect */
     if (o.type && TYPES.includes(o.type)) setType(o.type);
@@ -143,7 +143,7 @@ export function ProjetFiche({ id, projects: PROJECTS }: { id: string; projects: 
   const [origine, setOrigine] = useState<string | undefined>(undefined);
   // Lecture unique, au montage, du stockage de l'onglet : impossible pendant le rendu serveur, d'où l'effet.
   // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => setOrigine(lireOrigine()?.path), []);
+  useEffect(() => setOrigine(lireOrigine("site")?.path), []);
 
   const i = Math.max(0, PROJECTS.findIndex((p) => p.id === id));
   const cur = PROJECTS[i];
@@ -171,7 +171,7 @@ export function ProjetFiche({ id, projects: PROJECTS }: { id: string; projects: 
     })),
     backHref: origine ?? "/projets",
     backLabel: libelleRetour(origine),
-    back: demanderRestauration,
+    back: () => demanderRestauration("site"),
     prevHref: `/projets/${prev.id}`,
     nextHref: `/projets/${next.id}`,
     prevName: prev.name,

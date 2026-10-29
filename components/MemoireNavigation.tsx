@@ -2,11 +2,13 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { demanderRestauration, ecrireOrigine, estFiche, finirRestauration, lireEtatListe, lireOrigine, restaurationDemandee } from "@/lib/retour-projets";
+import { demanderRestauration, ecrireOrigine, espaceDe, estFiche, finirRestauration, lireEtatListe, lireOrigine, restaurationDemandee } from "@/lib/retour-projets";
 
-// Mémorise d'où l'on ouvre une fiche projet, puis y ramène (bouton retour de la fiche ou
-// bouton précédent du navigateur) à la même position (lib/retour-projets.ts). Placé après
-// ScrollToTop : la page s'ouvre en haut, sauf lors d'un retour.
+// Mémorise d'où l'on ouvre une fiche projet (site public ou administration), puis y ramène
+// (bouton retour de la fiche ou bouton précédent du navigateur) à la même position
+// (lib/retour-projets.ts). Placé après ScrollToTop : la page s'ouvre en haut, sauf lors d'un retour.
+const ici = () => location.pathname + location.search;
+
 export function MemoireNavigation() {
   const pathname = usePathname();
 
@@ -16,12 +18,15 @@ export function MemoireNavigation() {
     const clic = (e: MouseEvent) => {
       const a = (e.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
       if (!a || a.origin !== location.origin || !estFiche(a.pathname) || estFiche(location.pathname)) return;
+      const espace = espaceDe(a.pathname);
+      if (espaceDe(location.pathname) !== espace) return;
       const liste = location.pathname === "/projets" ? lireEtatListe() : null;
-      ecrireOrigine({ path: location.pathname, y: window.scrollY, ...(liste ?? {}) });
+      ecrireOrigine(espace, { path: ici(), y: window.scrollY, ...(liste ?? {}) });
     };
     // Bouton précédent du navigateur : même retour que le bouton de la fiche.
     const precedent = () => {
-      if (lireOrigine()?.path === location.pathname) demanderRestauration();
+      const espace = espaceDe(location.pathname);
+      if (lireOrigine(espace)?.path === ici()) demanderRestauration(espace);
     };
     document.addEventListener("click", clic, true);
     window.addEventListener("popstate", precedent);
@@ -32,15 +37,16 @@ export function MemoireNavigation() {
   }, []);
 
   useEffect(() => {
-    if (!restaurationDemandee()) return;
-    const o = lireOrigine();
-    if (!o || o.path !== pathname) return finirRestauration();
+    const espace = espaceDe(pathname);
+    if (!restaurationDemandee(espace)) return;
+    const o = lireOrigine(espace);
+    if (!o || o.path !== ici()) return finirRestauration(espace);
     // La liste rétablit d'abord ses filtres : on réessaie tant que la page n'est pas assez haute.
     let essais = 0;
     const descendre = () => {
       window.scrollTo({ top: o.y, left: 0, behavior: "instant" });
       if (Math.abs(window.scrollY - o.y) > 2 && essais++ < 20) setTimeout(descendre, 50);
-      else finirRestauration();
+      else finirRestauration(espace);
     };
     requestAnimationFrame(descendre);
   }, [pathname]);

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ProjectForm } from "@/components/admin/ProjectForm";
+import { RetourProjets } from "@/components/admin/RetourProjets";
 import { fetchRepo, moisAnnee, parseRepoUrl, prettyName } from "@/lib/admin/github";
 import { slugify } from "@/lib/admin/projects";
 import { EMPTY, formContext } from "../form-data";
@@ -79,9 +80,7 @@ export default async function NouveauProjet({ searchParams }: { searchParams: Pr
   return (
     <>
       <div>
-        <div className="adm-crumb">
-          <Link href="/admin/projets">Projets</Link> / Nouveau
-        </div>
+        <RetourProjets />
         <h1 className="adm-h1">Nouveau projet</h1>
         <p className="adm-sub">Choisis le point de départ le plus proche : le formulaire se remplit pour toi.</p>
       </div>
