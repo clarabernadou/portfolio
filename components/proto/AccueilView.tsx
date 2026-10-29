@@ -13,7 +13,7 @@ export function AccueilView({ v }: { v: any }) {
   return (
     <>
       <main id={"contenu"} tabIndex={-1}>
-        <section style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 2.5rem; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center`)}>
+        <section style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 2rem 2.5rem; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center`)}>
           {" "}
           <div style={css(`flex: 1.45 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 1.5rem`)}>
             {" "}

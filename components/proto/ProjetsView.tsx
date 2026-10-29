@@ -12,7 +12,7 @@ import { ListeLivrables } from "./ListeLivrables";
 export function ProjetsView({ v }: { v: any }) {
   return (
     <>
-      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4.5rem`)}>
+      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 2rem 4.5rem`)}>
         {" "}
         {v.isList && (
           <>
