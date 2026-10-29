@@ -432,7 +432,7 @@
    "titre": "Dans chaque page web, la structure du document est-elle cohérente (hors cas particuliers) ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Structure balisée : header, nav (navigation principale, fil d’Ariane, projets voisins), main et footer."
+   "constat": "Structure balisée : header, nav (navigation principale, projets voisins), main et footer."
   },
   {
    "n": "9.3",

@@ -21,12 +21,6 @@ export function ProjetsView({ v }: { v: any }) {
               <div style={css(`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem`)}>
                 {" "}
                 <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
-                  <nav aria-label={"Fil d’Ariane"} style={css(`font-size: 14px; color: #5B5470`)}>
-                    <Link href={"/"} style={css(`color: #5B5470`)}>
-                      {"Accueil"}
-                    </Link>
-                    {" / Projets"}
-                  </nav>
                   <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 60px); letter-spacing: -0.045em; line-height: 1`)}>
                     <span style={css(`font-weight: 800`)}>
                       {"Tous les"}

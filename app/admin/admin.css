@@ -27,8 +27,6 @@
 .adm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 16px; }
 .adm-h1 { margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 36px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; }
 .adm-sub { margin: 6px 0 0; font-size: 15px; color: var(--ardoise); }
-.adm-crumb { font-size: 13px; color: var(--ardoise); margin-bottom: 6px; }
-.adm-crumb a { color: var(--ardoise); }
 /* Bouton retour des pages de modification (remplace le fil d’Ariane, 30 oct. 2026) */
 .adm-retour { min-height: 44px; display: inline-flex; align-items: center; gap: 8px; color: var(--amethyste); font-size: 15px; font-weight: 700; text-decoration: none; }
 .adm-retour svg { width: 18px; height: 18px; }

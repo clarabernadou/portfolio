@@ -14,12 +14,6 @@ export default async function PlanDuSitePage() {
   return (
     <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4.5rem; display: flex; flex-direction: column; gap: 2.5rem`)}>
       <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
-        <nav aria-label={"Fil d’Ariane"} style={css(`font-size: 14px; color: #5B5470`)}>
-          <Link href={"/"} style={css(`color: #5B5470`)}>
-            {"Accueil"}
-          </Link>
-          {" / Plan du site"}
-        </nav>
         <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(36px, 5vw, 52px); letter-spacing: -0.045em; line-height: 1`)}>
           <span style={css(`font-weight: 800`)}>{"Plan"}</span>{" "}
           <span style={css(`font-weight: 300; color: #6A4FB6`)}>{"du site"}</span>
