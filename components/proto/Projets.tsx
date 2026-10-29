@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { demanderRestauration, ecrireEtatListe, libelleRetour, lireOrigine, restaurationDemandee } from "@/lib/retour-projets";
 import { ProjetsView } from "./ProjetsView";
 import type { Project } from "@/lib/types";
 import { sortFeatured, type SiteProject } from "@/lib/data-shared";
@@ -69,6 +70,19 @@ export function ProjetsListe({ projects: PROJECTS, featuredOrder, categories }: 
   const [type, setType] = useState("Tous");
   const [par, setPar] = useState("Tous les parcours");
   const [limit, setLimit] = useState(12);
+  // Retour depuis une fiche : filtres et nombre de projets affichés tels qu'on les avait laissés.
+  useEffect(() => {
+    const o = lireOrigine();
+    if (!restaurationDemandee() || o?.path !== "/projets") return;
+    // Lecture unique, au montage, du stockage de l'onglet : impossible pendant le rendu serveur, d'où l'effet.
+    /* eslint-disable react-hooks/set-state-in-effect */
+    if (o.type && TYPES.includes(o.type)) setType(o.type);
+    if (o.par && PARS.includes(o.par)) setPar(o.par);
+    if (o.limit) setLimit(o.limit);
+    /* eslint-enable react-hooks/set-state-in-effect */
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- une seule fois, à l'arrivée sur la liste
+  }, []);
+  useEffect(() => ecrireEtatListe({ type, par, limit }), [type, par, limit]);
   const byPar = PROJECTS.filter((p) => par === "Tous les parcours" || p.parcours === par);
   const shownRaw = byPar.filter((p) => type === "Tous" || (p.types as string[]).includes(type));
   const shown = shownRaw.slice(0, limit).map(card);
@@ -125,6 +139,11 @@ export function ProjetsListe({ projects: PROJECTS, featuredOrder, categories }: 
 
 export function ProjetFiche({ id, projects: PROJECTS }: { id: string; projects: SiteProject[] }) {
   const [vid, setVid] = useState<number | null>(null);
+  // Bouton retour : vers la page d'où l'on a ouvert la fiche (lue après le premier rendu, sinon la liste).
+  const [origine, setOrigine] = useState<string | undefined>(undefined);
+  // Lecture unique, au montage, du stockage de l'onglet : impossible pendant le rendu serveur, d'où l'effet.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setOrigine(lireOrigine()?.path), []);
 
   const i = Math.max(0, PROJECTS.findIndex((p) => p.id === id));
   const cur = PROJECTS[i];
@@ -150,6 +169,9 @@ export function ProjetFiche({ id, projects: PROJECTS }: { id: string; projects: 
         focusApres(`#film-${vd.n}`);
       },
     })),
+    backHref: origine ?? "/projets",
+    backLabel: libelleRetour(origine),
+    back: demanderRestauration,
     prevHref: `/projets/${prev.id}`,
     nextHref: `/projets/${next.id}`,
     prevName: prev.name,

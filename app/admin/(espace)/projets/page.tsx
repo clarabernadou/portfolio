@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { A_COMPLETER, enCours, type ACompleter } from "@/lib/admin/projects";
+import { A_COMPLETER, TRIS, enCours, trier, type ACompleter } from "@/lib/admin/projects";
 import { Icon } from "@/components/admin/icons";
 import { AutoFilters } from "@/components/admin/AutoFilters";
 import { RowActions } from "@/components/admin/RowActions";
@@ -20,7 +20,7 @@ const STATUTS = [
   ["masque", "Privé"],
 ] as const;
 
-type Search = { q?: string; type?: string; cadre?: string; statut?: string; page?: string; "a-completer"?: string };
+type Search = { q?: string; type?: string; cadre?: string; statut?: string; tri?: string; page?: string; "a-completer"?: string };
 
 // Maquette : docs/passation/maquettes/admin/Admin-projets.jpg.
 export default async function ProjetsAdmin({ searchParams }: { searchParams: Promise<Search> }) {
@@ -38,14 +38,14 @@ export default async function ProjetsAdmin({ searchParams }: { searchParams: Pro
     !p.visible ? "masque" : p.status === "draft" ? "brouillon" : enCours(p) ? "cours" : "publie";
   const q = (sp.q ?? "").trim().toLowerCase();
   const ac = sp["a-completer"] as ACompleter | undefined;
-  const filtered = all.filter(
+  const filtered = trier(all.filter(
     (p) =>
       (!q || [p.name, p.id, p.parcours, ...(p.tags as string[])].join(" ").toLowerCase().includes(q)) &&
       (!sp.type || (p.types as string[]).includes(sp.type)) &&
       (!sp.cadre || p.parcours === sp.cadre) &&
       (!sp.statut || statut(p) === sp.statut) &&
       (!ac || !A_COMPLETER[ac] || A_COMPLETER[ac].test(p)),
-  );
+  ), sp.tri);
   const page = Math.max(1, Number(sp.page) || 1);
   const pages = Math.max(1, Math.ceil(filtered.length / PAR_PAGE));
   const shown = filtered.slice((page - 1) * PAR_PAGE, page * PAR_PAGE);
@@ -95,6 +95,14 @@ export default async function ProjetsAdmin({ searchParams }: { searchParams: Pro
             </option>
           ))}
         </select>
+        <select className="adm-select" name="tri" defaultValue={sp.tri ?? ""} aria-label="Trier">
+          <option value="">Ordre du site</option>
+          {TRIS.map(([v, l]) => (
+            <option key={v} value={v}>
+              {l}
+            </option>
+          ))}
+        </select>
         {ac && <input type="hidden" name="a-completer" value={ac} />}
       </AutoFilters>
 
@@ -106,7 +114,7 @@ export default async function ProjetsAdmin({ searchParams }: { searchParams: Pro
           {ac && A_COMPLETER[ac] ? ` · ${A_COMPLETER[ac].label(filtered.length)}` : ""}
         </span>
         {(q || sp.type || sp.cadre || sp.statut || ac) && (
-          <Link className="adm-btn adm-btn--link" href="/admin/projets">
+          <Link className="adm-btn adm-btn--link" href={sp.tri ? `/admin/projets?tri=${sp.tri}` : "/admin/projets"}>
             Effacer les filtres
           </Link>
         )}

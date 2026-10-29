@@ -267,18 +267,13 @@ export function ProjetsView({ v }: { v: any }) {
             <article style={css(`display: flex; flex-direction: column; gap: 2rem`)}>
               {" "}
               <div style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 2px`)}>
-                <Link href={"/projets"} style={css(`min-height: 44px; padding: 0; border: 0; background: none; color: #6A4FB6; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none`)}>
+                {/* Retour à l'endroit exact d'où l'on venait (lib/retour-projets.ts) ; plus de fil d'Ariane (29 oct. 2026). */}
+                <Link href={v.backHref} onClick={v.back} style={css(`min-height: 44px; padding: 0; border: 0; background: none; color: #6A4FB6; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none`)}>
                   <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                     <path d={"M19 12H5M11 18l-6-6 6-6"} />
                   </svg>
-                  {"Retour aux projets"}
+                  {v.backLabel}
                 </Link>
-                <nav aria-label={"Fil d’Ariane"} style={css(`font-size: 14px; color: #5B5470`)}>
-                  <Link href={"/"} style={css(`color: #5B5470`)}>
-                    {"Accueil"}
-                  </Link>
-                  {" / Projets / "}<span>{v.cur.name}</span>
-                </nav>
               </div>
               {" "}
               <header style={css(`display: flex; flex-direction: column; gap: 12px`)}>

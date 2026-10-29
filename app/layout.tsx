@@ -5,6 +5,7 @@ import { getProfile } from "@/lib/data";
 import { siteUrl } from "@/lib/site-url";
 import { css } from "@/lib/css";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { MemoireNavigation } from "@/components/MemoireNavigation";
 
 const defaultDescription = "Portfolio de Clara Bernadou, développeuse front-end (React, TypeScript) & UI/UX designer.";
 
@@ -56,6 +57,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <div style={css("width: 100%; min-height: 100dvh; display: flex; flex-direction: column; background: #FFFFFF; font-family: 'Manrope', system-ui, sans-serif; color: #1A1033")}>
           <span id="top" tabIndex={-1} />
           <ScrollToTop />
+          <MemoireNavigation />
           <SiteHeader />
           <div style={css("flex: 1 0 auto")}>{children}</div>
           <SiteFooter profil={{ email: profil.email, entretiens: profil.entretiens, linkedin: profil.linkedin, github: profil.github }} />
