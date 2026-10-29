@@ -16,6 +16,12 @@ export interface ProjectDoc {
   alt?: string;
 }
 
+// Capture du site réalisé : image envoyée depuis l'administration et sa description (texte alternatif).
+export interface ProjectCapture {
+  url: string;
+  alt: string;
+}
+
 export interface ProjectVideo {
   n: number;
   kicker: string;
@@ -44,6 +50,7 @@ export interface Project {
   onHome: boolean;
   featured: boolean;
   videos?: ProjectVideo[];
+  captures?: ProjectCapture[];
 }
 
 export interface IaStat {

@@ -54,6 +54,8 @@ function detail(p: Project) {
     hasSkills: p.skillsValidated.length > 0,
     skills: p.skillsValidated,
     hasVideos: !!p.videos?.length,
+    hasCaptures: !!p.captures?.length,
+    captures: (p.captures ?? []).map((c) => ({ ...c, url: asset(c.url) })),
     hasDocs: p.docs.length > 0,
     // Une image sert elle-même d'aperçu ; les autres formats sans aperçu affichent leur format.
     docs: p.docs.map((d) => ({ ...d, format: formatLivrable(d.href), thumb: d.thumb ? asset(d.thumb) : estImage(d.href) ? d.href : "" })),

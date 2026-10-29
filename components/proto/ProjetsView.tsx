@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { css } from "@/lib/css";
+import { CapturesSite } from "./CapturesSite";
 
 // Généré depuis docs/passation/prototype-source/projets.source.html
 // (scripts/tools/gen.mjs) : markup et styles recopiés à l'identique.
@@ -484,6 +485,7 @@ export function ProjetsView({ v }: { v: any }) {
                   </section>
                 </>
               )}
+              {v.cur.hasCaptures && <CapturesSite captures={v.cur.captures} />}
               {v.cur.hasDocs && (
                 <>
                   <section style={css(`display: flex; flex-direction: column; gap: 1rem`)}>
