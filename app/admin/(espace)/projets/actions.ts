@@ -29,6 +29,7 @@ export interface ProjectInput {
   docs: { label: string; href: string; thumb?: string; alt?: string }[];
   steps: { label: string; status: string }[];
   videos: { title: string; kicker: string; url: string }[];
+  captures: { url: string; alt: string }[];
   visible: boolean;
   onHome: boolean;
   featured: boolean;
@@ -70,6 +71,11 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
     if (!yid) return { ok: false, error: `Le lien de la vidéo ${i + 1} n’est pas un lien YouTube.` };
     videos.push({ n: i + 1, kicker: v.kicker || `Film ${i + 1} sur ${input.videos.length}`, title: v.title, youtubeId: yid, url: v.url });
   }
+
+  // Captures du site : chaque image envoyée doit être décrite (texte alternatif, RGAA 1.2).
+  const captures = input.captures.filter((c) => c.url.trim()).map((c) => ({ url: c.url.trim(), alt: c.alt.trim() }));
+  const sansTexte = captures.findIndex((c) => !c.alt);
+  if (sansTexte >= 0) return { ok: false, error: `Décris la capture ${sansTexte + 1} : sa description est lue aux personnes qui ne voient pas l’image.` };
 
   const others = await prisma.project.findMany({
     where: { deletedAt: null, NOT: { id: input.originalId ?? "" } },
@@ -113,6 +119,7 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
     docs: input.docs.map((d, i) => ({ n: i + 1, label: d.label, href: d.href, ...(d.thumb ? { thumb: d.thumb, alt: d.alt || `Aperçu : ${d.label}` } : {}) })),
     steps: input.steps.filter((s) => s.label.trim()),
     videos: videos.length ? videos : undefined,
+    captures,
     visible: input.visible,
     onHome: input.onHome,
     featured: input.featured,
@@ -197,6 +204,7 @@ export async function duplicateProject(id: string) {
       steps: src.steps ?? [],
       skillsValidated: src.skillsValidated ?? [],
       videos: src.videos ?? undefined,
+      captures: src.captures ?? undefined,
       fieldMeta: undefined,
       i18n: src.i18n ?? undefined,
       homeCard: undefined,

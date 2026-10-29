@@ -192,6 +192,31 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
               )}
             />
             <ListEditor
+              label="Captures du site"
+              items={p.captures}
+              onChange={(v) => set("captures", v)}
+              addLabel="Ajouter une capture"
+              make={() => ({ url: "", alt: "" })}
+              itemName={(d, i) => d.alt || `la capture ${i + 1}`}
+              empty={
+                <>
+                  <b>Aucune capture</b>Envoie des images du site réalisé (pages anonymisées) : elles s’affichent dans la section « Captures du site » de la fiche et s’agrandissent au clic.
+                </>
+              }
+              render={(d, setD) => (
+                <>
+                  <span style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+                    {d.url && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={d.url} alt="" style={{ width: 120, height: 68, objectFit: "cover", objectPosition: "top", borderRadius: 8, border: "1px solid var(--bordure)" }} />
+                    )}
+                    <BlobUpload folder={p.id || "nouveau"} accept="image/jpeg,image/png,image/webp" label={d.url ? "Remplacer l’image" : "Envoyer l’image"} onDone={(url) => setD({ ...d, url })} />
+                  </span>
+                  <InlineInput label="Description de la capture" placeholder="Ce que montre la capture (lu aux personnes qui ne voient pas l’image)" value={d.alt} onChange={(v) => setD({ ...d, alt: v })} />
+                </>
+              )}
+            />
+            <ListEditor
               label="Vidéos YouTube"
               items={p.videos}
               onChange={(v) => set("videos", v)}

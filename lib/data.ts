@@ -75,6 +75,7 @@ function fromRow(r: ProjectRow): SiteProject {
     onHome: r.onHome,
     featured: r.featured,
     ...(r.videos ? { videos: r.videos as unknown as Project["videos"] } : {}),
+    ...(r.captures ? { captures: r.captures as unknown as Project["captures"] } : {}),
     ...(r.homeCard ? { homeCard: r.homeCard as unknown as HomeCard } : {}),
   };
 }
