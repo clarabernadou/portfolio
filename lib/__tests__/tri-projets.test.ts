@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cleDate, trier } from "@/lib/admin/projects";
+import { cleDate, plusRecentsDabord, trier } from "@/lib/admin/projects";
 
 describe("cleDate", () => {
   it("lit le mois et l'année", () => {
@@ -38,5 +38,13 @@ describe("trier", () => {
   it("garde l'ordre du site sans tri ou avec un tri inconnu", () => {
     expect(noms(trier(p, undefined))).toEqual(noms(p));
     expect(noms(trier(p, "nimporte"))).toEqual(noms(p));
+  });
+});
+
+describe("plusRecentsDabord", () => {
+  it("trie par date décroissante, garde l'ordre à date égale et met les projets sans date à la fin", () => {
+    const p = (name: string, date: string) => ({ name, date });
+    const liste = [p("Learn@Home", "mars 2023"), p("Billed", "avr. 2023"), p("Sans date", ""), p("Petits Plats", "fév. 2023"), p("HRnet", "juin 2023"), p("Argent Bank", "juin 2023")];
+    expect(plusRecentsDabord(liste).map((x) => x.name)).toEqual(["HRnet", "Argent Bank", "Billed", "Learn@Home", "Petits Plats", "Sans date"]);
   });
 });

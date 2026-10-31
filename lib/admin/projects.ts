@@ -41,6 +41,13 @@ export function cleDate(date: string): number | null {
   return cles.length ? Math.max(...cles) : null;
 }
 
+// Liste publique (« Du plus récent au plus ancien », 31 oct. 2026) : par date, la plus récente
+// d'abord ; à date égale, l'ordre de l'administration est gardé (tri stable) ; sans date, à la fin.
+export function plusRecentsDabord<T extends { date: string }>(projets: T[]): T[] {
+  const cle = (p: T) => cleDate(p.date) ?? -Infinity;
+  return [...projets].sort((a, b) => cle(b) - cle(a));
+}
+
 // Les projets sans date restent à la fin, quel que soit le sens.
 export function trier<T extends { name: string; date: string }>(projets: T[], tri: string | undefined): T[] {
   if (!tri || !TRIS.some(([v]) => v === tri)) return projets;

@@ -9,7 +9,7 @@ import { competencesEssentiel, identite, langues, profilCv } from "./content/pro
 import liensJson from "@/data/liens.json";
 import iaJson from "@/data/ia.json";
 import { siteContact } from "./site-data";
-import { estFormation } from "./admin/projects";
+import { estFormation, plusRecentsDabord } from "./admin/projects";
 import { recommendations as recosJson } from "./content/recommendations";
 
 export type { HomeCard, SiteExperience, SiteFormation, SiteProfile, SiteProject, SiteReco } from "./data-shared";
@@ -81,14 +81,14 @@ function fromRow(r: ProjectRow): SiteProject {
   };
 }
 
-// Projets visibles sur le site : publiés, visibles, non supprimés, dans l'ordre de la liste.
+// Projets visibles sur le site : publiés, visibles, non supprimés, du plus récent au plus ancien.
 async function getSiteProjectsSource(): Promise<SiteProject[]> {
-  if (!hasDb()) return fromJson();
+  if (!hasDb()) return plusRecentsDabord(fromJson());
   const rows = await (await prisma()).project.findMany({
     where: { deletedAt: null, visible: true, status: "published" },
     orderBy: [{ position: "asc" }, { createdAt: "desc" }],
   });
-  return rows.map(fromRow);
+  return plusRecentsDabord(rows.map(fromRow));
 }
 
 // Aperçu d'un projet pour l'administration, quel que soit son statut (brouillon, privé ou publié).
