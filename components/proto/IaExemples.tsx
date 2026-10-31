@@ -31,7 +31,7 @@ export function IaExemples({ ex, routine, id }: { ex: IaExamples; routine: strin
 
   return (
     <>
-      <button type={"button"} onClick={() => setTab(0)} aria-haspopup={"dialog"} style={css(`align-self: flex-start; margin-top: 6px; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #B9A8EC; background: #FFFFFF; color: #6A4FB6; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer`)}>
+      <button type={"button"} onClick={() => setTab(0)} aria-haspopup={"dialog"} style={css(`align-self: flex-start; margin-top: 6px; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer`)}>
         {"Voir un exemple"}
       </button>
       {tab !== null && (

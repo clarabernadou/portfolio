@@ -7,7 +7,7 @@ import { css } from "@/lib/css";
 // Au-delà (choix de Clara, 29 oct. 2026) : une rangée qui défile (balayage, molette, clavier),
 // avec des flèches précédents / suivants et la position annoncée aux lecteurs d'écran.
 const SEUIL = 4;
-const FLECHE = `width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--amethyste); background: #FFFFFF; color: var(--amethyste); display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer`;
+const FLECHE = `width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre); display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer`;
 
 export function ListeLivrables({ total, children }: { total: number; children: ReactNode }) {
   const liste = useRef<HTMLUListElement>(null);

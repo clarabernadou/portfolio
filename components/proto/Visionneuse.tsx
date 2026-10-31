@@ -73,7 +73,7 @@ export function Visionneuse({ id, elements, index, onIndex, noms }: { id: string
         )}
         <div style={css(`display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap`)}>
           {n > 1 ? (
-            <button type={"button"} onClick={() => aller(-1)} aria-label={noms.precedent} style={css(`${ROND}; border: 1.5px solid var(--amethyste); background: #FFFFFF; color: var(--amethyste)`)}>
+            <button type={"button"} onClick={() => aller(-1)} aria-label={noms.precedent} style={css(`${ROND}; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre)`)}>
               <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                 <path d={"M15 18l-6-6 6-6"} />
               </svg>
@@ -88,7 +88,7 @@ export function Visionneuse({ id, elements, index, onIndex, noms }: { id: string
             </svg>
           </a>
           {n > 1 ? (
-            <button type={"button"} onClick={() => aller(1)} aria-label={noms.suivant} style={css(`${ROND}; border: 1.5px solid var(--amethyste); background: #FFFFFF; color: var(--amethyste)`)}>
+            <button type={"button"} onClick={() => aller(1)} aria-label={noms.suivant} style={css(`${ROND}; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre)`)}>
               <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                 <path d={"M9 18l6-6-6-6"} />
               </svg>

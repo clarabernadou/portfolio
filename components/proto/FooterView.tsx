@@ -34,7 +34,7 @@ export function FooterView({ v }: { v: any }) {
               {" "}
               <div style={css(`display: flex; gap: 8px`)}>
                 {" "}
-                <button type={"button"} onClick={v.copy} aria-live={"polite"} style={css(`min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #6A4FB6; background: #FFFFFF; color: #6A4FB6; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer`)}>
+                <button type={"button"} onClick={v.copy} aria-live={"polite"} style={css(`min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer`)}>
                   <span>{v.copyLabel}</span>
                 </button>
                 {" "}
