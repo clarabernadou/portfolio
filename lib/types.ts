@@ -150,6 +150,8 @@ export interface Formation {
   statut: "Obtenu" | "En cours";
   projets: string;
   mentionComplementaire?: string;
+  /** Nom officiel et organisme (« Développeur Web d'OpenClassrooms ») : phrase d'ouverture des projets. */
+  nomOfficiel?: string;
 }
 
 export interface CompetenceCategorie {

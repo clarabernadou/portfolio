@@ -367,7 +367,7 @@ export function OptionClaude({ prompt, ouvert, onOuvert, reponse, onReponse, idB
 
 // ── Panneau d'un champ ──────────────────────────────────────────────────────────────────
 
-export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeur: string; max?: number; onReplace: (v: string) => void }) {
+export function AvisIA({ champ, valeur, max, onReplace, consigne }: { champ: string; valeur: string; max?: number; onReplace: (v: string) => void; consigne?: string }) {
   const page = useContext(IaContexte);
   const dialog = useRef<HTMLDialogElement>(null);
   const notesRef = useRef<HTMLTextAreaElement>(null);
@@ -383,7 +383,7 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
   const titreResultat = useFocusResultat(etat.type === "avis");
   useModale(dialog, arreter);
 
-  const ctx: ContexteAvis = { page: page?.page ?? "Administration du portfolio", infos: page?.infos, github: page?.github || undefined, champ, max };
+  const ctx: ContexteAvis = { page: page?.page ?? "Administration du portfolio", infos: page?.infos, github: page?.github || undefined, champ, max, consigne };
   const prompt = promptAvis(valeur, ctx, recruteur, claude.profil, mode, completer ? { notes, depot: claude.depot } : {});
   const propositionClaude = reponse ? extraireProposition(reponse) : null;
 

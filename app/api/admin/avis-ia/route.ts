@@ -54,6 +54,7 @@ export async function POST(request: Request) {
     champ: texte(corps.ctx?.champ, 200) || "Texte",
     max: typeof corps.ctx?.max === "number" && corps.ctx.max > 0 ? Math.min(corps.ctx.max, 10000) : undefined,
     infos: texte(corps.ctx?.infos, 6000) || undefined,
+    consigne: texte(corps.ctx?.consigne, 400) || undefined,
   };
   const aRelire = texte(corps.texte, 8000);
   // « fiche » : toute une fiche (projet ou expérience) en un appel. Les champs viennent du
@@ -67,7 +68,7 @@ export async function POST(request: Request) {
           infos: texte(corps.fiche.infos, 6000) || undefined,
           champs: champsRecus
             .filter((c) => typeof c?.cle === "string" && CLE_CHAMP.test(c.cle))
-            .map((c) => ({ cle: c.cle as string, champ: texte(c.champ, 120) || (c.cle as string), max: typeof c.max === "number" && c.max > 0 ? Math.min(c.max, 2000) : 500, role: texte(c.role, 300), valeur: texte(c.valeur, 4000) })),
+            .map((c) => ({ cle: c.cle as string, champ: texte(c.champ, 120) || (c.cle as string), max: typeof c.max === "number" && c.max > 0 ? Math.min(c.max, 2000) : 500, role: texte(c.role, 600), valeur: texte(c.valeur, 4000) })),
           tags: Array.isArray(corps.fiche.tags) ? corps.fiche.tags.slice(0, 40).map((t) => texte(t, 60)).filter(Boolean) : undefined,
         }
       : null;

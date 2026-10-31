@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTransition, useState } from "react";
+import { useRef, useTransition, useState } from "react";
 import { saveProject, deleteProject, restoreProject, siteGithub, type ProjectInput } from "@/app/admin/(espace)/projets/actions";
 import { Checks, InlineInput, ListEditor, SelectField, TagInput, TextArea, TextField, Toggle } from "./fields";
 import { RestoreBanner, SaveBar, useDraft } from "./SaveBar";
@@ -13,6 +13,7 @@ import { slugify } from "@/lib/admin/projects";
 import { IaPage } from "./AvisIA";
 import { AvisGlobalIA } from "./AvisGlobalIA";
 import { CHAMPS_PROJET } from "@/lib/admin/avis-ia";
+import { commenceParCadre } from "@/lib/data-shared";
 import { ACCEPT_LIVRABLES } from "@/lib/livrables";
 
 const ETAPES = ["Fait", "En cours", "À venir"];
@@ -20,6 +21,8 @@ const ETAPES = ["Fait", "En cours", "À venir"];
 export interface ProjectFormProps {
   initial: ProjectInput;
   cadres: string[];
+  /** Phrase d'ouverture du contexte, par cadre (lib/data-shared.ts, phraseCadre). */
+  ouvertures: Record<string, string>;
   types: string[];
   tagSuggestions: Record<string, string[]>;
   skillSuggestions: Record<string, string[]>;
@@ -29,7 +32,7 @@ export interface ProjectFormProps {
 }
 
 // Maquette : docs/passation/maquettes/admin/Admin-projet-edition.jpg.
-export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, skillSuggestions, counts, note, updatedAt }: ProjectFormProps) {
+export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSuggestions, skillSuggestions, counts, note, updatedAt }: ProjectFormProps) {
   const router = useRouter();
   const toast = useToast();
   const isNew = !initial.originalId;
@@ -40,6 +43,7 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
   const [pending, start] = useTransition();
   const [cherche, setCherche] = useState(false);
   const autoSlug = isNew && (!p.id || p.id === slugify(initial.name));
+  const ouverture = ouvertures[p.parcours];
   const skills = [...new Set([...(skillSuggestions[p.parcours] ?? []), ...p.skillsValidated])];
 
   const save = (status: ProjectInput["status"]) =>
@@ -102,7 +106,7 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
                   github: p.github || undefined,
                   champs: [
                     { cle: "accroche", ...CHAMPS_PROJET.accroche, valeur: p.line },
-                    { cle: "contexte", ...CHAMPS_PROJET.contexte, valeur: p.context },
+                    { cle: "contexte", ...CHAMPS_PROJET.contexte, role: ouverture ? `${CHAMPS_PROJET.contexte.role}. Il commence obligatoirement, mot pour mot, par la phrase « ${ouverture} », suivie du reste du texte, qui ne répète pas ce cadre` : CHAMPS_PROJET.contexte.role, valeur: p.context },
                     ...(p.onHome && p.homeCard ? [{ cle: "carte", ...CHAMPS_PROJET.carte, valeur: p.homeCard.line }] : []),
                   ],
                   tags: p.tags,
@@ -120,7 +124,16 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
               />
             </div>
             <TextArea label="Accroche" value={p.line} onChange={(v) => set("line", v)} max={140} rows={2} help="Une phrase, affichée sur la carte du projet." />
-            <TextArea label="Contexte" value={p.context} onChange={(v) => set("context", v)} max={500} rows={5} />
+            <TextArea
+              label="Contexte"
+              value={p.context}
+              onChange={(v) => set("context", v)}
+              max={500}
+              rows={5}
+              consigneIA={ouverture ? `Le contexte commence obligatoirement, mot pour mot, par la phrase « ${ouverture} », suivie du reste du texte, qui ne répète pas ce cadre.` : undefined}
+              help={ouverture && `Commence toujours par la phrase de cadre : « ${ouverture} »`}
+            />
+            {ouverture && <OuvertureContexte phrase={ouverture} texte={p.context} onInserer={(v) => set("context", v)} />}
             <TagInput label="Tags" value={p.tags} onChange={(v) => set("tags", v)} suggestions={tagSuggestions[p.parcours] ?? []} />
             <Checks
               legend="Compétences validées"
@@ -360,5 +373,28 @@ export function ProjectForm({ initial, cadres, types: TYPES, tagSuggestions, ski
       </SaveBar>
     </>
     </IaPage>
+  );
+}
+
+// Phrase d'ouverture commune à tous les contextes (31 oct. 2026) : si le contexte ne commence pas
+// par elle, un bouton l'ajoute au début ; le bouton disparaît, le focus revient dans le champ.
+function OuvertureContexte({ phrase, texte, onInserer }: { phrase: string; texte: string; onInserer: (v: string) => void }) {
+  const bloc = useRef<HTMLDivElement>(null);
+  if (commenceParCadre(texte, phrase)) return null;
+  return (
+    <div className="adm-ouverture" ref={bloc} role="status">
+      <p className="adm-help">Ce contexte ne commence pas par la phrase de cadre.</p>
+      <button
+        type="button"
+        className="adm-btn adm-btn--soft"
+        onClick={() => {
+          const champ = bloc.current?.previousElementSibling?.querySelector("textarea");
+          onInserer(`${phrase} ${texte.trim()}`.trim());
+          setTimeout(() => champ?.focus(), 0);
+        }}
+      >
+        Ajouter la phrase au début
+      </button>
+    </div>
   );
 }

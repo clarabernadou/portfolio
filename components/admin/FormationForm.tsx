@@ -87,6 +87,7 @@ export function FormationForm({ initial, rattaches }: { initial: FormationInput;
         <TextField label="Projets validés" value={f.projets} onChange={(v) => set("projets", v)} placeholder="8 projets validés sur 11" help={`${rattaches} ${rattaches > 1 ? "projets rattachés" : "projet rattaché"} à cette formation sur le site.`} />
       </div>
       <TextArea label="Mention complémentaire" value={f.mentionComplementaire} onChange={(v) => set("mentionComplementaire", v)} rows={2} help="Facultatif : affichée en italique sous la formation (par exemple, une équivalence)." />
+      <TextField label="Nom officiel, avec l’organisme" ia={false} value={f.nomOfficiel} onChange={(v) => set("nomOfficiel", v)} help="Facultatif, par exemple « Développeur Web d’OpenClassrooms ». Il ouvre le contexte des projets de cette formation : « Projet réalisé dans le cadre de la formation … ». Sans lui, c’est l’intitulé qui est utilisé." />
       {error && (
         <p className="adm-error" role="alert" style={{ margin: 0 }}>
           {error}

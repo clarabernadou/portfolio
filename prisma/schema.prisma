@@ -76,6 +76,7 @@ model Formation {
   statut                String   @db.VarChar(40)
   projets               String   @db.VarChar(120)
   mentionComplementaire String?  @db.Text
+  nomOfficiel           String?  @db.VarChar(200)
   origin                String   @default("manual") @db.VarChar(20)
   fieldMeta             Json?
   i18n                  Json?

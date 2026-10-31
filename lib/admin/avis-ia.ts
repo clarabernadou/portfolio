@@ -45,6 +45,8 @@ export interface ContexteAvis {
   infos?: string;
   /** Dépôt GitHub du projet, lu par le serveur en mode « Compléter ». */
   github?: string;
+  /** Règle propre au champ (par exemple, la phrase d'ouverture imposée du contexte d'un projet). */
+  consigne?: string;
 }
 
 const CLARA = "Clara Bernadou, développeuse front-end & UI/UX designer, qui cherche un CDI de développeuse front-end ou full-stack avec une double compétence UI/UX, disponible en mars 2027";
@@ -89,6 +91,7 @@ export function consignesAvis(ctx: ContexteAvis, recruteur: Recruteur, profil?: 
     `8. ${REGLE_NATURE}`,
     "9. Toute information de ta version proposée qui ne figure ni dans le texte, ni dans les informations de la fiche, ni dans le profil de Clara, ni dans ses notes, ni dans son dépôt GitHub doit être listée dans « affirmationsNonSourcees » (tableau vide sinon).",
     ...(completer ? [`10. ${REGLE_SAVOIR}`, `11. ${REGLE_CODE}`] : []),
+    ...(ctx.consigne?.trim() ? [`${completer ? 12 : 10}. Règle propre à ce champ, prioritaire : ${ctx.consigne.trim()}`] : []),
     ...profilClara(profil),
   ].join("\n");
 }

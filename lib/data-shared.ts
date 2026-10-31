@@ -132,4 +132,21 @@ export function enBref(
   };
 }
 
+// Phrase d'ouverture du contexte de chaque projet (choix de Clara, 31 oct. 2026) : la même formule
+// partout, seul le cadre change. Le reste du texte suit, sans répéter le cadre.
+export function phraseCadre(parcours: string, formations: Pick<Formation, "intitule" | "nomOfficiel">[], entreprise?: string): string | null {
+  const f = formations.find((x) => x.intitule === parcours);
+  if (f) return `Projet réalisé dans le cadre de la formation ${f.nomOfficiel?.trim() || f.intitule}.`;
+  if (parcours === "En entreprise") return entreprise ? `Projet réalisé dans le cadre de mon alternance chez ${entreprise}.` : "Projet réalisé dans le cadre de mon alternance.";
+  if (parcours === "Projet personnel") return "Projet personnel, mené seule.";
+  if (parcours === "Audit indépendant") return "Audit réalisé en indépendant.";
+  return null;
+}
+
+/** Le contexte commence-t-il par la phrase de cadre (espaces et apostrophes typographiques tolérés) ? */
+export const commenceParCadre = (texte: string, phrase: string) => {
+  const n = (t: string) => t.replace(/[’']/g, "'").replace(/\s+/g, " ").trim();
+  return n(texte).startsWith(n(phrase));
+};
+
 export const profilPublic =(p: SiteProfile): SiteProfile => ({ ...p, telephone: "", noteIA: "" });
