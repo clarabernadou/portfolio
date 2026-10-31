@@ -2,7 +2,7 @@
 
 import { AccueilView } from "./AccueilView";
 import { siteContact } from "@/lib/site-data";
-import { dispoLabel, type SiteExperience, type SiteFormation, type SiteProfile, type SiteProject, type SiteReco } from "@/lib/data-shared";
+import { dispoLabel, type enBref, type SiteExperience, type SiteFormation, type SiteProfile, type SiteProject, type SiteReco } from "@/lib/data-shared";
 
 // Cartes « Projets » : projets mis à l'accueil, avec le texte propre à leur carte.
 function cards(home: SiteProject[], section: string) {
@@ -17,7 +17,7 @@ function cards(home: SiteProject[], section: string) {
     }));
 }
 
-export function Accueil({ home, total, avecLivrables, experiences, duree, formations, profil, recos }: { home: SiteProject[]; total: number; avecLivrables: number; experiences: SiteExperience[]; duree: { ans: number; mois: number } | null; formations: SiteFormation[]; profil: SiteProfile; recos: SiteReco[] }) {
+export function Accueil({ home, total, bref, experiences, duree, formations, profil, recos }: { home: SiteProject[]; total: number; bref: ReturnType<typeof enBref>; experiences: SiteExperience[]; duree: { ans: number; mois: number } | null; formations: SiteFormation[]; profil: SiteProfile; recos: SiteReco[] }) {
   const v: Record<string, unknown> = {
     cvUrl: siteContact.cvPdfHref,
     profil,
@@ -28,9 +28,10 @@ export function Accueil({ home, total, avecLivrables, experiences, duree, format
       valeur: `${duree.ans} an${duree.ans > 1 ? "s" : ""}`,
       libelle: `${duree.mois ? `et ${duree.mois} mois ` : ""}d’alternance en développement et design`,
     },
+    // Lien vers la liste : les projets publics. « En bref » : tous les projets réalisés et les titres (lib/data-shared.ts).
     total,
-    // « En bref » : calculé sur les projets publics, pour rester juste pendant leur publication un par un.
-    enBref: `${total > 1 ? "projets" : "projet"}${avecLivrables > 0 ? `, dont ${avecLivrables} avec livrables` : ""}`,
+    projetsBref: bref.projets,
+    titres: bref.titres,
     homeEntreprise: cards(home, "En entreprise"),
     homeDesign: cards(home, "Design"),
     homeDev: cards(home, "Développement"),

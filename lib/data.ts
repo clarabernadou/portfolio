@@ -9,6 +9,7 @@ import { competencesEssentiel, identite, langues, profilCv } from "./content/pro
 import liensJson from "@/data/liens.json";
 import iaJson from "@/data/ia.json";
 import { siteContact } from "./site-data";
+import { estFormation } from "./admin/projects";
 import { recommendations as recosJson } from "./content/recommendations";
 
 export type { HomeCard, SiteExperience, SiteFormation, SiteProfile, SiteProject, SiteReco } from "./data-shared";
@@ -96,6 +97,17 @@ export async function getProjetApercu(id: string): Promise<SiteProject | null> {
   if (!hasDb()) return fromJson().find((p) => p.id === id) ?? null;
   const row = await (await prisma()).project.findFirst({ where: { id, deletedAt: null } });
   return row ? fromRow(row) : null;
+}
+
+// « En bref » de l'accueil (choix de Clara, 30 oct. 2026) : tous les projets, publiés ou non.
+// Ici, les projets hors formation (entreprise, perso, audit) et ceux qui ont des livrables ;
+// les projets de formation se comptent avec le nombre indiqué sur chaque fiche de formation.
+async function getCompteProjetsSource(): Promise<{ horsFormation: number; avecLivrables: number }> {
+  const rows = hasDb() ? await (await prisma()).project.findMany({ where: { deletedAt: null }, select: { parcours: true, pdf: true, docs: true } }) : fromJson();
+  return {
+    horsFormation: rows.filter((p) => !estFormation(p)).length,
+    avecLivrables: rows.filter((p) => p.pdf || (p.docs as unknown[]).length > 0).length,
+  };
 }
 
 async function getFeaturedOrderSource(): Promise<string[]> {
@@ -233,6 +245,7 @@ async function getIaSource(): Promise<IaContent> {
 
 export const getSiteProjects = uneFoisAuBuild("getSiteProjects", getSiteProjectsSource);
 export const getFeaturedOrder = uneFoisAuBuild("getFeaturedOrder", getFeaturedOrderSource);
+export const getCompteProjets = uneFoisAuBuild("getCompteProjets", getCompteProjetsSource);
 export const getExperiences = uneFoisAuBuild("getExperiences", getExperiencesSource);
 export const getFormations = uneFoisAuBuild("getFormations", getFormationsSource);
 export const getSkills = uneFoisAuBuild("getSkills", getSkillsSource);

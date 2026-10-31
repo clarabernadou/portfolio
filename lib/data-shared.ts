@@ -53,6 +53,8 @@ export interface SiteProfile {
   photoAlt: string;
   /** Premier chiffre de « En bref » sur l'accueil (ex. « 70+ » pull requests) : masqué s'il est absent. */
   chiffreCle?: { valeur: string; libelle: string };
+  /** Début de la première formation, plus précis que les années des fiches (« oct. 2021 »). */
+  formationDepuis?: string;
   /** Section « Projet » du CV PDF, entre expériences et formations : masquée si vide. */
   projetsCv?: { titre: string; lien?: string; periode: string; puces: string[] }[];
   /** Profil pour l'IA de relecture (administration) : privé, jamais envoyé aux pages publiques. */
@@ -99,6 +101,35 @@ export function dureeAlternance(experiences: Pick<Experience, "periode">[], main
   if (!debuts.length) return null;
   const total = maintenant.getFullYear() * 12 + maintenant.getMonth() - Math.min(...debuts);
   return total > 0 ? { ans: Math.floor(total / 12), mois: total % 12 } : null;
+}
+
+// Cases « projets » et « titres » de « En bref » (30 oct. 2026), calculées, jamais écrites à la main.
+// Projets : le nombre indiqué sur chaque fiche de formation (« 13 projets réalisés », « 8 projets validés
+// sur 11 » : le premier nombre), plus les projets hors formation de la base.
+export function enBref(
+  formations: Pick<Formation, "projets" | "diplome" | "statut" | "annees">[],
+  compte: { horsFormation: number; avecLivrables: number },
+  depuis?: string,
+) {
+  const total = formations.reduce((n, f) => n + (Number(/\d+/.exec(f.projets)?.[0]) || 0), 0) + compte.horsFormation;
+  const niveaux = formations.flatMap((f) => {
+    const m = /Bac\+(\d)/.exec(f.diplome);
+    return m ? [Number(m[1])] : [];
+  });
+  const enCours = formations.filter((f) => f.statut === "En cours").length;
+  const debut = depuis || formations.map((f) => /\d{4}/.exec(f.annees)?.[0]).filter(Boolean).sort()[0];
+  return {
+    projets: total > 0 ? { valeur: String(total), libelle: `projets${compte.avecLivrables > 0 ? `, dont ${compte.avecLivrables} avec livrables` : ""}` } : null,
+    titres: formations.length
+      ? {
+          valeur: `${formations.length} titre${formations.length > 1 ? "s" : ""}`,
+          libelle: [
+            `RNCP${niveaux.length ? `, du Bac+${Math.min(...niveaux)} au Bac+${Math.max(...niveaux)}` : ""}${enCours ? `, dont ${enCours} en cours` : ""}`,
+            debut ? `en formation depuis ${debut}` : "",
+          ].filter(Boolean).join(" · "),
+        }
+      : null,
+  };
 }
 
 export const profilPublic =(p: SiteProfile): SiteProfile => ({ ...p, telephone: "", noteIA: "" });

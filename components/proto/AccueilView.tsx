@@ -188,21 +188,24 @@ export function AccueilView({ v }: { v: any }) {
               </span>
             </li>
             )}
+            {/* Titres et projets calculés depuis les formations et la base (lib/data-shared.ts, 30 oct. 2026). */}
+            {v.titres && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
-                {"Bac+5"}
+                {v.titres.valeur}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
-                {"Full Stack Java & Angular"}
+                {v.titres.libelle}
               </span>
             </li>
-            {v.total > 0 && (
+            )}
+            {v.projetsBref && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
               <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
-                {v.total}
+                {v.projetsBref.valeur}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
-                {v.enBref}
+                {v.projetsBref.libelle}
               </span>
             </li>
             )}
