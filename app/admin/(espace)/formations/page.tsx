@@ -10,7 +10,7 @@ import { moveFormation, type FormationInput } from "./actions";
 export const metadata: Metadata = { title: "Formations" };
 export const dynamic = "force-dynamic";
 
-const VIDE: FormationInput = { id: null, intitule: "", url: "", annees: "", diplome: "", niveauComplet: "OpenClassrooms · ", mode: "En alternance", statut: "En cours", projets: "", mentionComplementaire: "" };
+const VIDE: FormationInput = { id: null, intitule: "", url: "", annees: "", diplome: "", niveauComplet: "OpenClassrooms · ", mode: "En alternance", statut: "En cours", projets: "", mentionComplementaire: "", nomOfficiel: "" };
 
 // Maquette : docs/passation/maquettes/admin/Admin-formations.jpg.
 export default async function Formations({ searchParams }: { searchParams: Promise<{ id?: string; nouvelle?: string }> }) {
@@ -34,6 +34,7 @@ export default async function Formations({ searchParams }: { searchParams: Promi
         statut: selected.statut,
         projets: selected.projets,
         mentionComplementaire: selected.mentionComplementaire ?? "",
+        nomOfficiel: selected.nomOfficiel ?? "",
       }
     : VIDE;
   const rattaches = projets.find((p) => p.parcours === initial.intitule)?._count ?? 0;

@@ -44,7 +44,7 @@ export function TextField({ label, value, onChange, required, help, placeholder,
 // Zone de texte avec compteur : le dépassement est signalé, sans bloquer
 // l'enregistrement d'un texte déjà validé. Le bouton « Avis de l'IA » est présent
 // par défaut ; ia={false} le retire (textes d'autrui, comme les recommandations).
-export function TextArea({ label, value, onChange, max, help, rows = 3, ia = true }: { label: string; value: string; onChange: (v: string) => void; max?: number; help?: ReactNode; rows?: number; ia?: boolean }) {
+export function TextArea({ label, value, onChange, max, help, rows = 3, ia = true, consigneIA }: { label: string; value: string; onChange: (v: string) => void; max?: number; help?: ReactNode; rows?: number; ia?: boolean; consigneIA?: string }) {
   const over = max ? value.length > max : false;
   return (
     <Field label={label} help={help}>
@@ -59,7 +59,7 @@ export function TextArea({ label, value, onChange, max, help, rows = 3, ia = tru
                   {over ? " · au-delà de la longueur conseillée" : ""}
                 </span>
               )}
-              {ia && <AvisIA champ={label} valeur={value} max={max} onReplace={onChange} />}
+              {ia && <AvisIA champ={label} valeur={value} max={max} onReplace={onChange} consigne={consigneIA} />}
             </span>
           )}
         </>

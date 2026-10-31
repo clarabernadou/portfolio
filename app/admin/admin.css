@@ -269,3 +269,6 @@ p.adm-ia-champ-titre .adm-help { color: var(--ardoise); }
 /* Compétences du CV : catégories sur 2 colonnes, ou 1 quand la colonne passerait sous 380 px. */
 .adm-competences { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 16px; }
 .adm-competences > .adm-card { min-width: 0; }
+/* Phrase de cadre manquante sous le contexte d'un projet (31 oct. 2026). */
+.adm-ouverture { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: -6px; }
+.adm-ouverture .adm-help { margin: 0; }

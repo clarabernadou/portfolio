@@ -151,6 +151,7 @@ async function getFormationsSource(): Promise<SiteFormation[]> {
     statut: r.statut as Formation["statut"],
     projets: r.projets,
     mentionComplementaire: r.mentionComplementaire ?? undefined,
+    nomOfficiel: r.nomOfficiel ?? undefined,
   }));
 }
 

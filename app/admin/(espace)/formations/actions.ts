@@ -16,6 +16,7 @@ export interface FormationInput {
   statut: string;
   projets: string;
   mentionComplementaire: string;
+  nomOfficiel: string;
 }
 
 export type FormationResult = { ok: true; id: number } | { ok: false; error: string; session?: boolean };
@@ -39,6 +40,7 @@ export async function saveFormation(input: FormationInput): Promise<FormationRes
     statut: input.statut,
     projets: input.projets.trim(),
     mentionComplementaire: input.mentionComplementaire.trim() || null,
+    nomOfficiel: input.nomOfficiel.trim() || null,
   };
   let id = input.id;
   if (id) {
@@ -79,6 +81,7 @@ export async function deleteFormation(id: number): Promise<FormationInput & { po
     statut: f.statut,
     projets: f.projets,
     mentionComplementaire: f.mentionComplementaire ?? "",
+    nomOfficiel: f.nomOfficiel ?? "",
   };
 }
 
@@ -86,7 +89,7 @@ export async function deleteFormation(id: number): Promise<FormationInput & { po
 export async function restoreFormation(snapshot: FormationInput & { position: number }) {
   await requireAdmin();
   const { id: _id, position, ...rest } = snapshot;
-  await db().formation.create({ data: { ...rest, url: rest.url || null, mentionComplementaire: rest.mentionComplementaire || null, position } });
+  await db().formation.create({ data: { ...rest, url: rest.url || null, mentionComplementaire: rest.mentionComplementaire || null, nomOfficiel: rest.nomOfficiel || null, position } });
   await logActivity("formation", "", `Suppression de la formation « ${rest.intitule} » annulée`, "restored");
   refresh();
 }

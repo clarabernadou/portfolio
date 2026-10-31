@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { enBref } from "@/lib/data-shared";
+import { commenceParCadre, enBref, phraseCadre } from "@/lib/data-shared";
 
 const formations = [
   { projets: "8 projets validés sur 11", diplome: "Bac+3/4", statut: "En cours" as const, annees: "2025 – 2027" },
@@ -23,5 +23,24 @@ describe("enBref", () => {
   });
   it("masque les cases sans donnée", () => {
     expect(enBref([], { horsFormation: 0 })).toEqual({ projets: null, titres: null });
+  });
+});
+
+describe("phraseCadre", () => {
+  const formations = [{ intitule: "Développeur Web", nomOfficiel: "Développeur Web d'OpenClassrooms" }, { intitule: "UX Design" }];
+  it("donne la même formule pour chaque formation, avec son nom officiel", () => {
+    expect(phraseCadre("Développeur Web", formations)).toBe("Projet réalisé dans le cadre de la formation Développeur Web d'OpenClassrooms.");
+    expect(phraseCadre("UX Design", formations)).toBe("Projet réalisé dans le cadre de la formation UX Design.");
+  });
+  it("couvre les cadres hors formation", () => {
+    expect(phraseCadre("En entreprise", formations, "Fruggr")).toBe("Projet réalisé dans le cadre de mon alternance chez Fruggr.");
+    expect(phraseCadre("Projet personnel", formations)).toBe("Projet personnel, mené seule.");
+    expect(phraseCadre("Audit indépendant", formations)).toBe("Audit réalisé en indépendant.");
+    expect(phraseCadre("Autre", formations)).toBeNull();
+  });
+  it("reconnaît un contexte qui commence déjà par la phrase", () => {
+    expect(commenceParCadre("Projet personnel,  mené seule. Suite", "Projet personnel, mené seule.")).toBe(true);
+    expect(commenceParCadre("Projet réalisé dans le cadre de la formation Développeur Web d’OpenClassrooms. J'ai", "Projet réalisé dans le cadre de la formation Développeur Web d'OpenClassrooms.")).toBe(true);
+    expect(commenceParCadre("Dans le cadre de ma formation", "Projet personnel, mené seule.")).toBe(false);
   });
 });

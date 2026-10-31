@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { phraseCadre } from "@/lib/data-shared";
 import type { ProjectInput } from "./actions";
 import type { ProjectFormProps } from "@/components/admin/ProjectForm";
 
@@ -62,9 +63,12 @@ export const EMPTY: ProjectInput = {
 // Listes de choix et suggestions (tags et compétences des autres projets du même cadre).
 export async function formContext(): Promise<Omit<ProjectFormProps, "initial" | "note" | "updatedAt">> {
   const prisma = db();
-  const [rows, cats] = await Promise.all([
+  const [rows, cats, formations, experience] = await Promise.all([
     prisma.project.findMany({ where: { deletedAt: null }, select: { parcours: true, tags: true, skillsValidated: true, onHome: true, featured: true, visible: true, status: true } }),
     prisma.category.findMany({ orderBy: [{ position: "asc" }, { id: "asc" }] }),
+    prisma.formation.findMany({ select: { intitule: true, nomOfficiel: true } }),
+    // L'alternance la plus récente (ordre du CV) : celle des projets « En entreprise ».
+    prisma.experience.findFirst({ orderBy: [{ position: "asc" }, { id: "asc" }], select: { entreprise: true } }),
   ]);
   const tagSuggestions: Record<string, string[]> = {};
   const skillSuggestions: Record<string, string[]> = {};
@@ -74,8 +78,14 @@ export async function formContext(): Promise<Omit<ProjectFormProps, "initial" | 
     const s = (skillSuggestions[r.parcours] ??= []);
     for (const x of r.skillsValidated as string[]) if (!s.includes(x)) s.push(x);
   }
+  const cadres = cats.filter((c) => c.kind === "cadre").map((c) => c.name);
+  const formes = formations.map((f) => ({ intitule: f.intitule, nomOfficiel: f.nomOfficiel ?? undefined }));
   return {
-    cadres: cats.filter((c) => c.kind === "cadre").map((c) => c.name),
+    cadres,
+    ouvertures: Object.fromEntries(cadres.flatMap((c) => {
+      const phrase = phraseCadre(c, formes, experience?.entreprise);
+      return phrase ? [[c, phrase]] : [];
+    })),
     types: cats.filter((c) => c.kind === "type").map((c) => c.name),
     tagSuggestions,
     skillSuggestions,
