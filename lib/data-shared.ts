@@ -108,7 +108,7 @@ export function dureeAlternance(experiences: Pick<Experience, "periode">[], main
 // sur 11 » : le premier nombre), plus les projets hors formation de la base.
 export function enBref(
   formations: Pick<Formation, "projets" | "diplome" | "statut" | "annees">[],
-  compte: { horsFormation: number; avecLivrables: number },
+  compte: { horsFormation: number },
   depuis?: string,
 ) {
   const total = formations.reduce((n, f) => n + (Number(/\d+/.exec(f.projets)?.[0]) || 0), 0) + compte.horsFormation;
@@ -119,7 +119,7 @@ export function enBref(
   const enCours = formations.filter((f) => f.statut === "En cours").length;
   const debut = depuis || formations.map((f) => /\d{4}/.exec(f.annees)?.[0]).filter(Boolean).sort()[0];
   return {
-    projets: total > 0 ? { valeur: String(total), libelle: `projets${compte.avecLivrables > 0 ? `, dont ${compte.avecLivrables} avec livrables` : ""}` } : null,
+    projets: total > 0 ? { valeur: String(total), libelle: "projets" } : null,
     titres: formations.length
       ? {
           valeur: `${formations.length} titre${formations.length > 1 ? "s" : ""}`,

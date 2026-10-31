@@ -100,14 +100,11 @@ export async function getProjetApercu(id: string): Promise<SiteProject | null> {
 }
 
 // « En bref » de l'accueil (choix de Clara, 30 oct. 2026) : tous les projets, publiés ou non.
-// Ici, les projets hors formation (entreprise, perso, audit) et ceux qui ont des livrables ;
-// les projets de formation se comptent avec le nombre indiqué sur chaque fiche de formation.
-async function getCompteProjetsSource(): Promise<{ horsFormation: number; avecLivrables: number }> {
-  const rows = hasDb() ? await (await prisma()).project.findMany({ where: { deletedAt: null }, select: { parcours: true, pdf: true, docs: true } }) : fromJson();
-  return {
-    horsFormation: rows.filter((p) => !estFormation(p)).length,
-    avecLivrables: rows.filter((p) => p.pdf || (p.docs as unknown[]).length > 0).length,
-  };
+// Ici, les projets hors formation (entreprise, perso, audit) ; les projets de formation se
+// comptent avec le nombre indiqué sur chaque fiche de formation.
+async function getCompteProjetsSource(): Promise<{ horsFormation: number }> {
+  const rows = hasDb() ? await (await prisma()).project.findMany({ where: { deletedAt: null }, select: { parcours: true } }) : fromJson();
+  return { horsFormation: rows.filter((p) => !estFormation(p)).length };
 }
 
 async function getFeaturedOrderSource(): Promise<string[]> {

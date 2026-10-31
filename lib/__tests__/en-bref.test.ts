@@ -10,18 +10,18 @@ const formations = [
 
 describe("enBref", () => {
   it("additionne les projets des formations (premier nombre) et les projets hors formation", () => {
-    expect(enBref(formations, { horsFormation: 7, avecLivrables: 25 }).projets).toEqual({ valeur: "49", libelle: "projets, dont 25 avec livrables" });
+    expect(enBref(formations, { horsFormation: 7 }).projets).toEqual({ valeur: "49", libelle: "projets" });
   });
   it("résume les titres, du plus bas au plus haut niveau, avec ceux en cours et le début", () => {
-    expect(enBref(formations, { horsFormation: 0, avecLivrables: 0 }, "oct. 2021").titres).toEqual({
+    expect(enBref(formations, { horsFormation: 0 }, "oct. 2021").titres).toEqual({
       valeur: "4 titres",
       libelle: "RNCP, du Bac+2 au Bac+5, dont 1 en cours · en formation depuis oct. 2021",
     });
   });
   it("prend l'année de la première formation sans date de début précise", () => {
-    expect(enBref(formations, { horsFormation: 0, avecLivrables: 0 }).titres?.libelle).toMatch(/en formation depuis 2021$/);
+    expect(enBref(formations, { horsFormation: 0 }).titres?.libelle).toMatch(/en formation depuis 2021$/);
   });
   it("masque les cases sans donnée", () => {
-    expect(enBref([], { horsFormation: 0, avecLivrables: 0 })).toEqual({ projets: null, titres: null });
+    expect(enBref([], { horsFormation: 0 })).toEqual({ projets: null, titres: null });
   });
 });

@@ -370,12 +370,9 @@ export function AccueilView({ v }: { v: any }) {
             {" "}
             <div style={css(`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem`)}>
               <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #1A1033`)}>
+                {/* « Parcours » seul (Clara, 31 oct. 2026) : il n'y a pas que de l'alternance. */}
                 <span style={css(`font-weight: 800`)}>
                   {"Parcours"}
-                </span>
-                {" "}
-                <span style={css(`font-weight: 300; color: #6A4FB6`)}>
-                  {"en alternance"}
                 </span>
               </h2>
               <Link href={"/cv"} style={css(`padding: 12px 0; font-size: 16px; font-weight: 700`)}>

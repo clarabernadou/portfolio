@@ -26,7 +26,7 @@ export function Accueil({ home, total, bref, experiences, duree, formations, pro
     // « 2 ans » + « et 11 mois d'alternance… » : la durée reste exacte, sans arrondi.
     duree: duree && duree.ans > 0 && {
       valeur: `${duree.ans} an${duree.ans > 1 ? "s" : ""}`,
-      libelle: `${duree.mois ? `et ${duree.mois} mois ` : ""}d’alternance en développement et design`,
+      libelle: `${duree.mois ? `et ${duree.mois} mois ` : ""}d’alternance`,
     },
     // Lien vers la liste : les projets publics. « En bref » : tous les projets réalisés et les titres (lib/data-shared.ts).
     total,
