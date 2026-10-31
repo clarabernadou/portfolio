@@ -20,19 +20,24 @@ export function IaPage({ page, infos, github, children }: Page & { children: Rea
 
 const CLE_RECRUTEUR = "admin-avis-ia-recruteur";
 
-type Etape = { etape: "envoi" | "principal" | "secours"; debut: number; delai: number };
+type NomEtape = "envoi" | "connexion" | "reflexion" | "redaction" | "attente";
+/** Étape réelle envoyée par l'API, avec les caractères reçus pendant la rédaction. */
+type Etape = { etape: NomEtape; debut: number; recus?: number; attendus?: number; reprise?: number; raison?: string; essai?: number };
 export type EtatAnalyse<T> = { type: "vide" } | { type: "chargement"; etape: Etape } | { type: "erreur"; message: string } | { type: "avis"; avis: T & { modele?: string } };
 
 // Libellés des étapes réelles envoyées par l'API (app/api/admin/avis-ia/route.ts).
-const LIBELLE_ETAPE = {
-  envoi: "Envoi du texte à Gemini…",
-  principal: "Gemini relit ton texte et prépare sa proposition…",
-  secours: "Le modèle principal est saturé ou trop lent : passage au modèle de secours, plus rapide…",
+const LIBELLE_ETAPE: Record<NomEtape, string> = {
+  envoi: "Préparation de la demande…",
+  connexion: "Envoi du texte à Gemini…",
+  reflexion: "Gemini relit ton texte et réfléchit…",
+  redaction: "Gemini rédige sa proposition…",
+  attente: "Gemini est saturé : nouvel essai programmé…",
 };
-export const LIBELLE_COMPLETER = {
-  envoi: "Lecture des sources et envoi à Gemini…",
-  principal: "Gemini rédige une version plus détaillée à partir de tes sources…",
-  secours: LIBELLE_ETAPE.secours,
+export const LIBELLE_COMPLETER: Record<NomEtape, string> = {
+  ...LIBELLE_ETAPE,
+  envoi: "Lecture de tes sources (notes, dépôt GitHub)…",
+  reflexion: "Gemini lit tes sources et réfléchit…",
+  redaction: "Gemini rédige une version plus détaillée…",
 };
 
 /** Profil de recruteur choisi, mémorisé dans le navigateur. */
@@ -65,7 +70,7 @@ export function useAnalyse<T>() {
   const lancer = async (corps: object) => {
     const ctrl = new AbortController();
     requete.current = ctrl;
-    setEtat({ type: "chargement", etape: { etape: "envoi", debut: Date.now(), delai: 3000 } });
+    setEtat({ type: "chargement", etape: { etape: "envoi", debut: Date.now() } });
     try {
       const r = await fetch("/api/admin/avis-ia", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corps), signal: ctrl.signal });
       // Erreurs immédiates (clé absente, session expirée) : réponse JSON classique.
@@ -85,7 +90,10 @@ export function useAnalyse<T>() {
         tampon = lignes.pop() ?? "";
         for (const ligne of lignes.filter(Boolean)) {
           const e = JSON.parse(ligne);
-          if (e.type === "etape") setEtat({ type: "chargement", etape: { etape: e.etape, debut: Date.now(), delai: e.delai } });
+          if (e.type === "etape")
+            setEtat({ type: "chargement", etape: { etape: e.etape, debut: Date.now(), reprise: e.reprise ? Date.parse(e.reprise) : undefined, raison: e.raison, essai: e.essai } });
+          else if (e.type === "progres")
+            setEtat((avant) => (avant.type === "chargement" ? { type: "chargement", etape: { ...avant.etape, etape: "redaction", recus: e.recus, attendus: e.attendus } } : avant));
           else if (e.type === "resultat") setEtat({ type: "avis", avis: e as T & { modele?: string } });
           else if (e.type === "erreur") setEtat({ type: "erreur", message: e.error });
         }
@@ -205,7 +213,6 @@ export function TitreResultat({ titreRef, modele }: { titreRef: RefObject<HTMLHe
       {modele && (
         <p className="adm-help">
           Par {modele}
-          {modele.includes("lite") ? " (modèle de secours, le principal était saturé)" : ""}
         </p>
       )}
     </div>
@@ -486,35 +493,54 @@ export function AvisIA({ champ, valeur, max, onReplace }: { champ: string; valeu
   );
 }
 
-// Barre de progression : l'étape vient de l'API, l'avancement dans l'étape est estimé
-// d'après le temps écoulé (Gemini ne dit pas où il en est), sans jamais atteindre 100 %.
-export function Progression({ etape, libelles, onAnnuler }: { etape: Etape; libelles: typeof LIBELLE_ETAPE; onAnnuler: () => void }) {
+// Jauge (31 oct. 2026) : uniquement des données réelles envoyées par l'API. Pendant la réflexion,
+// Gemini ne dit pas où il en est : la jauge reste fixe et l'affiche. Pendant la rédaction, elle suit
+// les caractères reçus, comparés à la longueur probable de la réponse (sans jamais afficher 100 %).
+const heure = (t: number) => new Date(t).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+const RAISON_ATTENTE: Record<string, string> = {
+  sature: "Gemini est saturé (offre gratuite)",
+  lent: "Gemini ne répond pas",
+  quota: "Limite de demandes par minute atteinte",
+};
+
+export function Progression({ etape, libelles, onAnnuler }: { etape: Etape; libelles: Record<NomEtape, string>; onAnnuler: () => void }) {
   const [maintenant, setMaintenant] = useState(() => Date.now());
+  const [debutTotal] = useState(() => Date.now());
   useEffect(() => {
     const t = setInterval(() => setMaintenant(Date.now()), 250);
     return () => clearInterval(t);
   }, []);
-  const ecoule = Math.max(0, maintenant - etape.debut);
-  const part = 1 - Math.exp(-ecoule / (etape.delai / 3));
-  const pct = Math.round(etape.etape === "envoi" ? 2 + 6 * part : etape.etape === "principal" ? 8 + 80 * part : 55 + 40 * part);
-  const secondes = Math.floor(ecoule / 1000);
+  const secondes = (depuis: number) => Math.max(0, Math.floor((maintenant - depuis) / 1000));
+  const part = etape.recus && etape.attendus ? Math.min(etape.recus / etape.attendus, 0.97) : 0;
+  const pct = { envoi: 2, connexion: 5, attente: 5, reflexion: 10, redaction: Math.round(12 + 86 * part) }[etape.etape];
+  const libelle =
+    etape.etape === "attente" && etape.reprise
+      ? `${RAISON_ATTENTE[etape.raison ?? ""] ?? RAISON_ATTENTE.sature} : nouvel essai à ${heure(etape.reprise)}${etape.essai ? ` (essai ${etape.essai})` : ""}.`
+      : libelles[etape.etape];
+  const detail =
+    etape.etape === "redaction" && etape.recus
+      ? `${etape.recus.toLocaleString("fr-FR")} caractères reçus sur environ ${Math.max(etape.recus, etape.attendus ?? 0).toLocaleString("fr-FR")}`
+      : etape.etape === "reflexion"
+        ? `réflexion depuis ${secondes(etape.debut)} s · Gemini n’indique pas son avancement pendant cette étape`
+        : etape.etape === "attente" && etape.reprise
+          ? `dans ${Math.max(0, Math.ceil((etape.reprise - maintenant) / 1000))} s`
+          : "";
   return (
     <div className="adm-ia-progression">
       <div className="adm-ia-progression-tete">
         {/* Seul le libellé de l'étape est annoncé (zone aria-live parente), pas chaque seconde. */}
-        <p className="adm-help">{libelles[etape.etape]}</p>
+        <p className="adm-help">{libelle}</p>
         <button type="button" className="adm-btn adm-btn--outline adm-ia-annuler" onClick={onAnnuler}>
           <Icon name="close" size={14} />
           Annuler
           <span className="adm-sr"> l’analyse</span>
         </button>
       </div>
-      <div className="adm-ia-barre" role="progressbar" aria-label="Avancement de l’analyse (estimation)" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-valuetext={libelles[etape.etape]}>
+      <div className="adm-ia-barre" role="progressbar" aria-label="Avancement de l’analyse" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-valuetext={libelle}>
         <span style={{ width: `${pct}%` }} />
       </div>
       <p className="adm-help" aria-hidden="true">
-        {secondes > 0 ? `${secondes} s · ` : ""}
-        {"en général 10 à 60 secondes selon la charge de Gemini"}
+        {secondes(debutTotal)} s au total{detail ? ` · ${detail}` : ""}
       </p>
     </div>
   );
