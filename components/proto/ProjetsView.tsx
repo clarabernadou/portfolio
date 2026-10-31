@@ -75,7 +75,7 @@ export function ProjetsView({ v }: { v: any }) {
                                 ))}
                               </ul>
                               <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px`)}>
-                                <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
+                                <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
                                   {"Voir le projet"}
                                 </Link>
                                 {p.hasSite && (
@@ -203,7 +203,7 @@ export function ProjetsView({ v }: { v: any }) {
                         {" "}
                         <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px`)}>
                           {" "}
-                          <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
+                          <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
                             {"Voir le projet"}
                           </Link>
                           {" "}
