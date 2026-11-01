@@ -32,6 +32,13 @@ function card(p: Project) {
   };
 }
 
+// Livrables de la fiche : ceux de l'administration, puis le dépôt GitHub du projet en dernier
+// (demande de Clara, 1er nov. 2026), sauf s'il figure déjà dans la liste.
+function livrables(p: Project) {
+  if (!p.github || p.docs.some((d) => d.href === p.github)) return p.docs;
+  return [...p.docs, { n: p.docs.length + 1, label: "Dépôt GitHub", href: p.github }];
+}
+
 function detail(p: Project) {
   return {
     ...p,
@@ -62,8 +69,8 @@ function detail(p: Project) {
     hasVideos: !!p.videos?.length,
     hasCaptures: !!p.captures?.length,
     captures: (p.captures ?? []).map((c) => ({ ...c, url: asset(c.url) })),
-    hasDocs: p.docs.length > 0,
-    docs: p.docs.map((d) => ({ ...d, format: formatLivrable(d.href) })),
+    hasDocs: livrables(p).length > 0,
+    docs: livrables(p).map((d) => ({ ...d, format: formatLivrable(d.href) })),
   };
 }
 
