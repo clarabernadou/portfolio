@@ -6,7 +6,7 @@ import { ProjetsView } from "./ProjetsView";
 import { Visionneuse, type ElementVisionneuse } from "./Visionneuse";
 import type { Project } from "@/lib/types";
 import { sortFeatured, type SiteProject } from "@/lib/data-shared";
-import { estImage, formatLivrable } from "@/lib/livrables";
+import { formatLivrable } from "@/lib/livrables";
 
 // Logique reprise du renderVals() de docs/passation/prototype-source/projets.source.html.
 // Les projets viennent de la base (lib/data.ts), passés par la page serveur.
@@ -63,8 +63,7 @@ function detail(p: Project) {
     hasCaptures: !!p.captures?.length,
     captures: (p.captures ?? []).map((c) => ({ ...c, url: asset(c.url) })),
     hasDocs: p.docs.length > 0,
-    // Une image sert elle-même d'aperçu ; les autres formats sans aperçu affichent leur format.
-    docs: p.docs.map((d) => ({ ...d, format: formatLivrable(d.href), thumb: d.thumb ? asset(d.thumb) : estImage(d.href) ? d.href : "" })),
+    docs: p.docs.map((d) => ({ ...d, format: formatLivrable(d.href) })),
   };
 }
 

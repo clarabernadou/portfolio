@@ -8,7 +8,7 @@
    "titre": "Chaque image porteuse d’information a-t-elle une alternative textuelle ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Les logos ont role=\"img\" et un aria-label, la photo a alt=\"Clara Bernadou\", les aperçus de livrables ont « Aperçu : … »."
+   "constat": "Les logos ont role=\"img\" et un aria-label, la photo a alt=\"Clara Bernadou\". Les cartes de livrables n’ont plus d’image : leur titre est écrit en texte sur la couverture (1er nov. 2026)."
   },
   {
    "n": "1.2",

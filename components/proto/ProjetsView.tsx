@@ -59,7 +59,9 @@ export function ProjetsView({ v }: { v: any }) {
                                 </span>
                               </div>
                               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1`)}>
-                                <span>{p.name}</span>
+                                <Link href={p.href} className={"titre-lien"}>
+                            {p.name}
+                          </Link>
                               </h3>
                               <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>
                                 <span>{p.parcours}</span>
@@ -182,7 +184,9 @@ export function ProjetsView({ v }: { v: any }) {
                         </div>
                         {" "}
                         <h3 id={`carte-projet-${i_p}`} tabIndex={-1} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1`)}>
-                          <span>{p.name}</span>
+                          <Link href={p.href} className={"titre-lien"}>
+                            {p.name}
+                          </Link>
                         </h3>
                         {" "}
                         <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>
@@ -503,24 +507,23 @@ export function ProjetsView({ v }: { v: any }) {
                         const carte = `text-decoration: none; color: #1A1033; border-radius: 18px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`;
                         const contenu = (
                           <>
-                            <div style={css(`height: 180px; background: #F3EFFF; overflow: hidden; border-bottom: 1px solid #E4DCF7`)}>
-                              {d.thumb ? (
-                                <img src={d.thumb} alt={`Aperçu : ${d.label}`} style={css(`width: 100%; height: 100%; object-fit: cover; object-position: top; display: block`)} />
-                              ) : (
-                                <span aria-hidden={"true"} style={css(`height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-titre); font-size: 22px; font-weight: 800; color: var(--amethyste)`)}>
-                                  {d.format}
-                                </span>
-                              )}
+                            {/* Couverture (choix de Clara, 1er nov. 2026) : le titre du livrable sur le fond sombre du site,
+                                à la place d'un aperçu du document, souvent peu lisible. */}
+                            <div style={css(`position: relative; min-height: 180px; padding: 18px 20px; box-sizing: border-box; background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%); color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; overflow: hidden`)}>
+                              <span aria-hidden={"true"} style={css(`position: absolute; right: -40px; bottom: -40px; width: 150px; height: 150px; border-radius: 50%; border: 24px solid rgba(196,181,253,0.14)`)} />
+                              <span style={css(`position: relative; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 15px; font-weight: 300; color: #C4B5FD`)}>
+                                {`Livrable ${String(d.n).padStart(2, "0")}`}
+                              </span>
+                              <span style={css(`position: relative; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; text-wrap: balance`)}>
+                                {d.label}
+                              </span>
+                              <span style={css(`position: relative; align-self: flex-start; padding: 4px 9px; border-radius: 999px; background: rgba(196,181,253,0.18); color: #C4B5FD; font-size: 13px; font-weight: 800; letter-spacing: 0.06em`)}>
+                                {d.format}
+                              </span>
                             </div>
-                            <div style={css(`padding: 14px 16px; display: flex; align-items: center; gap: 12px`)}>
-                              <span style={css(`width: 30px; height: 30px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0`)}>
-                                <span>{d.n}</span>
-                              </span>
-                              <span style={css(`flex-grow: 1; font-size: 16px; font-weight: 800; line-height: 1.25`)}>
-                                <span>{d.label}</span>
-                                <span style={css(`display: block; margin-top: 2px; font-size: 13px; font-weight: 600; color: var(--ardoise)`)}>{d.format}</span>
-                              </span>
-                              <span style={css(`color: #6A4FB6; display: inline-flex`)}>
+                            <div style={css(`padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 15px; font-weight: 700; color: #6A4FB6`)}>
+                              <span>{"Ouvrir"}</span>
+                              <span style={css(`display: inline-flex`)}>
                                 {/* Agrandir (visionneuse) ou ↗ (lien qui sort du site). */}
                                 <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                                   <path d={d.ouvrable ? "M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" : "M7 17L17 7M9 7h8v8"} />
@@ -532,11 +535,11 @@ export function ProjetsView({ v }: { v: any }) {
                         return (
                           <li key={i_d} style={css(`display: grid`)}>
                             {d.ouvrable ? (
-                              <button type={"button"} onClick={d.ouvrir} aria-haspopup={"dialog"} style={css(`${carte}; width: 100%; padding: 0; font: inherit; text-align: left; cursor: pointer`)}>
+                              <button type={"button"} onClick={d.ouvrir} aria-haspopup={"dialog"} aria-label={`Ouvrir le livrable ${d.n} : ${d.label} (${d.format})`} style={css(`${carte}; width: 100%; padding: 0; font: inherit; text-align: left; cursor: pointer`)}>
                                 {contenu}
                               </button>
                             ) : (
-                              <a href={d.href} target={"_blank"} rel={"noopener noreferrer"} style={css(carte)}>
+                              <a href={d.href} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Ouvrir le livrable ${d.n} : ${d.label} (${d.format}, nouvel onglet)`} style={css(carte)}>
                                 {contenu}
                               </a>
                             )}
