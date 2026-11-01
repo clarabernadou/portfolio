@@ -512,7 +512,7 @@ export function ProjetsView({ v }: { v: any }) {
                                 à la place d'un aperçu du document, souvent peu lisible. */}
                             <div style={css(`position: relative; min-height: 180px; padding: 18px 20px; box-sizing: border-box; background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%); color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; overflow: hidden`)}>
                               {/* Le papillon du logo, seul, en filigrane (choix de Clara, 1er nov. 2026). */}
-                              <svg viewBox={"95 107 920 920"} width={"172"} height={"172"} aria-hidden={"true"} focusable={"false"} style={css(`position: absolute; right: -44px; bottom: -44px; opacity: 0.2`)}>
+                              <svg viewBox={"95 107 920 920"} width={"172"} height={"172"} aria-hidden={"true"} focusable={"false"} style={css(`position: absolute; right: -44px; bottom: -44px; opacity: 0.12`)}>
                                 <g transform={"translate(0,1112) scale(0.1,-0.1)"} fill={"#C4B5FD"}>
                                   <path d={PAPILLON} />
                                 </g>
