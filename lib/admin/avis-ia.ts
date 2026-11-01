@@ -61,6 +61,11 @@ const REGLE_NATURE =
 const REGLE_SAVOIR = "N'utilise pas ce que tu crois savoir du projet (par exemple l'énoncé public d'un projet de formation) : seules les sources fournies comptent.";
 const REGLE_CODE =
   "Le code du dépôt GitHub montre ce que Clara a réellement réalisé : tu peux citer une technique que tu y constates (par exemple une mise en page avec Flexbox ou des media queries), en restant factuel, sans juger la qualité du code et sans en exagérer la portée.";
+// Les notes complètent l'existant sans le remplacer (demande de Clara, 1er nov. 2026) : elles sont
+// courtes et ne répètent pas ce que la fiche dit déjà, l'IA ne doit donc pas repartir de zéro.
+const REGLE_EXISTANT =
+  "Le texte actuel et les informations de la fiche sont la base : chaque fait qu'ils contiennent (outil, méthode, livrable, étape, chiffre, cadre) se retrouve dans ta proposition, sauf si les notes de Clara le corrigent. Ses notes viennent s'ajouter à cette base, jamais la remplacer : elles sont souvent télégraphiques et ne répètent pas ce qui est déjà écrit ailleurs. Intègre-les dans le texte existant, reformulées dans sa voix, sans calquer leur style. Si tout ne tient pas dans la longueur maximale, garde d'abord les faits du texte actuel, puis les plus parlants des notes, et dis dans le verdict ce que tu as laissé de côté.";
+const NOTES = "## Notes de Clara (source fiable, à intégrer au texte actuel sans le remplacer)";
 const profilClara = (profil?: string) => (profil?.trim() ? ["", "## Ce qu'il faut savoir sur Clara (source fiable, à respecter)", profil.trim()] : []);
 
 // Consignes communes aux 2 modes (Gemini dans l'administration, ou copie pour Claude).
@@ -90,8 +95,8 @@ export function consignesAvis(ctx: ContexteAvis, recruteur: Recruteur, profil?: 
     "7. La version proposée est en texte brut, sans mise en forme Markdown.",
     `8. ${REGLE_NATURE}`,
     "9. Toute information de ta version proposée qui ne figure ni dans le texte, ni dans les informations de la fiche, ni dans le profil de Clara, ni dans ses notes, ni dans son dépôt GitHub doit être listée dans « affirmationsNonSourcees » (tableau vide sinon).",
-    ...(completer ? [`10. ${REGLE_SAVOIR}`, `11. ${REGLE_CODE}`] : []),
-    ...(ctx.consigne?.trim() ? [`${completer ? 12 : 10}. Règle propre à ce champ, prioritaire : ${ctx.consigne.trim()}`] : []),
+    ...(completer ? [`10. ${REGLE_SAVOIR}`, `11. ${REGLE_CODE}`, `12. ${REGLE_EXISTANT}`] : []),
+    ...(ctx.consigne?.trim() ? [`${completer ? 13 : 10}. Règle propre à ce champ, prioritaire : ${ctx.consigne.trim()}`] : []),
     ...profilClara(profil),
   ].join("\n");
 }
@@ -108,12 +113,12 @@ export function demandeAvis(texte: string, ctx: ContexteAvis, sources: Sources =
     texte.trim() || "(champ vide)",
     "TEXTE>>>",
     ...(ctx.infos?.trim()
-      ? ["", "## Autres informations de la même fiche", "Pour la cohérence uniquement : ne les réécris pas, et n'en tire aucun fait qui n'y figure pas.", "", ctx.infos.trim()]
+      ? ["", "## Autres informations de la même fiche", "Faits fiables, utilisables dans ta proposition : ne les réécris pas, et n'en tire aucun fait qui n'y figure pas.", "", ctx.infos.trim()]
       : []),
-    ...(sources.notes?.trim() ? ["", "## Notes de Clara (source fiable)", sources.notes.trim()] : []),
+    ...(sources.notes?.trim() ? ["", NOTES, sources.notes.trim()] : []),
     ...(sources.depot?.trim() ? ["", "## Dépôt GitHub du projet (source fiable : son propre code)", sources.depot.trim()] : []),
     ...(mode === "completer"
-      ? ["", "## Ta tâche", "Compléter le texte : la version proposée est un petit paragraphe de 3 à 5 phrases, nettement plus détaillé et concret que le texte actuel, construit uniquement avec les faits des sources ci-dessus (fiche, profil, notes, dépôt). Si les sources ne permettent vraiment pas d'en dire plus, dis-le dans le verdict et pose tes questions."]
+      ? ["", "## Ta tâche", "Compléter le texte : la version proposée est un petit paragraphe de 3 à 5 phrases, nettement plus détaillé et concret que le texte actuel : il garde tout ce que dit déjà le texte actuel et y ajoute les faits des autres sources ci-dessus (fiche, profil, notes, dépôt), rien d'autre. Si les sources ne permettent vraiment pas d'en dire plus, dis-le dans le verdict et pose tes questions."]
       : []),
   ].join("\n");
 }
@@ -242,13 +247,14 @@ export function consignesFiche(objet: ObjetIA, recruteur: Recruteur, profil?: st
     `4. ${REGLE_NATURE}`,
     `5. ${REGLE_SAVOIR}`,
     `6. ${REGLE_CODE}`,
-    "7. Chaque proposition respecte la longueur maximale de son champ, espaces compris, et reste en texte brut, sans Markdown. Garde la voix et la personne des textes actuels : « je », « mon poste » restent à la première personne, une formulation impersonnelle le reste.",
-    `8. ${o.regle}`,
-    "9. N'allonge jamais artificiellement : si les sources ne permettent pas d'en dire plus, propose ce qui est sourcé, même court, et pose des questions précises. Si un texte actuel est déjà bon, propose-le tel quel.",
-    "10. Pour chaque champ, liste dans « nonSourcees » toute information de ta proposition qui ne figure dans aucune source (tableau vide sinon).",
+    `7. ${REGLE_EXISTANT}`,
+    "8. Chaque proposition respecte la longueur maximale de son champ, espaces compris, et reste en texte brut, sans Markdown. Garde la voix et la personne des textes actuels : « je », « mon poste » restent à la première personne, une formulation impersonnelle le reste.",
+    `9. ${o.regle}`,
+    "10. N'allonge jamais artificiellement : si les sources ne permettent pas d'en dire plus, propose ce qui est sourcé, même court, et pose des questions précises. Si un texte actuel est déjà bon, propose-le tel quel.",
+    "11. Pour chaque champ, liste dans « nonSourcees » toute information de ta proposition qui ne figure dans aucune source (tableau vide sinon).",
     objet === "projet"
-      ? "11. « tagsProposes » : au plus 5 tags courts (technologie, outil ou méthode) clairement attestés par les sources et absents des tags actuels ; tableau vide sinon."
-      : "11. « tagsProposes » reste un tableau vide.",
+      ? "12. « tagsProposes » : au plus 5 tags courts (technologie, outil ou méthode) clairement attestés par les sources et absents des tags actuels ; tableau vide sinon."
+      : "12. « tagsProposes » reste un tableau vide.",
     ...profilClara(profil),
   ].join("\n");
 }
@@ -262,8 +268,8 @@ export function demandeFiche(fiche: FicheIA, sources: Sources = {}): string {
     ...(fiche.tags ? [`- Tags actuels : ${fiche.tags.join(", ") || "aucun"}`] : []),
     "",
     ...fiche.champs.flatMap((c) => [`### ${c.champ} (clé « ${c.cle} ») : ${c.role} ; au plus ${c.max} caractères (actuellement ${c.valeur.length})`, `<<<${marqueur(c.cle)}`, c.valeur.trim() || "(champ vide)", `${marqueur(c.cle)}>>>`, ""]),
-    ...(fiche.infos?.trim() ? ["## Autres informations de la fiche", "Pour la cohérence uniquement : n'en tire aucun fait qui n'y figure pas.", "", fiche.infos.trim()] : []),
-    ...(sources.notes?.trim() ? ["", "## Notes de Clara (source fiable)", sources.notes.trim()] : []),
+    ...(fiche.infos?.trim() ? ["## Autres informations de la fiche", "Faits fiables, utilisables dans tes propositions : n'en tire aucun fait qui n'y figure pas.", "", fiche.infos.trim()] : []),
+    ...(sources.notes?.trim() ? ["", NOTES, sources.notes.trim()] : []),
     ...(sources.depot?.trim() ? ["", "## Dépôt GitHub du projet (source fiable : son propre code)", sources.depot.trim()] : []),
     "",
     "## Ta tâche",

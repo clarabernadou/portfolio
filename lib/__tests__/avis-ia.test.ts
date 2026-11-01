@@ -14,6 +14,13 @@ describe("avis de l'IA", () => {
     expect(p).toContain("Tags : React, Redux");
   });
 
+  it("en mode Compléter, intègre les notes au texte actuel sans le remplacer", () => {
+    const p = promptAvis("Site vitrine en HTML et CSS.", ctx, "tech", undefined, "completer", { notes: "maquettes Figma d'abord" });
+    expect(p).toContain("Ses notes viennent s'ajouter à cette base, jamais la remplacer");
+    expect(p).toContain("à intégrer au texte actuel sans le remplacer)\nmaquettes Figma d'abord");
+    expect(promptAvis("x", ctx, "tech")).not.toContain("jamais la remplacer");
+  });
+
   it("change de point de vue selon le recruteur choisi", () => {
     expect(promptAvis("x", ctx, "design")).toContain("UX lead");
     expect(promptAvis("x", ctx, "hybride")).toContain("profils hybrides");
