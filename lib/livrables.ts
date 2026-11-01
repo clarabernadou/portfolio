@@ -12,7 +12,11 @@ const FORMATS: { ext: string[]; nom: string; mime: string[] }[] = [
   { ext: ["txt", "md"], nom: "Texte", mime: ["text/plain", "text/markdown"] },
 ];
 
-const extension = (href: string) => href.split(/[?#]/)[0].split(".").pop()?.toLowerCase() ?? "";
+// Extension du dernier segment du chemin seulement : « https://site.io » n'a pas d'extension « io ».
+const extension = (href: string) => {
+  const nom = href.split(/[?#]/)[0].replace(/^https?:\/\/[^/]+/i, "").split("/").pop() ?? "";
+  return nom.includes(".") ? (nom.split(".").pop()?.toLowerCase() ?? "") : "";
+};
 
 /** Nom lisible du format d'un livrable (« PDF », « Image », « Document »…), d'après son adresse. */
 export function formatLivrable(href: string | null | undefined): string {
@@ -22,7 +26,13 @@ export function formatLivrable(href: string | null | undefined): string {
   if (hote === "github.com") return "GitHub";
   if (hote.endsWith("figma.com")) return "Figma";
   const ext = extension(href);
-  return FORMATS.find((f) => f.ext.includes(ext))?.nom ?? (ext && ext.length <= 5 ? ext.toUpperCase() : "Fichier");
+  const connu = FORMATS.find((f) => f.ext.includes(ext))?.nom;
+  if (connu) return connu;
+  // Une page en ligne (documentation, site, prototype…) est un lien, pas un fichier (demande de
+  // Clara, 1er nov. 2026). Seuls les fichiers envoyés sur Vercel Blob ou servis par le site gardent
+  // leur extension.
+  if (hote && !hote.endsWith("blob.vercel-storage.com")) return "Lien";
+  return ext && ext.length <= 5 ? ext.toUpperCase() : "Fichier";
 }
 
 export const estImage = (href: string | null | undefined) => formatLivrable(href) === "Image";

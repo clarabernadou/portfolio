@@ -42,7 +42,8 @@ function livrables(p: Project) {
     // Un livrable du même type (lien Figma ou GitHub) suffit : pas de doublon.
     .filter((l) => !!l.href && !p.docs.some((d) => formatLivrable(d.href) === l.format))
     .map(({ label, href }) => ({ label, href: href as string }));
-  return [...p.docs, ...liens.map((l, i) => ({ n: p.docs.length + i + 1, ...l }))];
+  // Un livrable sans adresse n'ouvrirait rien : il n'est pas affiché, et la numérotation suit.
+  return [...p.docs.filter((d) => !!d.href), ...liens].map((d, i) => ({ ...d, n: i + 1 }));
 }
 
 function detail(p: Project) {

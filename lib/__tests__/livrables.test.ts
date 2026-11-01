@@ -14,6 +14,13 @@ describe("formats de livrables", () => {
     expect(formatLivrable("https://www.figma.com/design/abc/Maquette")).toBe("Figma");
   });
 
+  it("appelle « Lien » une page en ligne, jamais « Fichier » ni une fausse extension", () => {
+    expect(formatLivrable("https://clarabernadou.github.io/watchedthis-api/")).toBe("Lien");
+    expect(formatLivrable("https://exemple.io")).toBe("Lien");
+    expect(formatLivrable("https://exemple.fr/doc/index.html")).toBe("Lien");
+    expect(formatLivrable("https://exemple.fr/rapport.pdf")).toBe("PDF");
+  });
+
   it("utilise une image comme son propre aperçu", () => {
     expect(estImage("/livrables/ecran.jpg")).toBe(true);
     expect(estImage("/livrables/rapport.pdf")).toBe(false);
