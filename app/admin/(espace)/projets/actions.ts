@@ -116,7 +116,8 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
     figma: input.figma.trim() || null,
     site: input.site.trim() || null,
     pdf: input.pdf.trim() || input.docs[0]?.href || null,
-    docs: input.docs.map((d, i) => ({ n: i + 1, label: d.label, href: d.href, ...(d.thumb ? { thumb: d.thumb, alt: d.alt || `Aperçu : ${d.label}` } : {}) })),
+    // Plus d'aperçu (1er nov. 2026) : la fiche affiche une couverture avec le titre du livrable.
+    docs: input.docs.map((d, i) => ({ n: i + 1, label: d.label, href: d.href })),
     steps: input.steps.filter((s) => s.label.trim()),
     videos: videos.length ? videos : undefined,
     captures,
