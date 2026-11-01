@@ -32,11 +32,17 @@ function card(p: Project) {
   };
 }
 
-// Livrables de la fiche : ceux de l'administration, puis le dépôt GitHub du projet en dernier
-// (demande de Clara, 1er nov. 2026), sauf s'il figure déjà dans la liste.
+// Livrables de la fiche : ceux de l'administration, puis les maquettes Figma et le dépôt GitHub du
+// projet (demande de Clara, 1er nov. 2026), sauf si un livrable du même type existe déjà.
 function livrables(p: Project) {
-  if (!p.github || p.docs.some((d) => d.href === p.github)) return p.docs;
-  return [...p.docs, { n: p.docs.length + 1, label: "Dépôt GitHub", href: p.github }];
+  const liens = [
+    { label: "Maquettes Figma", href: p.figma, format: "Figma" },
+    { label: "Dépôt GitHub", href: p.github, format: "GitHub" },
+  ]
+    // Un livrable du même type (lien Figma ou GitHub) suffit : pas de doublon.
+    .filter((l) => !!l.href && !p.docs.some((d) => formatLivrable(d.href) === l.format))
+    .map(({ label, href }) => ({ label, href: href as string }));
+  return [...p.docs, ...liens.map((l, i) => ({ n: p.docs.length + i + 1, ...l }))];
 }
 
 function detail(p: Project) {
