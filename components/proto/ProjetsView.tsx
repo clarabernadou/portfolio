@@ -5,6 +5,7 @@ import Link from "next/link";
 import { css } from "@/lib/css";
 import { CapturesSite } from "./CapturesSite";
 import { ListeLivrables } from "./ListeLivrables";
+import { PAPILLON } from "./papillon";
 
 // Généré depuis docs/passation/prototype-source/projets.source.html
 // (scripts/tools/gen.mjs) : markup et styles recopiés à l'identique.
@@ -510,7 +511,12 @@ export function ProjetsView({ v }: { v: any }) {
                             {/* Couverture (choix de Clara, 1er nov. 2026) : le titre du livrable sur le fond sombre du site,
                                 à la place d'un aperçu du document, souvent peu lisible. */}
                             <div style={css(`position: relative; min-height: 180px; padding: 18px 20px; box-sizing: border-box; background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%); color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; overflow: hidden`)}>
-                              <span aria-hidden={"true"} style={css(`position: absolute; right: -40px; bottom: -40px; width: 150px; height: 150px; border-radius: 50%; border: 24px solid rgba(196,181,253,0.14)`)} />
+                              {/* Le papillon du logo, seul, en filigrane (choix de Clara, 1er nov. 2026). */}
+                              <svg viewBox={"95 107 920 920"} width={"172"} height={"172"} aria-hidden={"true"} focusable={"false"} style={css(`position: absolute; right: -44px; bottom: -44px; opacity: 0.2`)}>
+                                <g transform={"translate(0,1112) scale(0.1,-0.1)"} fill={"#C4B5FD"}>
+                                  <path d={PAPILLON} />
+                                </g>
+                              </svg>
                               <span style={css(`position: relative; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 15px; font-weight: 300; color: #C4B5FD`)}>
                                 {`Livrable ${String(d.n).padStart(2, "0")}`}
                               </span>
