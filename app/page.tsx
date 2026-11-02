@@ -27,7 +27,7 @@ export default async function Home() {
   return (
     <>
       <JsonLd data={[personneJsonLd(publique, skills.essentiel.flatMap((g) => g.items), photoUrl), siteJsonLd()]} />
-      <Accueil home={homeProjects(projects)} total={projects.length} bref={enBref(formations, compte, profil.formationDepuis)} experiences={experiences} duree={dureeAlternance(experiences)} formations={formations} profil={publique} recos={recos} />
+      <Accueil home={homeProjects(projects)} total={projects.length} bref={enBref(formations, compte)} experiences={experiences} duree={dureeAlternance(experiences)} formations={formations} profil={publique} recos={recos} />
     </>
   );
 }

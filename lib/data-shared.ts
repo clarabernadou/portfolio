@@ -103,32 +103,21 @@ export function dureeAlternance(experiences: Pick<Experience, "periode">[], main
   return total > 0 ? { ans: Math.floor(total / 12), mois: total % 12 } : null;
 }
 
-// Cases « projets » et « titres » de « En bref » (30 oct. 2026), calculées, jamais écrites à la main.
+// Cases « projets » et « titre » de « En bref » (30 oct. 2026), calculées, jamais écrites à la main.
 // Projets : le nombre indiqué sur chaque fiche de formation (« 13 projets réalisés », « 8 projets validés
 // sur 11 » : le premier nombre), plus les projets hors formation de la base.
+// Titre : le plus haut diplôme obtenu et sa formation (« Bac+5 · Full Stack Java & Angular »), comme
+// dans la maquette ; le détail des 4 titres était trop long (demande de Clara, 2 nov. 2026).
 export function enBref(
-  formations: Pick<Formation, "projets" | "diplome" | "statut" | "annees">[],
+  formations: Pick<Formation, "projets" | "diplome" | "statut" | "intitule">[],
   compte: { horsFormation: number },
-  depuis?: string,
 ) {
   const total = formations.reduce((n, f) => n + (Number(/\d+/.exec(f.projets)?.[0]) || 0), 0) + compte.horsFormation;
-  const niveaux = formations.flatMap((f) => {
-    const m = /Bac\+(\d)/.exec(f.diplome);
-    return m ? [Number(m[1])] : [];
-  });
-  const enCours = formations.filter((f) => f.statut === "En cours").length;
-  const debut = depuis || formations.map((f) => /\d{4}/.exec(f.annees)?.[0]).filter(Boolean).sort()[0];
+  const niveau = (f: Pick<Formation, "diplome">) => Number(/Bac\+(\d)/.exec(f.diplome)?.[1]) || 0;
+  const haut = formations.filter((f) => f.statut === "Obtenu" && niveau(f) > 0).sort((a, b) => niveau(b) - niveau(a))[0];
   return {
     projets: total > 0 ? { valeur: String(total), libelle: "projets" } : null,
-    titres: formations.length
-      ? {
-          valeur: `${formations.length} titre${formations.length > 1 ? "s" : ""}`,
-          libelle: [
-            `RNCP${niveaux.length ? `, du Bac+${Math.min(...niveaux)} au Bac+${Math.max(...niveaux)}` : ""}${enCours ? `, dont ${enCours} en cours` : ""}`,
-            debut ? `en formation depuis ${debut}` : "",
-          ].filter(Boolean).join(" · "),
-        }
-      : null,
+    titres: haut ? { valeur: `Bac+${niveau(haut)}`, libelle: haut.intitule.replace(/\s+-\s+/g, " ") } : null,
   };
 }
 

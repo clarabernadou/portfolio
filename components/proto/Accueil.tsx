@@ -23,10 +23,10 @@ export function Accueil({ home, total, bref, experiences, duree, formations, pro
     profil,
     dispo: dispoLabel(profil),
     chiffreCle: profil.chiffreCle,
-    // « 2 ans » + « et 11 mois d'alternance… » : la durée reste exacte, sans arrondi.
+    // « 2 ans » + « et 11 mois d'expérience professionnelle » (en alternance) : la durée reste exacte, sans arrondi.
     duree: duree && duree.ans > 0 && {
       valeur: `${duree.ans} an${duree.ans > 1 ? "s" : ""}`,
-      libelle: `${duree.mois ? `et ${duree.mois} mois ` : ""}d’alternance`,
+      libelle: `${duree.mois ? `et ${duree.mois} mois ` : ""}d’expérience professionnelle`,
     },
     // Lien vers la liste : les projets publics. « En bref » : tous les projets réalisés et les titres (lib/data-shared.ts).
     total,
