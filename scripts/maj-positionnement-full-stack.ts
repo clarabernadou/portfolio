@@ -114,7 +114,7 @@ const PUCES_FRUGGR: { avant: Bloc; apres: Bloc }[] = [
         "Refondu, de la maquette Figma jusqu’au code, la barre de navigation, la page d’accueil par offre et les tableaux de bord",
         "Fait évoluer les modules gouvernance de l’IA, accessibilité (déclaration d’accessibilité, critères RGAA), ESG-IT et Parc IT ; appliqué la nouvelle charte UI aux modules Services et Infra",
         "Repris le design UI/UX de la plateforme, seule designer de l’équipe Produit sous la supervision du PO : maquettes et évolutions sur Figma, ateliers de conception",
-        "Réalisé des évolutions back-end ponctuelles en NestJS et MongoDB (nouvelles routes d’API pour les fonctionnalités) ; relu du code, déployé de la préproduction à la production (Azure)",
+        "Réalisé des évolutions back-end ponctuelles en NestJS et MongoDB : routes d’API et gestion des données jusqu’au front-end ; relu du code, déployé de la préproduction à la production (Azure)",
       ],
     },
   },
@@ -164,7 +164,7 @@ const PUCES_CARBONSCORE = {
   apres: [
     "Fait évoluer l’ensemble de la plateforme au sein d’une équipe produit de 4 personnes : page d’accueil, tableau de bord, gamification, FAQ et page profil",
     "Intégré de nouveaux quiz et de nouvelles formations, et mis en page leurs contenus",
-    "Fait évoluer le design de la plateforme sur Figma, puis intégré les maquettes en Vue.js (Vuetify, Pinia) et TypeScript ; réalisé des évolutions back-end en NestJS et PostgreSQL, avec des tests unitaires",
+    "Fait évoluer le design de la plateforme sur Figma, puis intégré les maquettes en Vue.js (Vuetify, Pinia) et TypeScript ; réalisé des évolutions back-end en NestJS et PostgreSQL (routes d’API, gestion des données), avec des tests unitaires",
     "Travaillé en méthode agile (dailies, tickets Jira, documentation Confluence), sur des environnements personnels, de préproduction et de production",
     "Présenté CarbonScore au salon VivaTech, en représentant TechUpClimate",
   ],
