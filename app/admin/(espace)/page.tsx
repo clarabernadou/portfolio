@@ -6,6 +6,7 @@ import { A_COMPLETER, enCours, type ACompleter } from "@/lib/admin/projects";
 import { depuis, ilYa } from "@/lib/admin/activity";
 import { Icon } from "@/components/admin/icons";
 import { SyncOnOpen } from "@/components/admin/SyncPanels";
+import { ProjetsADetailler } from "@/components/admin/ProjetsADetailler";
 
 export const metadata: Metadata = { title: "Tableau de bord" };
 export const dynamic = "force-dynamic";
@@ -107,6 +108,8 @@ export default async function TableauDeBord() {
           )}
         </section>
       </div>
+
+      <ProjetsADetailler projets={projets} />
 
       <div className="adm-grid-4">
         {[

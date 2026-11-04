@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { logActivity } from "@/lib/admin/activity";
 import { slugify } from "@/lib/admin/projects";
 import { parseRepoUrl, siteDuDepot } from "@/lib/admin/github";
+import { CHAMPS_RETOUR, type Retour } from "@/lib/retour";
 
 // Actions serveur des écrans Projets. Chacune revérifie la session (requireAdmin) :
 // une action serveur est un point d'entrée public, la vérification de la page ne suffit pas.
@@ -30,6 +31,7 @@ export interface ProjectInput {
   steps: { label: string; status: string }[];
   videos: { title: string; kicker: string; url: string }[];
   captures: { url: string; alt: string }[];
+  retour: Retour;
   visible: boolean;
   onHome: boolean;
   featured: boolean;
@@ -121,6 +123,8 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
     steps: input.steps.filter((s) => s.label.trim()),
     videos: videos.length ? videos : undefined,
     captures,
+    // Textes coupés à la longueur conseillée ×2 : le formulaire signale le dépassement sans bloquer.
+    retour: Object.fromEntries(CHAMPS_RETOUR.map((c) => [c.cle, (input.retour?.[c.cle] ?? "").trim().slice(0, c.max * 2)])),
     visible: input.visible,
     onHome: input.onHome,
     featured: input.featured,
@@ -206,6 +210,7 @@ export async function duplicateProject(id: string) {
       skillsValidated: src.skillsValidated ?? [],
       videos: src.videos ?? undefined,
       captures: src.captures ?? undefined,
+      retour: src.retour ?? undefined,
       fieldMeta: undefined,
       i18n: src.i18n ?? undefined,
       homeCard: undefined,

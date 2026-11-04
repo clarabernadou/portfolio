@@ -5,6 +5,7 @@ import Link from "next/link";
 import { css } from "@/lib/css";
 import { CapturesSite } from "./CapturesSite";
 import { ListeLivrables } from "./ListeLivrables";
+import { RetourExperience } from "./RetourExperience";
 import { PAPILLON } from "./papillon";
 
 // Généré depuis docs/passation/prototype-source/projets.source.html
@@ -480,6 +481,7 @@ export function ProjetsView({ v }: { v: any }) {
                   </section>
                 </>
               )}
+              {v.cur.retour && <RetourExperience retour={v.cur.retour} />}
               {v.cur.hasCaptures && <CapturesSite captures={v.cur.captures} />}
               {v.cur.hasDocs && (
                 <>

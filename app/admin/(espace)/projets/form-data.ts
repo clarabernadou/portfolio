@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { phraseCadre } from "@/lib/data-shared";
+import { lireRetour, RETOUR_VIDE } from "@/lib/retour";
 import type { ProjectInput } from "./actions";
 import type { ProjectFormProps } from "@/components/admin/ProjectForm";
 
@@ -26,6 +27,7 @@ export function toInput(r: Row): ProjectInput {
     steps: (r.steps as { label: string; status: string }[]) ?? [],
     videos: ((r.videos as { title: string; kicker: string; url: string }[] | null) ?? []).map(({ title, kicker, url }) => ({ title, kicker, url })),
     captures: (r.captures as { url: string; alt: string }[] | null) ?? [],
+    retour: lireRetour(r.retour),
     visible: r.visible,
     onHome: r.onHome,
     featured: r.featured,
@@ -53,6 +55,7 @@ export const EMPTY: ProjectInput = {
   steps: [],
   videos: [],
   captures: [],
+  retour: RETOUR_VIDE,
   visible: true,
   onHome: false,
   featured: false,

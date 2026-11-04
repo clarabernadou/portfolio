@@ -12,6 +12,8 @@ import { RetourProjets } from "./RetourProjets";
 import { slugify } from "@/lib/admin/projects";
 import { IaPage } from "./AvisIA";
 import { AvisGlobalIA } from "./AvisGlobalIA";
+import { RetourForm } from "./RetourForm";
+import { RETOUR_VIDE } from "@/lib/retour";
 import { CHAMPS_PROJET } from "@/lib/admin/avis-ia";
 import { commenceParCadre } from "@/lib/data-shared";
 import { ACCEPT_LIVRABLES } from "@/lib/livrables";
@@ -144,6 +146,8 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
             />
             <TagInput label="Ajouter une compétence validée" value={[]} onChange={(v) => set("skillsValidated", [...p.skillsValidated, ...v.filter((x) => !p.skillsValidated.includes(x))])} />
           </section>
+
+          <RetourForm valeur={p.retour ?? RETOUR_VIDE} onChange={(v) => set("retour", v)} projet={{ tags: p.tags, types: p.types, parcours: p.parcours, date: p.date }} />
 
           <section className="adm-card" aria-labelledby="s-liens">
             <h2 className="adm-h2" id="s-liens">Liens et livrables</h2>

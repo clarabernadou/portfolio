@@ -5,6 +5,7 @@ import type { AlternanceCard, HomeCard, SiteExperience, SiteFormation, SiteProfi
 import { experiences as experiencesJson } from "./content/experiences";
 import { formations as formationsJson } from "./content/formations";
 import { alternances } from "./content/accueil";
+import { champsRemplis, lireRetour } from "./retour";
 import { competencesEssentiel, identite, langues, profilCv } from "./content/profile";
 import liensJson from "@/data/liens.json";
 import iaJson from "@/data/ia.json";
@@ -77,6 +78,7 @@ function fromRow(r: ProjectRow): SiteProject {
     featured: r.featured,
     ...(r.videos ? { videos: r.videos as unknown as Project["videos"] } : {}),
     ...(r.captures ? { captures: r.captures as unknown as Project["captures"] } : {}),
+    ...(champsRemplis(lireRetour(r.retour)) ? { retour: lireRetour(r.retour) } : {}),
     ...(r.homeCard ? { homeCard: r.homeCard as unknown as HomeCard } : {}),
   };
 }

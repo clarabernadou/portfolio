@@ -51,6 +51,8 @@ export interface Project {
   featured: boolean;
   videos?: ProjectVideo[];
   captures?: ProjectCapture[];
+  // Retour d'expérience (lib/retour.ts), seulement s'il a au moins un champ rempli.
+  retour?: { difficultes: string; appris: string; ameliorations: string };
 }
 
 export interface IaStat {

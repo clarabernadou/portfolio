@@ -6,7 +6,7 @@ const CADRES_HORS_FORMATION = ["En entreprise", "Projet personnel", "Audit indé
 export const enCours = (p: { date: string }) => /en cours/i.test(p.date);
 export const estFormation = (p: { parcours: string }) => !CADRES_HORS_FORMATION.includes(p.parcours);
 
-type P = { date: string; parcours: string; types: unknown; github: string | null; docs: unknown; steps: unknown; origin: string; context: string };
+type P = { date: string; parcours: string; types: unknown; github: string | null; docs: unknown; steps: unknown; origin: string; context: string; retour?: unknown };
 
 // Les quatre listes « À compléter » (ADMIN-et-SYNCHRONISATION.md, §5).
 // niveau « erreur » : le projet reste masqué ou incomplet sur le site ; « alerte » : simple manque.
@@ -15,7 +15,15 @@ export const A_COMPLETER = {
   github: { niveau: "alerte", label: (n: number) => `${n} ${n > 1 ? "projets" : "projet"} de développement sans lien GitHub`, test: (p: P) => (p.types as string[]).includes("Développement") && !p.github },
   livrables: { niveau: "alerte", label: (n: number) => `${n} ${n > 1 ? "projets" : "projet"} de formation sans livrable`, test: (p: P) => estFormation(p) && !(p.docs as unknown[]).length },
   etapes: { niveau: "alerte", label: (n: number) => `${n} ${n > 1 ? "projets" : "projet"} en cours sans étapes d’avancement`, test: (p: P) => enCours(p) && !(p.steps as unknown[]).length },
+  // Retour d'expérience (lib/retour.ts, 4 nov. 2026) : complet quand ses 3 champs sont remplis.
+  retour: { niveau: "alerte", label: (n: number) => `${n} ${n > 1 ? "projets" : "projet"} sans retour d’expérience complet`, test: (p: P) => !retourRempli(p.retour) },
 } as const;
+
+// Même règle que retourComplet (lib/retour.ts), sans l'importer : lib/retour.ts dépend de ce fichier.
+function retourRempli(v: unknown) {
+  const r = (v ?? {}) as Record<string, unknown>;
+  return ["difficultes", "appris", "ameliorations"].every((k) => typeof r[k] === "string" && (r[k] as string).trim() !== "");
+}
 
 export type ACompleter = keyof typeof A_COMPLETER;
 

@@ -31,6 +31,8 @@ model Project {
   videos          Json?
   // Captures du site réalisé (section « Captures du site » de la fiche, agrandies au clic) : [{ url, alt }].
   captures        Json?
+  // Retour d'expérience (lib/retour.ts) : { difficultes, appris, ameliorations }, affiché s'il est rempli.
+  retour          Json?
   github          String?   @db.VarChar(400)
   figma           String?   @db.VarChar(400)
   // Site en ligne du projet (GitHub Pages, Vercel…), bouton « Voir le site » de la fiche.

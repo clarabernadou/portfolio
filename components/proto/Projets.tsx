@@ -75,6 +75,7 @@ function detail(p: Project) {
     skills: p.skillsValidated,
     hasVideos: !!p.videos?.length,
     hasCaptures: !!p.captures?.length,
+    retour: p.retour ?? null,
     captures: (p.captures ?? []).map((c) => ({ ...c, url: asset(c.url) })),
     hasDocs: livrables(p).length > 0,
     docs: livrables(p).map((d) => ({ ...d, format: formatLivrable(d.href) })),
