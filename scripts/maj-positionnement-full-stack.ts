@@ -61,8 +61,9 @@ profil.profilEssentiel = fixer(
 profil.chiffreCle = fixer("Profil · chiffre clé de « En bref »", profil.chiffreCle, { valeur: "95+", libelle: "Plus de 95 pull requests fusionnées chez Fruggr" });
 const anglais = profil.langues.find((l) => l.nom === "Anglais");
 if (!anglais) erreurs.push("Profil · langue « Anglais » introuvable");
-else anglais.niveau = fixer("Profil · anglais", anglais.niveau, anglais.niveau.map((n) => n.replace("Lecture et écrit : C1", "Lecture et écriture : C1").replace("Expression orale : en progression", "Expression orale : B1")));
+else anglais.niveau = reecrire("Profil · anglais", anglais.niveau, ["Lecture et écrit : C1", "Compréhension orale : bonne", "Expression orale : en progression"], ["Lecture et écriture : C1", "Compréhension et expression orales : B1"]);
 // Retours des relecteurs du CV (RH, manager, logiciel de tri), 4 nov. 2026 : puces commençant par un verbe.
+profil.disponibilite = fixer("Profil · disponibilité", profil.disponibilite as string, "disponible en mars 2027 (fin d’alternance)");
 profil.lieu = fixer("Profil · lieu", profil.lieu, "Full remote (télétravail) ou Vannes / Auray");
 const portfolioCv = profil.projetsCv.find((p) => p.titre === "Portfolio");
 if (!portfolioCv) erreurs.push("Profil · projet du CV « Portfolio » introuvable");
@@ -84,6 +85,8 @@ else
     ],
   );
 profil.noteIA = remplacer("Profil · profil pour l’IA", profil.noteIA, "Clara Bernadou, développeuse front-end & UI/UX designer.", "Clara Bernadou, développeuse full-stack, avec l’UI/UX comme point fort.");
+profil.noteIA = remplacer("Profil · profil pour l’IA", profil.noteIA, "évolutions back-end ponctuelles en NestJS et MongoDB, tests unitaires, relecture de code", "évolutions back-end ponctuelles en NestJS et MongoDB (nouvelles routes d'API), relecture de code");
+profil.noteIA = remplacer("Profil · profil pour l’IA", profil.noteIA, "back-end NestJS et PostgreSQL ;", "back-end NestJS et PostgreSQL, tests unitaires ;");
 
 // ── Expériences ───────────────────────────────────────────────────────────────
 type Bloc = { name?: string; period?: string; bulletsEssentiel: string[] };
@@ -111,7 +114,7 @@ const PUCES_FRUGGR: { avant: Bloc; apres: Bloc }[] = [
         "Refondu, de la maquette Figma jusqu’au code, la barre de navigation, la page d’accueil par offre et les tableaux de bord",
         "Fait évoluer les modules gouvernance de l’IA, accessibilité (déclaration d’accessibilité, critères RGAA), ESG-IT et Parc IT ; appliqué la nouvelle charte UI aux modules Services et Infra",
         "Repris le design UI/UX de la plateforme, seule designer de l’équipe Produit sous la supervision du PO : maquettes et évolutions sur Figma, ateliers de conception",
-        "Réalisé des évolutions back-end ponctuelles en NestJS et MongoDB ; écrit des tests unitaires, relu du code, déployé de la préproduction à la production (Azure)",
+        "Réalisé des évolutions back-end ponctuelles en NestJS et MongoDB (nouvelles routes d’API pour les fonctionnalités) ; relu du code, déployé de la préproduction à la production (Azure)",
       ],
     },
   },
@@ -161,7 +164,7 @@ const PUCES_CARBONSCORE = {
   apres: [
     "Fait évoluer l’ensemble de la plateforme au sein d’une équipe produit de 4 personnes : page d’accueil, tableau de bord, gamification, FAQ et page profil",
     "Intégré de nouveaux quiz et de nouvelles formations, et mis en page leurs contenus",
-    "Fait évoluer le design de la plateforme sur Figma, puis intégré les maquettes en Vue.js (Vuetify, Pinia) et TypeScript ; réalisé des évolutions back-end en NestJS et PostgreSQL",
+    "Fait évoluer le design de la plateforme sur Figma, puis intégré les maquettes en Vue.js (Vuetify, Pinia) et TypeScript ; réalisé des évolutions back-end en NestJS et PostgreSQL, avec des tests unitaires",
     "Travaillé en méthode agile (dailies, tickets Jira, documentation Confluence), sur des environnements personnels, de préproduction et de production",
     "Présenté CarbonScore au salon VivaTech, en représentant TechUpClimate",
   ],
@@ -189,10 +192,13 @@ const expMaj = experiences.map((e) => {
   return { id: e.id, poste, contexteEssentiel: contexte, blocs, note };
 });
 
-// ── Compétences : HTML et CSS, cités par les offres et absents du CV ─────────────
+// ── Compétences : HTML et CSS, cités par les offres ; Java et Angular, du Bac+5 (accord de Clara, 4 nov. 2026) ──
 const frontEnd = await prisma.skillGroup.findFirst({ where: { version: "essentiel", name: "Front-end" } });
-const itemsFront = frontEnd && reecrire("Compétences · Front-end", frontEnd.items as string[], ["React", "TypeScript / JavaScript", "Next.js", "Tailwind CSS"], ["React", "TypeScript / JavaScript", "HTML / CSS", "Next.js", "Tailwind CSS"]);
+const itemsFront = frontEnd && reecrire("Compétences · Front-end", frontEnd.items as string[], ["React", "TypeScript / JavaScript", "Next.js", "Tailwind CSS"], ["React", "TypeScript / JavaScript", "HTML / CSS", "Next.js", "Tailwind CSS", "Angular"]);
 if (!frontEnd) erreurs.push("Compétences · groupe Front-end introuvable");
+const backEnd = await prisma.skillGroup.findFirst({ where: { version: "essentiel", name: "Back-end et données" } });
+const itemsBack = backEnd && reecrire("Compétences · Back-end et données", backEnd.items as string[], ["Node.js", "NestJS", "SQL (PostgreSQL, MySQL)", "MongoDB"], ["Node.js", "NestJS", "Java (Spring Boot)", "SQL (PostgreSQL, MySQL)", "MongoDB"]);
+if (!backEnd) erreurs.push("Compétences · groupe Back-end et données introuvable");
 
 // ── Formations : le nombre de projets est calculé (projets publiés), sauf mention ──
 const formations = await prisma.formation.findMany();
@@ -244,7 +250,7 @@ if (process.argv.includes("--apercu-cv")) {
   const lireForm = prisma.formation.findMany.bind(prisma.formation);
   Object.assign(prisma.formation, { findMany: async (a: never) => (await lireForm(a)).map((f) => ({ ...f, ...formMaj.find((m) => m.id === f.id) })) });
   const lireSkills = prisma.skillGroup.findMany.bind(prisma.skillGroup);
-  Object.assign(prisma.skillGroup, { findMany: async (a: never) => (await lireSkills(a)).map((s) => (s.id === frontEnd?.id ? { ...s, items: itemsFront } : s)) });
+  Object.assign(prisma.skillGroup, { findMany: async (a: never) => (await lireSkills(a)).map((s) => (s.id === frontEnd?.id ? { ...s, items: itemsFront } : s.id === backEnd?.id ? { ...s, items: itemsBack } : s)) });
   const { cvHtml, cvTexteHtml } = await import("../lib/pdf/cv-html");
   const { essentielFr } = await import("../lib/pdf/cv-data");
   const { loadAssets, loadSources, renderPdf } = await import("../lib/pdf/server");
@@ -265,6 +271,7 @@ await prisma.$transaction([
   prisma.singleton.update({ where: { key: "profil" }, data: { data: profil as never } }),
   ...expMaj.map((e) => prisma.experience.update({ where: { id: e.id }, data: { poste: e.poste, contexteEssentiel: e.contexteEssentiel, blocs: e.blocs as never, note: e.note } })),
   ...(frontEnd && itemsFront ? [prisma.skillGroup.update({ where: { id: frontEnd.id }, data: { items: itemsFront } })] : []),
+  ...(backEnd && itemsBack ? [prisma.skillGroup.update({ where: { id: backEnd.id }, data: { items: itemsBack } })] : []),
   ...formMaj.map((f) => prisma.formation.update({ where: { id: f.id }, data: { projets: f.projets } })),
   prisma.project.update({ where: { id: "portfolio" }, data: { context: ctxPortfolio, steps: etapesPortfolio as never } }),
   prisma.project.update({ where: { id: "les-bambinets" }, data: { date: dateBambinets, context: ctxBambinets } }),
