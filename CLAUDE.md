@@ -3,7 +3,7 @@
 Ce fichier est lu par Claude Code à chaque session. Il reste court : le détail est dans `docs/passation/`.
 
 ## Le projet
-Portfolio et CV de recherche d'emploi (CDI, développeuse front-end & UI/UX designer, disponible en mars 2027), avec une administration et une synchronisation LinkedIn / GitHub. Le site est en français.
+Portfolio et CV de recherche d'emploi (CDI, développeuse full-stack, disponible en mars 2027 ; l'UI/UX est un point fort, pas le titre, depuis le 4 novembre 2026), avec une administration et une synchronisation LinkedIn / GitHub. Le site est en français.
 
 ## Sources de vérité, dans cet ordre
 1. `docs/passation/maquettes/` : l'apparence validée. En cas de doute, la capture fait foi.
@@ -23,6 +23,11 @@ IA de l'administration (4 novembre 2026) : Gemini (offre gratuite) reste le bout
 - Les chiffres s'écrivent en chiffres dans les textes.
 - Parcours « En entreprise » (ex-« Alternance · Fruggr », 26 octobre 2026) pour les projets menés en alternance. Accueil : 3 rangées de 3 cartes, dans l'ordre En entreprise, Développement, Design (9 projets au plus).
 - Publication d'un projet (liste de l'administration) : Publié, Privé ou Brouillon. Un projet privé ou en brouillon n'apparaît nulle part sur le site public, et une rangée ou un filtre sans projet public est masqué. Projets de l'alternance (« En entreprise ») en privé depuis le 28 octobre 2026.
+- Projet non publié (4 novembre 2026) : jamais un lien (`components/proto/LienProjet.tsx` : texte simple ou carte inerte avec « En cours de validation ») ; son adresse affiche une page « en cours de validation » en `noindex`, et l'aperçu quand Clara est connectée (`proxy.ts`). `npm run test:liens` vérifie qu'aucun lien interne ne mène à une 404 ni à un projet non publié.
+- Nombres de projets (4 novembre 2026) : toujours les projets publiés, ceux de /projets (« En bref », lien de l'accueil, ligne de chaque formation). Le champ « projets » d'une formation est une mention facultative qui remplace le nombre (« En cours · fin prévue en 2027 »).
+- Écriture « full-stack » (minuscules, trait d'union) partout, sauf dans les titres officiels de formation (« Full Stack Java & Angular »).
+- Chiffres de l'audit RGAA dans les textes de la base : balise `{{audit-rgaa}}`, remplacée à l'affichage depuis `data/rgaa-audit.json` (`lib/accessibilite.ts`). Jamais de chiffre Lighthouse dans le CV.
+- CV en 2 présentations du même contenu (4 novembre 2026) : mis en page (2 colonnes) et texte simple (1 colonne, pour les logiciels de tri), générés ensemble depuis l'administration.
 
 ## Règles de design
 - Portage exact (décision d'octobre 2026) : les pages sont générées depuis `docs/passation/prototype-source/` (`scripts/tools/gen.mjs`) et leurs styles en ligne sont recopiés tels quels avec `css()` (`lib/css.ts`). Pas de preflight Tailwind. Toute modification de style passe d'abord par la source du prototype.

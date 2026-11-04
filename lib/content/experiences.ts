@@ -9,24 +9,24 @@ function hrefFor(nom: string): string {
 
 export const experiences: Experience[] = [
   {
-    poste: "Développeuse Full-Stack & UI Designer",
+    poste: "Développeuse full-stack & UI designer",
     entreprise: "Fruggr",
     entrepriseHref: hrefFor("Fruggr"),
     entrepriseParent: "Digital4Better",
     entrepriseParentHref: hrefFor("Digital4Better"),
     periode: "mars 2025 – aujourd’hui",
     lieuMode: "Alternance · Nantes, en télétravail avec des déplacements réguliers",
-    contexteEssentiel: "Plateforme SaaS de numérique responsable (gouvernance de l’IA, accessibilité, impact environnemental), utilisée par de grands comptes.",
+    contexteEssentiel: "Plateforme SaaS de numérique responsable (gouvernance de l’IA, accessibilité, impact environnemental), utilisée par de grands comptes. Plus de 95 pull requests fusionnées.",
     blocs: [
       {
         name: "Équipe Produit",
         period: "mars 2025 – juin 2026",
-        bulletsEssentiel: ["Développement front-end en React et TypeScript de la plateforme : plus de 70 pull requests fusionnées en 15 mois (fonctionnalités, refontes, corrections)","Refonte de la barre de navigation, de la page d’accueil par offre et de tableaux de bord ; passage des modules Services et Infra à la nouvelle charte UI","Module d’accessibilité : génération de la déclaration d’accessibilité, repérage des quick wins, corrections de critères RGAA, export CSV","Seule designer UI/UX de l’équipe Produit après le départ de l’alternante en design, sous la supervision du PO : maquettes et évolutions sur Figma, ateliers de conception","Évolutions back-end ponctuelles en NestJS et MongoDB ; tests unitaires, relecture de code, déploiements de la préproduction à la production (Azure)"],
+        bulletsEssentiel: ["Développement front-end en React et TypeScript de la plateforme : 75 pull requests fusionnées en 15 mois (fonctionnalités, refontes, corrections)","Refonte de la barre de navigation, de la page d’accueil par offre et de tableaux de bord ; passage des modules Services et Infra à la nouvelle charte UI","Module d’accessibilité : génération de la déclaration d’accessibilité, repérage des quick wins, corrections de critères RGAA, export CSV","Seule designer UI/UX de l’équipe Produit après le départ de l’alternante en design, sous la supervision du PO : maquettes et évolutions sur Figma, ateliers de conception","Évolutions back-end ponctuelles en NestJS et MongoDB ; tests unitaires, relecture de code, déploiements de la préproduction à la production (Azure)"],
       },
       {
         name: "Équipe Marketing : sites web et contenus",
         period: "depuis juin 2026",
-        bulletsEssentiel: ["Développement du thème WordPress du site Fruggr : 9 nouveaux blocs sur mesure (frise, cartes, bannières, FAQ, cas clients), pied de page et type de contenu « ressource » ; 22 pull requests depuis juillet 2026","Nouveau site WordPress de Digital4Better : maquettes Figma et mise en page complète","Audits UI/UX, accessibilité (WCAG, RGAA) et SEO technique de sites, avec recommandations priorisées ; correction des erreurs et avertissements relevés par Semrush","Participation au repositionnement de Fruggr : saga de 3 films bilingues réalisée de A à Z, du script validé au rendu (Remotion en React, voix off ElevenLabs)"],
+        bulletsEssentiel: ["Développement du thème WordPress du site Fruggr : 9 nouveaux blocs sur mesure (frise, cartes, bannières, FAQ, cas clients), pied de page et type de contenu « ressource » ; 23 pull requests depuis juillet 2026","Nouveau site WordPress de Digital4Better : maquettes Figma et mise en page complète","Audits UI/UX, accessibilité (WCAG, RGAA) et SEO technique de sites, avec recommandations priorisées ; correction des erreurs et avertissements relevés par Semrush","Saga de 3 films bilingues pour le repositionnement de Fruggr (Remotion en React)"],
       },
       {
         name: "Transverse : automatisation par l’IA",
@@ -35,7 +35,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    poste: "Développeuse Full-Stack & UI Designer",
+    poste: "Développeuse full-stack & UI designer",
     entreprise: "CarbonScore",
     entrepriseHref: hrefFor("CarbonScore"),
     entrepriseParent: "TechUpClimate",

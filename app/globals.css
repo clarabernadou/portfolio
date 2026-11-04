@@ -66,9 +66,9 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
   .cv-contacts a{display:flex;min-height:48px}
 }
 .cv-version{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:16px 24px;padding-top:2rem;border-top:1px solid var(--bordure)}
-.cv-dl{display:flex;flex-direction:column;align-items:stretch}
+.cv-dl{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:12px}
 .cv-dl-btn{box-sizing:border-box;height:54px}
-@media (max-width: 640px){.cv-version{justify-content:flex-start}.cv-dl{align-items:flex-start}}
+@media (max-width: 640px){.cv-version{justify-content:flex-start}.cv-dl{justify-content:flex-start}}
 
 /* Pied de page : disposition demandée par Clara (logo à gauche, mentions au centre,
    Connexion à droite, copyright centré en dessous), au lieu de la ligne unique de la source. */

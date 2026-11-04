@@ -104,22 +104,31 @@ export function dureeAlternance(experiences: Pick<Experience, "periode">[], main
 }
 
 // Cases « projets » et « titre » de « En bref » (30 oct. 2026), calculées, jamais écrites à la main.
-// Projets : le nombre indiqué sur chaque fiche de formation (« 13 projets réalisés », « 8 projets validés
-// sur 11 » : le premier nombre), plus les projets hors formation de la base.
+// Projets (4 nov. 2026) : les projets publiés, ceux que le visiteur retrouve dans /projets.
 // Titre : le plus haut diplôme obtenu et sa formation (« Bac+5 · Full Stack Java & Angular »), comme
 // dans la maquette ; le détail des 4 titres était trop long (demande de Clara, 2 nov. 2026).
-export function enBref(
-  formations: Pick<Formation, "projets" | "diplome" | "statut" | "intitule">[],
-  compte: { horsFormation: number },
-) {
-  const total = formations.reduce((n, f) => n + (Number(/\d+/.exec(f.projets)?.[0]) || 0), 0) + compte.horsFormation;
+export function enBref(formations: Pick<Formation, "diplome" | "statut" | "intitule">[], publics: unknown[]) {
   const niveau = (f: Pick<Formation, "diplome">) => Number(/Bac\+(\d)/.exec(f.diplome)?.[1]) || 0;
   const haut = formations.filter((f) => f.statut === "Obtenu" && niveau(f) > 0).sort((a, b) => niveau(b) - niveau(a))[0];
   return {
-    projets: total > 0 ? { valeur: String(total), libelle: "projets" } : null,
+    projets: publics.length > 0 ? { valeur: String(publics.length), libelle: "projets" } : null,
     titres: haut ? { valeur: `Bac+${niveau(haut)}`, libelle: haut.intitule.replace(/\s+-\s+/g, " ") } : null,
   };
 }
+
+// Ligne « projets » de chaque formation (4 nov. 2026) : le nombre de projets publiés de la formation,
+// le même que le filtre de /projets. Une mention saisie dans l'administration (« En cours · fin prévue
+// en 2027 ») le remplace ; sans projet publié ni mention, la ligne est vide.
+export function avecCompteProjets<F extends Pick<Formation, "intitule" | "projets">>(formations: F[], publics: Pick<Project, "parcours">[]): F[] {
+  return formations.map((f) => {
+    if (f.projets.trim()) return f;
+    const n = publics.filter((p) => p.parcours === f.intitule).length;
+    return { ...f, projets: n > 0 ? `${n} projet${n > 1 ? "s" : ""}` : "" };
+  });
+}
+
+/** « Établissement et titre · projets », sans séparateur quand la ligne « projets » est vide. */
+export const ligneFormation = (f: Pick<Formation, "niveauComplet" | "projets">) => [f.niveauComplet, f.projets].filter((x) => x.trim()).join(" · ");
 
 // Phrase d'ouverture du contexte de chaque projet (choix de Clara, 31 oct. 2026) : la même formule
 // partout, seul le cadre change. Le reste du texte suit, sans répéter le cadre.

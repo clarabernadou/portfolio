@@ -1,6 +1,6 @@
 import { IaView } from "@/components/proto/IaView";
 import { pageMetadata } from "@/lib/metadata";
-import { getIa } from "@/lib/data";
+import { getIa, getSiteProjects } from "@/lib/data";
 import { iaStats } from "@/lib/data-shared";
 
 export const metadata = pageMetadata(
@@ -10,6 +10,7 @@ export const metadata = pageMetadata(
 );
 
 export default async function IaPage() {
-  const ia = await getIa();
-  return <IaView v={{ stats: iaStats(ia), tools: ia.tools, skills: ia.skills, routines: ia.routines }} />;
+  const [ia, projets] = await Promise.all([getIa(), getSiteProjects()]);
+  // Projets publiés : les cartes de « Ce que ça a produit » ne sont des liens que vers eux.
+  return <IaView v={{ stats: iaStats(ia), tools: ia.tools, skills: ia.skills, routines: ia.routines, publics: projets.map((p) => p.id) }} />;
 }

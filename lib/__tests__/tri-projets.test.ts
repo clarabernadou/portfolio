@@ -12,7 +12,7 @@ describe("cleDate", () => {
   });
   it("comprend les saisons et ignore les mentions qui suivent", () => {
     expect(cleDate("été 2026 · en cours")).toBe(2026 * 12 + 6);
-    expect(cleDate("oct. 2026 · soutenance planifiée")).toBe(2026 * 12 + 9);
+    expect(cleDate("oct. 2026 · en cours")).toBe(2026 * 12 + 9);
   });
   it("renvoie null sans année", () => {
     expect(cleDate("projet perso")).toBeNull();

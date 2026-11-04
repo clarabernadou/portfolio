@@ -50,14 +50,17 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
                       <span style={css(`color: #6A4FB6; display: inline-flex`)}>
                         <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.8"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                           <rect x={"3"} y={"3"} width={"18"} height={"18"} rx={"4"} />
+                          {" "}
                           <path d={"M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"} />
                         </svg>
                       </span>
+                      {" "}
                       <span style={css(`position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)`)}>{", profil LinkedIn"}</span>
                     </a>
                   ) : (
                     <span style={css(`display: inline-flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 800; color: #1A1033; text-decoration: none`)}>{it.auteur}</span>
                   )}
+                  {" "}
                   <span style={css(`font-size: 14px; color: #5B5470`)}>
                     <Role r={it} />
                   </span>
@@ -85,14 +88,17 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
           </figure>
         ))}
       </div>
+      {" "}
       {r && open !== null && (
         <div className={"reco-modal"} onClick={backdrop}>
           <div id={`reco-full-${open}`} className={"reco-dialog"} role={"dialog"} aria-modal={"true"} aria-label={`Recommandation complète de ${r.auteur}`} style={css(`display: flex; flex-direction: column; gap: 12px`)}>
             <div style={css(`display: flex; justify-content: space-between; align-items: flex-start; gap: 16px`)}>
               <div style={css(`display: flex; flex-direction: column; gap: 2px`)}>
                 <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{"Recommandation complète"}</span>
+                {" "}
                 <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: #1A1033`)}>{r.auteur}</span>
               </div>
+              {" "}
               <button type={"button"} onClick={close} aria-label={`Fermer la recommandation de ${r.auteur}`} style={css(`width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; flex-shrink: 0; aspect-ratio: 1 / 1`)}>
                 <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"}>
                   <path d={"M6 6l12 12M18 6L6 18"} />

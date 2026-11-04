@@ -84,7 +84,7 @@ export function FormationForm({ initial, rattaches }: { initial: FormationInput;
         <TextField label="Établissement et titre" value={f.niveauComplet} onChange={(v) => set("niveauComplet", v)} placeholder="OpenClassrooms · Titre RNCP niveau 6 (Bac+3/4)" help="Ligne du CV, avant le nombre de projets." />
         <SelectField label="Mode" value={f.mode} onChange={(v) => set("mode", v)} options={["En alternance", "En autonomie"]} />
         <SelectField label="Statut" required value={f.statut} onChange={(v) => set("statut", v)} options={["En cours", "Obtenu"]} />
-        <TextField label="Projets validés" value={f.projets} onChange={(v) => set("projets", v)} placeholder="8 projets validés sur 11" help={`${rattaches} ${rattaches > 1 ? "projets rattachés" : "projet rattaché"} à cette formation sur le site.`} />
+        <TextField label="Mention à la place du nombre de projets" value={f.projets} onChange={(v) => set("projets", v)} placeholder="En cours · fin prévue en 2027" help={`Laisse vide pour afficher le nombre de projets publiés de la formation (${rattaches} ${rattaches > 1 ? "projets rattachés" : "projet rattaché"} sur le site, publiés ou non).`} />
       </div>
       <TextArea label="Mention complémentaire" value={f.mentionComplementaire} onChange={(v) => set("mentionComplementaire", v)} rows={2} help="Facultatif : affichée en italique sous la formation (par exemple, une équivalence)." />
       <TextField label="Nom officiel, avec l’organisme" ia={false} value={f.nomOfficiel} onChange={(v) => set("nomOfficiel", v)} help="Facultatif, par exemple « Développeur Web d’OpenClassrooms ». Il ouvre le contexte des projets de cette formation : « Projet réalisé dans le cadre de la formation … ». Sans lui, c’est l’intitulé qui est utilisé." />

@@ -50,18 +50,11 @@ export const projetsDeveloppement: AccueilProjectCard[] = [
   },
   {
     id: "monde-de-dev",
-    eyebrow: "Full-Stack · OpenClassrooms",
+    eyebrow: "Full-stack · OpenClassrooms",
     name: "Monde de Dév",
     line: "Mise en relation de développeurs par centres d’intérêt techniques.",
     tags: ["Spring Boot", "Angular", "MySQL"],
   },
-];
-
-export const stats = [
-  { value: "4", label: "formations OpenClassrooms" },
-  { value: "Bac+5", label: "Full Stack Java & Angular" },
-  { value: "39", label: "projets, dont 23 avec livrables" },
-  { value: "2", label: "alternances depuis 2023" },
 ];
 
 export interface AlternanceCardContent {
@@ -77,7 +70,7 @@ export interface AlternanceCardContent {
 export const alternances: AlternanceCardContent[] = [
   {
     periode: "déc. 2023 – fév. 2025",
-    poste: "Développeuse Full-Stack & UI Designer",
+    poste: "Développeuse full-stack & UI designer",
     entreprise: "CarbonScore",
     entrepriseParent: "TechUpClimate",
     lieuMode: "Alternance · Pontoise, télétravail",
@@ -85,7 +78,7 @@ export const alternances: AlternanceCardContent[] = [
   },
   {
     periode: "mars 2025 – aujourd’hui",
-    poste: "Développeuse Full-Stack & UI Designer",
+    poste: "Développeuse full-stack & UI designer",
     entreprise: "Fruggr",
     entrepriseParent: "Digital4Better",
     lieuMode: "Alternance · Nantes, télétravail",

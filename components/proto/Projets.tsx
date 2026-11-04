@@ -46,12 +46,18 @@ function livrables(p: Project) {
   return [...p.docs.filter((d) => !!d.href), ...liens].map((d, i) => ({ ...d, n: i + 1 }));
 }
 
+const lienNomme = (p: Project) => (formatLivrable(p.pdf) === "Lien" && p.docs.find((d) => d.href === p.pdf)?.label) || "";
+
 function detail(p: Project) {
   return {
     ...p,
     hasPdf: !!p.pdf,
     pdfh: p.pdf,
     pdfFormat: formatLivrable(p.pdf),
+    // Une page en ligne déjà listée dans les livrables (documentation de l’API de WatchedThis) garde son nom ;
+    // « Tous les livrables » désigne seulement une compilation.
+    pdfLabel: lienNomme(p) || `Tous les livrables · ${formatLivrable(p.pdf)}`,
+    pdfToutOuvrir: lienNomme(p) || `Tout ouvrir · ${formatLivrable(p.pdf)}`,
     hasGh: !!p.github,
     ghh: p.github,
     hasFig: !!p.figma,

@@ -197,6 +197,72 @@ ${c.edu
 </div>`;
 }
 
+// CV texte simple (4 nov. 2026) : même contenu, une colonne, sans photo, icône ni étiquette, titres de
+// section standards, pour les logiciels de tri des candidatures et les formulaires en ligne. L'ordre du
+// document est l'ordre de lecture ; les liens s'affichent en toutes lettres.
+const TEXTE_CSS = `
+@page{size:A4;margin:14mm 16mm}
+body{font-size:10pt;line-height:1.45}
+h1{font-size:20pt;font-weight:800;letter-spacing:0;word-spacing:normal}
+.ti{font-size:12pt;font-weight:700;margin-top:3pt}
+p{margin:3pt 0 0}
+h2{margin:12pt 0 5pt;font-size:12pt;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-bottom:0.75pt solid #1A1033;padding-bottom:2pt;break-after:avoid-page}
+h3{margin:9pt 0 0;font-size:10.5pt;font-weight:800;letter-spacing:0;text-transform:none;color:#1A1033;break-after:avoid}
+h4{margin:5pt 0 0;font-size:10pt;font-weight:700;break-after:avoid}
+/* Puces écrites dans le texte : elles restent à l'extraction (pdftotext, logiciels de tri). */
+ul{margin:2pt 0 0;padding:0;list-style:none}li{margin:0 0 1.5pt;padding-left:10pt;text-indent:-10pt;break-inside:avoid}
+a{text-decoration:underline;text-underline-offset:1.5pt}
+`;
+
+function texte(c: CvDoc) {
+  const puces = (l: string[]) => (l.length ? `<ul>${l.map((t) => `<li>•&#160;${esc(t)}</li>`).join("")}</ul>` : "");
+  const enClair = (href: string) => `<a href="${esc(href)}">${esc(pretty(href))}</a>`;
+  const contact = [
+    `<a href="mailto:${esc(c.contact.email)}">${esc(c.contact.email)}</a>`,
+    `<a href="${esc(c.contact.telephone)}">${esc(c.contact.telephoneAffiche)}</a>`,
+    enClair(c.contact.site),
+    enClair(c.contact.linkedin),
+    enClair(c.contact.github),
+  ];
+  return `<header>
+<h1>${esc(c.nom)}</h1>
+<div class="ti">${esc(c.role)}</div>
+<p>${c.pills.map(esc).join(" · ")}</p>
+<p>${contact.join(" · ")}</p>
+</header>
+<h2>Profil</h2>
+<p>${esc(c.profile)}</p>
+<h2>${esc(c.h.exp)}</h2>
+${c.exp
+  .map(
+    (e) => `<h3>${esc(e.r)}, ${e.co.map((l) => esc(l.text)).join("")}</h3>
+<p>${esc(e.d)} · ${esc(e.mt)}</p>
+<p>${esc(e.desc)}</p>
+${e.blocks.map((b) => `${b.name ? `<h4>${esc(b.name)}${b.period ? ` (${esc(b.period)})` : ""}</h4>` : ""}${puces(b.bullets)}`).join("")}
+${e.nt ? `<p>${esc(e.nt)}</p>` : ""}`,
+  )
+  .join("")}
+${c.projets.length ? `<h2>Projets</h2>${c.projets.map((pj) => `<h3>${esc(pj.titre)} (${esc(pj.d)})</h3>${pj.href ? `<p>${enClair(pj.href)}</p>` : ""}${puces(pj.bullets)}`).join("")}` : ""}
+<h2>${esc(c.h.skills)}</h2>
+${c.skills.map((g) => `<p><b>${esc(g.name)} :</b> ${g.items.map(esc).join(", ")}</p>`).join("")}
+<h2>${esc(c.h.edu)}</h2>
+${c.edu
+  .map(
+    (f) => `<h3>${esc(f.t)} (${esc(f.d)})</h3>
+<p>${esc([f.tags.map((t) => t.text).join(", "), f.mt].filter(Boolean).join(" · "))}</p>
+${f.note ? `<p>${esc(f.note)}</p>` : ""}`,
+  )
+  .join("")}
+<h2>${esc(c.h.langs)}</h2>
+${c.langs.map((l) => `<p><b>${esc(l.nom)}</b> · ${l.niveau.map(esc).join(" · ")}</p>`).join("")}`;
+}
+
+/** CV texte simple : une colonne, sans photo ni icône (même CvDoc que le CV mis en page). */
+export function cvTexteHtml(c: CvDoc, a: CvAssets): string {
+  const doc: CvDoc = { ...c, h: { ...c.h, exp: "Expériences" } };
+  return `<!doctype html><html lang="${c.lang}"><head><meta charset="utf-8"><title>${esc(c.title)}</title><style>${BASE_CSS(a) + TEXTE_CSS}</style></head><body>${texte(doc)}</body></html>`;
+}
+
 export function cvHtml(c: CvDoc, a: CvAssets): string {
   const css = BASE_CSS(a) + COMPLETE_CSS;
   const body = complete(c, a);

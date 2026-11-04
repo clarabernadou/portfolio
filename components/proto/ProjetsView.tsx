@@ -47,6 +47,7 @@ export function ProjetsView({ v }: { v: any }) {
                         {"Trois projets que je mets en avant. Les autres complètent le portfolio."}
                       </span>
                     </div>
+                    {" "}
                     <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1.25rem`)}>
                       {v.honored.map((p: any, i_p: number) => (
                         <li key={i_p} style={css(`display: grid`)}>
@@ -56,21 +57,26 @@ export function ProjetsView({ v }: { v: any }) {
                                 <span style={css(`letter-spacing: 0.06em; text-transform: uppercase`)}>
                                   <span>{p.type}</span>
                                 </span>
+                                {" "}
                                 <span>
                                   <span>{p.date}</span>
                                 </span>
                               </div>
+                              {" "}
                               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1`)}>
                                 <Link href={p.href} className={"titre-lien"}>
                             {p.name}
                           </Link>
                               </h3>
+                              {" "}
                               <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>
                                 <span>{p.parcours}</span>
                               </span>
+                              {" "}
                               <p style={css(`margin: 0; font-size: 16px; line-height: 1.55`)}>
                                 <span>{p.ctx}</span>
                               </p>
+                              {" "}
                               <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
                                 {p.tags.map((t: any, i_t: number) => (
                                     <li key={i_t} style={css(`padding: 3px 8px; border-radius: 6px; background: #FFFFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
@@ -82,6 +88,7 @@ export function ProjetsView({ v }: { v: any }) {
                                 <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
                                   {"Voir le projet"}
                                 </Link>
+                                {" "}
                                 {p.hasSite && (
                                   <>
                                     <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
@@ -128,6 +135,7 @@ export function ProjetsView({ v }: { v: any }) {
                         <span style={css(`opacity: 0.9`)}>
                           <span>{c.n}</span>
                         </span>
+                        {" "}
                         {c.on && <span className={"visuellement-masque"} aria-hidden={"true"}>{" (sélectionné)"}</span>}
                       </button>
                     </Fragment>
@@ -145,6 +153,7 @@ export function ProjetsView({ v }: { v: any }) {
                         <span style={css(`opacity: 0.9`)}>
                           <span>{c.n}</span>
                         </span>
+                        {" "}
                         {c.on && <span className={"visuellement-masque"} aria-hidden={"true"}>{" (sélectionné)"}</span>}
                       </button>
                     </Fragment>
@@ -160,6 +169,7 @@ export function ProjetsView({ v }: { v: any }) {
                 <span style={css(`font-size: 14px; color: #5B5470`)}>
                   {"Du plus récent au plus ancien."}
                 </span>
+                {" "}
                 {v.filtered && (
                   <>
                     <button type={"button"} onClick={v.reset} style={css(`min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer`)}>
@@ -180,6 +190,7 @@ export function ProjetsView({ v }: { v: any }) {
                           <span style={css(`letter-spacing: 0.06em; text-transform: uppercase`)}>
                             <span>{p.type}</span>
                           </span>
+                          {" "}
                           <span>
                             <span>{p.date}</span>
                           </span>
@@ -247,6 +258,7 @@ export function ProjetsView({ v }: { v: any }) {
                 <span aria-live={"polite"} style={css(`font-size: 15px; color: #5B5470`)}>
                   <span>{v.shownLabel}</span>
                 </span>
+                {" "}
                 {v.hasMore && (
                   <>
                     <button type={"button"} onClick={v.more} style={css(`min-height: 48px; padding: 0 24px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer`)}>
@@ -327,7 +339,7 @@ export function ProjetsView({ v }: { v: any }) {
                   {v.cur.hasPdf && (
                     <>
                       <a href={v.cur.pdfh} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; text-decoration: none`)}>
-                        {`Tous les livrables · ${v.cur.pdfFormat}`}
+                        {v.cur.pdfLabel}
                       </a>
                     </>
                   )}
@@ -371,9 +383,11 @@ export function ProjetsView({ v }: { v: any }) {
                             <span aria-hidden={"true"} style={css(`width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #6A4FB6; background: ${s.bg}; color: ${s.fg}; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0`)}>
                               <span>{s.mark}</span>
                             </span>
+                            {" "}
                             <span style={css(`flex-grow: 1`)}>
                               <span>{s.label}</span>
                             </span>
+                            {" "}
                             <span style={css(`font-size: 13px; font-weight: 700; color: #5B5470`)}>
                               <span>{s.state}</span>
                             </span>
@@ -413,6 +427,7 @@ export function ProjetsView({ v }: { v: any }) {
                               <span aria-hidden={"true"} style={css(`width: 20px; height: 20px; margin-top: 2px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0`)}>
                                 {"✓"}
                               </span>
+                              {" "}
                               <span>
                                 <span>{k}</span>
                               </span>
@@ -437,6 +452,7 @@ export function ProjetsView({ v }: { v: any }) {
                         {"Trois films de présentation bilingues pour le marché nord-américain, réalisés de A à Z : script validé, montage avec Remotion et Claude Code, voix off ElevenLabs et musique, puis déclinaisons en 16:9, 9:16 et 1:1."}
                       </p>
                     </div>
+                    {" "}
                     <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1.25rem`)}>
                       {v.curVideos.map((v: any, i_v: number) => (
                         <li key={i_v} style={css(`display: grid`)}>
@@ -454,6 +470,7 @@ export function ProjetsView({ v }: { v: any }) {
                                       <path d={"M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"} />
                                     </svg>
                                   </span>
+                                  {" "}
                                   <span style={css(`padding: 4px 12px; border-radius: 999px; background: rgba(26,16,51,0.78)`)}>
                                     {"Lire le film"}
                                   </span>
@@ -464,9 +481,11 @@ export function ProjetsView({ v }: { v: any }) {
                               <span style={css(`font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5B5470`)}>
                                 <span>{v.kicker}</span>
                               </span>
+                              {" "}
                               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15`)}>
                                 <span lang={v.lang}>{v.title}</span>
                               </h3>
+                              {" "}
                               <a href={v.url} target={"_blank"} rel={"noopener noreferrer"} style={css(`align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; color: #6A4FB6`)}>
                                 {"Regarder sur YouTube "}
                                 <svg width={"14"} height={"14"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
@@ -499,12 +518,13 @@ export function ProjetsView({ v }: { v: any }) {
                             </button>
                           ) : (
                             <a href={v.cur.pdfh} target={"_blank"} rel={"noopener noreferrer"} style={css(`padding: 10px 0; font-size: 15px; font-weight: 700`)}>
-                              {`Tout ouvrir · ${v.cur.pdfFormat}`}
+                              {v.cur.pdfToutOuvrir}
                             </a>
                           )}
                         </>
                       )}
                     </div>
+                    {" "}
                     <ListeLivrables total={v.cur.docs.length}>
                       {v.cur.docs.map((d: any, i_d: number) => {
                         const carte = `text-decoration: none; color: #1A1033; border-radius: 18px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`;
@@ -522,15 +542,19 @@ export function ProjetsView({ v }: { v: any }) {
                               <span style={css(`position: relative; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 15px; font-weight: 300; color: #C4B5FD`)}>
                                 {`Livrable ${String(d.n).padStart(2, "0")}`}
                               </span>
+                              {" "}
                               <span style={css(`position: relative; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; text-wrap: balance`)}>
                                 {d.label}
                               </span>
+                              {" "}
                               <span style={css(`position: relative; align-self: flex-start; padding: 4px 9px; border-radius: 999px; background: rgba(196,181,253,0.18); color: #C4B5FD; font-size: 13px; font-weight: 800; letter-spacing: 0.06em`)}>
                                 {d.format}
                               </span>
                             </div>
+                            {" "}
                             <div style={css(`padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 15px; font-weight: 700; color: #6A4FB6`)}>
                               <span>{"Ouvrir"}</span>
+                              {" "}
                               <span style={css(`display: inline-flex`)}>
                                 {/* Agrandir (visionneuse) ou ↗ (lien qui sort du site). */}
                                 <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
@@ -543,12 +567,14 @@ export function ProjetsView({ v }: { v: any }) {
                         return (
                           <li key={i_d} style={css(`display: grid`)}>
                             {d.ouvrable ? (
-                              <button type={"button"} onClick={d.ouvrir} aria-haspopup={"dialog"} aria-label={`Ouvrir le livrable ${d.n} : ${d.label} (${d.format})`} style={css(`${carte}; width: 100%; padding: 0; font: inherit; text-align: left; cursor: pointer`)}>
+                              <button type={"button"} onClick={d.ouvrir} aria-haspopup={"dialog"} style={css(`${carte}; width: 100%; padding: 0; font: inherit; text-align: left; cursor: pointer`)}>
                                 {contenu}
                               </button>
                             ) : (
-                              <a href={d.href} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Ouvrir le livrable ${d.n} : ${d.label} (${d.format}, nouvel onglet)`} style={css(carte)}>
+                              <a href={d.href} target={"_blank"} rel={"noopener noreferrer"} style={css(carte)}>
+                                {/* Nom du lien : le texte visible de la carte, plus « nouvel onglet » (WCAG 2.5.3). */}
                                 {contenu}
+                                <span style={css(`position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)`)}>{" (nouvel onglet)"}</span>
                               </a>
                             )}
                           </li>
@@ -566,6 +592,7 @@ export function ProjetsView({ v }: { v: any }) {
                   <span style={css(`font-size: 13px; font-weight: 700; color: #5B5470`)}>
                     {"← Projet précédent"}
                   </span>
+                  {" "}
                   <span style={css(`font-size: 18px; font-weight: 800; color: #1A1033`)}>
                     <span>{v.prevName}</span>
                   </span>
@@ -575,6 +602,7 @@ export function ProjetsView({ v }: { v: any }) {
                   <span style={css(`font-size: 13px; font-weight: 700; color: #5B5470`)}>
                     {"Projet suivant →"}
                   </span>
+                  {" "}
                   <span style={css(`font-size: 18px; font-weight: 800; color: #1A1033`)}>
                     <span>{v.nextName}</span>
                   </span>

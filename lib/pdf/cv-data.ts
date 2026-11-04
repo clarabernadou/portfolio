@@ -1,7 +1,7 @@
 // Données des CV en PDF, assemblées à partir du site (étape 10) : CV en
 // français (version anglaise retirée le 24 oct. 2026). Pur, sans accès à la base.
 import type { CvDoc, Lien } from "./cv-html";
-import type { SiteExperience, SiteFormation, SiteProfile } from "@/lib/data-shared";
+import { ligneFormation, type SiteExperience, type SiteFormation, type SiteProfile } from "@/lib/data-shared";
 import { siteUrl } from "@/lib/site-url";
 
 export interface CvSources {
@@ -53,7 +53,7 @@ export function essentielFr(s: CvSources): CvDoc {
       t: f.intitule,
       url: f.url || undefined,
       tags: [statut(f), ...(f.mode === "En alternance" ? [{ text: f.mode, kind: "info" as const }] : [])],
-      mt: `${f.niveauComplet} · ${f.projets}`,
+      mt: ligneFormation(f),
       note: f.mentionComplementaire,
     })),
   };

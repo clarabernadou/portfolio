@@ -26,6 +26,7 @@ export default async function Profil() {
     generatedAt: fichiers.find((f) => f.name === name)?.generatedAt.toLocaleString("fr-FR", { dateStyle: "medium", timeStyle: "short", timeZone: "Europe/Paris" }) ?? null,
   });
   const essentiel = fichier("CV_Clara_Bernadou_FR.pdf");
+  const texte = fichier("CV_Clara_Bernadou_FR_texte.pdf");
   return (
     <>
       <div>
@@ -36,7 +37,7 @@ export default async function Profil() {
         <ProfileForm initial={profil} />
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <PhotoCard url={photoUrl} alt={profil.photoAlt} custom={photoUrl.startsWith("/media/")} />
-          <PdfCard essentiel={essentiel} />
+          <PdfCard essentiel={essentiel} texte={texte} />
           <RecoList
             items={recos.map((r) => ({
               id: r.id,

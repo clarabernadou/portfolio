@@ -28,7 +28,7 @@ export function Accueil({ home, total, bref, experiences, duree, formations, pro
       valeur: `${duree.ans} an${duree.ans > 1 ? "s" : ""}`,
       libelle: `${duree.mois ? `et ${duree.mois} mois ` : ""}d’expérience professionnelle`,
     },
-    // Lien vers la liste : les projets publics. « En bref » : tous les projets réalisés et les titres (lib/data-shared.ts).
+    // Lien vers la liste et « En bref » : les projets publiés ; titres calculés (lib/data-shared.ts).
     total,
     projetsBref: bref.projets,
     titres: bref.titres,

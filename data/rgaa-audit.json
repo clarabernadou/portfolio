@@ -288,7 +288,7 @@
    "titre": "Chaque lien est-il explicite (hors cas particuliers) ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Corrigé : « Voir le projet » est complété par le nom du projet, « Vannes » et « Auray » par « (carte Google Maps) » ; les noms accessibles reprennent le libellé visible."
+   "constat": "Corrigé : « Voir le projet » est complété par le nom du projet, « Vannes » et « Auray » par « (carte Google Maps) » ; les noms accessibles reprennent le libellé visible, y compris sur les cartes de livrables (texte de la carte, suivi de « (nouvel onglet) » pour un lien externe, 4 nov. 2026)."
   },
   {
    "n": "6.2",

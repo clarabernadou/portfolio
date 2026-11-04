@@ -14,6 +14,7 @@
     "db:migrate": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "test:admin": "node scripts/test-admin-protection.mjs",
+    "test:liens": "node scripts/test-liens-internes.mjs",
     "db:backup": "tsx scripts/db-backup.ts",
     "db:restore": "tsx scripts/db-restore.ts",
     "test:reception": "node scripts/test-admin-protection.mjs && node scripts/test-admin-projets.mjs && node scripts/test-admin-categories.mjs && node scripts/test-admin-contenus.mjs && node scripts/test-admin-cv.mjs && tsx scripts/test-sync-github.ts && tsx scripts/test-restauration.ts"

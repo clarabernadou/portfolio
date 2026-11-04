@@ -1,5 +1,5 @@
 import { css } from "@/lib/css";
-import type { SiteExperience, SiteFormation } from "@/lib/data-shared";
+import { ligneFormation, type SiteExperience, type SiteFormation } from "@/lib/data-shared";
 
 // Expériences et formations rendues depuis les données (étape 9), avec le markup
 // et les styles recopiés tels quels de CvView / AccueilView (sources du prototype).
@@ -37,6 +37,7 @@ function Puces({ items }: { items: string[] }) {
       {items.map((b, i) => (
         <li key={i} style={css(`display: flex; gap: 10px`)}>
           <span style={css(`width: 6px; height: 6px; margin-top: 9px; border-radius: 50%; background: #6A4FB6; flex-shrink: 0`)} />
+          {" "}
           <span>{b}</span>
         </li>
       ))}
@@ -61,6 +62,7 @@ function EnTeteBloc({ name, period }: { name?: string; period?: string }) {
   return (
     <div style={css(`display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px`)}>
       <h4 style={css(`margin: 0; font-size: 16px; font-weight: 800`)}>{name}</h4>
+      {" "}
       {period && <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{period}</span>}
     </div>
   );
@@ -83,10 +85,14 @@ export function CvExperience({ e }: { e: SiteExperience }) {
   return (
     <article style={css(`display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 22px 0; border-top: 1px solid #E4DCF7`)}>
       <span style={css(`flex: 0 0 150px; font-size: 14px; font-weight: 700; color: #5B5470`)}>{e.periode}</span>
+      {" "}
       <div style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
         <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</h3>
+        {" "}
         <Entreprise e={e} />
+        {" "}
         <span style={css(`font-size: 14px; color: #5B5470`)}>{e.lieuMode}</span>
+        {" "}
         <p style={css(`margin: 4px 0 0; font-size: 15px; line-height: 1.55`)}>{e.contexteEssentiel}</p>
         {e.blocs.map((b, i) => {
           const puces = b.bulletsEssentiel;
@@ -95,6 +101,7 @@ export function CvExperience({ e }: { e: SiteExperience }) {
           return (
             <div key={i} style={css(`display: flex; flex-direction: column; gap: 4px; margin-top: 8px`)}>
               <EnTeteBloc name={b.name} period={b.period} />
+              {" "}
               <Puces items={puces} />
             </div>
           );
@@ -113,6 +120,7 @@ function LienFormation({ f, style }: { f: SiteFormation; style: string }) {
       <span aria-hidden={"true"} style={css(`color: #6A4FB6; font-size: 0.75em; margin-left: 6px`)}>
         {"↗"}
       </span>
+      {" "}
       <span style={css(`position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)`)}>{" (page de la formation sur OpenClassrooms)"}</span>
     </a>
   );
@@ -122,21 +130,24 @@ export function CvFormation({ f }: { f: SiteFormation }) {
   return (
     <div style={css(`display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 18px 0; border-top: 1px solid #E4DCF7`)}>
       <span style={css(`flex: 0 0 150px; font-size: 14px; font-weight: 700; color: #5B5470`)}>{f.annees}</span>
+      {" "}
       <div style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 8px`)}>
         <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px`)}>
           <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
             <LienFormation f={f} style={`color: inherit; text-decoration: none`} />
           </h3>{" "}
           <span style={css(f.statut === "En cours" ? STATUT_EN_COURS : `padding: 3px 9px; border-radius: 6px; background: #E7F6EE; color: #067647; font-size: 13px; font-weight: 800`)}>{f.statut}</span>{" "}
-          <span style={css(MODE)}>{f.mode}</span>
+          <span style={css(MODE)}>{f.mode}</span>{" "}
         </div>
-        <span style={css(`font-size: 14px; color: #5B5470`)}>{`${f.niveauComplet} · ${f.projets}`}</span>
+        {" "}
+        <span style={css(`font-size: 14px; color: #5B5470`)}>{ligneFormation(f)}</span>
+        {" "}
         {f.mentionComplementaire && (
           <span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6; font-style: italic`)}>
             <Mention texte={f.mentionComplementaire} />
           </span>
         )}
-      </div>
+      </div>{" "}
     </div>
   );
 }
@@ -145,9 +156,13 @@ export function CarteAlternance({ e }: { e: SiteExperience }) {
   return (
     <article style={css(`border-radius: 20px; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 8px`)}>
       <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{e.periode}</span>
+      {" "}
       <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</h3>
+      {" "}
       <Entreprise e={e} />
+      {" "}
       <span style={css(`font-size: 14px; color: #5B5470`)}>{e.homeCard?.lieuMode ?? e.lieuMode}</span>
+      {" "}
       <Etiquettes items={e.homeCard?.technologies ?? []} style={TAG_TECHNO} label={"Technologies"} marge={"4px"} />
     </article>
   );
@@ -159,15 +174,18 @@ export function FriseFormation({ f }: { f: SiteFormation }) {
       <span className={"tl-dot"} aria-hidden={"true"} />{" "}
       <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
         <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 800; letter-spacing: -0.03em; color: #6A4FB6`)}>{f.annees}</span>
+        {" "}
         <h4 style={css(`margin: 0; font-size: 17px; font-weight: 800; line-height: 1.3`)}>
           <LienFormation f={f} style={`color: inherit; text-decoration: none; `} />
         </h4>
+        {" "}
         <span style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; color: #5B5470`)}>
           <b style={css(`color: #1A1033`)}>{f.diplome}</b>{" "}
           <span style={css(f.statut === "En cours" ? STATUT_EN_COURS : `padding: 3px 9px; border-radius: 6px; background: #E7F6EE; border: 0; color: #067647; font-size: 13px; font-weight: 800`)}>{f.statut}</span>{" "}
-          <span style={css(MODE)}>{f.mode}</span>
+          <span style={css(MODE)}>{f.mode}</span>{" "}
         </span>
-        <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>{f.projets}</span>
+        {" "}
+        {f.projets && <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>{f.projets}</span>}
       </div>
     </li>
   );
