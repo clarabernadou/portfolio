@@ -16,7 +16,7 @@ const H_FR: CvDoc["h"] = { skills: "Compétences", langs: "Langues", exp: "Expé
 // Formations du CV (retours des relecteurs, 4 nov. 2026) : chaque titre sur sa propre entrée, du plus
 // récent au plus ancien, avec ses années sur la même ligne dans le CV texte ; sans nombre de projets
 // (il reste sur le site).
-const sansCompte = (f: SiteFormation) => ({ ...f, projets: /^\d+ projets?$/.test(f.projets.trim()) ? "" : f.projets });
+const sansCompte = (f: SiteFormation) => ({ ...f, projets: /^\d+ projets?( réalisés?)?$/.test(f.projets.trim()) ? "" : f.projets });
 const formationsCv = (formations: SiteFormation[]): CvDoc["edu"] =>
   formations.map((f) => ({
     d: f.annees,

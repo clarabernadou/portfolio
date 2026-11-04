@@ -115,6 +115,8 @@ li{margin:0 0 2.5pt}
 .ft{font-weight:800;font-size:9pt;letter-spacing:-0.01em;word-spacing:0.06em;line-height:1.25}
 .ft a::after{content:'';display:inline-block;width:6pt;height:6pt;margin-left:3pt;vertical-align:1pt;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none' stroke='%236A4FB6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 8 8 2M3.5 2H8v4.5'/%3E%3C/svg%3E") no-repeat center/contain}
 .fo .tags{margin-top:3pt}
+/* Point blanc, invisible sur le fond, entre deux étiquettes : « En cours · En alternance » à l'extraction du texte (logiciels de tri). */
+.tags span.sep{width:0;margin:0 -1.5pt;padding:0;border:0;background:none;overflow:visible;white-space:pre;font-size:6.8pt;color:#FFFFFF;align-self:center}
 .fo .tags .st.ok,.fo .tags .st.info{border:0}
 .st{font-size:6.8pt}
 .fo .mt{font-size:8pt;line-height:1.35;margin-top:3pt}
@@ -159,7 +161,7 @@ ${c.exp
       `<div class="co">${e.co.map(lien).join("")}</div>
   <div class="mt">${esc(e.mt)}</div>
   <div class="ds">${esc(e.desc)}</div>
-  ${e.blocks.map((b) => `<div class="bl">${b.name ? `<div><span class="bt">${esc(b.name)}</span>${b.period ? `<span class="bd">${esc(b.period)}</span>` : ""}</div>` : ""}${puces(b.bullets)}</div>`).join("")}
+  ${e.blocks.map((b) => `<div class="bl">${b.name ? `<div><span class="bt">${esc(b.name)}</span>${b.period ? `<span class="bd">(${esc(b.period)})</span>` : ""}</div>` : ""}${puces(b.bullets)}</div>`).join("")}
   ${e.nt ? `<div class="nt">${esc(e.nt)}</div>` : ""}`,
     ),
   )
@@ -185,7 +187,7 @@ ${c.edu
   .map(
     (f) => `<div class="fo"><span class="d">${esc(f.d)}</span>
   <div class="ft">${f.url ? `<a href="${esc(f.url)}">${esc(f.t)}</a>` : esc(f.t)}</div>
-  <div class="tags">${f.tags.map((t) => `<span class="st ${t.kind}">${esc(t.text)}</span>`).join("")}</div>
+  <div class="tags">${f.tags.map((t) => `<span class="st ${t.kind}">${esc(t.text)}</span>`).join('<span class="sep">·</span>')}</div>
   <div class="mt">${esc(f.mt)}&#160;</div>
   ${f.note ? `<div class="us">${esc(f.note)}&#160;</div>` : ""}
 </div>`,
