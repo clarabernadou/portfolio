@@ -16,7 +16,7 @@ export const experiences: Experience[] = [
     entrepriseParentHref: hrefFor("Digital4Better"),
     periode: "mars 2025 – aujourd’hui",
     lieuMode: "Alternance · Nantes, en télétravail avec des déplacements réguliers",
-    contexteEssentiel: "Plateforme SaaS de numérique responsable (gouvernance de l’IA, accessibilité, impact environnemental), utilisée par de grands comptes. Plus de 95 pull requests fusionnées.",
+    contexteEssentiel: "Plateforme SaaS de numérique responsable (gouvernance de l’IA, accessibilité, impact environnemental), utilisée par de grands comptes. 98 pull requests fusionnées.",
     blocs: [
       {
         name: "Équipe Produit",
