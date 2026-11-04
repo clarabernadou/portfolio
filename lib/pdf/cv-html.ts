@@ -186,8 +186,8 @@ ${c.edu
     (f) => `<div class="fo"><span class="d">${esc(f.d)}</span>
   <div class="ft">${f.url ? `<a href="${esc(f.url)}">${esc(f.t)}</a>` : esc(f.t)}</div>
   <div class="tags">${f.tags.map((t) => `<span class="st ${t.kind}">${esc(t.text)}</span>`).join("")}</div>
-  <div class="mt">${esc(f.mt)}</div>
-  ${f.note ? `<div class="us">${esc(f.note)}</div>` : ""}
+  <div class="mt">${esc(f.mt)}&#160;</div>
+  ${f.note ? `<div class="us">${esc(f.note)}&#160;</div>` : ""}
 </div>`,
   )
   .join("")}
@@ -202,7 +202,7 @@ ${c.edu
 // document est l'ordre de lecture ; les liens s'affichent en toutes lettres.
 const TEXTE_CSS = `
 @page{size:A4;margin:14mm 16mm}
-body{font-size:10pt;line-height:1.45}
+body{font-size:10pt;line-height:1.4}
 h1{font-size:20pt;font-weight:800;letter-spacing:0;word-spacing:normal}
 .ti{font-size:12pt;font-weight:700;margin-top:3pt}
 p{margin:3pt 0 0}
