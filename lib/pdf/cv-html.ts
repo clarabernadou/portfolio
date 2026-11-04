@@ -25,7 +25,7 @@ export interface CvDoc {
     nt?: string;
   }[];
   projets: { titre: string; href?: string; d: string; bullets: string[] }[];
-  edu: { d: string; t: string; url?: string; tags: { text: string; kind: "ok" | "cours" | "info" }[]; mt: string; note?: string; lignes?: string[] }[];
+  edu: { d: string; t: string; url?: string; tags: { text: string; kind: "ok" | "cours" | "info" }[]; mt: string; note?: string }[];
 }
 
 export interface CvAssets {
@@ -117,7 +117,7 @@ li{margin:0 0 2.5pt}
 .fo .tags{margin-top:3pt}
 .fo .tags .st.ok,.fo .tags .st.info{border:0}
 .st{font-size:6.8pt}
-.fo .mt{font-size:8pt;line-height:1.35;margin-top:3pt}.fo .ln{margin-top:4pt}
+.fo .mt{font-size:8pt;line-height:1.35;margin-top:3pt}
 .us{font-size:8pt;line-height:1.35}
 `;
 
@@ -187,7 +187,6 @@ ${c.edu
   <div class="ft">${f.url ? `<a href="${esc(f.url)}">${esc(f.t)}</a>` : esc(f.t)}</div>
   <div class="tags">${f.tags.map((t) => `<span class="st ${t.kind}">${esc(t.text)}</span>`).join("")}</div>
   <div class="mt">${esc(f.mt)}</div>
-  ${f.lignes ? f.lignes.map((l) => `<div class="mt ln">${esc(l)}</div>`).join("") : ""}
   ${f.note ? `<div class="us">${esc(f.note)}</div>` : ""}
 </div>`,
   )
@@ -255,7 +254,6 @@ ${c.edu
   .map(
     (f) => `<h3>${t(f.t)} (${t(f.d)})</h3>
 <p>${t([f.tags.map((x) => x.text).join(", "), f.mt].filter(Boolean).join(", "))}</p>
-${f.lignes ? puces(f.lignes) : ""}
 ${f.note ? `<p>${t(f.note)}</p>` : ""}`,
   )
   .join("")}
