@@ -32,10 +32,11 @@ export function AccueilView({ v }: { v: any }) {
             {" "}
             <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 4vw, 54px); letter-spacing: -0.045em; line-height: 0.98`)}>
               <span style={css(`font-weight: 800; display: block`)}>
-                {"Développeuse front‑end"}
+                {"Développeuse"}
               </span>
+              {" "}
               <span style={css(`font-weight: 300; color: #6A4FB6; display: block`)}>
-                {"& UI/UX designer"}
+                {"full‑stack"}
               </span>
             </h1>
             {" "}
@@ -47,6 +48,7 @@ export function AccueilView({ v }: { v: any }) {
               <a href={"#projets"} style={css(`min-height: 48px; padding: 0 22px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; border: 2px solid #6A4FB6; display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; text-decoration: none`)}>
                 {"Voir les projets"}
               </a>
+              {" "}
               <a href={v.cvUrl} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 48px; padding: 0 22px; border-radius: 999px; background: transparent; color: #1A1033; border: 2px solid #1A1033; display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; text-decoration: none`)}>
                 {"Télécharger le CV"}
               </a>
@@ -62,8 +64,11 @@ export function AccueilView({ v }: { v: any }) {
                 {" "}
                 <div style={css(`display: flex; align-items: center; gap: 6px`)}>
                   <span style={css(`width: 10px; height: 10px; border-radius: 50%; background: #C4B5FD`)} />
+                  {" "}
                   <span style={css(`width: 10px; height: 10px; border-radius: 50%; background: #C4B5FD`)} />
+                  {" "}
                   <span style={css(`width: 10px; height: 10px; border-radius: 50%; background: #C4B5FD`)} />
+                  {" "}
                   <span style={css(`margin-left: 8px; font-size: 13px; font-weight: 700; color: #5B5470`)}>
                     {"Design system · ce portfolio"}
                   </span>
@@ -83,47 +88,62 @@ export function AccueilView({ v }: { v: any }) {
                     <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #5B5470`)}>
                       {"Couleurs"}
                     </span>
+                    {" "}
                     <div style={css(`display: flex; align-items: center; gap: 8px`)}>
                       <span style={css(`width: 22px; height: 22px; border-radius: 6px; background: #1A1033; border: 1px solid #E4DCF7; flex-shrink: 0`)} />
+                      {" "}
                       <span style={css(`font-size: 13px; font-weight: 700`)}>
                         {"Encre"}
                       </span>
+                      {" "}
                       <span style={css(`font-size: 13px; color: #5B5470; margin-left: auto`)}>
                         {"#1A1033"}
                       </span>
                     </div>
+                    {" "}
                     <div style={css(`display: flex; align-items: center; gap: 8px`)}>
                       <span style={css(`width: 22px; height: 22px; border-radius: 6px; background: #6A4FB6; border: 1px solid #E4DCF7; flex-shrink: 0`)} />
+                      {" "}
                       <span style={css(`font-size: 13px; font-weight: 700`)}>
                         {"Améthyste"}
                       </span>
+                      {" "}
                       <span style={css(`font-size: 13px; color: #5B5470; margin-left: auto`)}>
                         {"#6A4FB6"}
                       </span>
                     </div>
+                    {" "}
                     <div style={css(`display: flex; align-items: center; gap: 8px`)}>
                       <span style={css(`width: 22px; height: 22px; border-radius: 6px; background: #C4B5FD; border: 1px solid #E4DCF7; flex-shrink: 0`)} />
+                      {" "}
                       <span style={css(`font-size: 13px; font-weight: 700`)}>
                         {"Lilas"}
                       </span>
+                      {" "}
                       <span style={css(`font-size: 13px; color: #5B5470; margin-left: auto`)}>
                         {"#C4B5FD"}
                       </span>
                     </div>
+                    {" "}
                     <div style={css(`display: flex; align-items: center; gap: 8px`)}>
                       <span style={css(`width: 22px; height: 22px; border-radius: 6px; background: #F3EFFF; border: 1px solid #E4DCF7; flex-shrink: 0`)} />
+                      {" "}
                       <span style={css(`font-size: 13px; font-weight: 700`)}>
                         {"Brume"}
                       </span>
+                      {" "}
                       <span style={css(`font-size: 13px; color: #5B5470; margin-left: auto`)}>
                         {"#F3EFFF"}
                       </span>
                     </div>
+                    {" "}
                     <div style={css(`display: flex; align-items: center; gap: 8px`)}>
                       <span style={css(`width: 22px; height: 22px; border-radius: 6px; background: #5B5470; border: 1px solid #E4DCF7; flex-shrink: 0`)} />
+                      {" "}
                       <span style={css(`font-size: 13px; font-weight: 700`)}>
                         {"Ardoise"}
                       </span>
+                      {" "}
                       <span style={css(`font-size: 13px; color: #5B5470; margin-left: auto`)}>
                         {"#5B5470"}
                       </span>
@@ -138,10 +158,11 @@ export function AccueilView({ v }: { v: any }) {
                     <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 34px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                       {"Aa"}
                     </span>
+                    {" "}
                     <span style={css(`display: flex; flex-direction: column; font-size: 13px; color: #5B5470`)}>
                       <b style={css(`color: #1A1033`)}>
                         {"Bricolage Grotesque"}
-                      </b>
+                      </b>{" "}
                       {"Titres"}
                     </span>
                   </div>
@@ -150,10 +171,11 @@ export function AccueilView({ v }: { v: any }) {
                     <span style={css(`font-size: 32px; font-weight: 500`)}>
                       {"Aa"}
                     </span>
+                    {" "}
                     <span style={css(`display: flex; flex-direction: column; font-size: 13px; color: #5B5470`)}>
                       <b style={css(`color: #1A1033`)}>
                         {"Manrope"}
-                      </b>
+                      </b>{" "}
                       {"Textes"}
                     </span>
                   </div>
@@ -162,6 +184,7 @@ export function AccueilView({ v }: { v: any }) {
                     <span style={css(`padding: 8px 14px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 700`)}>
                       {"Bouton"}
                     </span>
+                    {" "}
                     <span style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
                       {"Tag"}
                     </span>
@@ -237,6 +260,7 @@ export function AccueilView({ v }: { v: any }) {
                 </span>
               </h2>
             </div>
+            {" "}
             <Link href={"/projets"} style={css(`padding: 12px 0; font-size: 16px; font-weight: 700`)}>
               {v.total > 1 ? `Les ${v.total} projets →` : "Voir le projet →"}
             </Link>
@@ -248,6 +272,7 @@ export function AccueilView({ v }: { v: any }) {
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
               {"En entreprise"}
             </h3>
+            {" "}
             <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
               {v.homeEntreprise.map((c: any) => (
                 <li key={c.id}>
@@ -288,6 +313,7 @@ export function AccueilView({ v }: { v: any }) {
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
               {"Développement"}
             </h3>
+            {" "}
             <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
               {v.homeDev.map((c: any) => (
                 <li key={c.id}>
@@ -328,6 +354,7 @@ export function AccueilView({ v }: { v: any }) {
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
               {"Design"}
             </h3>
+            {" "}
             <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
               {v.homeDesign.map((c: any) => (
                 <li key={c.id}>
@@ -392,6 +419,7 @@ export function AccueilView({ v }: { v: any }) {
               <h3 style={css(`margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5470`)}>
                 {"Formations OpenClassrooms"}
               </h3>
+              {" "}
               <ol className={"tl"} aria-label={"Formations OpenClassrooms, de la plus ancienne à la plus récente"}>
                 {v.frise.map((f: any, i_f: number) => (
                   <FriseFormation key={i_f} f={f} />
@@ -418,6 +446,7 @@ export function AccueilView({ v }: { v: any }) {
               <p style={css(`margin: 0; font-size: 19px; line-height: 1.55; color: #C4B5FD`)}>
                 {"J’utilise l’IA tous les jours pour développer, concevoir et produire du contenu. Je choisis l’outil le plus adapté à chaque tâche, et je crée des skills et des routines pour mon équipe et pour moi."}
               </p>
+              {" "}
               <Link href={"/ia"} style={css(`align-self: flex-start; min-height: 48px; padding: 0 22px; border-radius: 999px; background: #FFFFFF; color: #1A1033; display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; text-decoration: none`)}>
                 {"Ma façon de travailler avec l’IA"}
                 <span aria-hidden={"true"}>
@@ -431,9 +460,11 @@ export function AccueilView({ v }: { v: any }) {
                 <span style={css(`font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #C4B5FD`)}>
                   {"Mon IA de prédilection"}
                 </span>
+                {" "}
                 <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 34px; font-weight: 800; letter-spacing: -0.04em; color: #FFFFFF`)}>
                   {"Claude"}
                 </span>
+                {" "}
                 <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
                   <li style={css(`padding: 5px 10px; border-radius: 8px; background: rgba(196,181,253,0.12); border: 1px solid rgba(196,181,253,0.55); color: #C4B5FD; font-size: 14px; font-weight: 700`)}>
                     {"Claude Code"}
@@ -461,6 +492,7 @@ export function AccueilView({ v }: { v: any }) {
               </span>
             </h2>
           </div>
+          {" "}
           <Recommandations items={v.recos} />
         </section>
       </main>

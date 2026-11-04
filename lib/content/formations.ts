@@ -15,7 +15,7 @@ export const formations: Formation[] = [
     niveauComplet: "OpenClassrooms · Titre RNCP niveau 6 « UX/UI Designer » (Bac+3/4)",
     mode: "En alternance",
     statut: "En cours",
-    projets: "8 projets validés sur 11",
+    projets: "En cours · fin prévue en 2027",
   },
   {
     intitule: "Full Stack Java & Angular",
@@ -25,7 +25,7 @@ export const formations: Formation[] = [
     niveauComplet: "OpenClassrooms · Titre RNCP niveau 7 « Expert en développement logiciel » (Bac+5)",
     mode: "En alternance",
     statut: "Obtenu",
-    projets: "13 projets réalisés",
+    projets: "",
     mentionComplementaire:
       "Diplôme américain également délivré par OpenClassrooms : Master’s degree in Computer Software Development",
   },
@@ -37,7 +37,7 @@ export const formations: Formation[] = [
     niveauComplet: "OpenClassrooms · Titre RNCP niveau 6 (Bac+3/4)",
     mode: "En autonomie",
     statut: "Obtenu",
-    projets: "14 projets réalisés",
+    projets: "",
   },
   {
     intitule: "Développeur Web",
@@ -47,6 +47,6 @@ export const formations: Formation[] = [
     niveauComplet: "OpenClassrooms · Titre RNCP niveau 5 (Bac+2)",
     mode: "En autonomie",
     statut: "Obtenu",
-    projets: "7 projets réalisés",
+    projets: "",
   },
 ];

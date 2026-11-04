@@ -60,7 +60,7 @@ export default async function Formations({ searchParams }: { searchParams: Promi
                 <small className="adm-item-kicker">{r.annees}</small>
                 <b className="adm-item-title">{r.intitule}</b>
                 <small className="adm-help">
-                  {r.diplome} · {r.projets}
+                  {r.diplome} · {r.projets || "nombre de projets calculé"}
                 </small>
                 <span className="adm-checks" style={{ gap: 6, marginTop: 6 }}>
                   <span className={`adm-badge adm-badge--${r.statut === "En cours" ? "cours" : "publie"}`}>{r.statut}</span>

@@ -201,7 +201,7 @@ export function pistesRetour(p: ProjetPistes, maintenant = new Date()): Record<C
 }
 
 // ── Priorité pour un recruteur ──────────────────────────────────────────────────────────
-// Ordre des projets à détailler (poste visé : développeuse front-end & UI/UX designer) :
+// Ordre des projets à détailler (poste visé : développeuse full-stack) :
 // l'expérience en entreprise, puis les projets mis en avant, les projets personnels, les
 // formations les plus proches du poste et les plus récentes, et ceux qui ont de quoi être montrés.
 
@@ -222,7 +222,7 @@ const CADRES: Record<string, [number, string]> = {
   "Audit indépendant": [70, "Audit pour un client"],
   "UX Design": [45, "Formation UX, la plus récente"],
   "Application - JavaScript & React": [40, "Formation React, cœur du poste front-end"],
-  "Full Stack - Java & Angular": [35, "Formation Full-Stack"],
+  "Full Stack - Java & Angular": [35, "Formation full-stack"],
   "Développeur Web": [20, "Formation Développeur Web"],
 };
 

@@ -49,7 +49,7 @@ export interface ContexteAvis {
   consigne?: string;
 }
 
-const CLARA = "Clara Bernadou, développeuse front-end & UI/UX designer, qui cherche un CDI de développeuse front-end ou full-stack avec une double compétence UI/UX, disponible en mars 2027";
+const CLARA = "Clara Bernadou, développeuse full-stack, qui cherche un CDI de développeuse full-stack, avec l’UI/UX comme point fort, disponible en mars 2027";
 const REGLE_INVENTER =
   "Ne rien inventer : aucune technologie, aucun chiffre, aucun résultat, aucune responsabilité, aucune méthode, aucun test utilisateur ni aucune mise en production qui ne figure pas dans le texte ou dans les informations fournies. Si une précision rendrait le texte meilleur mais manque, pose une question au lieu de la deviner.";
 const REGLE_CADRE =

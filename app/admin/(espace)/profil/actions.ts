@@ -118,19 +118,24 @@ export async function moveReco(id: number, direction: -1 | 1) {
   refresh();
 }
 
-// Génération du CV essentiel en PDF (ADMIN-et-SYNCHRONISATION.md §5 et critère 7 ter).
-export async function generateEssentiel(): Promise<{ ok: true; pages: number } | { ok: false; error: string; session?: boolean }> {
+// Génération du CV en PDF (ADMIN-et-SYNCHRONISATION.md §5 et critère 7 ter) : les deux présentations
+// du même contenu, mise en page et texte simple (4 nov. 2026).
+export async function generateEssentiel(): Promise<{ ok: true; pages: number; pagesTexte: number } | { ok: false; error: string; session?: boolean }> {
   if (!(await isAdminSession())) return { ok: false, error: "Ta session a expiré.", session: true };
-  const { cvHtml } = await import("@/lib/pdf/cv-html");
+  const { cvHtml, cvTexteHtml } = await import("@/lib/pdf/cv-html");
   const { essentielFr } = await import("@/lib/pdf/cv-data");
   const { loadAssets, loadSources, renderPdf, storeFile } = await import("@/lib/pdf/server");
+  const { CV_MIS_EN_PAGE, CV_TEXTE } = await import("@/lib/pdf/fichiers");
   const [sources, assets] = await Promise.all([loadSources(), loadAssets()]);
   try {
-    const { pdf, pages } = await renderPdf(cvHtml(essentielFr(sources), assets));
-    const name = "CV_Clara_Bernadou_FR.pdf";
-    await storeFile(name, "essentiel", "fr", pdf);
-    await logActivity("cv", name, "CV en PDF généré");
-    return { ok: true, pages };
+    const doc = essentielFr(sources);
+    // L'un après l'autre : un seul Chromium à la fois dans la fonction Vercel.
+    const miseEnPage = await renderPdf(cvHtml(doc, assets));
+    const texte = await renderPdf(cvTexteHtml(doc, assets));
+    await storeFile(CV_MIS_EN_PAGE, "essentiel", "fr", miseEnPage.pdf);
+    await storeFile(CV_TEXTE, "texte", "fr", texte.pdf);
+    await logActivity("cv", CV_MIS_EN_PAGE, "CV en PDF généré (mis en page et texte simple)");
+    return { ok: true, pages: miseEnPage.pages, pagesTexte: texte.pages };
   } catch (e) {
     console.error(e);
     return { ok: false, error: "La génération a échoué : réessaie dans un instant." };

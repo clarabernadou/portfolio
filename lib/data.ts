@@ -6,15 +6,17 @@ import { experiences as experiencesJson } from "./content/experiences";
 import { formations as formationsJson } from "./content/formations";
 import { alternances } from "./content/accueil";
 import { champsRemplis, lireRetour } from "./retour";
+import { avecAudit } from "./accessibilite";
 import { competencesEssentiel, identite, langues, profilCv } from "./content/profile";
 import liensJson from "@/data/liens.json";
 import iaJson from "@/data/ia.json";
 import { siteContact } from "./site-data";
-import { estFormation, plusRecentsDabord } from "./admin/projects";
+import { plusRecentsDabord } from "./admin/projects";
 import { recommendations as recosJson } from "./content/recommendations";
 
 export type { HomeCard, SiteExperience, SiteFormation, SiteProfile, SiteProject, SiteReco } from "./data-shared";
 export { sortFeatured, homeProjects } from "./data-shared";
+import { avecCompteProjets } from "./data-shared";
 
 // Étape 9 : le site lit ses contenus dans la base (modifiables dans l'administration).
 // Sans DATABASE_URL (prévisualisation, tests), il lit les fichiers JSON d'origine :
@@ -46,7 +48,8 @@ async function prisma() {
 }
 
 function fromJson(): SiteProject[] {
-  return (projectsData as Project[]).map((p) => {
+  return (projectsData as Project[]).map((json) => {
+    const p = { ...json, context: avecAudit(json.context) };
     const i = cartesAccueil.findIndex((c) => c.id === p.id);
     if (i < 0) return p;
     const { section, eyebrow, line, tags } = cartesAccueil[i];
@@ -72,7 +75,7 @@ function fromRow(r: ProjectRow): SiteProject {
     github: r.github,
     figma: r.figma,
     site: r.site,
-    context: r.context,
+    context: avecAudit(r.context),
     skillsValidated: r.skillsValidated as string[],
     onHome: r.onHome,
     featured: r.featured,
@@ -99,14 +102,6 @@ export async function getProjetApercu(id: string): Promise<SiteProject | null> {
   if (!hasDb()) return fromJson().find((p) => p.id === id) ?? null;
   const row = await (await prisma()).project.findFirst({ where: { id, deletedAt: null } });
   return row ? fromRow(row) : null;
-}
-
-// « En bref » de l'accueil (choix de Clara, 30 oct. 2026) : tous les projets, publiés ou non.
-// Ici, les projets hors formation (entreprise, perso, audit) ; les projets de formation se
-// comptent avec le nombre indiqué sur chaque fiche de formation.
-async function getCompteProjetsSource(): Promise<{ horsFormation: number }> {
-  const rows = hasDb() ? await (await prisma()).project.findMany({ where: { deletedAt: null }, select: { parcours: true } }) : fromJson();
-  return { horsFormation: rows.filter((p) => !estFormation(p)).length };
 }
 
 async function getFeaturedOrderSource(): Promise<string[]> {
@@ -139,8 +134,13 @@ async function getExperiencesSource(): Promise<SiteExperience[]> {
   }));
 }
 
-// Formations, de la plus récente à la plus ancienne (ordre du CV).
+// Formations, de la plus récente à la plus ancienne (ordre du CV), avec le nombre de projets publiés
+// de chacune (lib/data-shared.ts, avecCompteProjets).
 async function getFormationsSource(): Promise<SiteFormation[]> {
+  return avecCompteProjets(await lireFormations(), await getSiteProjects());
+}
+
+async function lireFormations(): Promise<SiteFormation[]> {
   if (!hasDb()) return formationsJson;
   const rows = await (await prisma()).formation.findMany({ orderBy: [{ position: "asc" }, { id: "asc" }] });
   return rows.map((r) => ({
@@ -202,7 +202,8 @@ async function getProfileSource(): Promise<SiteProfile> {
   if (!hasDb()) return PROFIL_DEFAUT;
   const row = await (await prisma()).singleton.findUnique({ where: { key: "profil" } });
   const data = (row?.data ?? {}) as Partial<SiteProfile>;
-  return "nom" in data ? { ...PROFIL_DEFAUT, ...data } : PROFIL_DEFAUT;
+  if (!("nom" in data)) return PROFIL_DEFAUT;
+  return { ...PROFIL_DEFAUT, ...data, ...(data.projetsCv ? { projetsCv: data.projetsCv.map((pj) => ({ ...pj, puces: pj.puces.map(avecAudit) })) } : {}) };
 }
 
 // Recommandations publiées, dans l'ordre de l'administration.
@@ -245,7 +246,6 @@ async function getIaSource(): Promise<IaContent> {
 
 export const getSiteProjects = uneFoisAuBuild("getSiteProjects", getSiteProjectsSource);
 export const getFeaturedOrder = uneFoisAuBuild("getFeaturedOrder", getFeaturedOrderSource);
-export const getCompteProjets = uneFoisAuBuild("getCompteProjets", getCompteProjetsSource);
 export const getExperiences = uneFoisAuBuild("getExperiences", getExperiencesSource);
 export const getFormations = uneFoisAuBuild("getFormations", getFormationsSource);
 export const getSkills = uneFoisAuBuild("getSkills", getSkillsSource);

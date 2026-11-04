@@ -10,7 +10,7 @@ type Fichier = { name: string; generatedAt: string | null };
 
 // Bloc « CV en PDF » de Profil et CV (maquette Admin-profil-cv.jpg, critère 7 ter).
 // Version anglaise retirée (décision de Clara, 24 oct. 2026) : CV en français seulement.
-export function PdfCard({ essentiel }: { essentiel: Fichier }) {
+export function PdfCard({ essentiel, texte }: { essentiel: Fichier; texte: Fichier }) {
   const router = useRouter();
   const toast = useToast();
   const [error, setError] = useState<string | null>(null);
@@ -21,14 +21,15 @@ export function PdfCard({ essentiel }: { essentiel: Fichier }) {
     <section className="adm-card" aria-labelledby="p-pdf">
       <div>
         <h2 className="adm-h2" id="p-pdf">CV en PDF</h2>
-        <p className="adm-sub">Le PDF reprend le contenu du site.</p>
+        <p className="adm-sub">Les deux PDF reprennent le contenu du site : le CV mis en page, et le CV texte simple pour les logiciels de tri des candidatures. « Générer » refait les deux.</p>
       </div>
       <ul className="adm-list">
         <li>
           <span>
-            <b>CV</b>
+            <b>CV mis en page et CV texte</b>
             <small className="adm-muted" style={{ display: "block", whiteSpace: "normal" }}>
               {date(essentiel)}
+              {texte.generatedAt !== essentiel.generatedAt && ` · CV texte : ${date(texte)}`}
             </small>
           </span>
           <span style={{ display: "flex", gap: 6, alignItems: "center" }}>
@@ -44,7 +45,7 @@ export function PdfCard({ essentiel }: { essentiel: Fichier }) {
                     if (r.session) return router.push("/admin/connexion?expire=1&callbackUrl=/admin/profil");
                     return setError(r.error);
                   }
-                  toast({ message: `CV généré (${r.pages} pages).` });
+                  toast({ message: `CV générés : mis en page (${r.pages} pages) et texte (${r.pagesTexte} pages).` });
                   router.refresh();
                 })
               }
@@ -53,7 +54,11 @@ export function PdfCard({ essentiel }: { essentiel: Fichier }) {
             </button>
             <a className="adm-btn adm-btn--link" href={`/media/cv/${essentiel.name}`} target="_blank" rel="noopener noreferrer">
               <Icon name="external" />
-              Télécharger
+              Mis en page
+            </a>
+            <a className="adm-btn adm-btn--link" href={`/media/cv/${texte.name}`} target="_blank" rel="noopener noreferrer">
+              <Icon name="external" />
+              Texte
             </a>
           </span>
         </li>

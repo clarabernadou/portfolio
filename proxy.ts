@@ -14,7 +14,14 @@ export async function proxy(request: NextRequest) {
   const token = process.env.NEXTAUTH_SECRET
     ? await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET }).catch(() => null)
     : null;
-  if (isAdminGithubId(token?.githubId)) return NextResponse.next();
+  const admin = isAdminGithubId(token?.githubId);
+
+  // Fiche projet (4 nov. 2026) : les visiteurs voient la page publique, ou « en cours de validation »
+  // pour un projet non publié ; connectée, Clara voit l'aperçu à la même adresse, brouillon compris.
+  const fiche = /^\/projets\/([\w-]+)$/.exec(pathname);
+  if (fiche) return admin ? NextResponse.rewrite(new URL(`/apercu/projets/${fiche[1]}`, request.url)) : NextResponse.next();
+
+  if (admin) return NextResponse.next();
 
   if (pathname.startsWith("/api/")) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
@@ -25,5 +32,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*", "/apercu/:path*"],
+  matcher: ["/admin/:path*", "/api/admin/:path*", "/apercu/:path*", "/projets/:id"],
 };

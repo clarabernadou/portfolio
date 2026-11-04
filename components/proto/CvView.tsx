@@ -33,9 +33,11 @@ export function CvView({ v }: { v: any }) {
                 <span style={css(`padding: 6px 12px; border-radius: 999px; background: var(--brume); font-weight: 700`)}>
                   {v.dispo}
                 </span>
+                {" "}
                 <span style={css(`padding: 6px 12px; border-radius: 999px; border: 1px solid var(--bordure)`)}>
                   <Lieu text={v.profil.lieu} />
                 </span>
+                {" "}
                 <span style={css(`padding: 6px 12px; border-radius: 999px; border: 1px solid var(--bordure)`)}>
                   {v.profil.mobilite}
                 </span>
@@ -66,16 +68,24 @@ export function CvView({ v }: { v: any }) {
         {/* Barre du CV, juste au-dessus du contenu : téléchargement du PDF. */}
         <div style={css(`display: flex; flex-direction: column; gap: 2rem`)}>
         <div className={"cv-version"}>
-          {/* Seule la version essentielle est publique, sur la page comme dans le PDF. */}
+          {/* Deux présentations du même CV (4 nov. 2026) : mise en page, et texte simple pour les logiciels de tri. */}
           <div className={"cv-dl"}>
             <a href={v.cvUrl} target={"_blank"} rel={"noopener noreferrer"} className={"cv-dl-btn"} style={css(`padding: 0 22px; border-radius: 999px; background: var(--amethyste); color: var(--fond); border: 2px solid var(--amethyste); display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 700; text-decoration: none`)}>
               <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                 <path d={"M12 4v12M7 11l5 5 5-5M4 20h16"} />
               </svg>
-              {"Télécharger le PDF"}
+              {"CV mis en page · PDF"}
+            </a>
+            {" "}
+            <a href={v.cvTexteUrl} target={"_blank"} rel={"noopener noreferrer"} className={"cv-dl-btn"} style={css(`padding: 0 22px; border-radius: 999px; background: transparent; color: var(--encre); border: 2px solid var(--encre); display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 700; text-decoration: none`)}>
+              <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                <path d={"M12 4v12M7 11l5 5 5-5M4 20h16"} />
+              </svg>
+              {"CV texte · PDF"}
             </a>
           </div>
         </div>
+        {" "}
         <div style={css(`display: flex; flex-wrap: wrap; gap: 3rem; align-items: flex-start`)}>
           {" "}
           <aside style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 1.5rem; border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 26px`)}>
@@ -88,6 +98,7 @@ export function CvView({ v }: { v: any }) {
               {v.skillsEssentiel.map((g: any) => (
                 <div key={g.name} style={css(`display: flex; flex-direction: column; gap: 8px`)}>
                   <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{g.name}</h3>
+                  {" "}
                   <Etiquettes items={g.items} style={`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`} />
                 </div>
               ))}
@@ -97,6 +108,7 @@ export function CvView({ v }: { v: any }) {
               <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
                 {"Langues"}
               </h3>
+              {" "}
               <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
                 {v.profil.langues.map((l: any) => (
                   <div key={l.nom} style={css(`display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; font-size: 15px`)}>
@@ -106,10 +118,10 @@ export function CvView({ v }: { v: any }) {
                     ) : (
                       <div style={css(`display: flex; flex-direction: column; gap: 4px; color: #5B5470; flex: 1 1 200px`)}>
                         {l.niveau.map((n: string) => (
-                          <span key={n}>{n}</span>
+                          <span key={n}>{n} </span>
                         ))}
                       </div>
-                    )}
+                    )}{" "}
                   </div>
                 ))}
               </div>

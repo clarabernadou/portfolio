@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 // `chemin` donne l'adresse canonique de la page (référencement : une seule adresse par contenu).
 // L'image de partage (app/opengraph-image.tsx) est redonnée ici : un bloc openGraph de page
 // remplace celui de la racine.
-export const IMAGE_PARTAGE = { url: "/opengraph-image", width: 1200, height: 630, alt: "Clara Bernadou, développeuse front-end & UI/UX designer" };
+export const IMAGE_PARTAGE = { url: "/opengraph-image", width: 1200, height: 630, alt: "Clara Bernadou, développeuse full-stack" };
 
 export function pageMetadata(title: string, description: string, chemin: string): Metadata {
   return {

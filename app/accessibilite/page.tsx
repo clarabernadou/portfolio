@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { css } from "@/lib/css";
 import { pageMetadata } from "@/lib/metadata";
-import { getProfile } from "@/lib/data";
+import { getProfile, getSiteProjects } from "@/lib/data";
+import { NomProjet } from "@/components/proto/LienProjet";
 import { siteUrl } from "@/lib/site-url";
 import { compte, dateAudit, ECHANTILLON, nonConformes, RAPPORT_PDF, referentiel, taux } from "@/lib/accessibilite";
 
@@ -21,7 +22,10 @@ const LISTE = `margin: 0; padding-left: 1.25rem; display: flex; flex-direction: 
 const dateFr = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 
 export default async function AccessibilitePage() {
-  const profil = await getProfile();
+  const [profil, projets] = await Promise.all([getProfile(), getSiteProjects()]);
+  // Une fiche pas encore publiée n'est jamais un lien (components/proto/LienProjet.tsx).
+  const publics = projets.map((p) => p.id);
+  const publie = (href: string) => !href.startsWith("/projets/") || publics.includes(href.slice("/projets/".length));
   const films = nonConformes.filter((c) => c.n.startsWith("4."));
   return (
     <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 2rem 4.5rem; display: flex; flex-direction: column; gap: 2.5rem`)}>
@@ -77,7 +81,7 @@ export default async function AccessibilitePage() {
         <h3 style={css(H3)}>{"Non-conformités"}</h3>
         <p style={css(P)}>
           {"Les 3 films de la page "}
-          <Link href={"/projets/repositionnement-fruggr"}>{"Repositionnement de Fruggr"}</Link>
+          <NomProjet id={"repositionnement-fruggr"} publics={publics}>{"Repositionnement de Fruggr"}</NomProjet>
           {" :"}
         </p>
         <ul style={css(LISTE)}>
@@ -110,7 +114,7 @@ export default async function AccessibilitePage() {
         <h3 style={css(H3)}>{"Pages vérifiées"}</h3>
         <ul style={css(LISTE)}>
           {ECHANTILLON.map((p) => (
-            <li key={p.label}>{p.href ? <Link href={p.href}>{p.label}</Link> : p.label}</li>
+            <li key={p.label}>{p.href && publie(p.href) ? <Link href={p.href}>{p.label}</Link> : p.href ? `${p.label} (en cours de validation)` : p.label}</li>
           ))}
         </ul>
       </section>

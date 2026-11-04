@@ -4,11 +4,11 @@ import type { CompetenceCategorie, Langue, ProfilCv } from "../types";
 
 export const identite = {
   nom: "Clara Bernadou",
-  intituleSite: "Développeuse front-end & UI/UX designer",
+  intituleSite: "Développeuse full-stack",
   // Titre de l'accueil uniquement : trait d'union insécable (U+2011) dans
-  // accueil.txt pour que « front‑end » ne se coupe jamais en fin de ligne.
-  intituleAccueil: "Développeuse front‑end & UI/UX designer",
-  accroche: "Je conçois et développe des applications web de bout en bout.",
+  // accueil.txt pour que « full‑stack » ne se coupe jamais en fin de ligne.
+  intituleAccueil: "Développeuse full‑stack",
+  accroche: "Je conçois et développe des applications web accessibles (React, TypeScript, Node.js), de la maquette Figma à la mise en production.",
   disponibilite: "CDI · disponible en mars 2027",
   lieu: "Full remote ou Vannes / Auray",
   permis: "Permis B, véhiculée",
@@ -19,23 +19,22 @@ export const langues: Langue[] = [
   {
     nom: "Anglais",
     niveau: [
-      "Lecture et écrit : C1",
+      "Lecture et écriture : C1",
       "Compréhension orale : bonne",
-      "Expression orale : en progression",
+      "Expression orale : B1",
     ],
   },
 ];
 
 export const profilCv: ProfilCv = {
   profilCourt:
-    "Développeuse front-end (React, TypeScript) à double compétence UI/UX. En alternance depuis décembre 2023 sur 2 plateformes SaaS : je développe des fonctionnalités et des refontes de pages, et je conçois leurs maquettes sur Figma. Diplômée Bac+5 en développement logiciel (titre RNCP niveau 7), formation UX/UI Designer en cours.",
+    "Développeuse full-stack (React, TypeScript, Node.js), je conçois et développe des applications web accessibles, de la maquette Figma à la mise en production. Bac+5, en alternance depuis décembre 2023 sur deux plateformes SaaS ; l’IA fait partie de mon quotidien.",
 };
 
 export const competencesEssentiel: CompetenceCategorie[] = [
-  { categorie: "Front-end", items: ["React","TypeScript","JavaScript","Next.js","Vue.js","Tailwind CSS"] },
-  { categorie: "Back-end et données", items: ["Node.js","NestJS","PostgreSQL","MongoDB"] },
-  { categorie: "UI/UX", items: ["Figma","Design system","Prototypage","Recherche utilisateur","Tests utilisateurs","Accessibilité (WCAG, RGAA)"] },
-  { categorie: "Outils", items: ["Git","Docker","Jest","Azure DevOps","Vercel"] },
-  { categorie: "IA", items: ["Claude Code","Cursor","Création de skills Claude"] },
+  { categorie: "Front-end", items: ["React","TypeScript / JavaScript","Next.js","Tailwind CSS"] },
+  { categorie: "Back-end et données", items: ["Node.js","NestJS","SQL (PostgreSQL, MySQL)","MongoDB"] },
+  { categorie: "UI/UX", items: ["Figma","Design system","Prototypage","Architecture de l’information","Accessibilité (WCAG, RGAA)"] },
+  { categorie: "Outils et IA", items: ["Git","Tests (Jest, Playwright)","Claude Code","Skills Claude sur mesure"] },
 ];
 

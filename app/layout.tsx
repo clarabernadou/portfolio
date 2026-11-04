@@ -7,7 +7,7 @@ import { css } from "@/lib/css";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { MemoireNavigation } from "@/components/MemoireNavigation";
 
-const defaultDescription = "Portfolio de Clara Bernadou, développeuse front-end (React, TypeScript) & UI/UX designer.";
+const defaultDescription = "Portfolio de Clara Bernadou, développeuse full-stack (React, TypeScript, Node.js).";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

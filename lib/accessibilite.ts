@@ -16,6 +16,12 @@ const applicables = compte("C") + compte("NC");
 export const taux = Math.round((1000 * compte("C")) / applicables) / 10;
 export const nonConformes = criteres.filter((c) => c.statut === "NC");
 
+// Résultat de l'audit dans les textes saisis en administration (CV, fiche « Ce portfolio ») : la balise
+// {{audit-rgaa}} est remplacée à l'affichage, pour que les chiffres suivent la grille (4 nov. 2026).
+export const BALISE_AUDIT = "{{audit-rgaa}}";
+export const resultatAudit = `audit ${referentiel}, ${compte("C")} critères conformes sur ${applicables} applicables, soit ${String(taux).replace(".", ",")}\u00a0%, sur les ${criteres.length} critères`;
+export const avecAudit = (texte: string) => texte.replaceAll(BALISE_AUDIT, resultatAudit);
+
 /** Rapport d'audit complet (PDF hébergé sur Vercel Blob, généré par scripts/rapport-rgaa.ts). */
 export const RAPPORT_PDF = "https://dwadyuuedgcexv44.public.blob.vercel-storage.com/accessibilite/Rapport_audit_accessibilite_RGAA_Clara_Bernadou.pdf";
 

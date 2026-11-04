@@ -20,15 +20,18 @@ export default async function ApercuProjetPage({ params }: { params: Promise<{ i
   const [projet, publics] = await Promise.all([getProjetApercu(id), getSiteProjects()]);
   if (!projet) notFound();
   // Le projet prend sa place dans la liste publique, pour les liens « précédent / suivant ».
-  const projects = publics.some((p) => p.id === id) ? publics : [projet, ...publics];
+  const publie = publics.some((p) => p.id === id);
+  const projects = publie ? publics : [projet, ...publics];
   return (
     <>
+      {!publie && (
       <p role="status" style={css("margin: 0; padding: 12px 16px; background: var(--brume); color: var(--encre); font-size: 15px; text-align: center; text-wrap: pretty")}>
         <b>Aperçu</b> : ce projet n’est visible que par toi tant qu’il n’est pas publié.{" "}
         <a href={`/admin/projets/${id}`} style={css("color: var(--amethyste); font-weight: 700")}>
           Revenir à la fiche dans l’administration
         </a>
       </p>
+      )}
       <ProjetFiche id={id} projects={projects} />
     </>
   );
