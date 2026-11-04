@@ -6,8 +6,8 @@ import { Icon } from "./icons";
 
 // Bouton « Avis de l'IA » des champs de texte (lib/admin/avis-ia.ts) : relire le texte, ou le
 // compléter en un court paragraphe détaillé à partir des sources (fiche, profil, notes, dépôt
-// GitHub). Voie principale (4 nov. 2026) : prompt à copier dans Claude, réponse à recoller. En option
-// repliée : l'analyse de Google Gemini dans le panneau. Dans les 2 cas, rien n'est enregistré sans Clara.
+// GitHub). Mode intégré : l'analyse de Google Gemini s'affiche dans le panneau. Mode de secours :
+// prompt à copier dans Claude, réponse à recoller. Dans les 2 cas, rien n'est enregistré sans Clara.
 // Les briques exportées servent aussi au panneau « Compléter la fiche » (CompleterFicheIA.tsx).
 
 type Page = Pick<ContexteAvis, "page" | "infos" | "github">;
@@ -317,11 +317,11 @@ export function BlocAvisRecruteur({ avis, recruteur, ouvert }: { avis: Critique;
 }
 
 /**
- * Voie principale (4 nov. 2026) : copier le prompt dans une nouvelle conversation Claude, avec le
- * compte gratuit de Clara, puis recoller sa réponse. Gemini gratuit répondait « high demand » (503)
- * plusieurs jours de suite : il ne reste qu'en option repliée (OptionGemini).
+ * Solution de secours : copier le prompt dans une nouvelle conversation Claude, puis recoller sa
+ * réponse. Quand Gemini échoue (« secours », 4 nov. 2026 : Gemini gratuit répondait « high demand »
+ * plusieurs jours de suite), elle s'affiche d'emblée sous l'erreur ; sinon, dans un volet replié.
  */
-export function OptionClaude({ prompt, pret, reponse, onReponse, idBase, introuvable, children }: { prompt: string; pret: boolean; reponse: string; onReponse: (v: string) => void; idBase: string; introuvable: ReactNode; children?: ReactNode }) {
+export function OptionClaude({ prompt, pret, secours, reponse, onReponse, idBase, introuvable, children }: { prompt: string; pret: boolean; secours: boolean; reponse: string; onReponse: (v: string) => void; idBase: string; introuvable: ReactNode; children?: ReactNode }) {
   // Le message « Prompt copié » ne vaut que pour le prompt copié : il disparaît si le prompt change.
   const [copiePour, setCopiePour] = useState<{ etat: "ok" | "manuel"; prompt: string } | null>(null);
   const copie = copiePour?.prompt === prompt ? copiePour.etat : "";
@@ -351,16 +351,13 @@ export function OptionClaude({ prompt, pret, reponse, onReponse, idBase, introuv
       reponseRef.current?.focus();
     }
   };
-  return (
-    <section className="adm-ia-claude adm-ia-claude--principal" aria-labelledby={`${idBase}-claude`}>
-      <h3 className="adm-label" id={`${idBase}-claude`}>
-        Avec Claude
-      </h3>
+  const etapes = (
+    <>
       <ol className="adm-ia-etapes">
         <li>
           <b>Copier le prompt et ouvrir Claude</b>
           <div className="adm-ia-actions">
-            <button type="button" className="adm-btn" onClick={copierEtOuvrir} disabled={!pret}>
+            <button type="button" className={secours ? "adm-btn" : "adm-btn adm-btn--outline"} onClick={copierEtOuvrir} disabled={!pret}>
               <Icon name="external" />
               {pret ? "Copier et ouvrir Claude" : "Préparation du prompt…"}
               {pret && <span className="adm-sr"> (nouvel onglet)</span>}
@@ -393,16 +390,22 @@ export function OptionClaude({ prompt, pret, reponse, onReponse, idBase, introuv
         </li>
       </ol>
       {children}
-    </section>
+    </>
   );
-}
-
-/** Option repliée : l'analyse automatique par Gemini (offre gratuite, souvent saturée). */
-export function OptionGemini({ children }: { children: ReactNode }) {
+  if (secours)
+    return (
+      <section className="adm-ia-claude adm-ia-claude--secours" aria-labelledby={`${idBase}-claude`}>
+        <h3 className="adm-label" id={`${idBase}-claude`}>
+          Solution de secours : passer par Claude
+        </h3>
+        <p className="adm-help">Gemini ne répond pas : copie le prompt dans Claude, puis recolle sa réponse ici. Tu retrouves ensuite les propositions comme avec Gemini.</p>
+        {etapes}
+      </section>
+    );
   return (
     <details className="adm-ia-claude">
-      <summary>Autre option : analyse automatique par Gemini</summary>
-      <div className="adm-ia-reglages">{children}</div>
+      <summary>Autre option : copier le prompt pour Claude</summary>
+      {etapes}
     </details>
   );
 }
@@ -485,11 +488,40 @@ export function AvisIA({ champ, valeur, max, onReplace, consigne }: { champ: str
             </>
           )}
           <ChoixRecruteur recruteur={recruteur} onChoisir={(r) => (choisir(r), reinit())} />
+          <div className="adm-ia-actions">
+            <button type="button" className="adm-btn" onClick={analyser} disabled={etat.type === "chargement"} aria-describedby={`${titreId}-gemini`}>
+              <Icon name="sparkle" />
+              {etat.type === "chargement" ? (completer ? "Rédaction en cours…" : "Analyse en cours…") : etat.type === "avis" ? (completer ? "Relancer la rédaction" : "Relancer l’analyse") : completer ? "Compléter avec l’IA" : "Analyser avec l’IA"}
+            </button>
+          </div>
+          <p className="adm-help" id={`${titreId}-gemini`}>
+            Analyse par Google Gemini (offre gratuite) : le texte et son contexte{completer ? ", tes notes et le code de ton dépôt GitHub public" : ""} sont envoyés à Google, qui peut s’en servir pour améliorer ses services.
+          </p>
         </div>
+
+        <div aria-live="polite">
+          {etat.type === "chargement" && <Progression etape={etat.etape} libelles={completer ? LIBELLE_COMPLETER : LIBELLE_ETAPE} onAnnuler={annuler} />}
+          {etat.type === "erreur" && (
+            <p className="adm-error" role="alert">
+              {etat.message}
+            </p>
+          )}
+        </div>
+        {etat.type === "avis" && (
+          <div className="adm-ia-resultat">
+            <TitreResultat titreRef={titreResultat} modele={etat.avis.modele} />
+            <Proposition titre="Version proposée" actuel={valeur} texte={etat.avis.proposition} max={max} onReplace={remplacer}>
+              <BlocAVerifier items={etat.avis.affirmationsNonSourcees ?? []} />
+            </Proposition>
+            <BlocQuestions questions={etat.avis.questions} onRepondre={completer ? () => notesRef.current?.focus() : undefined} />
+            <BlocAvisRecruteur avis={etat.avis} recruteur={recruteur} ouvert={!completer} />
+          </div>
+        )}
 
         <OptionClaude
           prompt={prompt}
           pret={claude.pret}
+          secours={etat.type === "erreur"}
           reponse={reponse}
           onReponse={setReponse}
           idBase={titreId}
@@ -497,36 +529,6 @@ export function AvisIA({ champ, valeur, max, onReplace, consigne }: { champ: str
         >
           {propositionClaude && <Proposition titre="Version proposée par Claude" actuel={valeur} texte={propositionClaude} max={max} onReplace={remplacer} />}
         </OptionClaude>
-
-        <OptionGemini>
-          <div className="adm-ia-actions">
-            <button type="button" className="adm-btn adm-btn--outline" onClick={analyser} disabled={etat.type === "chargement"} aria-describedby={`${titreId}-gemini`}>
-              <Icon name="sparkle" />
-              {etat.type === "chargement" ? (completer ? "Rédaction en cours…" : "Analyse en cours…") : etat.type === "avis" ? (completer ? "Relancer la rédaction" : "Relancer l’analyse") : completer ? "Compléter avec Gemini" : "Analyser avec Gemini"}
-            </button>
-          </div>
-          <p className="adm-help" id={`${titreId}-gemini`}>
-            Offre gratuite de Google, souvent saturée. Le texte et son contexte{completer ? ", tes notes et le code de ton dépôt GitHub public" : ""} sont envoyés à Google, qui peut s’en servir pour améliorer ses services.
-          </p>
-          <div aria-live="polite">
-            {etat.type === "chargement" && <Progression etape={etat.etape} libelles={completer ? LIBELLE_COMPLETER : LIBELLE_ETAPE} onAnnuler={annuler} />}
-            {etat.type === "erreur" && (
-              <p className="adm-error" role="alert">
-                {etat.message}
-              </p>
-            )}
-          </div>
-          {etat.type === "avis" && (
-            <div className="adm-ia-resultat">
-              <TitreResultat titreRef={titreResultat} modele={etat.avis.modele} />
-              <Proposition titre="Version proposée" actuel={valeur} texte={etat.avis.proposition} max={max} onReplace={remplacer}>
-                <BlocAVerifier items={etat.avis.affirmationsNonSourcees ?? []} />
-              </Proposition>
-              <BlocQuestions questions={etat.avis.questions} onRepondre={completer ? () => notesRef.current?.focus() : undefined} />
-              <BlocAvisRecruteur avis={etat.avis} recruteur={recruteur} ouvert={!completer} />
-            </div>
-          )}
-        </OptionGemini>
       </dialog>
     </>
   );
