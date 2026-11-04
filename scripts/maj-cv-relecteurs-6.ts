@@ -25,7 +25,8 @@ function reecrire<T>(ou: string, actuel: T, attendu: T, apres: T): T {
   return apres;
 }
 
-// ── Profil : l'UI/UX et l'IA dans l'accroche (adéquation au poste « Développeur Designer »), un chiffre dès le début ──
+// ── Profil : l'UI/UX, l'accessibilité et l'IA dans l'accroche (adéquation au poste « Développeur Designer »),
+// le back-end calibré comme dans les expériences (ponctuel), un chiffre dès le début ──
 type Profil = Record<string, unknown> & { profilEssentiel: string };
 const rowProfil = await prisma.singleton.findUniqueOrThrow({ where: { key: "profil" } });
 const profil = structuredClone(rowProfil.data) as unknown as Profil;
@@ -33,7 +34,7 @@ profil.profilEssentiel = reecrire(
   "Profil · résumé du CV",
   profil.profilEssentiel,
   "Développeuse Full-Stack, je conçois et développe des applications web accessibles jusqu’à la mise en production : front-end en React, Next.js et TypeScript, évolutions back-end en NestJS. 3 ans d’alternance sur deux plateformes SaaS, Bac+5 en développement logiciel.",
-  "Développeuse Full-Stack, je conçois et développe des applications web accessibles, du design UI/UX à la mise en production : front-end en React, Next.js et TypeScript, évolutions back-end en NestJS. 3 ans d’alternance sur deux plateformes SaaS, plus de 95 pull requests fusionnées chez Fruggr, et l’IA au quotidien (6 skills Claude).",
+  "Développeuse Full-Stack, je conçois et développe des applications web accessibles (WCAG, RGAA), du design UI/UX au front-end en React, Next.js et TypeScript, avec des évolutions back-end ponctuelles en NestJS. 3 ans d’alternance sur deux plateformes SaaS, plus de 95 pull requests fusionnées chez Fruggr, et l’IA au quotidien (6 skills Claude).",
 );
 
 // ── Fruggr : puces plus courtes, skills Claude sans sous-titre « Transverse » ──
@@ -62,7 +63,7 @@ puce(
   "Fruggr · puce WordPress",
   blocsFruggr.find((b) => b.name === "Équipe Marketing : développement web et contenus"),
   "Développé le thème WordPress du site Fruggr (9 blocs sur mesure, pied de page, type de contenu «\u00a0ressource\u00a0», 23 pull requests depuis juillet 2026) et conçu le nouveau site WordPress de Digital4Better (maquettes Figma, mise en page)",
-  "Développé le thème WordPress du site Fruggr (9 blocs sur mesure, 23 pull requests) et conçu le nouveau site de Digital4Better (maquettes Figma, mise en page)",
+  "Construit le thème WordPress du site Fruggr (9 blocs sur mesure, 23 pull requests) et conçu le nouveau site de Digital4Better (maquettes Figma, mise en page)",
 );
 const transverse = blocsFruggr.find((b) => b.name === "Transverse : automatisation par l’IA");
 if (!transverse) erreurs.push("Fruggr · bloc Transverse introuvable");
