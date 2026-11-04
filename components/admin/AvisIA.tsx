@@ -6,8 +6,8 @@ import { Icon } from "./icons";
 
 // Bouton « Avis de l'IA » des champs de texte (lib/admin/avis-ia.ts) : relire le texte, ou le
 // compléter en un court paragraphe détaillé à partir des sources (fiche, profil, notes, dépôt
-// GitHub). Mode intégré : l'analyse de Google Gemini s'affiche dans le panneau. Mode de secours :
-// prompt à copier dans Claude, réponse à recoller. Dans les 2 cas, rien n'est enregistré sans Clara.
+// GitHub). Voie principale (4 nov. 2026) : prompt à copier dans Claude, réponse à recoller. En option
+// repliée : l'analyse de Google Gemini dans le panneau. Dans les 2 cas, rien n'est enregistré sans Clara.
 // Les briques exportées servent aussi au panneau « Compléter la fiche » (CompleterFicheIA.tsx).
 
 type Page = Pick<ContexteAvis, "page" | "infos" | "github">;
@@ -143,13 +143,16 @@ export function useModale(dialog: RefObject<HTMLDialogElement | null>, auFermer:
 }
 
 /** Profil pour l'IA (privé) et résumé du dépôt GitHub, lus à l'ouverture pour le prompt Claude. */
+// « pret » : tant que le profil n'est pas arrivé, le prompt copié serait incomplet (constaté le 4 nov. 2026).
 export function useSourcesClaude() {
-  const [sources, setSources] = useState({ profil: "", depot: "" });
-  const charger = (github?: string) =>
-    fetch(`/api/admin/avis-ia${github ? `?github=${encodeURIComponent(github)}` : ""}`)
+  const [sources, setSources] = useState({ profil: "", depot: "", pret: false });
+  const charger = (github?: string) => {
+    setSources({ profil: "", depot: "", pret: false });
+    return fetch(`/api/admin/avis-ia${github ? `?github=${encodeURIComponent(github)}` : ""}`)
       .then((r) => (r.ok ? r.json() : {}))
-      .then((d: { profil?: string; depot?: string }) => setSources({ profil: d.profil ?? "", depot: d.depot ?? "" }))
-      .catch(() => setSources({ profil: "", depot: "" }));
+      .then((d: { profil?: string; depot?: string }) => setSources({ profil: d.profil ?? "", depot: d.depot ?? "", pret: true }))
+      .catch(() => setSources({ profil: "", depot: "", pret: true }));
+  };
   return { ...sources, charger };
 }
 
@@ -313,13 +316,19 @@ export function BlocAvisRecruteur({ avis, recruteur, ouvert }: { avis: Critique;
   );
 }
 
-/** Mode de secours : copier le prompt dans Claude, recoller sa réponse. */
-export function OptionClaude({ prompt, ouvert, onOuvert, reponse, onReponse, idBase, introuvable, children }: { prompt: string; ouvert: boolean; onOuvert: (o: boolean) => void; reponse: string; onReponse: (v: string) => void; idBase: string; introuvable: ReactNode; children?: ReactNode }) {
+/**
+ * Voie principale (4 nov. 2026) : copier le prompt dans une nouvelle conversation Claude, avec le
+ * compte gratuit de Clara, puis recoller sa réponse. Gemini gratuit répondait « high demand » (503)
+ * plusieurs jours de suite : il ne reste qu'en option repliée (OptionGemini).
+ */
+export function OptionClaude({ prompt, pret, reponse, onReponse, idBase, introuvable, children }: { prompt: string; pret: boolean; reponse: string; onReponse: (v: string) => void; idBase: string; introuvable: ReactNode; children?: ReactNode }) {
   // Le message « Prompt copié » ne vaut que pour le prompt copié : il disparaît si le prompt change.
   const [copiePour, setCopiePour] = useState<{ etat: "ok" | "manuel"; prompt: string } | null>(null);
   const copie = copiePour?.prompt === prompt ? copiePour.etat : "";
   const setCopie = (etat: "ok" | "manuel") => setCopiePour({ etat, prompt });
   const [voirPrompt, setVoirPrompt] = useState(false);
+  const [collage, setCollage] = useState<"" | "vide" | "manuel">("");
+  const reponseRef = useRef<HTMLTextAreaElement>(null);
   const copierEtOuvrir = async () => {
     try {
       await navigator.clipboard.writeText(prompt);
@@ -330,24 +339,38 @@ export function OptionClaude({ prompt, ouvert, onOuvert, reponse, onReponse, idB
     }
     window.open("https://claude.ai/new", "_blank", "noopener,noreferrer");
   };
+  // Lecture du presse-papiers : le navigateur peut demander l'autorisation, ou la refuser.
+  const collerReponse = async () => {
+    try {
+      const texte = await navigator.clipboard.readText();
+      if (!texte.trim()) return setCollage("vide");
+      onReponse(texte);
+      setCollage("");
+    } catch {
+      setCollage("manuel");
+      reponseRef.current?.focus();
+    }
+  };
   return (
-    <details className="adm-ia-claude" open={ouvert} onToggle={(e) => onOuvert(e.currentTarget.open)}>
-      <summary>Autre option : copier le prompt pour Claude</summary>
+    <section className="adm-ia-claude adm-ia-claude--principal" aria-labelledby={`${idBase}-claude`}>
+      <h3 className="adm-label" id={`${idBase}-claude`}>
+        Avec Claude
+      </h3>
       <ol className="adm-ia-etapes">
         <li>
           <b>Copier le prompt et ouvrir Claude</b>
           <div className="adm-ia-actions">
-            <button type="button" className="adm-btn adm-btn--outline" onClick={copierEtOuvrir}>
+            <button type="button" className="adm-btn" onClick={copierEtOuvrir} disabled={!pret}>
               <Icon name="external" />
-              Copier et ouvrir Claude
-              <span className="adm-sr"> (nouvel onglet)</span>
+              {pret ? "Copier et ouvrir Claude" : "Préparation du prompt…"}
+              {pret && <span className="adm-sr"> (nouvel onglet)</span>}
             </button>
             <button type="button" className="adm-btn adm-btn--link" aria-expanded={voirPrompt} onClick={() => setVoirPrompt((v) => !v)}>
               {voirPrompt ? "Masquer le prompt" : "Voir le prompt"}
             </button>
           </div>
           <p className="adm-help" role="status">
-            {copie === "ok" && "Prompt copié : colle-le dans la conversation Claude (Cmd + V)."}
+            {copie === "ok" && "Prompt copié : colle-le dans la conversation Claude (Cmd + V) et envoie-le. Quand Claude a fini, copie toute sa réponse (bouton Copier sous la réponse) et reviens ici."}
             {copie === "manuel" && "La copie automatique a échoué : sélectionne le prompt ci-dessous et copie-le."}
           </p>
           {voirPrompt && <textarea className="adm-textarea adm-ia-prompt" readOnly rows={10} value={prompt} aria-label="Prompt pour Claude" onFocus={(e) => e.currentTarget.select()} />}
@@ -356,11 +379,30 @@ export function OptionClaude({ prompt, ouvert, onOuvert, reponse, onReponse, idB
           <label className="adm-label" htmlFor={`${idBase}-reponse`}>
             <b>Coller la réponse de Claude</b>
           </label>
-          <textarea id={`${idBase}-reponse`} className="adm-textarea" rows={6} value={reponse} onChange={(e) => onReponse(e.target.value)} placeholder="Colle ici toute la réponse, avec les propositions." />
+          <div className="adm-ia-actions">
+            <button type="button" className="adm-btn adm-btn--outline" onClick={collerReponse}>
+              Coller la réponse copiée
+            </button>
+          </div>
+          <p className="adm-help" role="status">
+            {collage === "vide" && "Le presse-papiers est vide : copie d’abord la réponse de Claude."}
+            {collage === "manuel" && "Le navigateur n’a pas autorisé la lecture du presse-papiers : colle la réponse dans le champ ci-dessous (Cmd + V)."}
+          </p>
+          <textarea ref={reponseRef} id={`${idBase}-reponse`} className="adm-textarea" rows={6} value={reponse} onChange={(e) => onReponse(e.target.value)} placeholder="Ou colle ici toute la réponse, avec les propositions." />
           {introuvable && <p className="adm-error">{introuvable}</p>}
         </li>
       </ol>
       {children}
+    </section>
+  );
+}
+
+/** Option repliée : l'analyse automatique par Gemini (offre gratuite, souvent saturée). */
+export function OptionGemini({ children }: { children: ReactNode }) {
+  return (
+    <details className="adm-ia-claude">
+      <summary>Autre option : analyse automatique par Gemini</summary>
+      <div className="adm-ia-reglages">{children}</div>
     </details>
   );
 }
@@ -375,7 +417,6 @@ export function AvisIA({ champ, valeur, max, onReplace, consigne }: { champ: str
   const { recruteur, choisir, relire } = useRecruteur();
   const { etat, lancer, annuler, arreter, reinit } = useAnalyse<Avis>();
   const claude = useSourcesClaude();
-  const [modeClaude, setModeClaude] = useState(false);
   const [reponse, setReponse] = useState("");
   const [mode, setMode] = useState<Mode>("relire");
   const [notes, setNotes] = useState("");
@@ -395,10 +436,7 @@ export function AvisIA({ champ, valeur, max, onReplace, consigne }: { champ: str
     claude.charger(page?.github);
   };
 
-  const analyser = async () => {
-    const r = await lancer({ texte: valeur, ctx, recruteur, mode, notes: completer ? notes : "" });
-    if (r.sansCle) setModeClaude(true);
-  };
+  const analyser = () => lancer({ texte: valeur, ctx, recruteur, mode, notes: completer ? notes : "" });
 
   const remplacer = (v: string) => {
     onReplace(v);
@@ -447,40 +485,11 @@ export function AvisIA({ champ, valeur, max, onReplace, consigne }: { champ: str
             </>
           )}
           <ChoixRecruteur recruteur={recruteur} onChoisir={(r) => (choisir(r), reinit())} />
-          <div className="adm-ia-actions">
-            <button type="button" className="adm-btn" onClick={analyser} disabled={etat.type === "chargement"} aria-describedby={`${titreId}-gemini`}>
-              <Icon name="sparkle" />
-              {etat.type === "chargement" ? (completer ? "Rédaction en cours…" : "Analyse en cours…") : etat.type === "avis" ? (completer ? "Relancer la rédaction" : "Relancer l’analyse") : completer ? "Compléter avec l’IA" : "Analyser avec l’IA"}
-            </button>
-          </div>
-          <p className="adm-help" id={`${titreId}-gemini`}>
-            Analyse par Google Gemini (offre gratuite) : le texte et son contexte{completer ? ", tes notes et le code de ton dépôt GitHub public" : ""} sont envoyés à Google, qui peut s’en servir pour améliorer ses services.
-          </p>
         </div>
-
-        <div aria-live="polite">
-          {etat.type === "chargement" && <Progression etape={etat.etape} libelles={completer ? LIBELLE_COMPLETER : LIBELLE_ETAPE} onAnnuler={annuler} />}
-          {etat.type === "erreur" && (
-            <p className="adm-error" role="alert">
-              {etat.message}
-            </p>
-          )}
-        </div>
-        {etat.type === "avis" && (
-          <div className="adm-ia-resultat">
-            <TitreResultat titreRef={titreResultat} modele={etat.avis.modele} />
-            <Proposition titre="Version proposée" actuel={valeur} texte={etat.avis.proposition} max={max} onReplace={remplacer}>
-              <BlocAVerifier items={etat.avis.affirmationsNonSourcees ?? []} />
-            </Proposition>
-            <BlocQuestions questions={etat.avis.questions} onRepondre={completer ? () => notesRef.current?.focus() : undefined} />
-            <BlocAvisRecruteur avis={etat.avis} recruteur={recruteur} ouvert={!completer} />
-          </div>
-        )}
 
         <OptionClaude
           prompt={prompt}
-          ouvert={modeClaude}
-          onOuvert={setModeClaude}
+          pret={claude.pret}
           reponse={reponse}
           onReponse={setReponse}
           idBase={titreId}
@@ -488,6 +497,36 @@ export function AvisIA({ champ, valeur, max, onReplace, consigne }: { champ: str
         >
           {propositionClaude && <Proposition titre="Version proposée par Claude" actuel={valeur} texte={propositionClaude} max={max} onReplace={remplacer} />}
         </OptionClaude>
+
+        <OptionGemini>
+          <div className="adm-ia-actions">
+            <button type="button" className="adm-btn adm-btn--outline" onClick={analyser} disabled={etat.type === "chargement"} aria-describedby={`${titreId}-gemini`}>
+              <Icon name="sparkle" />
+              {etat.type === "chargement" ? (completer ? "Rédaction en cours…" : "Analyse en cours…") : etat.type === "avis" ? (completer ? "Relancer la rédaction" : "Relancer l’analyse") : completer ? "Compléter avec Gemini" : "Analyser avec Gemini"}
+            </button>
+          </div>
+          <p className="adm-help" id={`${titreId}-gemini`}>
+            Offre gratuite de Google, souvent saturée. Le texte et son contexte{completer ? ", tes notes et le code de ton dépôt GitHub public" : ""} sont envoyés à Google, qui peut s’en servir pour améliorer ses services.
+          </p>
+          <div aria-live="polite">
+            {etat.type === "chargement" && <Progression etape={etat.etape} libelles={completer ? LIBELLE_COMPLETER : LIBELLE_ETAPE} onAnnuler={annuler} />}
+            {etat.type === "erreur" && (
+              <p className="adm-error" role="alert">
+                {etat.message}
+              </p>
+            )}
+          </div>
+          {etat.type === "avis" && (
+            <div className="adm-ia-resultat">
+              <TitreResultat titreRef={titreResultat} modele={etat.avis.modele} />
+              <Proposition titre="Version proposée" actuel={valeur} texte={etat.avis.proposition} max={max} onReplace={remplacer}>
+                <BlocAVerifier items={etat.avis.affirmationsNonSourcees ?? []} />
+              </Proposition>
+              <BlocQuestions questions={etat.avis.questions} onRepondre={completer ? () => notesRef.current?.focus() : undefined} />
+              <BlocAvisRecruteur avis={etat.avis} recruteur={recruteur} ouvert={!completer} />
+            </div>
+          )}
+        </OptionGemini>
       </dialog>
     </>
   );

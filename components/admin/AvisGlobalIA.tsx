@@ -11,6 +11,7 @@ import {
   LIBELLE_COMPLETER,
   NotesIA,
   OptionClaude,
+  OptionGemini,
   Progression,
   TitreResultat,
   useAnalyse,
@@ -41,7 +42,6 @@ export function AvisGlobalIA({ fiche, titre, intro, onAppliquer }: { fiche: Fich
   const { recruteur, choisir, relire } = useRecruteur();
   const { etat, lancer, annuler, arreter, reinit } = useAnalyse<AvisFiche>();
   const claude = useSourcesClaude();
-  const [modeClaude, setModeClaude] = useState(false);
   const [reponse, setReponse] = useState("");
   const [notes, setNotes] = useState("");
   const titreResultat = useFocusResultat(etat.type === "avis");
@@ -58,10 +58,7 @@ export function AvisGlobalIA({ fiche, titre, intro, onAppliquer }: { fiche: Fich
     claude.charger(fiche.github);
   };
 
-  const analyser = async () => {
-    const r = await lancer({ cible: "fiche", fiche, recruteur, notes });
-    if (r.sansCle) setModeClaude(true);
-  };
+  const analyser = () => lancer({ cible: "fiche", fiche, recruteur, notes });
 
   const appliquer = (c: Changements) => {
     onAppliquer(c);
@@ -90,38 +87,11 @@ export function AvisGlobalIA({ fiche, titre, intro, onAppliquer }: { fiche: Fich
           </p>
           <NotesIA id={`${titreId}-notes`} valeur={notes} onChange={setNotes} champRef={notesRef} />
           <ChoixRecruteur recruteur={recruteur} onChoisir={(r) => (choisir(r), reinit())} />
-          <div className="adm-ia-actions">
-            <button type="button" className="adm-btn" onClick={analyser} disabled={etat.type === "chargement"} aria-describedby={`${titreId}-gemini`}>
-              <Icon name="sparkle" />
-              {etat.type === "chargement" ? "Analyse en cours…" : etat.type === "avis" ? "Relancer l’analyse" : "Lancer l’analyse"}
-            </button>
-          </div>
-          <p className="adm-help" id={`${titreId}-gemini`}>
-            Analyse par Google Gemini (offre gratuite) : la fiche, tes notes{fiche.github ? " et le code de ton dépôt GitHub public" : ""} sont envoyés à Google, qui peut s’en servir pour améliorer ses services.
-          </p>
         </div>
-
-        <div aria-live="polite">
-          {etat.type === "chargement" && <Progression etape={etat.etape} libelles={LIBELLE_COMPLETER} onAnnuler={annuler} />}
-          {etat.type === "erreur" && (
-            <p className="adm-error" role="alert">
-              {etat.message}
-            </p>
-          )}
-        </div>
-        {etat.type === "avis" && (
-          <div className="adm-ia-resultat">
-            <TitreResultat titreRef={titreResultat} modele={etat.avis.modele} />
-            <ChoixPropositions key={JSON.stringify(etat.avis.champs)} fiche={fiche} propositions={etat.avis} onAppliquer={appliquer} />
-            <BlocQuestions questions={etat.avis.questions} onRepondre={() => notesRef.current?.focus()} />
-            <BlocAvisRecruteur avis={etat.avis} recruteur={recruteur} ouvert={false} />
-          </div>
-        )}
 
         <OptionClaude
           prompt={prompt}
-          ouvert={modeClaude}
-          onOuvert={setModeClaude}
+          pret={claude.pret}
           reponse={reponse}
           onReponse={setReponse}
           idBase={titreId}
@@ -129,6 +99,34 @@ export function AvisGlobalIA({ fiche, titre, intro, onAppliquer }: { fiche: Fich
         >
           {propositionsClaude && <ChoixPropositions key={reponse} fiche={fiche} propositions={propositionsClaude} onAppliquer={appliquer} />}
         </OptionClaude>
+
+        <OptionGemini>
+          <div className="adm-ia-actions">
+            <button type="button" className="adm-btn adm-btn--outline" onClick={analyser} disabled={etat.type === "chargement"} aria-describedby={`${titreId}-gemini`}>
+              <Icon name="sparkle" />
+              {etat.type === "chargement" ? "Analyse en cours…" : etat.type === "avis" ? "Relancer l’analyse" : "Lancer l’analyse avec Gemini"}
+            </button>
+          </div>
+          <p className="adm-help" id={`${titreId}-gemini`}>
+            Offre gratuite de Google, souvent saturée. La fiche, tes notes{fiche.github ? " et le code de ton dépôt GitHub public" : ""} sont envoyés à Google, qui peut s’en servir pour améliorer ses services.
+          </p>
+          <div aria-live="polite">
+            {etat.type === "chargement" && <Progression etape={etat.etape} libelles={LIBELLE_COMPLETER} onAnnuler={annuler} />}
+            {etat.type === "erreur" && (
+              <p className="adm-error" role="alert">
+                {etat.message}
+              </p>
+            )}
+          </div>
+          {etat.type === "avis" && (
+            <div className="adm-ia-resultat">
+              <TitreResultat titreRef={titreResultat} modele={etat.avis.modele} />
+              <ChoixPropositions key={JSON.stringify(etat.avis.champs)} fiche={fiche} propositions={etat.avis} onAppliquer={appliquer} />
+              <BlocQuestions questions={etat.avis.questions} onRepondre={() => notesRef.current?.focus()} />
+              <BlocAvisRecruteur avis={etat.avis} recruteur={recruteur} ouvert={false} />
+            </div>
+          )}
+        </OptionGemini>
       </dialog>
     </>
   );

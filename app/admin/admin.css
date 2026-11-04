@@ -202,6 +202,7 @@
 .adm-ia-claude { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--bordure); }
 .adm-ia-claude summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 700; color: var(--amethyste); }
 .adm-ia-claude[open] summary { margin-bottom: 10px; }
+.adm-ia-claude--principal > h3 { margin: 0 0 12px; font-size: 15px; color: var(--encre); }
 /* Avis de l'IA : avancement de l'analyse (étape réelle, durée estimée) et annulation. */
 .adm-ia-progression { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
 .adm-ia-progression-tete { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
