@@ -20,8 +20,7 @@ export const langues: Langue[] = [
     nom: "Anglais",
     niveau: [
       "Lecture et écriture : C1",
-      "Compréhension orale : bonne",
-      "Expression orale : B1",
+      "Compréhension et expression orales : B1",
     ],
   },
 ];

@@ -21,7 +21,7 @@ export const experiences: Experience[] = [
       {
         name: "Équipe Produit",
         period: "mars 2025 – juin 2026",
-        bulletsEssentiel: ["Développement front-end en React et TypeScript de la plateforme : 75 pull requests fusionnées en 15 mois (fonctionnalités, refontes, corrections)","Refonte de la barre de navigation, de la page d’accueil par offre et de tableaux de bord ; passage des modules Services et Infra à la nouvelle charte UI","Module d’accessibilité : génération de la déclaration d’accessibilité, repérage des quick wins, corrections de critères RGAA, export CSV","Seule designer UI/UX de l’équipe Produit après le départ de l’alternante en design, sous la supervision du PO : maquettes et évolutions sur Figma, ateliers de conception","Évolutions back-end ponctuelles en NestJS et MongoDB ; tests unitaires, relecture de code, déploiements de la préproduction à la production (Azure)"],
+        bulletsEssentiel: ["Développement front-end en React et TypeScript de la plateforme : 75 pull requests fusionnées en 15 mois (fonctionnalités, refontes, corrections)","Refonte de la barre de navigation, de la page d’accueil par offre et de tableaux de bord ; passage des modules Services et Infra à la nouvelle charte UI","Module d’accessibilité : génération de la déclaration d’accessibilité, repérage des quick wins, corrections de critères RGAA, export CSV","Seule designer UI/UX de l’équipe Produit après le départ de l’alternante en design, sous la supervision du PO : maquettes et évolutions sur Figma, ateliers de conception","Évolutions back-end ponctuelles en NestJS et MongoDB ; relecture de code, déploiements de la préproduction à la production (Azure)"],
       },
       {
         name: "Équipe Marketing : sites web et contenus",

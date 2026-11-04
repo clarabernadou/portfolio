@@ -1,4 +1,5 @@
-// Positionnement « développeuse full-stack » (demande de Clara, 4 nov. 2026) : textes stockés en base.
+// Positionnement « développeuse full-stack » (demande de Clara, 4 nov. 2026), puis retours des relecteurs du CV
+// (RH, manager, logiciel de tri, même jour) : textes stockés en base.
 // La base est partagée avec le site en ligne : par défaut, le script affiche seulement les changements
 // (avant / après). Avec --appliquer, il les écrit, après une sauvegarde (npm run db:backup).
 // Chaque remplacement part du texte exact attendu : si la base a changé entre-temps, rien n'est écrit.
@@ -26,6 +27,17 @@ function fixer<T>(ou: string, avant: T, apres: T): T {
   if (JSON.stringify(avant) !== JSON.stringify(apres)) changements.push({ ou, avant, apres });
   return apres;
 }
+// Remplace une valeur entière (liste de puces…) seulement si elle est exactement celle attendue.
+// Comparaison indépendante de l'ordre des clés (la base les range à sa façon).
+const stable = (v: unknown): string =>
+  Array.isArray(v) ? `[${v.map(stable).join(",")}]` : v && typeof v === "object" ? `{${Object.keys(v).sort().map((k) => `${k}:${stable((v as Record<string, unknown>)[k])}`).join(",")}}` : JSON.stringify(v);
+function reecrire<T>(ou: string, actuel: T, attendu: T, apres: T): T {
+  if (stable(actuel) !== stable(attendu)) {
+    erreurs.push(`${ou} : valeur actuelle différente de celle attendue`);
+    return actuel;
+  }
+  return fixer(ou, actuel, apres);
+}
 
 // ── Profil et CV ──────────────────────────────────────────────────────────────
 type Profil = Record<string, unknown> & {
@@ -49,36 +61,150 @@ profil.profilEssentiel = fixer(
 profil.chiffreCle = fixer("Profil · chiffre clé de « En bref »", profil.chiffreCle, { valeur: "95+", libelle: "Plus de 95 pull requests fusionnées chez Fruggr" });
 const anglais = profil.langues.find((l) => l.nom === "Anglais");
 if (!anglais) erreurs.push("Profil · langue « Anglais » introuvable");
-else anglais.niveau = fixer("Profil · anglais", anglais.niveau, anglais.niveau.map((n) => n.replace("Lecture et écrit : C1", "Lecture et écriture : C1").replace("Expression orale : en progression", "Expression orale : B1")));
+else anglais.niveau = reecrire("Profil · anglais", anglais.niveau, ["Lecture et écrit : C1", "Compréhension orale : bonne", "Expression orale : en progression"], ["Lecture et écriture : C1", "Compréhension et expression orales : B1"]);
+// Retours des relecteurs du CV (RH, manager, logiciel de tri), 4 nov. 2026 : puces commençant par un verbe.
+profil.disponibilite = fixer("Profil · disponibilité", profil.disponibilite as string, "disponible en mars 2027 (fin d’alternance)");
+profil.lieu = fixer("Profil · lieu", profil.lieu, "Full remote (télétravail) ou Vannes / Auray");
 const portfolioCv = profil.projetsCv.find((p) => p.titre === "Portfolio");
 if (!portfolioCv) erreurs.push("Profil · projet du CV « Portfolio » introuvable");
-else portfolioCv.puces = portfolioCv.puces.map((p, i) => (p.startsWith("Accessibilité : Lighthouse") ? remplacer(`Profil · projet du CV, puce ${i + 1}`, p, p, "Accessibilité : {{audit-rgaa}}") : p));
+else
+  portfolioCv.puces = reecrire(
+    "Profil · projet du CV « Portfolio », puces",
+    portfolioCv.puces,
+    [
+      "Projet personnel mené seule de A à Z : charte graphique, architecture de l’information, wireframes, maquettes et prototype, puis développement et mise en ligne",
+      "Next.js, TypeScript et Tailwind CSS ; base MySQL avec Prisma ; administration sur mesure réservée à mon compte GitHub (Auth.js)",
+      "Synchronisation automatique des dépôts GitHub, CV en PDF généré depuis l’administration (Playwright), hébergement sur Vercel",
+      "Accessibilité : Lighthouse 100 et 0 erreur axe sur les pages principales, audit RGAA des 106 critères",
+    ],
+    [
+      "Conçu et développé seule, de A à Z : charte graphique, architecture de l’information, wireframes, maquettes et prototype, puis développement et mise en ligne",
+      "Développé en Next.js, TypeScript et Tailwind CSS, avec une base MySQL (Prisma) et une administration sur mesure réservée à mon compte GitHub (Auth.js)",
+      "Automatisé la synchronisation des dépôts GitHub et la génération du CV en PDF depuis l’administration (Playwright) ; hébergement sur Vercel",
+      "Accessibilité : {{audit-rgaa}}",
+    ],
+  );
 profil.noteIA = remplacer("Profil · profil pour l’IA", profil.noteIA, "Clara Bernadou, développeuse front-end & UI/UX designer.", "Clara Bernadou, développeuse full-stack, avec l’UI/UX comme point fort.");
+profil.noteIA = remplacer("Profil · profil pour l’IA", profil.noteIA, "évolutions back-end ponctuelles en NestJS et MongoDB, tests unitaires, relecture de code", "évolutions back-end ponctuelles en NestJS et MongoDB (nouvelles routes d'API), relecture de code");
+profil.noteIA = remplacer("Profil · profil pour l’IA", profil.noteIA, "back-end NestJS et PostgreSQL ;", "back-end NestJS et PostgreSQL, tests unitaires ;");
 
 // ── Expériences ───────────────────────────────────────────────────────────────
-type Bloc = { name?: string; bulletsEssentiel: string[] };
+type Bloc = { name?: string; period?: string; bulletsEssentiel: string[] };
 const experiences = await prisma.experience.findMany();
+// Puces du CV : un verbe en tête, le détail des modules condensé, les missions éloignées du
+// développement regroupées dans « Autres missions » (retours des relecteurs, 4 nov. 2026).
+const PUCES_FRUGGR: { avant: Bloc; apres: Bloc }[] = [
+  {
+    avant: {
+      name: "Équipe Produit",
+      period: "mars 2025 – juin 2026",
+      bulletsEssentiel: [
+        "Développement front-end en React et TypeScript de la plateforme : 75 pull requests fusionnées en 15 mois (fonctionnalités, refontes, corrections)",
+        "Refontes transverses, de la maquette Figma jusqu'au code : barre de navigation, page d'accueil par offre et tableaux de bord",
+        "Évolutions sur les modules de la plateforme : gouvernance de l’IA (crédits IA, audit SGQRI 008), accessibilité (déclaration d’accessibilité, critères RGAA), ESG-IT, Parc IT (matériel reconditionné, inventaire), Services et Infra (passage à la nouvelle charte UI)",
+        "Reprise du design UI/UX de la plateforme, seule designer de l’équipe Produit sous la supervision du PO : maquettes et évolutions sur Figma, ateliers de conception",
+        "Évolutions back-end ponctuelles en NestJS et MongoDB ; tests unitaires, relecture de code, déploiements de la préproduction à la production (Azure)",
+      ],
+    },
+    apres: {
+      name: "Équipe Produit",
+      period: "mars 2025 – juin 2026",
+      bulletsEssentiel: [
+        "Développé en React et TypeScript des fonctionnalités, refontes et corrections de la plateforme : 75 pull requests fusionnées en 15 mois",
+        "Refondu, de la maquette Figma jusqu’au code, la barre de navigation, la page d’accueil par offre et les tableaux de bord",
+        "Fait évoluer les modules gouvernance de l’IA, accessibilité (déclaration d’accessibilité, critères RGAA), ESG-IT et Parc IT ; appliqué la nouvelle charte UI aux modules Services et Infra",
+        "Repris le design UI/UX de la plateforme, seule designer de l’équipe Produit sous la supervision du PO : maquettes et évolutions sur Figma, ateliers de conception",
+        "Réalisé des évolutions back-end ponctuelles en NestJS et MongoDB : routes d’API et gestion des données jusqu’au front-end ; relu du code, déployé de la préproduction à la production (Azure)",
+      ],
+    },
+  },
+  {
+    avant: {
+      name: "Équipe Marketing : développement web et contenus",
+      period: "depuis juin 2026",
+      bulletsEssentiel: [
+        "Développement du thème WordPress du site Fruggr : 9 nouveaux blocs sur mesure (frise, cartes, bannières, FAQ, cas clients), pied de page et type de contenu « ressource » ; 23 pull requests depuis juillet 2026",
+        "Nouveau site WordPress de Digital4Better : maquettes Figma et mise en page complète",
+        "Audits UI/UX, accessibilité (WCAG, RGAA) et SEO technique de sites, avec recommandations priorisées ; correction des erreurs et avertissements relevés par Semrush",
+        "Participation au repositionnement de Fruggr : saga de 3 films bilingues réalisée de A à Z, du script validé au rendu (Remotion en React, voix off ElevenLabs)",
+      ],
+    },
+    apres: {
+      name: "Équipe Marketing : développement web et contenus",
+      period: "depuis juin 2026",
+      bulletsEssentiel: [
+        "Développé le thème WordPress du site Fruggr : 9 nouveaux blocs sur mesure (frise, cartes, bannières, FAQ, cas clients), pied de page et type de contenu « ressource » ; 23 pull requests depuis juillet 2026",
+        "Conçu sur Figma et mis en page le nouveau site WordPress de Digital4Better",
+        "Réalisé en React (Remotion) une saga de 3 films bilingues pour le repositionnement de Fruggr",
+      ],
+    },
+  },
+  {
+    avant: {
+      name: "Transverse : automatisation par l’IA",
+      bulletsEssentiel: ["Création de 6 skills Claude pour automatiser des tâches récurrentes de mon poste (visuels LinkedIn, intégration d’articles WordPress, audits de sites), proposés à l’équipe"],
+    },
+    apres: {
+      name: "Autres missions",
+      bulletsEssentiel: [
+        "Réalisé des audits UI/UX, d’accessibilité (WCAG, RGAA) et de SEO technique de sites, avec des recommandations priorisées ; corrigé les erreurs et avertissements relevés par Semrush",
+        "Créé 6 skills Claude pour automatiser des tâches récurrentes de mon poste (visuels LinkedIn, intégration d’articles WordPress, audits de sites), proposés à l’équipe",
+      ],
+    },
+  },
+];
+const PUCES_CARBONSCORE = {
+  avant: [
+    "Au sein d’une équipe produit de 4 personnes, interventions sur l’ensemble de la plateforme : page d’accueil, tableau de bord, gamification, FAQ et page profil",
+    "Modules de quiz et de formations : intégration de nouveaux quiz et de nouvelles formations, mise en page des contenus",
+    "Évolution continue du design de la plateforme sur Figma, puis intégration en Vue.js (Vuetify, Pinia) et TypeScript ; back-end NestJS et PostgreSQL",
+    "Méthode agile (dailies, tickets Jira, documentation Confluence), sur des environnements personnels, de préproduction et de production",
+    "Présentation de CarbonScore au salon VivaTech, en représentant TechUpClimate",
+  ],
+  apres: [
+    "Fait évoluer l’ensemble de la plateforme au sein d’une équipe produit de 4 personnes : page d’accueil, tableau de bord, gamification, FAQ et page profil",
+    "Intégré de nouveaux quiz et de nouvelles formations, et mis en page leurs contenus",
+    "Fait évoluer le design de la plateforme sur Figma, puis intégré les maquettes en Vue.js (Vuetify, Pinia) et TypeScript ; réalisé des évolutions back-end en NestJS et PostgreSQL (routes d’API, gestion des données), avec des tests unitaires",
+    "Travaillé en méthode agile (dailies, tickets Jira, documentation Confluence), sur des environnements personnels, de préproduction et de production",
+    "Présenté CarbonScore au salon VivaTech, en représentant TechUpClimate",
+  ],
+};
 const expMaj = experiences.map((e) => {
-  const blocs = structuredClone(e.blocs) as unknown as Bloc[];
+  let blocs = structuredClone(e.blocs) as unknown as Bloc[];
   const poste = remplacer(`${e.entreprise} · poste`, e.poste, "Développeuse Full-Stack & UI Designer", "Développeuse full-stack & UI designer");
   let contexte = e.contexteEssentiel;
+  let note = e.note;
   if (e.entreprise === "Fruggr") {
     contexte = remplacer("Fruggr · contexte", contexte, "utilisée par de grands comptes.", "utilisée par de grands comptes. Plus de 95 pull requests fusionnées.");
-    const marketing = blocs.find((b) => b.name?.startsWith("Équipe Marketing"));
-    if (!marketing) erreurs.push("Fruggr · bloc Marketing introuvable");
-    else
-      marketing.bulletsEssentiel = marketing.bulletsEssentiel.map((b) =>
-        b.startsWith("Participation au repositionnement de Fruggr") ? remplacer("Fruggr · Marketing, puce des films", b, b, "Saga de 3 films bilingues pour le repositionnement de Fruggr (Remotion en React)") : b,
-      );
+    blocs = reecrire(
+      "Fruggr · blocs et puces",
+      blocs,
+      PUCES_FRUGGR.map((b) => b.avant),
+      PUCES_FRUGGR.map((b) => b.apres),
+    );
+  } else if (e.entreprise === "CarbonScore") {
+    // Seules les puces du CV changent : les autres champs du bloc (technologies…) restent.
+    const bloc = blocs[0];
+    if (!bloc) erreurs.push("CarbonScore · bloc introuvable");
+    else bloc.bulletsEssentiel = reecrire("CarbonScore · puces", bloc.bulletsEssentiel, PUCES_CARBONSCORE.avant, PUCES_CARBONSCORE.apres);
+    if (note) note = remplacer("CarbonScore · note", note, "Rachat de TechUpClimate par Digital4Better en 2025 : mission poursuivie chez Fruggr, sans interruption.", "Rachat de TechUpClimate par Digital4Better en 2025, mission poursuivie chez Fruggr sans interruption.");
   }
-  return { id: e.id, poste, contexteEssentiel: contexte, blocs };
+  return { id: e.id, poste, contexteEssentiel: contexte, blocs, note };
 });
+
+// ── Compétences : HTML et CSS, cités par les offres ; Java et Angular, du Bac+5 (accord de Clara, 4 nov. 2026) ──
+const frontEnd = await prisma.skillGroup.findFirst({ where: { version: "essentiel", name: "Front-end" } });
+const itemsFront = frontEnd && reecrire("Compétences · Front-end", frontEnd.items as string[], ["React", "TypeScript / JavaScript", "Next.js", "Tailwind CSS"], ["React", "TypeScript / JavaScript", "HTML / CSS", "Next.js", "Tailwind CSS", "Angular"]);
+if (!frontEnd) erreurs.push("Compétences · groupe Front-end introuvable");
+const backEnd = await prisma.skillGroup.findFirst({ where: { version: "essentiel", name: "Back-end et données" } });
+const itemsBack = backEnd && reecrire("Compétences · Back-end et données", backEnd.items as string[], ["Node.js", "NestJS", "SQL (PostgreSQL, MySQL)", "MongoDB"], ["Node.js", "NestJS", "Java (Spring Boot)", "SQL (PostgreSQL, MySQL)", "MongoDB"]);
+if (!backEnd) erreurs.push("Compétences · groupe Back-end et données introuvable");
 
 // ── Formations : le nombre de projets est calculé (projets publiés), sauf mention ──
 const formations = await prisma.formation.findMany();
 const formMaj = formations.map((f) => ({
   id: f.id,
-  projets: fixer(`Formation ${f.intitule} · projets`, f.projets, f.statut === "En cours" ? "En cours · fin prévue en 2027" : ""),
+  projets: fixer(`Formation ${f.intitule} · projets`, f.projets, f.statut === "En cours" ? "Fin prévue en 2027" : ""),
 }));
 
 // ── Projets ───────────────────────────────────────────────────────────────────
@@ -123,6 +249,8 @@ if (process.argv.includes("--apercu-cv")) {
   Object.assign(prisma.experience, { findMany: async (a: never) => (await lireExp(a)).map((e) => ({ ...e, ...expMaj.find((m) => m.id === e.id) })) });
   const lireForm = prisma.formation.findMany.bind(prisma.formation);
   Object.assign(prisma.formation, { findMany: async (a: never) => (await lireForm(a)).map((f) => ({ ...f, ...formMaj.find((m) => m.id === f.id) })) });
+  const lireSkills = prisma.skillGroup.findMany.bind(prisma.skillGroup);
+  Object.assign(prisma.skillGroup, { findMany: async (a: never) => (await lireSkills(a)).map((s) => (s.id === frontEnd?.id ? { ...s, items: itemsFront } : s.id === backEnd?.id ? { ...s, items: itemsBack } : s)) });
   const { cvHtml, cvTexteHtml } = await import("../lib/pdf/cv-html");
   const { essentielFr } = await import("../lib/pdf/cv-data");
   const { loadAssets, loadSources, renderPdf } = await import("../lib/pdf/server");
@@ -141,7 +269,9 @@ if (!appliquer) {
 }
 await prisma.$transaction([
   prisma.singleton.update({ where: { key: "profil" }, data: { data: profil as never } }),
-  ...expMaj.map((e) => prisma.experience.update({ where: { id: e.id }, data: { poste: e.poste, contexteEssentiel: e.contexteEssentiel, blocs: e.blocs as never } })),
+  ...expMaj.map((e) => prisma.experience.update({ where: { id: e.id }, data: { poste: e.poste, contexteEssentiel: e.contexteEssentiel, blocs: e.blocs as never, note: e.note } })),
+  ...(frontEnd && itemsFront ? [prisma.skillGroup.update({ where: { id: frontEnd.id }, data: { items: itemsFront } })] : []),
+  ...(backEnd && itemsBack ? [prisma.skillGroup.update({ where: { id: backEnd.id }, data: { items: itemsBack } })] : []),
   ...formMaj.map((f) => prisma.formation.update({ where: { id: f.id }, data: { projets: f.projets } })),
   prisma.project.update({ where: { id: "portfolio" }, data: { context: ctxPortfolio, steps: etapesPortfolio as never } }),
   prisma.project.update({ where: { id: "les-bambinets" }, data: { date: dateBambinets, context: ctxBambinets } }),
