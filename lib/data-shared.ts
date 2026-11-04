@@ -117,7 +117,7 @@ export function enBref(formations: Pick<Formation, "diplome" | "statut" | "intit
 }
 
 // Ligne « projets » de chaque formation (4 nov. 2026) : le nombre de projets publiés de la formation,
-// le même que le filtre de /projets. Une mention saisie dans l'administration (« En cours · fin prévue
+// le même que le filtre de /projets. Une mention saisie dans l'administration (« Fin prévue
 // en 2027 ») le remplace ; sans projet publié ni mention, la ligne est vide.
 export function avecCompteProjets<F extends Pick<Formation, "intitule" | "projets">>(formations: F[], publics: Pick<Project, "parcours">[]): F[] {
   return formations.map((f) => {

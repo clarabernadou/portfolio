@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { avecCompteProjets, commenceParCadre, enBref, ligneFormation, phraseCadre } from "@/lib/data-shared";
 
 const formations = [
-  { intitule: "UX Design", projets: "En cours · fin prévue en 2027", diplome: "Bac+3/4", statut: "En cours" as const },
+  { intitule: "UX Design", projets: "Fin prévue en 2027", diplome: "Bac+3/4", statut: "En cours" as const },
   { intitule: "Full Stack - Java & Angular", projets: "", diplome: "Bac+5", statut: "Obtenu" as const },
   { intitule: "Application - JavaScript & React", projets: "", diplome: "Bac+3/4", statut: "Obtenu" as const },
   { intitule: "Développeur Web", projets: "", diplome: "Bac+2", statut: "Obtenu" as const },
@@ -36,7 +36,7 @@ describe("avecCompteProjets", () => {
     expect(web.projets).toBe("1 projet");
   });
   it("garde la mention saisie dans l'administration à la place du nombre", () => {
-    expect(ux.projets).toBe("En cours · fin prévue en 2027");
+    expect(ux.projets).toBe("Fin prévue en 2027");
   });
   it("laisse la ligne vide sans projet publié, sans séparateur orphelin", () => {
     expect(react.projets).toBe("");

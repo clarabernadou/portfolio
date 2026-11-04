@@ -25,7 +25,7 @@ export interface CvDoc {
     nt?: string;
   }[];
   projets: { titre: string; href?: string; d: string; bullets: string[] }[];
-  edu: { d: string; t: string; url?: string; tags: { text: string; kind: "ok" | "cours" | "info" }[]; mt: string; note?: string }[];
+  edu: { d: string; t: string; url?: string; tags: { text: string; kind: "ok" | "cours" | "info" }[]; mt: string; note?: string; lignes?: string[] }[];
 }
 
 export interface CvAssets {
@@ -117,7 +117,7 @@ li{margin:0 0 2.5pt}
 .fo .tags{margin-top:3pt}
 .fo .tags .st.ok,.fo .tags .st.info{border:0}
 .st{font-size:6.8pt}
-.fo .mt{font-size:8pt;line-height:1.35;margin-top:3pt}
+.fo .mt{font-size:8pt;line-height:1.35;margin-top:3pt}.fo .ln{margin-top:4pt}
 .us{font-size:8pt;line-height:1.35}
 `;
 
@@ -160,7 +160,7 @@ ${c.exp
   <div class="mt">${esc(e.mt)}</div>
   <div class="ds">${esc(e.desc)}</div>
   ${e.blocks.map((b) => `<div class="bl">${b.name ? `<div><span class="bt">${esc(b.name)}</span>${b.period ? `<span class="bd">${esc(b.period)}</span>` : ""}</div>` : ""}${puces(b.bullets)}</div>`).join("")}
-  ${e.nt ? `<div class="nt">→ ${esc(e.nt)}</div>` : ""}`,
+  ${e.nt ? `<div class="nt">${esc(e.nt)}</div>` : ""}`,
     ),
   )
   .join("")}
@@ -187,6 +187,7 @@ ${c.edu
   <div class="ft">${f.url ? `<a href="${esc(f.url)}">${esc(f.t)}</a>` : esc(f.t)}</div>
   <div class="tags">${f.tags.map((t) => `<span class="st ${t.kind}">${esc(t.text)}</span>`).join("")}</div>
   <div class="mt">${esc(f.mt)}</div>
+  ${f.lignes ? f.lignes.map((l) => `<div class="mt ln">${esc(l)}</div>`).join("") : ""}
   ${f.note ? `<div class="us">${esc(f.note)}</div>` : ""}
 </div>`,
   )
@@ -214,8 +215,12 @@ ul{margin:2pt 0 0;padding:0;list-style:none}li{margin:0 0 1.5pt;padding-left:10p
 a{text-decoration:underline;text-underline-offset:1.5pt}
 `;
 
+// Logiciels de tri : des virgules à la place des points médians, qui peuvent être mal lus.
+const virgules = (s: string) => s.replaceAll(" · ", ", ");
+
 function texte(c: CvDoc) {
-  const puces = (l: string[]) => (l.length ? `<ul>${l.map((t) => `<li>•&#160;${esc(t)}</li>`).join("")}</ul>` : "");
+  const t = (s: string) => esc(virgules(s));
+  const puces = (l: string[]) => (l.length ? `<ul>${l.map((x) => `<li>•&#160;${t(x)}</li>`).join("")}</ul>` : "");
   const enClair = (href: string) => `<a href="${esc(href)}">${esc(pretty(href))}</a>`;
   const contact = [
     `<a href="mailto:${esc(c.contact.email)}">${esc(c.contact.email)}</a>`,
@@ -226,35 +231,36 @@ function texte(c: CvDoc) {
   ];
   return `<header>
 <h1>${esc(c.nom)}</h1>
-<div class="ti">${esc(c.role)}</div>
-<p>${c.pills.map(esc).join(" · ")}</p>
-<p>${contact.join(" · ")}</p>
+<div class="ti">${t(c.role)}</div>
+<p>${c.pills.map(t).join(", ")}</p>
+<p>${contact.join(" | ")}</p>
 </header>
 <h2>Profil</h2>
-<p>${esc(c.profile)}</p>
+<p>${t(c.profile)}</p>
 <h2>${esc(c.h.exp)}</h2>
 ${c.exp
   .map(
-    (e) => `<h3>${esc(e.r)}, ${e.co.map((l) => esc(l.text)).join("")}</h3>
-<p>${esc(e.d)} · ${esc(e.mt)}</p>
-<p>${esc(e.desc)}</p>
-${e.blocks.map((b) => `${b.name ? `<h4>${esc(b.name)}${b.period ? ` (${esc(b.period)})` : ""}</h4>` : ""}${puces(b.bullets)}`).join("")}
-${e.nt ? `<p>${esc(e.nt)}</p>` : ""}`,
+    (e) => `<h3>${t(e.r)}, ${e.co.map((l) => esc(l.text)).join("")}</h3>
+<p>${t(e.d)}, ${t(e.mt)}</p>
+<p>${t(e.desc)}</p>
+${e.blocks.map((b) => `${b.name ? `<h4>${t(b.name)}${b.period ? ` (${t(b.period)})` : ""}</h4>` : ""}${puces(b.bullets)}`).join("")}
+${e.nt ? `<p>${t(e.nt)}</p>` : ""}`,
   )
   .join("")}
-${c.projets.length ? `<h2>Projets</h2>${c.projets.map((pj) => `<h3>${esc(pj.titre)} (${esc(pj.d)})</h3>${pj.href ? `<p>${enClair(pj.href)}</p>` : ""}${puces(pj.bullets)}`).join("")}` : ""}
+${c.projets.length ? `<h2>Projets</h2>${c.projets.map((pj) => `<h3>${t(pj.titre)} (${t(pj.d)})</h3>${pj.href ? `<p>${enClair(pj.href)}</p>` : ""}${puces(pj.bullets)}`).join("")}` : ""}
 <h2>${esc(c.h.skills)}</h2>
-${c.skills.map((g) => `<p><b>${esc(g.name)} :</b> ${g.items.map(esc).join(", ")}</p>`).join("")}
+${c.skills.map((g) => `<p><b>${t(g.name)} :</b> ${g.items.map(t).join(", ")}</p>`).join("")}
 <h2>${esc(c.h.edu)}</h2>
 ${c.edu
   .map(
-    (f) => `<h3>${esc(f.t)} (${esc(f.d)})</h3>
-<p>${esc([f.tags.map((t) => t.text).join(", "), f.mt].filter(Boolean).join(" · "))}</p>
-${f.note ? `<p>${esc(f.note)}</p>` : ""}`,
+    (f) => `<h3>${t(f.t)} (${t(f.d)})</h3>
+<p>${t([f.tags.map((x) => x.text).join(", "), f.mt].filter(Boolean).join(", "))}</p>
+${f.lignes ? puces(f.lignes) : ""}
+${f.note ? `<p>${t(f.note)}</p>` : ""}`,
   )
   .join("")}
 <h2>${esc(c.h.langs)}</h2>
-${c.langs.map((l) => `<p><b>${esc(l.nom)}</b> · ${l.niveau.map(esc).join(" · ")}</p>`).join("")}`;
+${c.langs.map((l) => `<p><b>${t(l.nom)}</b> (${l.niveau.map(t).join(", ")})</p>`).join("")}`;
 }
 
 /** CV texte simple : une colonne, sans photo ni icône (même CvDoc que le CV mis en page). */

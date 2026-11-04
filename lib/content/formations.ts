@@ -15,7 +15,7 @@ export const formations: Formation[] = [
     niveauComplet: "OpenClassrooms · Titre RNCP niveau 6 « UX/UI Designer » (Bac+3/4)",
     mode: "En alternance",
     statut: "En cours",
-    projets: "En cours · fin prévue en 2027",
+    projets: "Fin prévue en 2027",
   },
   {
     intitule: "Full Stack Java & Angular",
