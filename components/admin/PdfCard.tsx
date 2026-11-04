@@ -15,54 +15,54 @@ export function PdfCard({ essentiel, texte }: { essentiel: Fichier; texte: Fichi
   const toast = useToast();
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
-  const date = (f: Fichier) => (f.generatedAt ? `généré le ${f.generatedAt}` : "jamais généré depuis l’administration");
+  const date = (f: Fichier) => (f.generatedAt ? `Généré le ${f.generatedAt}` : "Jamais généré depuis l’administration");
 
   return (
     <section className="adm-card" aria-labelledby="p-pdf">
       <div>
         <h2 className="adm-h2" id="p-pdf">CV en PDF</h2>
-        <p className="adm-sub">Les deux PDF reprennent le contenu du site : le CV mis en page, et le CV texte simple pour les logiciels de tri des candidatures. « Générer » refait les deux.</p>
+        <p className="adm-sub">Les deux PDF reprennent le contenu du site : le CV mis en page, et le CV texte simple pour les logiciels de tri des candidatures. « Générer les deux CV » les refait ensemble.</p>
       </div>
+      {/* Une ligne par fichier (nom, date, lien), puis un seul bouton qui refait les deux : la colonne
+          latérale est étroite, tout sur une ligne écrasait le titre (retour de Clara, 4 nov. 2026). */}
       <ul className="adm-list">
-        <li>
-          <span>
-            <b>CV mis en page et CV texte</b>
-            <small className="adm-muted" style={{ display: "block", whiteSpace: "normal" }}>
-              {date(essentiel)}
-              {texte.generatedAt !== essentiel.generatedAt && ` · CV texte : ${date(texte)}`}
-            </small>
-          </span>
-          <span style={{ display: "flex", gap: 6, alignItems: "center" }}>
-            <button
-              type="button"
-              className="adm-btn adm-btn--outline"
-              disabled={pending}
-              onClick={() =>
-                start(async () => {
-                  setError(null);
-                  const r = await generateEssentiel();
-                  if (!r.ok) {
-                    if (r.session) return router.push("/admin/connexion?expire=1&callbackUrl=/admin/profil");
-                    return setError(r.error);
-                  }
-                  toast({ message: `CV générés : mis en page (${r.pages} pages) et texte (${r.pagesTexte} pages).` });
-                  router.refresh();
-                })
-              }
-            >
-              {pending ? "Génération…" : "Générer"}
-            </button>
-            <a className="adm-btn adm-btn--link" href={`/media/cv/${essentiel.name}`} target="_blank" rel="noopener noreferrer">
+        {[
+          { f: essentiel, nom: "CV mis en page" },
+          { f: texte, nom: "CV texte simple" },
+        ].map(({ f, nom }) => (
+          <li key={f.name}>
+            <span style={{ minWidth: 0 }}>
+              <b>{nom}</b>
+              <small className="adm-muted" style={{ display: "block", whiteSpace: "normal" }}>
+                {date(f)}
+              </small>
+            </span>
+            <a className="adm-btn adm-btn--link" href={`/media/cv/${f.name}`} target="_blank" rel="noopener noreferrer" aria-label={`Ouvrir le ${nom} (nouvel onglet)`}>
               <Icon name="external" />
-              Mis en page
+              Ouvrir
             </a>
-            <a className="adm-btn adm-btn--link" href={`/media/cv/${texte.name}`} target="_blank" rel="noopener noreferrer">
-              <Icon name="external" />
-              Texte
-            </a>
-          </span>
-        </li>
+          </li>
+        ))}
       </ul>
+      <button
+        type="button"
+        className="adm-btn adm-btn--outline"
+        disabled={pending}
+        onClick={() =>
+          start(async () => {
+            setError(null);
+            const r = await generateEssentiel();
+            if (!r.ok) {
+              if (r.session) return router.push("/admin/connexion?expire=1&callbackUrl=/admin/profil");
+              return setError(r.error);
+            }
+            toast({ message: `CV générés : mis en page (${r.pages} pages) et texte (${r.pagesTexte} pages).` });
+            router.refresh();
+          })
+        }
+      >
+        {pending ? "Génération…" : "Générer les deux CV"}
+      </button>
       {error && (
         <div className="adm-empty" role="alert">
           <b className="adm-error">{error}</b>
