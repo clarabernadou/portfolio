@@ -87,7 +87,7 @@ h1{font-size:28pt}h1 .l{color:#C4B5FD}
 .ct svg{position:relative;top:0.7pt;width:8.5pt;height:8.5pt;flex-shrink:0;color:#C4B5FD}
 .wrap{padding:0 13mm}
 .pf{margin-top:12pt;background:#F3EFFF;border-left:2.5pt solid #6A4FB6;border-radius:6pt;padding:7pt 10pt;margin-bottom:14pt;font-size:9.2pt}
-/* Deux colonnes : la principale (expériences, projet) d'abord dans le document, pour l'ordre de lecture des logiciels de tri ; la latérale (compétences, langues, formations) s'affiche à gauche. */
+/* Deux colonnes : les expériences d'abord dans le document, pour l'ordre de lecture des logiciels de tri ; la latérale (compétences, langues) s'affiche à gauche. Projets et formations suivent sur toute la largeur (cinquième passage des relecteurs, 4 nov. 2026) : l'ordre lu reste Expériences, Projets, Formations, et chaque formation tient sur 2 lignes. */
 .cols{display:grid;grid-template-columns:50mm minmax(0,1fr);grid-template-areas:"aside main";column-gap:8mm;align-items:start}
 .main{grid-area:main}
 .aside{grid-area:aside;border-right:1pt solid #E4DCF7;padding-right:6mm}
@@ -109,17 +109,19 @@ h3{font-size:7.6pt;margin-bottom:3pt}
 .bl{margin-top:7pt}.bl > div{break-after:avoid}li{break-inside:avoid}.bt{font-weight:800;font-size:9pt}.bd{font-size:8pt;font-weight:700;color:#5B5470;margin-left:5pt}
 li{margin:0 0 2.5pt}
 .nt{font-size:8pt;color:#5B5470;margin-top:4pt}
-.fo{padding:6pt 0;border-top:1pt solid #E4DCF7;break-inside:avoid}
+.fo{padding:5pt 0;border-top:1pt solid #E4DCF7;break-inside:avoid}
 .fo:first-of-type{border-top:0;padding-top:0}
-.fo .d{display:block;margin-bottom:1pt}
+.fl{display:flex;flex-wrap:wrap;align-items:baseline;gap:3pt 8pt}
 .ft{font-weight:800;font-size:9pt;letter-spacing:-0.01em;word-spacing:0.06em;line-height:1.25}
 .ft a::after{content:'';display:inline-block;width:6pt;height:6pt;margin-left:3pt;vertical-align:1pt;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none' stroke='%236A4FB6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 8 8 2M3.5 2H8v4.5'/%3E%3C/svg%3E") no-repeat center/contain}
-.fo .tags{margin-top:3pt}
-/* Point blanc, invisible sur le fond, entre deux étiquettes : « En cours · En alternance » à l'extraction du texte (logiciels de tri). */
-.tags span.sep{width:0;margin:0 -1.5pt;padding:0;border:0;background:none;overflow:visible;white-space:pre;font-size:6.8pt;color:#FFFFFF;align-self:center}
+.fo .tags{display:flex}
+/* Séparateur blanc, invisible sur le fond, collé à l'étiquette précédente : « En cours · En alternance » et « React, Next.js » à l'extraction du texte (logiciels de tri). */
+.tags span.sep{width:0;margin:0 0 0 -3pt;padding:0;border:0;background:none;overflow:visible;white-space:pre;font-size:6.8pt;color:#FFFFFF;align-self:center}
+/* Virgule des compétences : dans la marge intérieure (fond blanc) de l'étiquette, collée au mot. */
+.tags span.sep.v{margin:0 5pt 0 -8pt;font-size:8pt}
 .fo .tags .st.ok,.fo .tags .st.info{border:0}
 .st{font-size:6.8pt}
-.fo .mt{font-size:8pt;line-height:1.35;margin-top:3pt}
+.fo .mt{font-size:8pt;line-height:1.35;margin-top:2pt}
 .us{font-size:8pt;line-height:1.35}
 `;
 
@@ -167,6 +169,16 @@ ${c.exp
   )
   .join("")}
 </section>
+</div>
+<div class="aside">
+<section><h2 class="bri sec">${esc(c.h.skills)}</h2>
+  ${c.skills.map((g) => `<div class="sk"><h3>${esc(g.name)}</h3><div class="tags">${g.items.map((s) => `<span>${esc(s)}</span>`).join('<span class="sep v">,</span>')}</div></div>`).join("")}
+</section>
+<section class="lgs"><h2 class="bri sec">${esc(c.h.langs)}</h2>
+  ${c.langs.map((l) => `<div class="lg"><b>${esc(l.nom)}</b>${l.niveau.map((s) => `<span>${esc(s)}</span>`).join("")}</div>`).join("")}
+</section>
+</div>
+</div>
 ${
   c.projets.length
     ? `<section><h2 class="bri sec">${esc(c.h.projets)}</h2>
@@ -174,28 +186,16 @@ ${c.projets.map((pj) => entree(pj.d, pj.titre, `${pj.href ? `<div class="co"><a 
 </section>`
     : ""
 }
-</div>
-<div class="aside">
-<section><h2 class="bri sec">${esc(c.h.skills)}</h2>
-  ${c.skills.map((g) => `<div class="sk"><h3>${esc(g.name)}</h3><div class="tags">${g.items.map((s) => `<span>${esc(s)}</span>`).join("")}</div></div>`).join("")}
-</section>
-<section class="lgs"><h2 class="bri sec">${esc(c.h.langs)}</h2>
-  ${c.langs.map((l) => `<div class="lg"><b>${esc(l.nom)}</b>${l.niveau.map((s) => `<span>${esc(s)}</span>`).join("")}</div>`).join("")}
-</section>
 <section><h2 class="bri sec">${esc(c.h.edu)}</h2>
 ${c.edu
   .map(
-    (f) => `<div class="fo"><span class="d">${esc(f.d)}</span>
-  <div class="ft">${f.url ? `<a href="${esc(f.url)}">${esc(f.t)}</a>` : esc(f.t)}</div>
-  <div class="tags">${f.tags.map((t) => `<span class="st ${t.kind}">${esc(t.text)}</span>`).join('<span class="sep">·</span>')}</div>
-  <div class="mt">${esc(f.mt)}&#160;</div>
-  ${f.note ? `<div class="us">${esc(f.note)}&#160;</div>` : ""}
+    (f) => `<div class="fo"><div class="fl"><span class="d">${esc(f.d)}</span><span class="ft">${f.url ? `<a href="${esc(f.url)}">${esc(f.t)}</a>` : esc(f.t)}</span>
+  <span class="tags">${f.tags.map((t) => `<span class="st ${t.kind}">${esc(t.text)}</span>`).join('<span class="sep">·</span>')}</span></div>
+  <div class="mt">${esc(f.mt)}${f.note ? ` · <span class="us">${esc(f.note)}</span>` : ""}</div>
 </div>`,
   )
   .join("")}
 </section>
-</div>
-</div>
 </div>`;
 }
 
