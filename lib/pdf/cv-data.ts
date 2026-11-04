@@ -16,7 +16,7 @@ const H_FR: CvDoc["h"] = { skills: "Compétences", langs: "Langues", exp: "Expé
 // Formations du CV (retours des relecteurs, 4 nov. 2026) : chaque titre sur sa propre entrée, du plus
 // récent au plus ancien, avec ses années sur la même ligne dans le CV texte ; sans nombre de projets
 // (il reste sur le site).
-const sansCompte = (f: SiteFormation) => ({ ...f, projets: /^\d+ projets?( réalisés?)?$/.test(f.projets.trim()) ? "" : f.projets });
+const sansCompte = (f: SiteFormation) => ({ ...f, projets: /^\d+ projets?( réalisés?| validés? sur \d+)?$/.test(f.projets.trim()) ? "" : f.projets });
 const formationsCv = (formations: SiteFormation[]): CvDoc["edu"] =>
   formations.map((f) => ({
     d: f.annees,
@@ -58,7 +58,9 @@ export function essentielFr(s: CvSources): CvDoc {
       co: co(e),
       mt: e.lieuMode,
       desc: e.contexteEssentiel,
-      blocks: e.blocs.map((b) => ({ name: b.name, period: b.period, bullets: b.bulletsEssentiel })).filter((b) => b.bullets.length),
+      // Sans la période des équipes : seule la période globale de l'expérience (sixième passage des relecteurs) ;
+      // le site la garde.
+      blocks: e.blocs.map((b) => ({ name: b.name, bullets: b.bulletsEssentiel })).filter((b) => b.bullets.length),
       nt: e.note,
     })),
     projets: (p.projetsCv ?? []).map((pj) => ({ titre: pj.titre, href: pj.lien || undefined, d: pj.periode, bullets: pj.puces })),

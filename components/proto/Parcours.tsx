@@ -69,7 +69,15 @@ function EnTeteBloc({ name, period }: { name?: string; period?: string }) {
 }
 
 // « Diplôme américain … : Master’s degree in … » : la partie en anglais est signalée (RGAA 8.7).
+// Forme courte depuis le 4 nov. 2026 : « Master’s degree in … (diplôme américain) ».
 function Mention({ texte }: { texte: string }) {
+  const court = /^(.+?) (\([^)]*\))$/.exec(texte);
+  if (court && !/[àâçéèêëîïôûùüÿœæ]/i.test(court[1]))
+    return (
+      <>
+        <span lang={"en"}>{court[1]}</span> {court[2]}
+      </>
+    );
   const i = texte.lastIndexOf(" : ");
   const fin = i < 0 ? "" : texte.slice(i + 3);
   if (!fin || /[àâçéèêëîïôûùüÿœæ]/i.test(fin)) return <>{texte}</>;
