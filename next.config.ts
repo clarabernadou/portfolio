@@ -6,8 +6,6 @@ import type { NextConfig } from "next";
 const ANCIENNE_ADRESSE = "clarabernadou-portfolio-2026.vercel.app";
 const domaine = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://clarabernadou.fr").host;
 
-const PDF = ["./public/fonts/**", "./public/photo-clara.jpg", "./node_modules/@sparticuz/chromium/bin/**", "./node_modules/playwright-core/**"];
-
 // Politique de sécurité du contenu (renforcement du 28 octobre 2026) : le navigateur ne charge que
 // les ressources des domaines réellement utilisés. Next.js insère de petits scripts en ligne,
 // d'où 'unsafe-inline' (un nonce rendrait toutes les pages dynamiques et casserait le cache).
@@ -37,20 +35,15 @@ const nextConfig: NextConfig = {
   // N'annonce pas la technologie du serveur (en-tête X-Powered-By).
   poweredByHeader: false,
   async redirects() {
-    if (domaine === ANCIENNE_ADRESSE) return [];
-    return [{ source: "/:path*", has: [{ type: "host", value: ANCIENNE_ADRESSE }], destination: `https://${domaine}/:path*`, permanent: true }];
+    // Anciens fichiers du CV (jusqu'au 12 nov. 2026) : vers le CV actuel.
+    const anciensCv = ["/CV_Clara_Bernadou_FR.pdf", "/CV_Clara_Bernadou_FR_texte.pdf"].map((source) => ({ source, destination: "/media/cv/CV_Clara_Bernadou_Developpeuse_Full_Stack.pdf", permanent: true }));
+    if (domaine === ANCIENNE_ADRESSE) return anciensCv;
+    return [{ source: "/:path*", has: [{ type: "host", value: ANCIENNE_ADRESSE }], destination: `https://${domaine}/:path*`, permanent: true }, ...anciensCv];
   },
-  /* config options here */
-  // Génération des PDF du CV sur Vercel (étape 10) : Chromium « serverless » reste hors
-  // du bundle, et les fonctions de l'administration embarquent polices et photo.
+  // Chromium « serverless » reste hors du bundle (rapport RGAA, scripts). Depuis le 12 nov. 2026,
+  // le CV n'est plus généré sur Vercel : aucune fonction n'embarque Chromium.
   serverExternalPackages: ["@sparticuz/chromium", "playwright-core"],
-  // Seule la page qui génère le PDF embarque Chromium (environ 80 Mo) : l'inclure dans
-  // toute l'administration faisait dépasser le stockage gratuit des fonctions de Vercel.
-  outputFileTracingIncludes: {
-    // Page /admin/(espace)/profil : les parenthèses étant des caractères de motif, on passe par des jokers.
-    "/admin/*/profil/**": PDF,
-  },
-  // Envoi de la photo du profil depuis l'administration (2 Mo au plus, plus l'enveloppe).
+  // Envoi de la photo du profil (2 Mo au plus) et du CV en PDF (2,5 Mo au plus), plus l'enveloppe.
   experimental: {
     serverActions: { bodySizeLimit: "3mb" },
   },

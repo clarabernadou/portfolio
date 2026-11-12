@@ -6,6 +6,7 @@ import { ProfileForm } from "@/components/admin/ProfileForm";
 import { PhotoCard } from "@/components/admin/PhotoCard";
 import { RecoList } from "@/components/admin/RecoList";
 import { PdfCard } from "@/components/admin/PdfCard";
+import { CV_PUBLIC } from "@/lib/pdf/fichiers";
 
 export const metadata: Metadata = { title: "Profil et CV" };
 export const dynamic = "force-dynamic";
@@ -19,14 +20,12 @@ export default async function Profil() {
     getProfile(),
     getPhotoUrl(),
     prisma.recommendation.findMany({ orderBy: [{ position: "asc" }, { id: "asc" }] }),
-    prisma.generatedFile.findMany({ select: { name: true, generatedAt: true } }),
+    prisma.generatedFile.findMany({ where: { name: CV_PUBLIC }, select: { name: true, generatedAt: true } }),
   ]);
   const fichier = (name: string) => ({
     name,
     generatedAt: fichiers.find((f) => f.name === name)?.generatedAt.toLocaleString("fr-FR", { dateStyle: "medium", timeStyle: "short", timeZone: "Europe/Paris" }) ?? null,
   });
-  const essentiel = fichier("CV_Clara_Bernadou_FR.pdf");
-  const texte = fichier("CV_Clara_Bernadou_FR_texte.pdf");
   return (
     <>
       <div>
@@ -37,7 +36,7 @@ export default async function Profil() {
         <ProfileForm initial={profil} />
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <PhotoCard url={photoUrl} alt={profil.photoAlt} custom={photoUrl.startsWith("/media/")} />
-          <PdfCard essentiel={essentiel} texte={texte} />
+          <PdfCard cv={fichier(CV_PUBLIC)} />
           <RecoList
             items={recos.map((r) => ({
               id: r.id,

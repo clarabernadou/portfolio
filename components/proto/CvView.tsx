@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 import { css } from "@/lib/css";
-import { CvExperience, CvFormation, Etiquettes } from "./Parcours";
+import { CvExperience, CvFormation, CvProjet, Etiquettes, PucesGras } from "./Parcours";
 import { Lieu } from "./Lieu";
 
 // Généré depuis docs/passation/prototype-source/cv.source.html
@@ -68,20 +68,13 @@ export function CvView({ v }: { v: any }) {
         {/* Barre du CV, juste au-dessus du contenu : téléchargement du PDF. */}
         <div style={css(`display: flex; flex-direction: column; gap: 2rem`)}>
         <div className={"cv-version"}>
-          {/* Deux présentations du même CV (4 nov. 2026) : mise en page, et texte simple pour les logiciels de tri. */}
+          {/* Un seul CV depuis le 12 nov. 2026 : le PDF synthétisé envoyé depuis l'administration. */}
           <div className={"cv-dl"}>
             <a href={v.cvUrl} target={"_blank"} rel={"noopener noreferrer"} className={"cv-dl-btn"} style={css(`padding: 0 22px; border-radius: 999px; background: var(--amethyste); color: var(--fond); border: 2px solid var(--amethyste); display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 700; text-decoration: none`)}>
               <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                 <path d={"M12 4v12M7 11l5 5 5-5M4 20h16"} />
               </svg>
-              {"CV mis en page · PDF"}
-            </a>
-            {" "}
-            <a href={v.cvTexteUrl} target={"_blank"} rel={"noopener noreferrer"} className={"cv-dl-btn"} style={css(`padding: 0 22px; border-radius: 999px; background: transparent; color: var(--encre); border: 2px solid var(--encre); display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 700; text-decoration: none`)}>
-              <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
-                <path d={"M12 4v12M7 11l5 5 5-5M4 20h16"} />
-              </svg>
-              {"CV texte · PDF"}
+              {"Télécharger le CV · PDF"}
             </a>
           </div>
         </div>
@@ -136,6 +129,14 @@ export function CvView({ v }: { v: any }) {
                 {v.profil.profilEssentiel}
               </p>
             </section>
+            {v.profil.competencesIa?.length > 0 && (
+              <section>
+                <h2 style={css(`margin: 0 0 14px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+                  {"Compétences IA"}
+                </h2>
+                <PucesGras items={v.profil.competencesIa} />
+              </section>
+            )}
             <section>
               <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
                 {"Expériences professionnelles"}
@@ -144,6 +145,16 @@ export function CvView({ v }: { v: any }) {
                 <CvExperience key={i_e} e={e} />
               ))}
             </section>
+            {v.profil.projetsCv?.length > 0 && (
+              <section>
+                <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+                  {v.profil.projetsCv.length > 1 ? "Projets personnels" : "Projet personnel"}
+                </h2>
+                {v.profil.projetsCv.map((pj: any) => (
+                  <CvProjet key={pj.titre} p={pj} />
+                ))}
+              </section>
+            )}
             <section>
               <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
                 {"Formations"}

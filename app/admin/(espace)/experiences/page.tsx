@@ -22,7 +22,7 @@ const VIDE: ExperienceInput = {
   periode: "",
   lieuMode: "",
   contexteEssentiel: "",
-  blocs: [{ name: "", period: "", puces: [""] }],
+  blocs: [{ name: "", period: "", stack: "", puces: [""] }],
   note: "",
   accueil: { visible: false, lieuMode: "", technologies: [] },
 };

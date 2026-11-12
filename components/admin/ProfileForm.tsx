@@ -58,7 +58,15 @@ export function ProfileForm({ initial }: { initial: SiteProfile }) {
 
       <section className="adm-card" aria-labelledby="p-profil">
         <h2 className="adm-h2" id="p-profil">Profil du CV</h2>
-        <TextArea label="Profil" value={p.profilEssentiel} onChange={(v) => set("profilEssentiel", v)} rows={4} help="Le paragraphe de présentation en tête de la page CV et du PDF." />
+        <TextArea label="Profil" value={p.profilEssentiel} onChange={(v) => set("profilEssentiel", v)} rows={4} help="Le paragraphe de présentation en tête de la page CV." />
+        <TextArea
+          ia={false}
+          label="Compétences IA"
+          value={(p.competencesIa ?? []).join("\n")}
+          onChange={(v) => set("competencesIa", v.split("\n"))}
+          rows={6}
+          help="Section « Compétences IA » de la page CV : une puce par ligne, le début en gras entre deux astérisques doubles (**Claude Code**, mon outil…). Vide : section masquée."
+        />
       </section>
 
       <section className="adm-card" aria-labelledby="p-ia">

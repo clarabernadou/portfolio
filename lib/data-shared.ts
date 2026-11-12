@@ -55,8 +55,10 @@ export interface SiteProfile {
   chiffreCle?: { valeur: string; libelle: string };
   /** Début de la première formation, plus précis que les années des fiches (« oct. 2021 »). */
   formationDepuis?: string;
-  /** Section « Projet » du CV PDF, entre expériences et formations : masquée si vide. */
-  projetsCv?: { titre: string; lien?: string; periode: string; puces: string[] }[];
+  /** Section « Projet personnel » de la page CV, entre expériences et formations : masquée si vide. */
+  projetsCv?: { titre: string; lien?: string; periode: string; description?: string; stack?: string; puces: string[] }[];
+  /** Section « Compétences IA » de la page CV : une puce par ligne, le début en gras entre ** **. */
+  competencesIa?: string[];
   /** Profil pour l'IA de relecture (administration) : privé, jamais envoyé aux pages publiques. */
   noteIA?: string;
 }

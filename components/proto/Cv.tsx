@@ -16,9 +16,8 @@ const sansProtocole = (url: string) => (url ?? "").replace(/^https?:\/\/(www\.)?
 
 export function Cv({ experiences, formations, skills, profil, photoUrl }: { experiences: SiteExperience[]; formations: SiteFormation[]; skills: Groupes; profil: SiteProfile; photoUrl: string }) {
   const v = {
-    // Un seul contenu, le même sur la page et dans les PDF (25 et 28 oct. 2026), en deux présentations (4 nov. 2026).
+    // Un seul CV en PDF depuis le 12 nov. 2026 : la version synthétisée envoyée par Clara.
     cvUrl: siteContact.cvPdfHref,
-    cvTexteUrl: siteContact.cvTextePdfHref,
     experiences,
     formations,
     skillsEssentiel: skills,

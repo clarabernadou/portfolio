@@ -5,17 +5,19 @@ import type { ExperienceBloc } from "@/lib/types";
 export interface BlocInput {
   name: string;
   period: string;
+  stack?: string;
   puces: string[];
 }
 
 export function toBloc(b: ExperienceBloc): BlocInput {
-  return { name: b.name ?? "", period: b.period ?? "", puces: [...(b.bulletsEssentiel ?? [])] };
+  return { name: b.name ?? "", period: b.period ?? "", stack: b.stack ?? "", puces: [...(b.bulletsEssentiel ?? [])] };
 }
 
 export function fromBloc(b: BlocInput): ExperienceBloc {
   return {
     ...(b.name.trim() ? { name: b.name.trim() } : {}),
     ...(b.period.trim() ? { period: b.period.trim() } : {}),
+    ...(b.stack?.trim() ? { stack: b.stack.trim() } : {}),
     bulletsEssentiel: b.puces.map((p) => p.trim()).filter(Boolean),
   };
 }

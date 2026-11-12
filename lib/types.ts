@@ -126,6 +126,8 @@ export interface IaContent {
 export interface ExperienceBloc {
   name?: string;
   period?: string;
+  /** « Stack : … » affiché sous l'en-tête du bloc (CV du 12 nov. 2026). */
+  stack?: string;
   bulletsEssentiel: string[];
 }
 
