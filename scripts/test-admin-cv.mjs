@@ -1,4 +1,5 @@
-// Étape 10, critères de réception 7, 7 bis et 7 ter (ADMIN-et-SYNCHRONISATION.md §7).
+// Étape 10, critères de réception 7, 7 bis et 7 ter (ADMIN-et-SYNCHRONISATION.md §7), revus le 12 nov. 2026 :
+// le CV n'est plus généré, il est envoyé depuis l'administration.
 // Usage (site lancé avec npm run start, base configurée) : node scripts/test-admin-cv.mjs
 import { chromium } from "playwright";
 import { encode } from "next-auth/jwt";
@@ -20,17 +21,26 @@ const page = await ctx.newPage();
 page.setDefaultTimeout(60000);
 
 try {
-  // 7 et 7 ter : CV essentiel depuis Profil et CV (français seulement depuis le 24 oct. 2026).
+  // CV en PDF (12 nov. 2026) : un seul CV public, le PDF envoyé depuis Profil et CV.
+  // On renvoie le fichier déjà en ligne : le contenu ne change pas, seule la date d'envoi bouge.
+  const nom = "CV_Clara_Bernadou_Developpeuse_Full_Stack.pdf";
+  const actuel = Buffer.from(await (await fetch(`${base}/media/cv/${nom}`)).arrayBuffer());
+  check(actuel.subarray(0, 4).toString() === "%PDF", `${nom} servi (${pages(actuel)} pages)`);
   await page.goto(`${base}/admin/profil`);
-  await page.getByRole("button", { name: "Générer", exact: true }).click();
-  await page.getByText(/CV généré/).waitFor();
-  const essentiel = await fetch(`${base}/media/cv/CV_Clara_Bernadou_FR.pdf`);
-  const buf0 = Buffer.from(await essentiel.arrayBuffer());
-  check(essentiel.status === 200 && buf0.subarray(0, 4).toString() === "%PDF", `CV_Clara_Bernadou_FR.pdf généré et téléchargeable (${essentiel.status}, ${pages(buf0)} pages)`);
+  await page.locator('input[type="file"][accept="application/pdf"]').setInputFiles({ name: nom, mimeType: "application/pdf", buffer: actuel });
+  await page.getByText(/CV remplacé/).waitFor();
+  const apres = Buffer.from(await (await fetch(`${base}/media/cv/${nom}`)).arrayBuffer());
+  check(apres.equals(actuel), "Le PDF envoyé est celui servi par le site");
+  await page.locator('input[type="file"][accept="application/pdf"]').setInputFiles({ name: "faux.pdf", mimeType: "application/pdf", buffer: Buffer.from("pas un pdf") });
+  check(await page.getByText("Ce fichier n’est pas un PDF.").waitFor().then(() => true, () => false), "Un fichier qui n’est pas un PDF est refusé");
   await page.reload();
-  check(await page.getByText(/généré le /).first().isVisible(), "La date de dernière génération est indiquée");
+  check(await page.getByText(/Envoyé le /).first().isVisible(), "La date d’envoi est indiquée");
+  for (const ancien of ["CV_Clara_Bernadou_FR.pdf", "CV_Clara_Bernadou_FR_texte.pdf"]) {
+    const r = await fetch(`${base}/media/cv/${ancien}`, { redirect: "manual" });
+    check(r.status === 308 && r.headers.get("location")?.endsWith(nom), `${ancien} redirige vers le CV actuel (${r.status})`);
+  }
   const en = await fetch(`${base}/media/cv/CV_Clara_Bernadou_EN.pdf`);
-  check(en.status === 404, `La version anglaise n’est plus publique (${en.status})`);
+  check(en.status === 404, `La version anglaise n’est pas publique (${en.status})`);
 
 } catch (e) {
   check(false, `Erreur : ${e.message.split("\n")[0]}`);

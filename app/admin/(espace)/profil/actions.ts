@@ -18,6 +18,7 @@ export async function saveProfile(p: SiteProfile): Promise<Result> {
   const { profilComplet: _ancien, ...profil } = p as SiteProfile & { profilComplet?: string };
   const data = {
     ...profil,
+    ...(p.competencesIa ? { competencesIa: p.competencesIa.map((x) => x.trim()).filter(Boolean) } : {}),
     langues: p.langues.filter((l) => l.nom.trim()).map((l) => ({ nom: l.nom.trim(), niveau: l.niveau.map((n) => n.trim()).filter(Boolean) })),
   };
   await db().singleton.upsert({ where: { key: "profil" }, create: { key: "profil", data }, update: { data } });
@@ -118,26 +119,22 @@ export async function moveReco(id: number, direction: -1 | 1) {
   refresh();
 }
 
-// Génération du CV en PDF (ADMIN-et-SYNCHRONISATION.md §5 et critère 7 ter) : les deux présentations
-// du même contenu, mise en page et texte simple (4 nov. 2026).
-export async function generateEssentiel(): Promise<{ ok: true; pages: number; pagesTexte: number } | { ok: false; error: string; session?: boolean }> {
+// CV en PDF (12 nov. 2026) : le CV public est le PDF que Clara envoie (sa version synthétisée),
+// et non plus un PDF généré depuis la base. Il remplace le précédent, sous le même nom.
+export async function envoyerCv(form: FormData): Promise<Result> {
   if (!(await isAdminSession())) return { ok: false, error: "Ta session a expiré.", session: true };
-  const { cvHtml, cvTexteHtml } = await import("@/lib/pdf/cv-html");
-  const { essentielFr } = await import("@/lib/pdf/cv-data");
-  const { loadAssets, loadSources, renderPdf, storeFile } = await import("@/lib/pdf/server");
-  const { CV_MIS_EN_PAGE, CV_TEXTE } = await import("@/lib/pdf/fichiers");
-  const [sources, assets] = await Promise.all([loadSources(), loadAssets()]);
-  try {
-    const doc = essentielFr(sources);
-    // L'un après l'autre : un seul Chromium à la fois dans la fonction Vercel.
-    const miseEnPage = await renderPdf(cvHtml(doc, assets));
-    const texte = await renderPdf(cvTexteHtml(doc, assets));
-    await storeFile(CV_MIS_EN_PAGE, "essentiel", "fr", miseEnPage.pdf);
-    await storeFile(CV_TEXTE, "texte", "fr", texte.pdf);
-    await logActivity("cv", CV_MIS_EN_PAGE, "CV en PDF généré (mis en page et texte simple)");
-    return { ok: true, pages: miseEnPage.pages, pagesTexte: texte.pages };
-  } catch (e) {
-    console.error(e);
-    return { ok: false, error: "La génération a échoué : réessaie dans un instant." };
-  }
+  const { CV_PUBLIC, CV_TAILLE_MAX } = await import("@/lib/pdf/fichiers");
+  const f = form.get("cv");
+  if (!(f instanceof File) || !f.size) return { ok: false, error: "Choisis un fichier PDF." };
+  if (f.size > CV_TAILLE_MAX) return { ok: false, error: "Le PDF dépasse 2,5 Mo : réduis-le avant de l’envoyer." };
+  const data = new Uint8Array(await f.arrayBuffer());
+  if (Buffer.from(data.subarray(0, 5)).toString("latin1") !== "%PDF-") return { ok: false, error: "Ce fichier n’est pas un PDF." };
+  await db().generatedFile.upsert({
+    where: { name: CV_PUBLIC },
+    create: { name: CV_PUBLIC, kind: "cv", lang: "fr", data },
+    update: { kind: "cv", lang: "fr", data, generatedAt: new Date() },
+  });
+  await logActivity("cv", CV_PUBLIC, "CV en PDF remplacé");
+  refresh();
+  return { ok: true };
 }

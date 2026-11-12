@@ -23,6 +23,7 @@ function Bloc({ bloc, set, remove, index }: { bloc: BlocInput; set: (b: BlocInpu
           <Icon name="trash" size={16} />
         </button>
       </div>
+      <TextField label="Stack du bloc (facultatif)" value={bloc.stack ?? ""} onChange={(v) => set({ ...bloc, stack: v })} placeholder="React, TypeScript, GraphQL" help="Affichée « Stack : … » sous l’en-tête du bloc, sur la page CV." />
       <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column" }}>
         {bloc.puces.map((p, i) => {
           const setP = (np: string) => set({ ...bloc, puces: bloc.puces.map((x, k) => (k === i ? np : x)) });
@@ -141,7 +142,7 @@ export function ExperienceForm({ initial }: { initial: ExperienceInput }) {
       {e.blocs.map((b, i) => (
         <Bloc key={i} index={i} bloc={b} set={(nb) => set("blocs", e.blocs.map((x, k) => (k === i ? nb : x)))} remove={() => window.confirm("Supprimer ce bloc et ses puces ?") && set("blocs", e.blocs.filter((_, k) => k !== i))} />
       ))}
-      <button type="button" className="adm-btn adm-btn--outline" onClick={() => set("blocs", [...e.blocs, { name: "", period: "", puces: [""] }])}>
+      <button type="button" className="adm-btn adm-btn--outline" onClick={() => set("blocs", [...e.blocs, { name: "", period: "", stack: "", puces: [""] }])}>
         <Icon name="plus" />
         Ajouter un bloc (équipe, période)
       </button>

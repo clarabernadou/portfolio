@@ -13,10 +13,9 @@ export const siteContact = {
   email: liensData.profil.email,
   linkedin: liensData.profil.linkedin,
   github: liensData.profil.github,
-  // Servis par /media/cv : la version régénérée dans l'administration si elle existe,
-  // sinon le fichier d'origine du site.
-  cvPdfHref: "/media/cv/CV_Clara_Bernadou_FR.pdf",
-  cvTextePdfHref: "/media/cv/CV_Clara_Bernadou_FR_texte.pdf",
+  // Servi par /media/cv : le PDF envoyé depuis l'administration s'il existe, sinon le fichier
+  // d'origine du site. Un seul CV depuis le 12 nov. 2026 (la version synthétisée de Clara).
+  cvPdfHref: "/media/cv/CV_Clara_Bernadou_Developpeuse_Full_Stack.pdf",
   photo: "/photo-clara.jpg",
   disponibiliteEntretiens:
     "Entretiens possibles le vendredi, le samedi et en semaine après 17 h.",

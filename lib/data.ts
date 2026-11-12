@@ -128,7 +128,7 @@ async function getExperiencesSource(): Promise<SiteExperience[]> {
     periode: r.periode,
     lieuMode: r.lieuMode,
     contexteEssentiel: r.contexteEssentiel,
-    blocs: (r.blocs as unknown as Experience["blocs"]).map((b) => ({ ...(b.name ? { name: b.name } : {}), ...(b.period ? { period: b.period } : {}), bulletsEssentiel: b.bulletsEssentiel ?? [] })),
+    blocs: (r.blocs as unknown as Experience["blocs"]).map((b) => ({ ...(b.name ? { name: b.name } : {}), ...(b.period ? { period: b.period } : {}), ...(b.stack ? { stack: b.stack } : {}), bulletsEssentiel: b.bulletsEssentiel ?? [] })),
     note: r.note ?? undefined,
     ...(r.homeCard ? { homeCard: r.homeCard as unknown as AlternanceCard } : {}),
   }));

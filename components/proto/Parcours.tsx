@@ -1,3 +1,4 @@
+import { Fragment, type ReactNode } from "react";
 import { css } from "@/lib/css";
 import { ligneFormation, type SiteExperience, type SiteFormation } from "@/lib/data-shared";
 
@@ -31,7 +32,7 @@ function Entreprise({ e }: { e: SiteExperience }) {
   );
 }
 
-function Puces({ items }: { items: string[] }) {
+function Puces({ items }: { items: ReactNode[] }) {
   return (
     <ul style={css(`list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 16px; line-height: 1.5`)}>
       {items.map((b, i) => (
@@ -42,6 +43,36 @@ function Puces({ items }: { items: string[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+// Puce dont le début est en gras, écrit « **Claude Code**, mon outil… » en base (section Compétences IA du CV).
+export function PucesGras({ items }: { items: string[] }) {
+  return (
+    <Puces
+      items={items.map((t, i) => {
+        const m = /^\*\*(.+?)\*\*([\s\S]*)$/.exec(t);
+        return m ? (
+          <Fragment key={i}>
+            <b>{m[1]}</b>
+            {m[2]}
+          </Fragment>
+        ) : (
+          t
+        );
+      })}
+    />
+  );
+}
+
+// « Stack : React, MUI… » sous l'en-tête d'un bloc d'expérience ou d'un projet, comme sur le CV.
+function Stack({ texte }: { texte?: string }) {
+  if (!texte) return null;
+  return (
+    <p style={css(`margin: 2px 0 0; font-size: 15px; line-height: 1.5; color: #5B5470`)}>
+      <b style={css(`color: #1A1033`)}>{"Stack"}</b>
+      {` : ${texte}`}
+    </p>
   );
 }
 
@@ -105,16 +136,39 @@ export function CvExperience({ e }: { e: SiteExperience }) {
         {e.blocs.map((b, i) => {
           const puces = b.bulletsEssentiel;
           if (!puces.length) return null;
-          if (!b.name) return <Puces key={i} items={puces} />;
+          if (!b.name)
+            return (
+              <Fragment key={i}>
+                <Stack texte={b.stack} />
+                <PucesGras items={puces} />
+              </Fragment>
+            );
           return (
             <div key={i} style={css(`display: flex; flex-direction: column; gap: 4px; margin-top: 8px`)}>
               <EnTeteBloc name={b.name} period={b.period} />
               {" "}
-              <Puces items={puces} />
+              <Stack texte={b.stack} />
+              <PucesGras items={puces} />
             </div>
           );
         })}
         {e.note && <p style={css(`margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: #5B5470`)}>{`→ ${e.note}`}</p>}
+      </div>
+    </article>
+  );
+}
+
+// Projet personnel du CV (profil.projetsCv) : même présentation qu'une expérience.
+export function CvProjet({ p }: { p: { titre: string; lien?: string; periode: string; description?: string; stack?: string; puces: string[] } }) {
+  return (
+    <article style={css(`display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 22px 0; border-top: 1px solid #E4DCF7`)}>
+      <span style={css(`flex: 0 0 150px; font-size: 14px; font-weight: 700; color: #5B5470`)}>{p.periode}</span>
+      {" "}
+      <div style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
+        <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{p.titre}</h3>
+        {p.description && <p style={css(`margin: 4px 0 0; font-size: 15px; line-height: 1.55`)}>{p.description}</p>}
+        <Puces items={p.puces} />
+        <Stack texte={p.stack} />
       </div>
     </article>
   );

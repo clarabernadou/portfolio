@@ -1,13 +1,13 @@
 import { db } from "@/lib/db";
 import { isAdminSession } from "@/lib/auth";
-import { FICHIERS_PUBLICS } from "@/lib/pdf/fichiers";
+import { ANCIENS_CV, CV_PUBLIC, FICHIERS_PUBLICS } from "@/lib/pdf/fichiers";
 
-// PDF du CV. Les CV essentiels (publics) sont servis depuis la base s'ils ont été
-// régénérés dans l'administration, sinon depuis le fichier d'origine du site.
-// Les CV orientés ne sont pas publics (§5 bis) : réservés à la session de Clara.
+// PDF du CV. Le CV public est celui que Clara envoie depuis l'administration (gardé en base),
+// sinon le fichier d'origine du site (public/). Les anciennes adresses redirigent vers lui.
 export async function GET(req: Request, { params }: { params: Promise<{ name: string }> }) {
   const { name } = await params;
   if (!/^[\w.-]+\.pdf$/.test(name)) return new Response(null, { status: 404 });
+  if (ANCIENS_CV.includes(name)) return Response.redirect(new URL(`/media/cv/${CV_PUBLIC}`, req.url), 308);
   const public_ = FICHIERS_PUBLICS.includes(name);
   if (!public_ && !(await isAdminSession())) return new Response(null, { status: 404 });
   const f = process.env.DATABASE_URL ? await db().generatedFile.findUnique({ where: { name } }) : null;
