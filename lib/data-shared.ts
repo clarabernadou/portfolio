@@ -97,7 +97,8 @@ const MOIS = ["janv", "fév", "mars", "avr", "mai", "juin", "juil", "août", "se
 export function dureeAlternance(experiences: Pick<Experience, "periode">[], maintenant = new Date()): { ans: number; mois: number } | null {
   const debuts = experiences.flatMap((e) => {
     const m = e.periode.match(/^(\p{L}+)\.?\s+(\d{4})/u);
-    const i = m ? MOIS.indexOf(m[1].toLowerCase()) : -1;
+    // Mois abrégé (« déc. ») ou en toutes lettres (« décembre ») : on compare le début du mot.
+    const i = m ? MOIS.findIndex((x) => m[1].toLowerCase().startsWith(x)) : -1;
     return i < 0 ? [] : [Number(m![2]) * 12 + i];
   });
   if (!debuts.length) return null;
