@@ -31,11 +31,11 @@ export function AccueilView({ v }: { v: any }) {
             </div>
             {" "}
             <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 4vw, 54px); letter-spacing: -0.045em; line-height: 0.98`)}>
-              <span style={css(`font-weight: 800; display: block`)}>
+              <span style={css(`font-weight: 800`)}>
                 {"Développeuse"}
               </span>
               {" "}
-              <span style={css(`font-weight: 300; color: #6A4FB6; display: block`)}>
+              <span style={css(`font-weight: 300; color: #6A4FB6`)}>
                 {"full‑stack"}
               </span>
             </h1>
