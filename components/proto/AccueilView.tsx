@@ -35,8 +35,8 @@ export function AccueilView({ v }: { v: any }) {
                 {"Développeuse"}
               </span>
               {" "}
-              <span style={css(`font-weight: 300; color: #6A4FB6`)}>
-                {"full‑stack"}
+              <span style={css(`font-weight: 300; color: #6A4FB6; white-space: nowrap`)}>
+                {"full stack"}
               </span>
             </h1>
             {" "}

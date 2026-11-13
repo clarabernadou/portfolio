@@ -25,7 +25,7 @@ export const RECRUTEURS: { id: Recruteur; label: string; role: string }[] = [
   {
     id: "tech",
     label: "Tech",
-    role: "un lead développeur exigeant qui recrute des développeurs front-end et full-stack, et qui juge d'abord la crédibilité technique : ce qui a été réellement développé, avec quelles technologies, dans quel périmètre",
+    role: "un lead développeur exigeant qui recrute des développeurs front-end et full stack, et qui juge d'abord la crédibilité technique : ce qui a été réellement développé, avec quelles technologies, dans quel périmètre",
   },
   {
     id: "design",
@@ -49,7 +49,7 @@ export interface ContexteAvis {
   consigne?: string;
 }
 
-const CLARA = "Clara Bernadou, développeuse full-stack, qui cherche un CDI de développeuse full-stack, avec l’UI/UX comme point fort, disponible en mars 2027";
+const CLARA = "Clara Bernadou, développeuse full stack, qui cherche un CDI de développeuse full stack, avec l’UI/UX comme point fort, disponible en mars 2027";
 const REGLE_INVENTER =
   "Ne rien inventer : aucune technologie, aucun chiffre, aucun résultat, aucune responsabilité, aucune méthode, aucun test utilisateur ni aucune mise en production qui ne figure pas dans le texte ou dans les informations fournies. Si une précision rendrait le texte meilleur mais manque, pose une question au lieu de la deviner.";
 const REGLE_CADRE =

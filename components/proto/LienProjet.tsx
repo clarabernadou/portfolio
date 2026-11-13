@@ -7,11 +7,13 @@ import { css } from "@/lib/css";
 // sur une page vide. Il redevient un lien dès sa publication.
 export const ETIQUETTE_VALIDATION = `align-self: flex-start; padding: 3px 9px; border-radius: 6px; background: #F3EFFF; color: #1A1033; font-size: 13px; font-weight: 700`;
 
-/** Carte cliquable si le projet est publié ; sinon la même carte, inerte, avec l'étiquette « En cours de validation ». */
-export function CarteProjet({ id, publics, style, suite, children }: { id: string; publics: string[]; style: string; suite: ReactNode; children: ReactNode }) {
+/** Carte cliquable si le projet est publié ; sinon la même carte, inerte, avec l'étiquette « En cours de validation ».
+ * Avec `titre` (13 nov. 2026), le nom du lien se limite au titre et à « voir le projet », et la description
+ * de la carte (élément d'id `${id}-desc`) est lue à part, au lieu d'un nom de lien qui enchaîne tout le texte. */
+export function CarteProjet({ id, publics, style, suite, titre, children }: { id: string; publics: string[]; style: string; suite: ReactNode; titre?: string; children: ReactNode }) {
   if (publics.includes(id))
     return (
-      <Link href={`/projets/${id}`} style={css(style)}>
+      <Link href={`/projets/${id}`} style={css(style)} aria-label={titre ? `${titre} : voir le projet` : undefined} aria-describedby={titre ? `${id}-desc` : undefined}>
         {children}{" "}
         {suite}
       </Link>

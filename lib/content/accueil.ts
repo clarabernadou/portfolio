@@ -70,7 +70,7 @@ export interface AlternanceCardContent {
 export const alternances: AlternanceCardContent[] = [
   {
     periode: "déc. 2023 – fév. 2025",
-    poste: "Développeuse full-stack & UI designer",
+    poste: "Développeuse Full Stack & UI/UX",
     entreprise: "CarbonScore",
     entrepriseParent: "TechUpClimate",
     lieuMode: "Alternance · Pontoise, télétravail",
@@ -78,7 +78,7 @@ export const alternances: AlternanceCardContent[] = [
   },
   {
     periode: "mars 2025 – aujourd’hui",
-    poste: "Développeuse full-stack & UI designer",
+    poste: "Développeuse Full Stack & UI/UX",
     entreprise: "Fruggr",
     entrepriseParent: "Digital4Better",
     lieuMode: "Alternance · Nantes, télétravail",

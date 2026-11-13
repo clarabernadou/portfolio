@@ -6,11 +6,11 @@ import { JsonLd, personneJsonLd, siteJsonLd } from "@/lib/seo";
 import { IMAGE_PARTAGE } from "@/lib/metadata";
 
 // Titre et description de l'accueil : la page qui doit sortir sur une recherche du nom de Clara.
-const titre = "Clara Bernadou · Développeuse full-stack · Portfolio";
+const titre = "Clara Bernadou · Développeuse full stack · Portfolio";
 // Le nombre de projets vient de la base (projets publiés, comme « En bref ») : aucun compteur écrit en dur.
 export async function generateMetadata(): Promise<Metadata> {
   const n = (await getSiteProjects()).length;
-  const description = `Portfolio de Clara Bernadou, développeuse full-stack (React, TypeScript, Node.js), en alternance depuis 2023. ${n > 0 ? `${n} projets` : "Projets"} de développement web et de design. CDI recherché, disponible en mars 2027, en full remote ou à Vannes / Auray.`;
+  const description = `Portfolio de Clara Bernadou, développeuse full stack (React, TypeScript, Node.js), en alternance depuis 2023. ${n > 0 ? `${n} projets` : "Projets"} de développement web et de design. CDI recherché, disponible en mars 2027, en full remote ou à Vannes / Auray.`;
   return {
     title: { absolute: titre },
     description,

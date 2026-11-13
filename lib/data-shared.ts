@@ -92,17 +92,31 @@ export function iaStats(ia: Pick<IaContent, "stats" | "tools" | "skills" | "rout
 
 // Données envoyées aux pages publiques (décision de Clara, 25 oct. 2026) : ni le téléphone
 // (seulement dans le PDF du CV), ni le profil pour l'IA. Vidés côté serveur, jamais seulement cachés.
-// Durée d'alternance depuis le début de la plus ancienne expérience (« déc. 2023 – … ») : calculée, jamais écrite à la main.
+// Durée d'expérience professionnelle de l'accueil : calculée, jamais écrite à la main.
+// Chaque expérience est une période « déc. 2023 – mars 2025 » ou « mars 2025 – aujourd’hui » (mois
+// abrégé ou en toutes lettres). Les périodes sont fusionnées (un mois commun ne compte qu'une fois,
+// un trou entre deux contrats ne compte pas), puis on compte les mois pleins.
 const MOIS = ["janv", "fév", "mars", "avr", "mai", "juin", "juil", "août", "sept", "oct", "nov", "déc"];
+const moisDe = (texte: string): number | null => {
+  const m = texte.trim().match(/^(\p{L}+)\.?\s+(\d{4})/u);
+  const i = m ? MOIS.findIndex((x) => m[1].toLowerCase().startsWith(x)) : -1;
+  return i < 0 ? null : Number(m![2]) * 12 + i;
+};
 export function dureeAlternance(experiences: Pick<Experience, "periode">[], maintenant = new Date()): { ans: number; mois: number } | null {
-  const debuts = experiences.flatMap((e) => {
-    const m = e.periode.match(/^(\p{L}+)\.?\s+(\d{4})/u);
-    // Mois abrégé (« déc. ») ou en toutes lettres (« décembre ») : on compare le début du mot.
-    const i = m ? MOIS.findIndex((x) => m[1].toLowerCase().startsWith(x)) : -1;
-    return i < 0 ? [] : [Number(m![2]) * 12 + i];
-  });
-  if (!debuts.length) return null;
-  const total = maintenant.getFullYear() * 12 + maintenant.getMonth() - Math.min(...debuts);
+  const auj = maintenant.getFullYear() * 12 + maintenant.getMonth();
+  const periodes = experiences.flatMap((e) => {
+    const [debut, fin] = e.periode.split(/\s+[–-]\s+/);
+    const a = moisDe(debut ?? "");
+    if (a === null) return [];
+    const b = fin && !/aujourd|présent|en cours/i.test(fin) ? moisDe(fin) : auj;
+    return [[a, Math.min(b ?? auj, auj)] as const];
+  }).sort((x, y) => x[0] - y[0]);
+  let total = 0, fin = -Infinity;
+  for (const [a, b] of periodes) {
+    const debut = Math.max(a, fin);
+    if (b > debut) total += b - debut;
+    fin = Math.max(fin, b);
+  }
   return total > 0 ? { ans: Math.floor(total / 12), mois: total % 12 } : null;
 }
 

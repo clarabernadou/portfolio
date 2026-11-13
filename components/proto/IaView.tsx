@@ -257,34 +257,34 @@ export function IaView({ v }: { v: any }) {
           {" "}
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
             <li style={css(`display: grid`)}>
-            <CarteProjet id={"repositionnement-fruggr"} publics={v.publics} style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+            <CarteProjet id={"repositionnement-fruggr"} publics={v.publics} titre={"Saga de 3 films pour Fruggr"} style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
                 {"Saga de 3 films pour Fruggr"}
               </h3>
               {" "}
-              <span style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
+              <span id={"repositionnement-fruggr-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
                 {"Du script au rendu final : Remotion, voix off ElevenLabs, musique, déclinaison en 16:9, 9:16 et 1:1, publiée sur YouTube."}
               </span>
             </CarteProjet>
             </li>
             <li style={css(`display: grid`)}>
-            <CarteProjet id={"portfolio"} publics={v.publics} style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+            <CarteProjet id={"portfolio"} publics={v.publics} titre={"Ce portfolio"} style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
                 {"Ce portfolio"}
               </h3>
               {" "}
-              <span style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
+              <span id={"portfolio-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
                 {"Maquettes avec Claude Design, développement avec Claude Code, charte, design system et dossier de passation."}
               </span>
             </CarteProjet>
             </li>
             <li style={css(`display: grid`)}>
-            <CarteProjet id={"intuitlearn"} publics={v.publics} style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+            <CarteProjet id={"intuitlearn"} publics={v.publics} titre={"Audits de sites"} style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
                 {"Audits de sites"}
               </h3>
               {" "}
-              <span style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
+              <span id={"intuitlearn-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
                 {"Skills d’audit UX, accessibilité et marque appliqués au site Fruggr et à une application tierce."}
               </span>
             </CarteProjet>
