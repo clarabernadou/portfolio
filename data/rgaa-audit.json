@@ -1,6 +1,6 @@
 {
  "referentiel": "RGAA 4.1.2",
- "date": "2026-10-25",
+ "date": "2026-11-15",
  "criteres": [
   {
    "n": "1.1",
@@ -8,7 +8,7 @@
    "titre": "Chaque image porteuse d’information a-t-elle une alternative textuelle ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Les logos ont role=\"img\" et un aria-label, la photo a alt=\"Clara Bernadou\". Les cartes de livrables n’ont plus d’image : leur titre est écrit en texte sur la couverture (1er nov. 2026)."
+   "constat": "Les logos ont role=\"img\" et un aria-label, la photo a alt=\"Clara Bernadou\". Les cartes de livrables n’ont plus d’image : leur titre est écrit en texte sur la couverture (1er nov. 2026). Captures des fiches projet (13 nov. 2026) : chacune est dans un bouton nommé par sa description (« Agrandir la capture 1 sur 2 : … »), et la visionneuse reprend cette description en alt. L’administration refuse une capture sans description, sauf image cochée « décorative »."
   },
   {
    "n": "1.2",
@@ -16,7 +16,7 @@
    "titre": "Chaque image de décoration est-elle correctement ignorée par les technologies d’assistance ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Les icônes décoratives (SVG) sont masquées avec aria-hidden : aucune image SVG sans aria-hidden ni role=\"img\" sur l’échantillon."
+   "constat": "Les icônes décoratives (SVG) sont masquées avec aria-hidden : aucune image SVG sans aria-hidden ni role=\"img\" sur l’échantillon. Une capture cochée « décorative » dans l’administration reçoit alt=\"\", sans nom dans le bouton qui l’agrandit."
   },
   {
    "n": "1.3",
@@ -78,17 +78,17 @@
    "n": "2.1",
    "theme": "Cadres",
    "titre": "Chaque cadre a-t-il un titre de cadre ?",
-   "statut": "C",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Le lecteur vidéo (iframe) a un attribut title."
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun cadre (iframe) sur les pages publiques : le seul lecteur vidéo est sur une fiche non publiée (13 nov. 2026)."
   },
   {
    "n": "2.2",
    "theme": "Cadres",
    "titre": "Pour chaque cadre ayant un titre de cadre, ce titre de cadre est-il pertinent ?",
-   "statut": "C",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Titre du cadre pertinent : « Film N sur 3 : titre du film »."
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucun cadre (iframe) sur les pages publiques : le seul lecteur vidéo est sur une fiche non publiée (13 nov. 2026)."
   },
   {
    "n": "3.1",
@@ -118,57 +118,57 @@
    "n": "4.1",
    "theme": "Multimédia",
    "titre": "Chaque média temporel pré-enregistré a-t-il, si nécessaire, une transcription textuelle ou une audiodescription (hors cas particuliers) ?",
-   "statut": "NC",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Les 3 films (voix off) n’ont pas encore de transcription textuelle."
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune vidéo ni aucun son sur les pages publiques : la fiche Repositionnement de Fruggr, qui porte les 3 films, n’est pas publiée (13 nov. 2026). À auditer à sa publication."
   },
   {
    "n": "4.2",
    "theme": "Multimédia",
    "titre": "Pour chaque média temporel pré-enregistré ayant une transcription textuelle ou une audiodescription synchronisée, celles-ci sont-elles pertinentes (hors cas particuliers) ?",
    "statut": "NA",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Aucune transcription publiée pour l’instant (voir 4.1)."
+   "pages": "Toutes les pages",
+   "constat": "Aucune vidéo ni aucun son sur les pages publiques : la fiche Repositionnement de Fruggr, qui porte les 3 films, n’est pas publiée (13 nov. 2026). À auditer à sa publication."
   },
   {
    "n": "4.3",
    "theme": "Multimédia",
    "titre": "Chaque média temporel synchronisé pré-enregistré a-t-il, si nécessaire, des sous-titres synchronisés (hors cas particuliers) ?",
-   "statut": "NC",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Les films n’ont que les sous-titres automatiques de YouTube, non relus."
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune vidéo ni aucun son sur les pages publiques : la fiche Repositionnement de Fruggr, qui porte les 3 films, n’est pas publiée (13 nov. 2026). À auditer à sa publication."
   },
   {
    "n": "4.4",
    "theme": "Multimédia",
    "titre": "Pour chaque média temporel synchronisé pré-enregistré ayant des sous-titres synchronisés, ces sous-titres sont-ils pertinents ?",
    "statut": "NA",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Aucun sous-titre relu publié pour l’instant (voir 4.3)."
+   "pages": "Toutes les pages",
+   "constat": "Aucune vidéo ni aucun son sur les pages publiques : la fiche Repositionnement de Fruggr, qui porte les 3 films, n’est pas publiée (13 nov. 2026). À auditer à sa publication."
   },
   {
    "n": "4.5",
    "theme": "Multimédia",
    "titre": "Chaque média temporel pré-enregistré a-t-il, si nécessaire, une audiodescription synchronisée (hors cas particuliers) ?",
-   "statut": "NC",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Non vérifié : il reste à contrôler que les textes affichés à l’écran sont tous repris par la voix off. Considéré non conforme en attendant."
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune vidéo ni aucun son sur les pages publiques : la fiche Repositionnement de Fruggr, qui porte les 3 films, n’est pas publiée (13 nov. 2026). À auditer à sa publication."
   },
   {
    "n": "4.6",
    "theme": "Multimédia",
    "titre": "Pour chaque média temporel pré-enregistré ayant une audiodescription synchronisée, celle-ci est-elle pertinente ?",
    "statut": "NA",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Aucune audiodescription publiée."
+   "pages": "Toutes les pages",
+   "constat": "Aucune vidéo ni aucun son sur les pages publiques : la fiche Repositionnement de Fruggr, qui porte les 3 films, n’est pas publiée (13 nov. 2026). À auditer à sa publication."
   },
   {
    "n": "4.7",
    "theme": "Multimédia",
    "titre": "Chaque média temporel est-il clairement identifiable (hors cas particuliers) ?",
-   "statut": "C",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Chaque film est identifié par un titre visible et un surtitre."
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune vidéo ni aucun son sur les pages publiques : la fiche Repositionnement de Fruggr, qui porte les 3 films, n’est pas publiée (13 nov. 2026). À auditer à sa publication."
   },
   {
    "n": "4.8",
@@ -190,17 +190,17 @@
    "n": "4.10",
    "theme": "Multimédia",
    "titre": "Chaque son déclenché automatiquement est-il contrôlable par l’utilisateur ?",
-   "statut": "C",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Aucun son déclenché automatiquement : le lecteur ne se charge qu’après un clic."
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune vidéo ni aucun son sur les pages publiques : la fiche Repositionnement de Fruggr, qui porte les 3 films, n’est pas publiée (13 nov. 2026). À auditer à sa publication."
   },
   {
    "n": "4.11",
    "theme": "Multimédia",
    "titre": "La consultation de chaque média temporel est-elle, si nécessaire, contrôlable par le clavier et tout dispositif de pointage ?",
-   "statut": "C",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Lecteur YouTube contrôlable au clavier (vérifié sans lecteur d’écran)."
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune vidéo ni aucun son sur les pages publiques : la fiche Repositionnement de Fruggr, qui porte les 3 films, n’est pas publiée (13 nov. 2026). À auditer à sa publication."
   },
   {
    "n": "4.12",
@@ -214,9 +214,9 @@
    "n": "4.13",
    "theme": "Multimédia",
    "titre": "Chaque média temporel et non temporel est-il compatible avec les technologies d’assistance (hors cas particuliers) ?",
-   "statut": "C",
-   "pages": "Repositionnement de Fruggr",
-   "constat": "Lecteur YouTube compatible avec les technologies d’assistance (non testé avec un lecteur d’écran)."
+   "statut": "NA",
+   "pages": "Toutes les pages",
+   "constat": "Aucune vidéo ni aucun son sur les pages publiques : la fiche Repositionnement de Fruggr, qui porte les 3 films, n’est pas publiée (13 nov. 2026). À auditer à sa publication."
   },
   {
    "n": "5.1",
@@ -808,7 +808,7 @@
    "titre": "Dans chaque page web, les changements brusques de luminosité ou les effets de flash sont-ils correctement utilisés ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Aucune animation ni aucun flash sur le site (les films n’ont pas été contrôlés)."
+   "constat": "Aucune animation ni aucun flash sur les pages publiques."
   },
   {
    "n": "13.8",

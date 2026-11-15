@@ -98,7 +98,23 @@ export function MentionsView({ v }: { v: any }) {
               {"Cookies"}
             </dt>
             <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
-              {"Ce site ne dépose aucun cookie."}
+              {"Les pages publiques ne déposent aucun cookie. La page de connexion réservée à l’administratrice dépose un cookie technique de session, seulement au clic sur « Continuer avec GitHub » (sécurité de la connexion, puis session de 8 heures)."}
+            </dd>
+          </div>
+          <div style={css(`display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; line-height: 1.5`)}>
+            <dt style={css(`flex: 0 0 220px; font-weight: 700`)}>
+              {"Mesure d’audience"}
+            </dt>
+            <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
+              {"Aucune : le site ne mesure pas son audience et n’utilise aucun traceur."}
+            </dd>
+          </div>
+          <div style={css(`display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; line-height: 1.5`)}>
+            <dt style={css(`flex: 0 0 220px; font-weight: 700`)}>
+              {"Polices"}
+            </dt>
+            <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
+              {"Chargées depuis Google Fonts : votre navigateur contacte les serveurs de Google, qui reçoivent votre adresse IP."}
             </dd>
           </div>
           <div style={css(`display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; line-height: 1.5`)}>
@@ -114,7 +130,39 @@ export function MentionsView({ v }: { v: any }) {
               {"E-mails reçus"}
             </dt>
             <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
-              {"Utilisés uniquement pour vous répondre, jamais transmis à des tiers."}
+              {"Utilisés uniquement pour vous répondre, jamais transmis à des tiers. Conservés 2 ans après le dernier échange, puis supprimés."}
+            </dd>
+          </div>
+          <div style={css(`display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; line-height: 1.5`)}>
+            <dt style={css(`flex: 0 0 220px; font-weight: 700`)}>
+              {"Base de données"}
+            </dt>
+            <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
+              {"TiDB Cloud (PingCAP), hébergée chez Amazon Web Services à Francfort (Allemagne). Elle contient le contenu du site, aucune donnée sur les visiteurs."}
+            </dd>
+          </div>
+          <div style={css(`display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; line-height: 1.5`)}>
+            <dt style={css(`flex: 0 0 220px; font-weight: 700`)}>
+              {"Fichiers"}
+            </dt>
+            <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
+              {"Vercel Blob (Vercel Inc.) : livrables, captures et documents publiés sur le site, sans donnée sur les visiteurs."}
+            </dd>
+          </div>
+          <div style={css(`display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; line-height: 1.5`)}>
+            <dt style={css(`flex: 0 0 220px; font-weight: 700`)}>
+              {"Authentification"}
+            </dt>
+            <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
+              {"GitHub (GitHub Inc.), réservée à l’administratrice : seul l’identifiant numérique de son compte est vérifié. Aucun compte visiteur."}
+            </dd>
+          </div>
+          <div style={css(`display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; line-height: 1.5`)}>
+            <dt style={css(`flex: 0 0 220px; font-weight: 700`)}>
+              {"Transferts hors UE"}
+            </dt>
+            <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
+              {"Le site est servi par Vercel depuis Francfort (Allemagne). Vercel Inc. et GitHub Inc. sont des sociétés américaines : des données techniques (adresse IP, journaux de connexion) peuvent être traitées aux États-Unis."}
             </dd>
           </div>
           <div style={css(`display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; line-height: 1.5`)}>
@@ -126,7 +174,11 @@ export function MentionsView({ v }: { v: any }) {
               <a href={"mailto:contact@clarabernadou.fr"}>
                 {"contact@clarabernadou.fr"}
               </a>
-              {". Vous pouvez aussi saisir la CNIL."}
+              {". Vous pouvez aussi adresser une réclamation à la "}
+              <a href={"https://www.cnil.fr/fr/plaintes"} target={"_blank"} rel={"noopener noreferrer"} aria-label={"CNIL (nouvel onglet)"}>
+                {"CNIL ↗"}
+              </a>
+              {"."}
             </dd>
           </div>
           </dl>

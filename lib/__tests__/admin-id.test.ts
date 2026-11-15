@@ -10,7 +10,7 @@ describe("isAdminGithubId", () => {
 
   it("refuse un nom d'utilisateur, un e-mail ou une valeur vide", () => {
     expect(isAdminGithubId("clarabernadou", "92588607")).toBe(false);
-    expect(isAdminGithubId("clarabernadou56690@gmail.com", "92588607")).toBe(false);
+    expect(isAdminGithubId("quelquun@example.com", "92588607")).toBe(false);
     expect(isAdminGithubId(undefined, "92588607")).toBe(false);
     expect(isAdminGithubId(null, "92588607")).toBe(false);
   });
