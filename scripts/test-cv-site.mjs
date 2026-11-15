@@ -28,7 +28,9 @@ const html = async (chemin) => (await fetch(new URL(chemin, base))).text();
 
 // Texte du PDF, tel que le site le sert (redirections suivies).
 const r = await fetch(new URL(CV, base));
-check(r.status === 200 && r.headers.get("content-type")?.includes("pdf"), `${CV} sert un PDF (${r.status})`);
+const estPdf = r.status === 200 && !!r.headers.get("content-type")?.includes("pdf");
+check(estPdf, `${CV} sert un PDF (${r.status})`);
+if (!estPdf) process.exit(1);
 const pdf = execFileSync("pdftotext", ["-", "-"], { input: Buffer.from(await r.arrayBuffer()) }).toString().replace(/[ \t]+/g, " ");
 
 const [accueil, cv, ia, iaHtml] = await Promise.all([texte("/"), texte("/cv"), texte("/ia"), html("/ia")]);
