@@ -1,9 +1,9 @@
 import { ImageResponse } from "next/og";
+import { OG_TAILLE } from "@/lib/og";
 
-// Image de partage (LinkedIn, Google, messageries) de toutes les pages : 1200 × 630,
-// aux couleurs du site (dégradé Encre vers Nuit, Lilas). Générée au build.
-export const alt = "Clara Bernadou, développeuse full stack";
-export const size = { width: 1200, height: 630 };
+// Image de partage de l'accueil (et des pages sans image propre) : 1200 × 630, aux couleurs du site.
+export const alt = "Clara Bernadou, développeuse full stack : portfolio. React, TypeScript, Node.js, CDI dès mars 2027.";
+export const size = OG_TAILLE;
 export const contentType = "image/png";
 
 export default function Image() {

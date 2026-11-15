@@ -12,6 +12,7 @@ const refresh = () => revalidatePath("/", "layout");
 export async function saveProfile(p: SiteProfile): Promise<Result> {
   if (!(await isAdminSession())) return { ok: false, error: "Ta session a expiré.", session: true };
   if (!p.nom.trim()) return { ok: false, error: "Le nom est obligatoire." };
+  if (!p.photoAlt?.trim()) return { ok: false, error: "Décris la photo : son texte alternatif est lu aux personnes qui ne voient pas l’image." };
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.email)) return { ok: false, error: "L’e-mail de contact n’est pas valide." };
   for (const [k, v] of [["LinkedIn", p.linkedin], ["GitHub", p.github]] as const) if (v && !/^https:\/\//.test(v)) return { ok: false, error: `Le lien ${k} doit commencer par https://.` };
   // Le CV n'a plus qu'une version (28 oct. 2026) : un ancien brouillon peut encore porter « profilComplet ».

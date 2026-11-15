@@ -11,7 +11,9 @@ const FLECHE = `width: 44px; height: 44px; border-radius: 50%; border: 1.5px sol
 
 export function ListeLivrables({ total, children }: { total: number; children: ReactNode }) {
   const liste = useRef<HTMLUListElement>(null);
-  const [vue, setVue] = useState({ premier: 1, dernier: Math.min(total, SEUIL), debut: true, fin: total <= SEUIL });
+  // Avant la première mesure (rendu serveur), on ne sait pas combien de cartes tiennent à l'écran :
+  // le texte annonce seulement le total (« 7 livrables »), jamais une plage fausse (13 nov. 2026).
+  const [vue, setVue] = useState({ premier: 1, dernier: Math.min(total, SEUIL), debut: true, fin: total <= SEUIL, mesure: false });
 
   // Cartes entièrement visibles dans la rangée, et rangée en butée à gauche ou à droite.
   const mesurer = useCallback(() => {
@@ -24,7 +26,7 @@ export function ListeLivrables({ total, children }: { total: number; children: R
       return el.offsetLeft >= g - 2 && el.offsetLeft + el.offsetWidth <= d + 2 ? [i + 1] : [];
     });
     if (!visibles.length) return;
-    setVue({ premier: visibles[0], dernier: visibles[visibles.length - 1], debut: g <= 2, fin: d >= ul.scrollWidth - 2 });
+    setVue({ premier: visibles[0], dernier: visibles[visibles.length - 1], debut: g <= 2, fin: d >= ul.scrollWidth - 2, mesure: true });
   }, []);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export function ListeLivrables({ total, children }: { total: number; children: R
       </ul>
       <div style={css(`display: flex; align-items: center; justify-content: space-between; gap: 12px`)}>
         <p aria-live={"polite"} style={css(`margin: 0; font-size: 15px; font-weight: 600; color: var(--ardoise)`)}>
-          {vue.premier === vue.dernier ? `Livrable ${vue.premier} sur ${total}` : `Livrables ${vue.premier} à ${vue.dernier} sur ${total}`}
+          {!vue.mesure ? `${total} livrables` : vue.premier === vue.dernier ? `Livrable ${vue.premier} sur ${total}` : `Livrables ${vue.premier} à ${vue.dernier} sur ${total}`}
         </p>
         <div style={css(`display: flex; gap: 8px`)}>
           <button type={"button"} onClick={() => defiler(-1)} aria-label={"Livrables précédents"} aria-disabled={vue.debut} style={css(`${FLECHE}; opacity: ${vue.debut ? 0.4 : 1}`)}>

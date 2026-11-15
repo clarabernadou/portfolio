@@ -20,6 +20,8 @@ export interface ProjectDoc {
 export interface ProjectCapture {
   url: string;
   alt: string;
+  // Image cochée « décorative » dans l'administration : seul cas où le texte alternatif peut rester vide.
+  decorative?: boolean;
 }
 
 export interface ProjectVideo {
