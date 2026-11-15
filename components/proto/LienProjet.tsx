@@ -7,8 +7,20 @@ import { css } from "@/lib/css";
 // sur une page vide. Il redevient un lien dès sa publication.
 export const ETIQUETTE_VALIDATION = `align-self: flex-start; padding: 3px 9px; border-radius: 6px; background: #F3EFFF; color: #1A1033; font-size: 13px; font-weight: 700`;
 
-/** Carte cliquable si le projet est publié ; sinon la même carte, inerte, avec l'étiquette « En cours de validation ». */
-export function CarteProjet({ id, publics, style, suite, children }: { id: string; publics: string[]; style: string; suite: ReactNode; children: ReactNode }) {
+/** Carte cliquable si le projet est publié ; sinon la même carte, inerte, avec l'étiquette « En cours de validation ».
+ * Avec `separe` (13 nov. 2026) : seul « Voir le projet » est un lien, nommé par le titre de la carte (id
+ * `${id}-titre`) et décrit par sa description (id `${id}-desc`), et étiré sur toute la carte (.lien-etire).
+ * Le nom du lien ne reprend plus tout le texte de la carte. */
+export function CarteProjet({ id, publics, style, suite, separe, children }: { id: string; publics: string[]; style: string; suite: ReactNode; separe?: boolean; children: ReactNode }) {
+  if (publics.includes(id) && separe)
+    return (
+      <div style={css(`${style}; position: relative`)}>
+        {children}{" "}
+        <Link href={`/projets/${id}`} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-titre ${id}-suite`} aria-describedby={`${id}-desc`} style={css(`text-decoration: none; align-self: flex-start`)}>
+          {suite}
+        </Link>
+      </div>
+    );
   if (publics.includes(id))
     return (
       <Link href={`/projets/${id}`} style={css(style)}>

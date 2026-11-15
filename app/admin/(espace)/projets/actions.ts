@@ -30,7 +30,7 @@ export interface ProjectInput {
   docs: { label: string; href: string; thumb?: string; alt?: string }[];
   steps: { label: string; status: string }[];
   videos: { title: string; kicker: string; url: string }[];
-  captures: { url: string; alt: string }[];
+  captures: { url: string; alt: string; decorative?: boolean }[];
   retour: Retour;
   visible: boolean;
   onHome: boolean;
@@ -74,10 +74,13 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
     videos.push({ n: i + 1, kicker: v.kicker || `Film ${i + 1} sur ${input.videos.length}`, title: v.title, youtubeId: yid, url: v.url });
   }
 
-  // Captures du site : chaque image envoyée doit être décrite (texte alternatif, RGAA 1.2).
-  const captures = input.captures.filter((c) => c.url.trim()).map((c) => ({ url: c.url.trim(), alt: c.alt.trim() }));
-  const sansTexte = captures.findIndex((c) => !c.alt);
-  if (sansTexte >= 0) return { ok: false, error: `Décris la capture ${sansTexte + 1} : sa description est lue aux personnes qui ne voient pas l’image.` };
+  // Captures du site : chaque image informative doit être décrite (texte alternatif, RGAA 1.2) ;
+  // un texte vide est réservé aux images cochées « décoratives ».
+  const captures = input.captures
+    .filter((c) => c.url.trim())
+    .map((c) => (c.decorative ? { url: c.url.trim(), alt: "", decorative: true } : { url: c.url.trim(), alt: c.alt.trim() }));
+  const sansTexte = captures.findIndex((c) => !c.alt && !("decorative" in c));
+  if (sansTexte >= 0) return { ok: false, error: `Décris la capture ${sansTexte + 1} (lue aux personnes qui ne voient pas l’image), ou coche « Image décorative » si elle n’apporte aucune information.` };
 
   const others = await prisma.project.findMany({
     where: { deletedAt: null, NOT: { id: input.originalId ?? "" } },

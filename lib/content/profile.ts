@@ -4,10 +4,9 @@ import type { CompetenceCategorie, Langue, ProfilCv } from "../types";
 
 export const identite = {
   nom: "Clara Bernadou",
-  intituleSite: "Développeuse full-stack",
-  // Titre de l'accueil uniquement : trait d'union insécable (U+2011) dans
-  // accueil.txt pour que « full‑stack » ne se coupe jamais en fin de ligne.
-  intituleAccueil: "Développeuse full‑stack",
+  intituleSite: "Développeuse full stack",
+  // Titre de l'accueil : « full stack » en white-space: nowrap (AccueilView), jamais coupé.
+  intituleAccueil: "Développeuse full stack",
   accroche: "Je conçois et développe des applications web accessibles (React, TypeScript, Node.js), de la maquette Figma à la mise en production.",
   disponibilite: "CDI · disponible en mars 2027",
   lieu: "Full remote ou Vannes / Auray",
@@ -27,7 +26,7 @@ export const langues: Langue[] = [
 
 export const profilCv: ProfilCv = {
   profilCourt:
-    "Développeuse full-stack (React, TypeScript, Node.js), je conçois et développe des applications web accessibles, de la maquette Figma à la mise en production. Bac+5, en alternance depuis décembre 2023 sur deux plateformes SaaS ; l’IA fait partie de mon quotidien.",
+    "Développeuse full stack (React, TypeScript, Node.js), je conçois et développe des applications web accessibles, de la maquette Figma à la mise en production. Bac+5, en alternance depuis décembre 2023 sur deux plateformes SaaS ; l’IA fait partie de mon quotidien.",
 };
 
 export const competencesEssentiel: CompetenceCategorie[] = [

@@ -20,12 +20,16 @@ const typeVisionneuse = (href: string): ElementVisionneuse["type"] | null =>
 // Le focus est déplacé après le rendu suivant (RGAA 12.8 : il ne doit pas retomber sur la page).
 const focusApres = (selecteur: string) => setTimeout(() => document.querySelector<HTMLElement>(selecteur)?.focus(), 0);
 
+// Lien GitHub d'un projet : seulement un dépôt (github.com/compte/depot). Un lien vers le profil
+// général (github.com/compte) n'apprend rien sur le projet : pas de bouton (13 nov. 2026).
+const depotGithub = (url: string | null) => (url && /^https:\/\/github\.com\/[^/]+\/[^/?#]+/.test(url) ? url : null);
+
 function card(p: Project) {
   return {
     ...p,
     ctx: p.context,
-    hasGh: !!p.github,
-    ghh: p.github,
+    hasGh: !!depotGithub(p.github),
+    ghh: depotGithub(p.github),
     hasSite: !!p.site,
     siteh: p.site,
     href: `/projets/${p.id}`,
@@ -36,8 +40,9 @@ function card(p: Project) {
 // projet (demande de Clara, 1er nov. 2026), sauf si un livrable du même type existe déjà.
 function livrables(p: Project) {
   const liens = [
-    { label: "Maquettes Figma", href: p.figma, format: "Figma" },
-    { label: "Dépôt GitHub", href: p.github, format: "GitHub" },
+    // Le format (« Figma », « GitHub ») s'affiche déjà sur la carte : le nom ne le répète pas (13 nov. 2026).
+    { label: "Maquettes", href: p.figma, format: "Figma" },
+    { label: "Dépôt de code", href: depotGithub(p.github), format: "GitHub" },
   ]
     // Un livrable du même type (lien Figma ou GitHub) suffit : pas de doublon.
     .filter((l) => !!l.href && !p.docs.some((d) => formatLivrable(d.href) === l.format))
@@ -58,9 +63,10 @@ function detail(p: Project) {
     // « Tous les livrables » désigne seulement une compilation.
     pdfLabel: lienNomme(p) || `Tous les livrables · ${formatLivrable(p.pdf)}`,
     pdfToutOuvrir: lienNomme(p) || `Tout ouvrir · ${formatLivrable(p.pdf)}`,
-    hasGh: !!p.github,
-    ghh: p.github,
-    hasFig: !!p.figma,
+    hasGh: !!depotGithub(p.github),
+    ghh: depotGithub(p.github),
+    // Les maquettes Figma figurent dans les livrables : pas de second lien en haut de la fiche (13 nov. 2026).
+    hasFig: !!p.figma && !livrables(p).some((d) => d.href === p.figma),
     figh: p.figma,
     hasSite: !!p.site,
     siteh: p.site,

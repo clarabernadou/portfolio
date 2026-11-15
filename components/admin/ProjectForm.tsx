@@ -209,7 +209,7 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
               items={p.captures}
               onChange={(v) => set("captures", v)}
               addLabel="Ajouter une capture"
-              make={() => ({ url: "", alt: "" })}
+              make={() => ({ url: "", alt: "", decorative: false })}
               itemName={(d, i) => d.alt || `la capture ${i + 1}`}
               empty={
                 <>
@@ -225,7 +225,8 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
                     )}
                     <BlobUpload folder={p.id || "nouveau"} accept="image/jpeg,image/png,image/webp" label={d.url ? "Remplacer l’image" : "Envoyer l’image"} onDone={(url) => setD({ ...d, url })} />
                   </span>
-                  <InlineInput label="Description de la capture" placeholder="Ce que montre la capture (lu aux personnes qui ne voient pas l’image)" value={d.alt} onChange={(v) => setD({ ...d, alt: v })} />
+                  {!d.decorative && <InlineInput label="Description de la capture (obligatoire)" placeholder="Ce que montre la capture (lu aux personnes qui ne voient pas l’image)" value={d.alt} onChange={(v) => setD({ ...d, alt: v })} />}
+                  <Toggle label="Image décorative" help="À cocher seulement si l’image n’apporte aucune information : elle est alors ignorée par les lecteurs d’écran, sans description." checked={!!d.decorative} onChange={(v) => setD({ ...d, decorative: v, alt: v ? "" : d.alt })} />
                 </>
               )}
             />

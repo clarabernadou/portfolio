@@ -9,7 +9,7 @@ function hrefFor(nom: string): string {
 
 export const experiences: Experience[] = [
   {
-    poste: "Développeuse full-stack & UI designer",
+    poste: "Développeuse Full Stack & UI/UX",
     entreprise: "Fruggr",
     entrepriseHref: hrefFor("Fruggr"),
     entrepriseParent: "Digital4Better",
@@ -35,7 +35,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    poste: "Développeuse full-stack & UI designer",
+    poste: "Développeuse Full Stack & UI/UX",
     entreprise: "CarbonScore",
     entrepriseHref: hrefFor("CarbonScore"),
     entrepriseParent: "TechUpClimate",

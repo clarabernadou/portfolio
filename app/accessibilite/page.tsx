@@ -2,7 +2,6 @@ import Link from "next/link";
 import { css } from "@/lib/css";
 import { pageMetadata } from "@/lib/metadata";
 import { getProfile, getSiteProjects } from "@/lib/data";
-import { NomProjet } from "@/components/proto/LienProjet";
 import { siteUrl } from "@/lib/site-url";
 import { compte, dateAudit, ECHANTILLON, nonConformes, RAPPORT_PDF, referentiel, taux } from "@/lib/accessibilite";
 
@@ -26,7 +25,8 @@ export default async function AccessibilitePage() {
   // Une fiche pas encore publiée n'est jamais un lien (components/proto/LienProjet.tsx).
   const publics = projets.map((p) => p.id);
   const publie = (href: string) => !href.startsWith("/projets/") || publics.includes(href.slice("/projets/".length));
-  const films = nonConformes.filter((c) => c.n.startsWith("4."));
+  // Le critère 13.3 (livrables téléchargeables) fait l'objet de la dérogation ci-dessous.
+  const autres = nonConformes.filter((c) => c.n !== "13.3");
   return (
     <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 2rem 4.5rem; display: flex; flex-direction: column; gap: 2.5rem`)}>
       <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
@@ -61,9 +61,9 @@ export default async function AccessibilitePage() {
         </h2>
         <p style={css(P)}>{`L’audit interne du ${dateFr(dateAudit)} donne les résultats suivants :`}</p>
         <ul style={css(LISTE)}>
-          <li>{`${String(taux).replace(".", ",")} % des critères applicables sont respectés (${compte("C")} sur ${compte("C") + compte("NC")}) ;`}</li>
-          <li>{`${compte("NC")} critères sont non conformes ;`}</li>
-          <li>{`${compte("NA")} critères ne s’appliquent pas au site (par exemple, il n’a ni tableau ni formulaire).`}</li>
+          <li>{`Le RGAA compte ${compte("C") + compte("NC") + compte("NA")} critères. ${compte("C") + compte("NC")} s’appliquent à ce site, et ${compte("NA")} ne s’y appliquent pas (par exemple, il n’a ni tableau, ni formulaire, ni vidéo publiée) ;`}</li>
+          <li>{`sur les ${compte("C") + compte("NC")} critères qui s’appliquent, ${compte("C")} sont respectés et ${compte("NC")} ${compte("NC") > 1 ? "ne le sont pas" : "ne l’est pas"} ;`}</li>
+          <li>{`le taux de conformité est donc de ${String(taux).replace(".", ",")} %.`}</li>
         </ul>
         {RAPPORT_PDF && (
           <p style={css(P)}>
@@ -79,16 +79,15 @@ export default async function AccessibilitePage() {
           {"Contenus non accessibles"}
         </h2>
         <h3 style={css(H3)}>{"Non-conformités"}</h3>
-        <p style={css(P)}>
-          {"Les 3 films de la page "}
-          <NomProjet id={"repositionnement-fruggr"} publics={publics}>{"Repositionnement de Fruggr"}</NomProjet>
-          {" :"}
-        </p>
-        <ul style={css(LISTE)}>
-          {films.map((c) => (
-            <li key={c.n}>{`${c.constat} (critère ${c.n})`}</li>
-          ))}
-        </ul>
+        {autres.length ? (
+          <ul style={css(LISTE)}>
+            {autres.map((c) => (
+              <li key={c.n}>{`${c.constat} (critère ${c.n})`}</li>
+            ))}
+          </ul>
+        ) : (
+          <p style={css(P)}>{"Aucune, en dehors des livrables téléchargeables décrits ci-dessous."}</p>
+        )}
         <h3 style={css(H3)}>{"Dérogation pour charge disproportionnée"}</h3>
         <p style={css(P)}>
           {"Les livrables de formation téléchargeables (maquettes, wireframes et diagrammes exportés de Figma en PDF) ne sont pas accessibles (critère 13.3). Leur contenu est résumé sur chaque fiche projet. Une version accessible peut être fournie sur demande."}

@@ -53,7 +53,7 @@ export function ProfileForm({ initial }: { initial: SiteProfile }) {
         </div>
         <TextField label="Disponibilités d’entretien" value={p.entretiens} onChange={(v) => set("entretiens", v)} help="Phrase reprise dans le pied de page du site." />
         <TextField ia label="Accroche de l’accueil" value={p.accroche} onChange={(v) => set("accroche", v)} />
-        <TextField label="Texte alternatif de la photo" value={p.photoAlt} onChange={(v) => set("photoAlt", v)} help="Lu par les lecteurs d’écran à la place de la photo du CV." />
+        <TextField label="Texte alternatif de la photo" required value={p.photoAlt} onChange={(v) => set("photoAlt", v)} help="Lu par les lecteurs d’écran à la place de la photo du CV." />
       </section>
 
       <section className="adm-card" aria-labelledby="p-profil">

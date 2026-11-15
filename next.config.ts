@@ -69,6 +69,15 @@ const nextConfig: NextConfig = {
           { key: "Cache-Control", value: "no-store" },
         ],
       },
+      // Aperçus des projets non publiés, réservés à Clara (proxy.ts) : jamais indexés, ni la redirection
+      // vers la connexion ni la page elle-même (13 nov. 2026).
+      {
+        source: "/apercu/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+          { key: "Cache-Control", value: "no-store" },
+        ],
+      },
     ];
   },
   turbopack: {

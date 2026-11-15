@@ -14,7 +14,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const project = (await getSiteProjects()).find((p) => p.id === id);
   if (!project) return (await getProjetApercu(id)) ? { title: "Projet en cours de validation", robots: { index: false, follow: true } } : {};
-  return pageMetadata(`${project.name} · ${project.parcours}`, project.line, `/projets/${project.id}`);
+  // Titre « Nom · type de projet » (13 nov. 2026).
+  return pageMetadata(`${project.name} · ${project.type}`, project.line, `/projets/${project.id}`);
 }
 
 export default async function ProjetPage({ params }: { params: Promise<{ id: string }> }) {
