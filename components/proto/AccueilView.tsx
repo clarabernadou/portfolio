@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { css } from "@/lib/css";
-import { CarteAlternance, FriseFormation } from "./Parcours";
+import { CarteAlternance, FormationsCourtes, FriseFormation } from "./Parcours";
 import { Lieu } from "./Lieu";
 import { Recommandations } from "./Recommandations";
 
@@ -427,6 +427,7 @@ export function AccueilView({ v }: { v: any }) {
               </ol>
             </div>
             {" "}
+            <FormationsCourtes items={v.courtes ?? []} />
           </div>
           {" "}
         </section>

@@ -1,6 +1,6 @@
 import projectsData from "@/data/projects.json";
 import cartesAccueil from "@/data/accueil-cartes.json";
-import type { Experience, Formation, IaContent, Project } from "./types";
+import type { Experience, Formation, FormationCourte, IaContent, Project } from "./types";
 import type { AlternanceCard, HomeCard, SiteExperience, SiteFormation, SiteProfile, SiteProject, SiteReco } from "./data-shared";
 import { experiences as experiencesJson } from "./content/experiences";
 import { formations as formationsJson } from "./content/formations";
@@ -238,6 +238,13 @@ async function getPhotoUrlSource(): Promise<string> {
   return a ? `/media/photo?v=${a.updatedAt.getTime()}` : "/photo-clara.jpg";
 }
 
+// Formations courtes et certifications : seulement en base (clé « formationsCourtes »).
+async function getFormationsCourtesSource(): Promise<FormationCourte[]> {
+  if (!hasDb()) return [];
+  const row = await (await prisma()).singleton.findUnique({ where: { key: "formationsCourtes" } });
+  return ((row?.data as { items?: FormationCourte[] } | null)?.items ?? []).filter((f) => f.name && f.organisme);
+}
+
 async function getIaSource(): Promise<IaContent> {
   if (!hasDb()) return iaJson as IaContent;
   const row = await (await prisma()).singleton.findUnique({ where: { key: "ia" } });
@@ -254,3 +261,4 @@ export const getProfile = uneFoisAuBuild("getProfile", getProfileSource);
 export const getRecommendations = uneFoisAuBuild("getRecommendations", getRecommendationsSource);
 export const getPhotoUrl = uneFoisAuBuild("getPhotoUrl", getPhotoUrlSource);
 export const getIa = uneFoisAuBuild("getIa", getIaSource);
+export const getFormationsCourtes = uneFoisAuBuild("getFormationsCourtes", getFormationsCourtesSource);

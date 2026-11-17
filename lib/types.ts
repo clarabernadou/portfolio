@@ -108,6 +108,19 @@ export interface IaCase {
   href: string;
 }
 
+// Formation courte ou certification (accueil, rubrique « Parcours », 17 nov. 2026).
+// Une attestation de suivi n'est jamais présentée comme une certification.
+export interface FormationCourte {
+  name: string;
+  /** Organisme qui délivre l'attestation ou la certification. */
+  organisme: string;
+  /** « juillet 2026 ». */
+  date: string;
+  type: "attestation" | "certification";
+  /** Facultatif : page de vérification ou de la formation (lien externe). */
+  url?: string;
+}
+
 export interface IaContent {
   intro: { title: string; lead: string };
   stats: IaStat[];
