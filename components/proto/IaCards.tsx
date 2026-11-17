@@ -48,3 +48,20 @@ export function IaCard({ kicker, title, text, favorite, note, children }: { kick
     </article>
   );
 }
+
+// Formation courte (17 nov. 2026) : même carte que les outils, l'organisme en surtitre,
+// la date (et le détail facultatif) sous l'intitulé.
+export function IaFormationCard({ name, organisme, date, detail }: { name: string; organisme: string; date: string; detail?: string }) {
+  return (
+    <article style={css(`border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`)}>
+      <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{organisme}</span>
+      {" "}
+      <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>{name}</h3>
+      {" "}
+      <p style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>
+        {date}
+        {detail && <><br />{detail}</>}
+      </p>
+    </article>
+  );
+}

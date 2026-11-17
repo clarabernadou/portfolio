@@ -14,9 +14,9 @@ export default async function PageIa() {
     <>
       <div>
         <h1 className="adm-h1">Page IA</h1>
-        <p className="adm-sub">Outils, skills et routines de la page IA.</p>
+        <p className="adm-sub">Outils, skills, routines et formations de la page IA.</p>
       </div>
-      <IaEditor initial={{ tools: ia.tools, skills: ia.skills, routines: ia.routines }} stats={ia.stats} />
+      <IaEditor initial={{ tools: ia.tools, skills: ia.skills, routines: ia.routines, formations: ia.formations ?? [] }} stats={ia.stats} />
     </>
   );
 }
