@@ -108,6 +108,17 @@ export interface IaCase {
   href: string;
 }
 
+// Formation courte suivie en ligne, avec attestation (page IA, 17 nov. 2026).
+export interface IaFormation {
+  name: string;
+  /** Organisme qui délivre l'attestation. */
+  organisme: string;
+  /** « juillet 2026 ». */
+  date: string;
+  /** Facultatif : durée, condition de réussite. */
+  detail?: string;
+}
+
 export interface IaContent {
   intro: { title: string; lead: string };
   stats: IaStat[];
@@ -117,6 +128,8 @@ export interface IaContent {
   skillsIntro: string;
   routines: IaRoutine[];
   routinesIntro: string;
+  /** Formations courtes, gérées dans l'administration (absentes de data/ia.json). */
+  formations?: IaFormation[];
   method: IaMethodStep[];
   rules: IaRule[];
   rulesIntro: string;

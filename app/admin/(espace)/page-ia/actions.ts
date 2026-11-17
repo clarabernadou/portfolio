@@ -6,14 +6,15 @@ import { db } from "@/lib/db";
 import { logActivity } from "@/lib/admin/activity";
 import type { IaContent } from "@/lib/types";
 
-type Lists = Pick<IaContent, "tools" | "skills" | "routines">;
+type Lists = Pick<IaContent, "tools" | "skills" | "routines"> & { formations: NonNullable<IaContent["formations"]> };
 
-// Enregistre les listes de la page IA (outils, skills, routines) ; le reste du
+// Enregistre les listes de la page IA (outils, skills, routines, formations) ; le reste du
 // contenu (introduction, méthode, règles) est conservé tel quel.
 export async function saveIa(lists: Lists): Promise<{ ok: true } | { ok: false; error: string; session?: boolean }> {
   if (!(await isAdminSession())) return { ok: false, error: "Ta session a expiré.", session: true };
-  if (lists.tools.some((t) => !t.name.trim()) || lists.skills.some((t) => !t.name.trim()) || lists.routines.some((t) => !t.title.trim()))
+  if (lists.tools.some((t) => !t.name.trim()) || lists.skills.some((t) => !t.name.trim()) || lists.routines.some((t) => !t.title.trim()) || lists.formations.some((t) => !t.name.trim()))
     return { ok: false, error: "Chaque élément doit avoir un nom." };
+  if (lists.formations.some((t) => !t.organisme.trim() || !t.date.trim())) return { ok: false, error: "Chaque formation doit avoir un organisme et une date." };
   if (lists.tools.filter((t) => t.favorite).length > 1) return { ok: false, error: "Une seule carte peut porter le badge « Prédilection »." };
   const prisma = db();
   const row = await prisma.singleton.findUnique({ where: { key: "ia" } });
