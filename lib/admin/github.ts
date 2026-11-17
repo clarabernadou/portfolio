@@ -20,6 +20,8 @@ export function parseRepoUrl(input: string): { owner: string; repo: string } | n
 }
 
 async function gh(path: string) {
+  // Mode démo (scripts/demo/) : dépôts fictifs, jamais l'API GitHub ni les vrais dépôts.
+  if (process.env.DEMO_DONNEES_FICTIVES === "1") return (await import("./github-demo")).ghDemo(path);
   const headers: Record<string, string> = { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
   if (process.env.GITHUB_SYNC_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_SYNC_TOKEN}`;
   const r = await fetch(`https://api.github.com${path}`, { headers, cache: "no-store" });
