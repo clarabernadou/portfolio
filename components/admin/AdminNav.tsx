@@ -10,6 +10,7 @@ const RUBRIQUES = [
   { href: "/admin/projets", label: "Projets", icon: "folder" },
   { href: "/admin/categories", label: "Catégories", icon: "tag" },
   { href: "/admin/formations", label: "Formations", icon: "graduation" },
+  { href: "/admin/formations-courtes", label: "Formations courtes", icon: "check" },
   { href: "/admin/experiences", label: "Expériences", icon: "briefcase" },
   { href: "/admin/competences", label: "Compétences", icon: "lines" },
   { href: "/admin/profil", label: "Profil et CV", icon: "user" },
@@ -23,7 +24,7 @@ export function AdminNav() {
     <nav aria-label="Administration">
       <ul className="adm-nav">
         {RUBRIQUES.map((r) => {
-          const active = r.href === "/admin" ? pathname === "/admin" : pathname.startsWith(r.href);
+          const active = r.href === "/admin" ? pathname === "/admin" : pathname === r.href || pathname.startsWith(`${r.href}/`);
           return (
             <li key={r.href}>
               <Link href={r.href} aria-current={active ? "page" : undefined}>

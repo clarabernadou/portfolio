@@ -2,6 +2,7 @@
 
 import { AccueilView } from "./AccueilView";
 import { siteContact } from "@/lib/site-data";
+import type { FormationCourte } from "@/lib/types";
 import { dispoLabel, type enBref, type SiteExperience, type SiteFormation, type SiteProfile, type SiteProject, type SiteReco } from "@/lib/data-shared";
 
 // Cartes « Projets » : projets mis à l'accueil, avec le texte propre à leur carte.
@@ -17,7 +18,7 @@ function cards(home: SiteProject[], section: string) {
     }));
 }
 
-export function Accueil({ home, total, bref, experiences, duree, formations, profil, recos }: { home: SiteProject[]; total: number; bref: ReturnType<typeof enBref>; experiences: SiteExperience[]; duree: { ans: number; mois: number } | null; formations: SiteFormation[]; profil: SiteProfile; recos: SiteReco[] }) {
+export function Accueil({ home, total, bref, experiences, duree, formations, courtes, profil, recos }: { home: SiteProject[]; total: number; bref: ReturnType<typeof enBref>; experiences: SiteExperience[]; duree: { ans: number; mois: number } | null; formations: SiteFormation[]; courtes: FormationCourte[]; profil: SiteProfile; recos: SiteReco[] }) {
   const v: Record<string, unknown> = {
     cvUrl: siteContact.cvPdfHref,
     profil,
@@ -38,6 +39,7 @@ export function Accueil({ home, total, bref, experiences, duree, formations, pro
     // Parcours : alternances et frise, de la plus ancienne à la plus récente.
     alternances: experiences.filter((e) => e.homeCard).sort((a, b) => a.homeCard!.order - b.homeCard!.order),
     frise: [...formations].reverse(),
+    courtes,
     recos,
   };
   return <AccueilView v={v} />;

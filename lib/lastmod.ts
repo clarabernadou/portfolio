@@ -22,7 +22,7 @@ export async function datesDuSite() {
   const s = (k: string) => singletons.find((x) => x.key === k)?.updatedAt;
   const liste = max(...projets.map((p) => p.updatedAt));
   const cv = max(s("profil"), exp._max.updatedAt, form._max.updatedAt, reco._max.updatedAt);
-  const accueil = max(cv, liste);
+  const accueil = max(cv, liste, s("formationsCourtes"));
   return {
     projets: new Map(projets.map((p) => [p.id, p.updatedAt])),
     accueil,

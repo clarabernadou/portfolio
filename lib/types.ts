@@ -108,15 +108,17 @@ export interface IaCase {
   href: string;
 }
 
-// Formation courte suivie en ligne, avec attestation (page IA, 17 nov. 2026).
-export interface IaFormation {
+// Formation courte ou certification (accueil, rubrique « Parcours », 17 nov. 2026).
+// Une attestation de suivi n'est jamais présentée comme une certification.
+export interface FormationCourte {
   name: string;
-  /** Organisme qui délivre l'attestation. */
+  /** Organisme qui délivre l'attestation ou la certification. */
   organisme: string;
   /** « juillet 2026 ». */
   date: string;
-  /** Facultatif : durée, condition de réussite. */
-  detail?: string;
+  type: "attestation" | "certification";
+  /** Facultatif : page de vérification ou de la formation (lien externe). */
+  url?: string;
 }
 
 export interface IaContent {
@@ -128,8 +130,6 @@ export interface IaContent {
   skillsIntro: string;
   routines: IaRoutine[];
   routinesIntro: string;
-  /** Formations courtes, gérées dans l'administration (absentes de data/ia.json). */
-  formations?: IaFormation[];
   method: IaMethodStep[];
   rules: IaRule[];
   rulesIntro: string;

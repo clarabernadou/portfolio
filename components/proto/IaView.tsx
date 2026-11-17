@@ -2,7 +2,7 @@
 
 import { CarteProjet } from "./LienProjet";
 import { css } from "@/lib/css";
-import { IaCard, IaFormationCard, IaStat } from "./IaCards";
+import { IaCard, IaStat } from "./IaCards";
 import { IaExemples } from "./IaExemples";
 
 // Généré depuis docs/passation/prototype-source/ia.source.html
@@ -291,30 +291,6 @@ export function IaView({ v }: { v: any }) {
             </li>
           </ul>
         </section>
-        {v.formations?.length > 0 && (
-          <>
-            <Sep />
-            {" "}
-            <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
-              <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
-                <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
-                  {"Formations suivies"}
-                </h2>
-                <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
-                  {"Des formations courtes, suivies en ligne, chacune avec une attestation."}
-                </p>
-              </div>
-              {" "}
-              <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 16px`)}>
-                {v.formations.map((f: any) => (
-                  <li key={f.name} style={css(`display: grid`)}>
-                    <IaFormationCard name={f.name} organisme={f.organisme} date={f.date} detail={f.detail} />
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </>
-        )}
       </main>
     </>
   );

@@ -11,19 +11,16 @@ import { useToast } from "./Toast";
 import { Icon } from "./icons";
 import { IaPage } from "./AvisIA";
 
-type Lists = Pick<IaContent, "tools" | "skills" | "routines"> & { formations: NonNullable<IaContent["formations"]> };
+type Lists = Pick<IaContent, "tools" | "skills" | "routines">;
 type Onglet = keyof Lists;
-// « nouveau » et « un » accordés au nom (« Nouvelle formation », « Ajouter une formation »).
-const ONGLETS: { k: Onglet; label: string; un: string; nouveau: string; article: string }[] = [
-  { k: "tools", label: "Outils", un: "outil", nouveau: "Nouvel", article: "un" },
-  { k: "skills", label: "Skills", un: "skill", nouveau: "Nouveau", article: "un" },
-  { k: "routines", label: "Routines", un: "routine", nouveau: "Nouvelle", article: "une" },
-  { k: "formations", label: "Formations", un: "formation", nouveau: "Nouvelle", article: "une" },
+const ONGLETS: { k: Onglet; label: string; un: string }[] = [
+  { k: "tools", label: "Outils", un: "outil" },
+  { k: "skills", label: "Skills", un: "skill" },
+  { k: "routines", label: "Routines", un: "routine" },
 ];
 
 const nom = (k: Onglet, x: Record<string, unknown>) => String(k === "routines" ? x.title : x.name);
-const sous = (k: Onglet, x: Record<string, unknown>) =>
-  String(k === "tools" ? x.category : k === "routines" ? x.when : k === "formations" ? [x.organisme, x.date].filter(Boolean).join(" · ") : "Skill");
+const sous = (k: Onglet, x: Record<string, unknown>) => String(k === "tools" ? x.category : k === "routines" ? x.when : "Skill");
 
 // Maquette : docs/passation/maquettes/admin/Admin-page-ia.jpg.
 export function IaEditor({ initial, stats }: { initial: Lists; stats: IaContent["stats"] }) {
@@ -39,11 +36,11 @@ export function IaEditor({ initial, stats }: { initial: Lists; stats: IaContent[
   const cur = items[sel];
   const setList = (v: Record<string, unknown>[]) => draft.setValue({ ...lists, [onglet]: v });
   const setCur = (patch: Record<string, unknown>) => setList(items.map((x, i) => (i === sel ? { ...x, ...patch } : x)));
-  const { un, nouveau, article } = ONGLETS.find((o) => o.k === onglet)!;
+  const un = ONGLETS.find((o) => o.k === onglet)!.un;
   const reperes = iaStats({ stats, ...lists });
 
   const ajouter = () => {
-    const vide = onglet === "tools" ? { name: "", category: "", description: "", favorite: false } : onglet === "skills" ? { name: "", description: "", deliverables: [] } : onglet === "formations" ? { name: "", organisme: "", date: "" } : { title: "", when: "", description: "" };
+    const vide = onglet === "tools" ? { name: "", category: "", description: "", favorite: false } : onglet === "skills" ? { name: "", description: "", deliverables: [] } : { title: "", when: "", description: "" };
     setList([...items, vide]);
     setSel(items.length);
   };
@@ -88,7 +85,7 @@ export function IaEditor({ initial, stats }: { initial: Lists; stats: IaContent[
                   </button>
                 </span>
                 <span style={{ flex: 1, minWidth: 0 }}>
-                  <b>{nom(onglet, x) || `${nouveau} ${un}`}</b>
+                  <b>{nom(onglet, x) || `Nouvel ${un}`}</b>
                   <small className="adm-muted" style={{ display: "block", whiteSpace: "normal" }}>
                     {sous(onglet, x)}
                   </small>
@@ -115,7 +112,7 @@ export function IaEditor({ initial, stats }: { initial: Lists; stats: IaContent[
           </div>
           <button type="button" className="adm-btn adm-btn--outline" onClick={ajouter}>
             <Icon name="plus" />
-            Ajouter {article} {un}
+            Ajouter un {un}
           </button>
         </section>
 
@@ -123,16 +120,9 @@ export function IaEditor({ initial, stats }: { initial: Lists; stats: IaContent[
           {cur && (
             <section className="adm-card" aria-labelledby="ia-edit">
               <h2 className="adm-h2" id="ia-edit">
-                {nom(onglet, cur) ? `Modifier « ${nom(onglet, cur)} »` : `${nouveau} ${un}`}
+                {nom(onglet, cur) ? `Modifier « ${nom(onglet, cur)} »` : `Nouvel ${un}`}
               </h2>
-              {onglet === "formations" ? (
-                <>
-                  <TextField label="Intitulé" required value={String(cur.name ?? "")} onChange={(v) => setCur({ name: v })} />
-                  <TextField label="Organisme" required value={String(cur.organisme ?? "")} onChange={(v) => setCur({ organisme: v })} placeholder="Anthropic" />
-                  <TextField label="Date" required value={String(cur.date ?? "")} onChange={(v) => setCur({ date: v })} placeholder="juillet 2026" />
-                  <TextField label="Détail" value={String(cur.detail ?? "")} onChange={(v) => setCur({ detail: v || undefined })} help="Facultatif : durée, condition de réussite." />
-                </>
-              ) : onglet === "routines" ? (
+              {onglet === "routines" ? (
                 <>
                   <TextField label="Titre" required value={String(cur.title ?? "")} onChange={(v) => setCur({ title: v })} />
                   <TextField label="Quand" value={String(cur.when ?? "")} onChange={(v) => setCur({ when: v })} placeholder="Chaque matin de travail" />

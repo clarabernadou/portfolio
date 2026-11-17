@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 import { css } from "@/lib/css";
 import { ligneFormation, type SiteExperience, type SiteFormation } from "@/lib/data-shared";
+import type { FormationCourte } from "@/lib/types";
 
 // Expériences et formations rendues depuis les données (étape 9), avec le markup
 // et les styles recopiés tels quels de CvView / AccueilView (sources du prototype).
@@ -250,5 +251,68 @@ export function FriseFormation({ f }: { f: SiteFormation }) {
         {f.projets && <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>{f.projets}</span>}
       </div>
     </li>
+  );
+}
+
+// Formations courtes et certifications (accueil, sous la frise, 17 nov. 2026) : une ligne par
+// organisme, dans l'ordre de l'administration ; les intitulés d'une même date partagent la date.
+export function FormationsCourtes({ items }: { items: FormationCourte[] }) {
+  if (!items.length) return null;
+  const groupes: { organisme: string; dates: { date: string; items: FormationCourte[] }[] }[] = [];
+  for (const f of items) {
+    let g = groupes.find((x) => x.organisme === f.organisme);
+    if (!g) groupes.push((g = { organisme: f.organisme, dates: [] }));
+    const d = g.dates.find((x) => x.date === f.date);
+    if (d) d.items.push(f);
+    else g.dates.push({ date: f.date, items: [f] });
+  }
+  const certifs = items.some((f) => f.type === "certification");
+  return (
+    <div style={css(`display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 24px; background: #FFFFFF`)}>
+      <h3 style={css(`margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5470`)}>
+        {certifs ? "Certifications et formations courtes" : "Formations courtes"}
+      </h3>
+      {" "}
+      <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column`)}>
+        {groupes.map((g) => (
+          <li key={g.organisme} style={css(`display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #E4DCF7`)}>
+            <span style={css(`flex: 0 0 240px; font-size: 16px; font-weight: 700; color: #1A1033`)}>{g.organisme}</span>
+            {" "}
+            <span style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 4px; font-size: 16px; line-height: 1.55; color: #5B5470; text-wrap: pretty`)}>
+              {g.dates.map((d) => (
+                <span key={d.date}>
+                  {d.items.map((f, i) => (
+                    <span key={f.name}>
+                      {i > 0 && ", "}
+                      <IntituleCourt f={f} />
+                    </span>
+                  ))}
+                  {` · ${d.date}`}
+                </span>
+              ))}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function IntituleCourt({ f }: { f: FormationCourte }) {
+  const nom = (
+    <>
+      {f.name}
+      {f.type === "certification" && <span style={css(`margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: #F3EFFF; color: #1A1033; font-size: 13px; font-weight: 700; white-space: nowrap`)}>{"Certification"}</span>}
+    </>
+  );
+  if (!f.url) return <span style={css(`color: #1A1033`)}>{nom}</span>;
+  return (
+    <a href={f.url} target={"_blank"} rel={"noopener noreferrer"} style={css(`color: #1A1033; font-weight: 600`)}>
+      {nom}
+      <span aria-hidden={"true"} style={css(`color: #6A4FB6; font-size: 0.75em; margin-left: 6px`)}>
+        {"↗"}
+      </span>
+      <span style={css(`position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)`)}>{" (nouvel onglet)"}</span>
+    </a>
   );
 }
