@@ -183,6 +183,7 @@ export function ListEditor<T>({
   make,
   render,
   itemName,
+  actions,
 }: {
   label: string;
   items: T[];
@@ -192,6 +193,8 @@ export function ListEditor<T>({
   make: () => T;
   render: (item: T, set: (v: T) => void, i: number) => ReactNode;
   itemName: (item: T, i: number) => string;
+  /** Boutons en plus de « Ajouter… » (envoi de plusieurs fichiers d'un coup). */
+  actions?: ReactNode;
 }) {
   const move = (i: number, d: number) => {
     const j = i + d;
@@ -202,12 +205,15 @@ export function ListEditor<T>({
   };
   return (
     <div className="adm-field">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
         <span className="adm-label">{label}</span>
-        <button type="button" className="adm-btn adm-btn--outline" style={{ minHeight: 40, fontSize: 14 }} onClick={() => onChange([...items, make()])}>
-          <Icon name="plus" />
-          {addLabel}
-        </button>
+        <span style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
+          {actions}
+          <button type="button" className="adm-btn adm-btn--outline" style={{ minHeight: 40, fontSize: 14 }} onClick={() => onChange([...items, make()])}>
+            <Icon name="plus" />
+            {addLabel}
+          </button>
+        </span>
       </div>
       {items.length === 0 ? (
         <div className="adm-empty">{empty}</div>

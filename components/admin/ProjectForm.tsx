@@ -7,7 +7,7 @@ import { Checks, InlineInput, ListEditor, SelectField, TagInput, TextArea, TextF
 import { RestoreBanner, SaveBar, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
-import { BlobUpload } from "./BlobUpload";
+import { BlobUpload, BlobUploadMulti } from "./BlobUpload";
 import { RetourProjets } from "./RetourProjets";
 import { slugify } from "@/lib/admin/projects";
 import { IaPage } from "./AvisIA";
@@ -189,6 +189,14 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
               items={p.docs}
               onChange={(v) => set("docs", v)}
               addLabel="Ajouter un livrable"
+              actions={
+                <BlobUploadMulti
+                  folder={p.id || "nouveau"}
+                  accept={ACCEPT_LIVRABLES}
+                  label="Envoyer plusieurs fichiers"
+                  onDone={(fichiers) => draft.setValue((prev) => ({ ...prev, docs: [...prev.docs, ...fichiers.map((f) => ({ label: f.nom, href: f.url }))] }))}
+                />
+              }
               make={() => ({ label: "", href: "" })}
               itemName={(d, i) => d.label || `le livrable ${i + 1}`}
               empty={
@@ -209,6 +217,14 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
               items={p.captures}
               onChange={(v) => set("captures", v)}
               addLabel="Ajouter une capture"
+              actions={
+                <BlobUploadMulti
+                  folder={p.id || "nouveau"}
+                  accept="image/jpeg,image/png,image/webp"
+                  label="Envoyer plusieurs images"
+                  onDone={(fichiers) => draft.setValue((prev) => ({ ...prev, captures: [...prev.captures, ...fichiers.map((f) => ({ url: f.url, alt: "", decorative: false }))] }))}
+                />
+              }
               make={() => ({ url: "", alt: "", decorative: false })}
               itemName={(d, i) => d.alt || `la capture ${i + 1}`}
               empty={
