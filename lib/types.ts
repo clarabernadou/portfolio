@@ -22,6 +22,8 @@ export interface ProjectCapture {
   alt: string;
   // Image cochée « décorative » dans l'administration : seul cas où le texte alternatif peut rester vide.
   decorative?: boolean;
+  // Sous-catégorie facultative (lib/captures-groupes.ts) : absente quand la capture n'est pas regroupée.
+  groupe?: string;
 }
 
 export interface ProjectVideo {

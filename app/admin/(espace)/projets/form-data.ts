@@ -26,7 +26,7 @@ export function toInput(r: Row): ProjectInput {
     docs: (r.docs as { label: string; href: string; thumb?: string; alt?: string }[]) ?? [],
     steps: (r.steps as { label: string; status: string }[]) ?? [],
     videos: ((r.videos as { title: string; kicker: string; url: string }[] | null) ?? []).map(({ title, kicker, url }) => ({ title, kicker, url })),
-    captures: (r.captures as { url: string; alt: string; decorative?: boolean }[] | null) ?? [],
+    captures: (r.captures as { url: string; alt: string; decorative?: boolean; groupe?: string }[] | null) ?? [],
     retour: lireRetour(r.retour),
     visible: r.visible,
     onHome: r.onHome,

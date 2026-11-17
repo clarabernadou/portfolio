@@ -101,3 +101,11 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 /* Titre d'une carte projet cliquable (1er nov. 2026) : même destination que « Voir le projet ». */
 .titre-lien{color:inherit;text-decoration:none}
 .titre-lien:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+/* Filtres des captures d'un projet (sous-catégories, 17 nov. 2026, components/proto/CapturesSite.tsx) :
+   à la ligne sur grand écran ; sous 640 px, une rangée qui défile, avec une marge pour ne pas couper
+   l'anneau de focus (3 px décalé de 3 px). Fondu des vignettes, coupé si l'animation est réduite. */
+.captures-filtres{display:flex;flex-wrap:wrap;gap:8px}
+@media (max-width:640px){.captures-filtres{flex-wrap:nowrap;overflow-x:auto;padding:7px;margin:-7px;scroll-padding-inline:7px}}
+.captures-apparition{animation:captures-fondu .2s ease-out}
+@keyframes captures-fondu{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.captures-apparition{animation:none}}

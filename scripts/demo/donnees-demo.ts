@@ -93,6 +93,10 @@ await prisma.asset.createMany({
     { key: "photo", mime: "image/svg+xml", data: avatar },
     { key: "demo-capture-1", mime: "image/svg+xml", data: maquette("Carnet de rando", "#7c5cc4") },
     { key: "demo-capture-2", mime: "image/svg+xml", data: maquette("Mes itinéraires", "#3d8a6e") },
+    // Médiathèque : captures en sous-catégories, pour le test des filtres (scripts/test-captures-groupes.mjs).
+    { key: "demo-capture-3", mime: "image/svg+xml", data: maquette("Recherche", "#7c5cc4") },
+    { key: "demo-capture-4", mime: "image/svg+xml", data: maquette("Résultats", "#3d8a6e") },
+    { key: "demo-capture-5", mime: "image/svg+xml", data: maquette("Compte lecteur", "#b5568a") },
     { key: "demo-livrable", mime: "application/pdf", data: pdf(["Livrable fictif", "Document de demonstration : donnees fictives.", "Aucun contenu reel."]) },
   ],
 });
@@ -168,6 +172,13 @@ const projets: Projet[] = [
     pdf: "/media/demo-livrable",
     docs: [livrable(1, "Rapport de recherche utilisateur"), livrable(2, "Maquettes haute fidélité"), livrable(3, "Synthèse des tests")],
     steps: [],
+    // Sous-catégories (2 groupes et une capture sans groupe, rangée dans « Autres »).
+    captures: [
+      { ...capture(3, "Page de recherche du catalogue : champ de recherche et filtres par genre."), groupe: "Recherche" },
+      { ...capture(5, "Compte lecteur : prêts en cours et dates de retour."), groupe: "Compte lecteur" },
+      { ...capture(4, "Résultats de recherche : 3 livres avec leur disponibilité."), groupe: "Recherche" },
+      capture(1, "Accueil de la médiathèque : actualités et nouveautés."),
+    ],
     retour: retour("Trier 40 retours de lecteurs sans perdre les besoins des plus âgés.", "Animer un atelier de tri de cartes.", "Tester plus tôt la réservation sur mobile."),
     figma: "https://www.figma.com/design/exemple/mediatheque",
     context: "Projet de formation, mené en binôme sur 4 mois, avec une médiathèque fictive comme commanditaire.",

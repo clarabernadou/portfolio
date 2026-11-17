@@ -17,6 +17,7 @@ import { RETOUR_VIDE } from "@/lib/retour";
 import { CHAMPS_PROJET } from "@/lib/admin/avis-ia";
 import { commenceParCadre } from "@/lib/data-shared";
 import { ACCEPT_LIVRABLES } from "@/lib/livrables";
+import { groupesDistincts } from "@/lib/captures-groupes";
 
 const ETAPES = ["Fait", "En cours", "À venir"];
 
@@ -232,7 +233,7 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
                   <b>Aucune capture</b>Envoie des images du site réalisé (pages anonymisées) : elles s’affichent dans la section « Captures du site » de la fiche et s’agrandissent au clic.
                 </>
               }
-              render={(d, setD) => (
+              render={(d, setD, i) => (
                 <>
                   <span style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
                     {d.url && (
@@ -243,9 +244,31 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
                   </span>
                   {!d.decorative && <InlineInput label="Description de la capture (obligatoire)" placeholder="Ce que montre la capture (lu aux personnes qui ne voient pas l’image)" value={d.alt} onChange={(v) => setD({ ...d, alt: v })} />}
                   <Toggle label="Image décorative" help="À cocher seulement si l’image n’apporte aucune information : elle est alors ignorée par les lecteurs d’écran, sans description." checked={!!d.decorative} onChange={(v) => setD({ ...d, decorative: v, alt: v ? "" : d.alt })} />
+                  <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    <label className="adm-label" htmlFor={`capture-groupe-${i}`}>
+                      Sous-catégorie (facultatif)
+                    </label>
+                    <input
+                      id={`capture-groupe-${i}`}
+                      className="adm-input"
+                      list="captures-groupes"
+                      aria-describedby={`capture-groupe-${i}-aide`}
+                      placeholder="Par exemple : Module Budget"
+                      value={d.groupe ?? ""}
+                      onChange={(e) => setD({ ...d, groupe: e.target.value })}
+                    />
+                    <span className="adm-help" id={`capture-groupe-${i}-aide`}>
+                      Laisse vide pour ne pas regrouper. Les filtres apparaissent sur la fiche à partir de 2 sous-catégories.
+                    </span>
+                  </span>
                 </>
               )}
             />
+            <datalist id="captures-groupes">
+              {groupesDistincts(p.captures).map((g) => (
+                <option key={g} value={g} />
+              ))}
+            </datalist>
             <ListEditor
               label="Vidéos YouTube"
               items={p.videos}

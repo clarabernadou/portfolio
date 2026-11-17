@@ -14,7 +14,8 @@ try {
   // Pas de .env.local : DEMO_DATABASE_URL doit alors être fournie.
 }
 
-export const DEMO_PORT = 3100;
+// Port 3100 par défaut ; DEMO_PORT=… pour un autre (3100 déjà occupé par un autre projet).
+export const DEMO_PORT = Number(process.env.DEMO_PORT) || 3100;
 export const DEMO_BASE = `http://localhost:${DEMO_PORT}`;
 export const DEMO_SECRET = "demo-portfolio-donnees-fictives-jamais-en-production";
 export const DEMO_ADMIN_ID = "100000001";

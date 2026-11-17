@@ -8,6 +8,7 @@ import { logActivity } from "@/lib/admin/activity";
 import { slugify } from "@/lib/admin/projects";
 import { parseRepoUrl, siteDuDepot } from "@/lib/admin/github";
 import { CHAMPS_RETOUR, type Retour } from "@/lib/retour";
+import { harmoniserGroupes } from "@/lib/captures-groupes";
 
 // Actions serveur des écrans Projets. Chacune revérifie la session (requireAdmin) :
 // une action serveur est un point d'entrée public, la vérification de la page ne suffit pas.
@@ -30,7 +31,7 @@ export interface ProjectInput {
   docs: { label: string; href: string; thumb?: string; alt?: string }[];
   steps: { label: string; status: string }[];
   videos: { title: string; kicker: string; url: string }[];
-  captures: { url: string; alt: string; decorative?: boolean }[];
+  captures: { url: string; alt: string; decorative?: boolean; groupe?: string }[];
   retour: Retour;
   visible: boolean;
   onHome: boolean;
@@ -76,9 +77,12 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
 
   // Captures du site : chaque image informative doit être décrite (texte alternatif, RGAA 1.2) ;
   // un texte vide est réservé aux images cochées « décoratives ».
-  const captures = input.captures
-    .filter((c) => c.url.trim())
-    .map((c) => (c.decorative ? { url: c.url.trim(), alt: "", decorative: true } : { url: c.url.trim(), alt: c.alt.trim() }));
+  // Sous-catégories : espaces et casse harmonisés (une seule écriture par groupe), groupe vide retiré.
+  const captures = harmoniserGroupes(
+    input.captures
+      .filter((c) => c.url.trim())
+      .map((c) => ({ ...(c.decorative ? { url: c.url.trim(), alt: "", decorative: true } : { url: c.url.trim(), alt: c.alt.trim() }), groupe: c.groupe })),
+  );
   const sansTexte = captures.findIndex((c) => !c.alt && !("decorative" in c));
   if (sansTexte >= 0) return { ok: false, error: `Décris la capture ${sansTexte + 1} (lue aux personnes qui ne voient pas l’image), ou coche « Image décorative » si elle n’apporte aucune information.` };
 
