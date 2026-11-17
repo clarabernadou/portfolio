@@ -85,6 +85,48 @@ const ouvrir = async (page, chemin) => {
   await ctx.close();
 }
 
+// 1 bis. Visionneuse : capture mobile en portrait affichée en entière, puis zoom (17 nov. 2026).
+{
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await ctx.newPage();
+  await ouvrir(page, `${AVEC}?captures=compte-lecteur`);
+  await vignettes(page).first().click();
+  const cadre = page.getByRole("dialog").getByRole("region");
+  const image = cadre.locator("img");
+  await image.evaluate((img) => img.decode());
+  await page.waitForTimeout(200);
+  const mesure = () =>
+    cadre.evaluate((c) => {
+      const i = c.querySelector("img").getBoundingClientRect();
+      const r = c.getBoundingClientRect();
+      return { defile: c.scrollHeight > c.clientHeight + 1 || c.scrollWidth > c.clientWidth + 1, entiere: i.top >= r.top - 1 && i.bottom <= r.bottom + 1 && i.left >= r.left - 1 && i.right <= r.right + 1, l: Math.round(i.width) };
+    });
+  const m0 = await mesure();
+  ok(m0.entiere && !m0.defile, `capture portrait entière, sans défilement (${m0.l} px de large)`);
+  const zoom = page.getByRole("group", { name: "Zoom" });
+  ok((await zoom.getByRole("button", { name: "Dézoomer" }).getAttribute("aria-disabled")) === "true", "« Dézoomer » inactif à la taille ajustée");
+  await zoom.getByRole("button", { name: "Zoomer", exact: true }).click();
+  const m1 = await mesure();
+  ok(m1.defile && m1.l > m0.l * 1.4, `« Zoomer » agrandit l'image (${m0.l} → ${m1.l} px) et le cadre défile`);
+  ok(/%$/.test(await zoom.locator("[aria-live]").innerText()), `niveau affiché : ${await zoom.locator("[aria-live]").innerText()}`);
+  await page.keyboard.press("+");
+  ok((await mesure()).l > m1.l, "touche + : zoom supplémentaire");
+  const zoomer = zoom.getByRole("button", { name: "Zoomer", exact: true });
+  while ((await zoomer.getAttribute("aria-disabled")) !== "true") await zoomer.click();
+  await page.keyboard.press("Enter");
+  ok((await page.evaluate(() => document.activeElement?.getAttribute("aria-label"))) === "Zoomer", "au zoom maximal, le focus reste sur « Zoomer »");
+  await zoom.getByRole("button", { name: "Ajuster" }).click();
+  const m2 = await mesure();
+  ok(m2.entiere && !m2.defile && (await page.evaluate(() => document.activeElement?.textContent)) === "Ajuster", "« Ajuster » rend l'image entière et garde le focus");
+  await image.click();
+  ok((await mesure()).defile, "clic sur l'image : zoom");
+  await page.keyboard.press("0");
+  ok((await mesure()).entiere, "touche 0 : image entière");
+  const axe = await new AxeBuilder({ page }).include("[role=dialog]").analyze();
+  ok(axe.violations.length === 0, `axe dans la visionneuse : ${axe.violations.map((v) => v.id).join(", ") || "0 erreur"}`);
+  await ctx.close();
+}
+
 // 2. Non-régression : projet sans sous-catégorie.
 {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });

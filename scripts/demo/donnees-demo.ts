@@ -54,6 +54,19 @@ const avatar = svg(`
   <circle cx="400" cy="320" r="140" fill="#e9e1fb"/>
   <path d="M150 760c30-170 140-250 250-250s220 80 250 250z" fill="#e9e1fb"/>
 </svg>`);
+// Écran de téléphone en portrait (taille d'une capture mobile), pour tester l'image entière et le zoom.
+const maquetteMobile = (titre: string, accent: string) =>
+  svg(`
+<svg xmlns="http://www.w3.org/2000/svg" width="824" height="1830" viewBox="0 0 824 1830">
+  <rect width="824" height="1830" fill="#f7f5fb"/>
+  <rect width="824" height="120" fill="#ffffff"/><rect x="32" y="40" width="200" height="40" rx="20" fill="${accent}"/>
+  <text x="32" y="250" font-family="Arial, sans-serif" font-size="64" font-weight="700" fill="#1d1530">${titre}</text>
+  <rect x="32" y="300" width="600" height="24" rx="12" fill="#d9d2ea"/>
+  <rect x="32" y="400" width="760" height="440" rx="40" fill="${accent}"/>
+  <rect x="32" y="900" width="760" height="300" rx="32" fill="#ffffff"/><rect x="32" y="1240" width="760" height="300" rx="32" fill="#ffffff"/>
+  <rect x="0" y="1680" width="824" height="150" fill="#ffffff"/>
+  <text x="792" y="1660" text-anchor="end" font-family="Arial, sans-serif" font-size="28" fill="#7a6e93">Maquette fictive · démo (bas de l’écran)</text>
+</svg>`);
 const maquette = (titre: string, accent: string) =>
   svg(`
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
@@ -96,7 +109,7 @@ await prisma.asset.createMany({
     // Médiathèque : captures en sous-catégories, pour le test des filtres (scripts/test-captures-groupes.mjs).
     { key: "demo-capture-3", mime: "image/svg+xml", data: maquette("Recherche", "#7c5cc4") },
     { key: "demo-capture-4", mime: "image/svg+xml", data: maquette("Résultats", "#3d8a6e") },
-    { key: "demo-capture-5", mime: "image/svg+xml", data: maquette("Compte lecteur", "#b5568a") },
+    { key: "demo-capture-5", mime: "image/svg+xml", data: maquetteMobile("Compte lecteur", "#b5568a") },
     { key: "demo-livrable", mime: "application/pdf", data: pdf(["Livrable fictif", "Document de demonstration : donnees fictives.", "Aucun contenu reel."]) },
   ],
 });
