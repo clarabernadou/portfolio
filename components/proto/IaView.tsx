@@ -77,6 +77,10 @@ export function IaView({ v }: { v: any }) {
             <p style={css(`margin: 0; font-size: 20px; line-height: 1.55`)}>
               {"J’utilise l’IA tous les jours pour développer, concevoir et produire du contenu. Je choisis l’outil le plus adapté à chaque tâche, je construis des skills pour automatiser le répétitif, et je vérifie toujours le résultat avant de le livrer."}
             </p>
+            {/* Phrase reprise du CV final (Compétences IA, ligne « Claude Code »), validée par Clara le 19 nov. 2026. */}
+            <p style={css(`margin: 0; font-size: 18px; line-height: 1.6; color: #5B5470`)}>
+              {"Claude Code est mon outil principal depuis début 2026 : je conçois, développe, teste et automatise avec lui, côté produit et marketing, avec une vérification humaine de chaque livrable avant publication."}
+            </p>
           </div>
           {" "}
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
@@ -292,7 +296,7 @@ export function IaView({ v }: { v: any }) {
                 <Coche />
                 <b style={css(`font-size: 17px; color: #1A1033`)}>{"Ne rien inventer"}</b>
               </span>
-              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"L’IA travaille à partir des textes et des données que je fournis."}</span>
+              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"L’IA travaille à partir des textes et des données que je fournis, sans supposition : quand une information manque, elle pose la question."}</span>
             </li>
             <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
               <span style={css(`display: flex; align-items: center; gap: 10px`)}>
