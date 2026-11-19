@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { css } from "@/lib/css";
-import { ETIQUETTES_ACCUEIL, etiquettesRestantes, etiquettesVisibles } from "@/lib/data-shared";
+import { EtiquettesCarte } from "./EtiquettesCarte";
 import { CarteAlternance, FormationsCourtes, FriseFormation } from "./Parcours";
 import { Lieu } from "./Lieu";
 import { Recommandations } from "./Recommandations";
@@ -298,19 +298,7 @@ export function AccueilView({ v }: { v: any }) {
                       {c.line}
                     </span>
                     {" "}
-                    <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
-                      {etiquettesVisibles(c.tags, ETIQUETTES_ACCUEIL).map((t: string, i_t: number) => (
-                        <li key={i_t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                          {t}
-                        </li>
-                      ))}
-                      {etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL) > 0 && (
-                        <li style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                          <span aria-hidden={"true"}>{`+${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)}`}</span>
-                          <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)} autres`}</span>
-                        </li>
-                      )}
-                    </ul>
+                    <EtiquettesCarte tags={c.tags} />
                     {" "}
                   </Link>
                 </li>
@@ -345,19 +333,7 @@ export function AccueilView({ v }: { v: any }) {
                       {c.line}
                     </span>
                     {" "}
-                    <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
-                      {etiquettesVisibles(c.tags, ETIQUETTES_ACCUEIL).map((t: string, i_t: number) => (
-                        <li key={i_t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                          {t}
-                        </li>
-                      ))}
-                      {etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL) > 0 && (
-                        <li style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                          <span aria-hidden={"true"}>{`+${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)}`}</span>
-                          <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)} autres`}</span>
-                        </li>
-                      )}
-                    </ul>
+                    <EtiquettesCarte tags={c.tags} />
                     {" "}
                   </Link>
                 </li>
@@ -392,19 +368,7 @@ export function AccueilView({ v }: { v: any }) {
                       {c.line}
                     </span>
                     {" "}
-                    <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
-                      {etiquettesVisibles(c.tags, ETIQUETTES_ACCUEIL).map((t: string, i_t: number) => (
-                        <li key={i_t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                          {t}
-                        </li>
-                      ))}
-                      {etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL) > 0 && (
-                        <li style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                          <span aria-hidden={"true"}>{`+${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)}`}</span>
-                          <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)} autres`}</span>
-                        </li>
-                      )}
-                    </ul>
+                    <EtiquettesCarte tags={c.tags} />
                     {" "}
                   </Link>
                 </li>
