@@ -31,7 +31,7 @@ export function EtiquettesCarte({ tags, tagStyle = TAG, listeStyle = `align-cont
     const calculer = () => {
       const largeurs = [...m.children].map((el) => (el as HTMLElement).getBoundingClientRect().width);
       const plusW = largeurs.pop() ?? 0;
-      const dispo = ul.clientWidth;
+      const dispo = ul.clientWidth - 2; // marge contre les arrondis au demi-pixel
       let k = tags.length;
       const total = (k: number) => largeurs.slice(0, k).reduce((a, w) => a + w + ECART, 0) + (k < tags.length ? plusW : -ECART);
       while (k > 1 && total(k) > dispo) k--;
