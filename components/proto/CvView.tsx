@@ -79,15 +79,19 @@ export function CvView({ v }: { v: any }) {
           </div>
         </div>
         {" "}
-        <section>
-          <p style={css(`margin: 0; padding: 18px 20px; border-radius: 16px; background: #F3EFFF; font-size: 17px; line-height: 1.6`)}>
-            {v.profil.profilEssentiel}
-          </p>
-        </section>
-        {/* Mise en page du CV (19 nov. 2026) : profil en pleine largeur, puis compétences à gauche, expériences et
-            projet à droite, formations sous les compétences. Ordre du code (et donc du clavier et du mobile) :
-            compétences, contenu principal, formations (grille .cv-colonnes, globals.css). */}
+        {/* Mise en page du CV (19 nov. 2026) : compétences puis formations à gauche ; profil, expériences et projet
+            à droite. Ordre du code (et donc du clavier et du mobile) : profil, compétences, contenu principal,
+            formations (grille .cv-colonnes, globals.css). */}
         <div className={"cv-colonnes"}>
+          {/* Profil titré, en tête de la colonne de droite, face aux compétences (19 nov. 2026). */}
+          <section aria-labelledby={"cv-profil"} className={"cv-profil"}>
+            <h2 id={"cv-profil"} style={css(`margin: 0 0 14px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+              {"Profil"}
+            </h2>
+            <p style={css(`margin: 0; padding: 18px 20px; border-radius: 16px; background: #F3EFFF; font-size: 17px; line-height: 1.6`)}>
+              {v.profil.profilEssentiel}
+            </p>
+          </section>
             <section aria-labelledby={"cv-competences"} className={"cv-competences"} style={css(`display: flex; flex-direction: column; gap: 1.5rem; border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 26px`)}>
             {" "}
             <h2 id={"cv-competences"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
