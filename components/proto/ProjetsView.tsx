@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { css } from "@/lib/css";
+import { etiquettesRestantes, etiquettesVisibles } from "@/lib/data-shared";
 import { CapturesSite } from "./CapturesSite";
 import { ListeLivrables } from "./ListeLivrables";
 import { RetourExperience } from "./RetourExperience";
@@ -78,11 +79,17 @@ export function ProjetsView({ v }: { v: any }) {
                               </p>
                               {" "}
                               <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
-                                {p.tags.map((t: any, i_t: number) => (
+                                {etiquettesVisibles(p.tags).map((t: any, i_t: number) => (
                                     <li key={i_t} style={css(`padding: 3px 8px; border-radius: 6px; background: #FFFFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
                                       {t}
                                     </li>
                                 ))}
+                                {etiquettesRestantes(p.tags) > 0 && (
+                                  <li style={css(`padding: 3px 8px; border-radius: 6px; background: #FFFFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
+                                    <span aria-hidden={"true"}>{`+${etiquettesRestantes(p.tags)}`}</span>
+                                    <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(p.tags)} autres`}</span>
+                                  </li>
+                                )}
                               </ul>
                               <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px`)}>
                                 <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
@@ -211,11 +218,17 @@ export function ProjetsView({ v }: { v: any }) {
                         </p>
                         {" "}
                         <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
-                          {p.tags.map((t: any, i_t: number) => (
+                          {etiquettesVisibles(p.tags).map((t: any, i_t: number) => (
                               <li key={i_t} style={css(`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
                                 {t}
                               </li>
                           ))}
+                          {etiquettesRestantes(p.tags) > 0 && (
+                            <li style={css(`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
+                              <span aria-hidden={"true"}>{`+${etiquettesRestantes(p.tags)}`}</span>
+                              <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(p.tags)} autres`}</span>
+                            </li>
+                          )}
                         </ul>
                         {" "}
                         <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px`)}>
