@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { CarteProjet } from "./LienProjet";
+import { etiquettesRestantes, etiquettesVisibles } from "@/lib/data-shared";
 import { css } from "@/lib/css";
 import { IaCard, IaStat } from "./IaCards";
 import { IaExemples } from "./IaExemples";
@@ -104,20 +106,40 @@ export function IaView({ v }: { v: any }) {
               {"Ce que ça a produit"}
             </h2>
           </div>
+          {v.jarvis && v.publics.includes("jarvis") && (
+            <div style={css(`position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px; align-items: center; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 28px; overflow: hidden`)}>
+              <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
+                <span style={css(`align-self: flex-start; padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"PROJET PHARE"}</span>
+                <h3 id={"jarvis-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(26px, 3vw, 32px); font-weight: 800; letter-spacing: -0.03em`)}>
+                  {v.jarvis.name}
+                </h3>
+                <span id={"jarvis-desc"} style={css(`font-size: 17px; line-height: 1.55; color: #5B5470`)}>{v.jarvis.line}</span>
+                <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
+                  {etiquettesVisibles(v.jarvis.tags).map((t: string) => (
+                    <li key={t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
+                      {t}
+                    </li>
+                  ))}
+                  {etiquettesRestantes(v.jarvis.tags) > 0 && (
+                    <li style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
+                      <span aria-hidden={"true"}>{`+${etiquettesRestantes(v.jarvis.tags)}`}</span>
+                      <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(v.jarvis.tags)} autres`}</span>
+                    </li>
+                  )}
+                </ul>
+                <Link href={"/projets/jarvis"} id={"jarvis-suite"} className={"lien-etire"} aria-labelledby={"jarvis-titre jarvis-suite"} aria-describedby={"jarvis-desc"} style={css(`align-self: flex-start; margin-top: 4px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none`)}>
+                  {"Voir le projet →"}
+                </Link>
+              </div>
+              {v.jarvis.image && (
+                <div aria-hidden={"true"} style={css(`height: 300px; border-radius: 18px; background: #F3EFFF; display: flex; justify-content: center; align-items: flex-start; padding-top: 24px; overflow: hidden`)}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={v.jarvis.image} alt={""} loading={"lazy"} style={css(`width: 220px; height: auto; border-radius: 16px; box-shadow: 0 8px 24px rgba(26,16,51,0.18)`)} />
+                </div>
+              )}
+            </div>
+          )}
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
-            <li style={css(`display: grid`)}>
-            <CarteProjet id={"repositionnement-fruggr"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
-              <Icone d={"M4 6h12v12H4zM16 10l4-2v8l-4-2"} />
-              {" "}
-              <h3 id={"repositionnement-fruggr-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
-                {"Saga de 3 films pour Fruggr"}
-              </h3>
-              {" "}
-              <span id={"repositionnement-fruggr-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
-                {"Du script au rendu final : Remotion, voix off ElevenLabs, musique, déclinaison en 16:9, 9:16 et 1:1, publiée sur YouTube."}
-              </span>
-            </CarteProjet>
-            </li>
             <li style={css(`display: grid`)}>
             <CarteProjet id={"portfolio"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
               <Icone d={"M3 5h18v14H3zM3 9h18M7 7h.01M10 7h.01"} />
@@ -141,6 +163,19 @@ export function IaView({ v }: { v: any }) {
               {" "}
               <span id={"intuitlearn-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
                 {"Skills d’audit UX, accessibilité et marque appliqués au site Fruggr et à une application tierce."}
+              </span>
+            </CarteProjet>
+            </li>
+            <li style={css(`display: grid`)}>
+            <CarteProjet id={"repositionnement-fruggr"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+              <Icone d={"M4 6h12v12H4zM16 10l4-2v8l-4-2"} />
+              {" "}
+              <h3 id={"repositionnement-fruggr-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
+                {"Saga de 3 films pour Fruggr"}
+              </h3>
+              {" "}
+              <span id={"repositionnement-fruggr-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
+                {"Du script au rendu final : Remotion, voix off ElevenLabs, musique, déclinaison en 16:9, 9:16 et 1:1, publiée sur YouTube."}
               </span>
             </CarteProjet>
             </li>
@@ -269,29 +304,29 @@ export function IaView({ v }: { v: any }) {
             <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
               {"Utiliser l’IA vite ne sert à rien si le résultat n’est pas fiable. Voici ce que je m’impose."}
             </p>
-            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 16px 40px; margin-top: 6px`)}>
-            <li style={css(`display: flex; gap: 12px; align-items: flex-start`)}>
+            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 14px; margin-top: 6px`)}>
+            <li style={css(`display: flex; gap: 12px; align-items: flex-start; padding: 18px 20px; border-radius: 16px; background: #FFFFFF`)}>
               <Coche />
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>
                 <b style={css(`color: #1A1033`)}>{"Ne rien inventer"}</b>{" : "}
                 {"L’IA travaille à partir des textes et des données que je fournis."}
               </span>
             </li>
-            <li style={css(`display: flex; gap: 12px; align-items: flex-start`)}>
+            <li style={css(`display: flex; gap: 12px; align-items: flex-start; padding: 18px 20px; border-radius: 16px; background: #FFFFFF`)}>
               <Coche />
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>
                 <b style={css(`color: #1A1033`)}>{"Garder l’humain dans la boucle"}</b>{" : "}
                 {"Chaque livrable est relu et validé par moi, puis par les personnes concernées si besoin, avant toute publication."}
               </span>
             </li>
-            <li style={css(`display: flex; gap: 12px; align-items: flex-start`)}>
+            <li style={css(`display: flex; gap: 12px; align-items: flex-start; padding: 18px 20px; border-radius: 16px; background: #FFFFFF`)}>
               <Coche />
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>
                 <b style={css(`color: #1A1033`)}>{"Verrouiller le périmètre"}</b>{" : "}
                 {"Je précise ce que l’IA ne doit pas modifier et les étapes de vérification imposées."}
               </span>
             </li>
-            <li style={css(`display: flex; gap: 12px; align-items: flex-start`)}>
+            <li style={css(`display: flex; gap: 12px; align-items: flex-start; padding: 18px 20px; border-radius: 16px; background: #FFFFFF`)}>
               <Coche />
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>
                 <b style={css(`color: #1A1033`)}>{"Protéger les secrets"}</b>{" : "}
