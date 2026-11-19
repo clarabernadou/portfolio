@@ -50,7 +50,7 @@ function Icone({ d }: { d: string }) {
 // Coche décorative des règles de travail.
 function Coche() {
   return (
-    <span aria-hidden={"true"} style={css(`flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; margin-top: -1px`)}>
+    <span aria-hidden={"true"} style={css(`flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; `)}>
       <svg width={"15"} height={"15"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"3"} strokeLinecap={"round"} strokeLinejoin={"round"}>
         <path d={"M5 12l5 5 9-10"} />
       </svg>
@@ -61,10 +61,11 @@ function Coche() {
 export function IaView({ v }: { v: any }) {
   return (
     <>
-      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 2rem 0; display: flex; flex-direction: column; gap: var(--espace-section-demi)`)}>
-        <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
-          <div style={css(`display: flex; flex-direction: column; gap: 14px`)}>
-            <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 6vw, 64px); letter-spacing: -0.045em; line-height: 1`)}>
+      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(3rem, 7vw, 5rem) 2rem 0; display: flex; flex-direction: column; gap: var(--espace-section-demi)`)}>
+        {/* Introduction plus grande et plus aérée (19 nov. 2026). */}
+        <section style={css(`display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 3rem); padding-bottom: clamp(0.5rem, 2vw, 1.5rem)`)}>
+          <div style={css(`display: flex; flex-direction: column; gap: 20px`)}>
+            <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 7vw, 76px); letter-spacing: -0.045em; line-height: 1`)}>
               <span style={css(`font-weight: 800`)}>
                 {"Ma façon de travailler"}
               </span>
@@ -73,7 +74,7 @@ export function IaView({ v }: { v: any }) {
                 {"avec l’IA"}
               </span>
             </h1>
-            <p style={css(`margin: 0; font-size: 20px; line-height: 1.55`)}>
+            <p style={css(`margin: 0; font-size: clamp(19px, 2vw, 22px); line-height: 1.6`)}>
               {"J’utilise l’IA tous les jours pour développer, concevoir et produire du contenu. Je choisis l’outil le plus adapté à chaque tâche, je construis des skills pour automatiser le répétitif, et je vérifie toujours le résultat avant de le livrer."}
             </p>
           </div>
@@ -285,33 +286,33 @@ export function IaView({ v }: { v: any }) {
               {"Utiliser l’IA vite ne sert à rien si le résultat n’est pas fiable. Voici ce que je m’impose."}
             </p>
             <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 14px; margin-top: 6px`)}>
-            <li style={css(`display: flex; gap: 12px; align-items: flex-start; padding: 18px 20px; border-radius: 16px; background: #FFFFFF`)}>
-              <Coche />
-              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>
-                <b style={css(`color: #1A1033`)}>{"Ne rien inventer"}</b>{" : "}
-                {"L’IA travaille à partir des textes et des données que je fournis."}
+            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
+              <span style={css(`display: flex; align-items: center; gap: 10px`)}>
+                <Coche />
+                <b style={css(`font-size: 17px; color: #1A1033`)}>{"Ne rien inventer"}</b>
               </span>
+              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"L’IA travaille à partir des textes et des données que je fournis."}</span>
             </li>
-            <li style={css(`display: flex; gap: 12px; align-items: flex-start; padding: 18px 20px; border-radius: 16px; background: #FFFFFF`)}>
-              <Coche />
-              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>
-                <b style={css(`color: #1A1033`)}>{"Garder l’humain dans la boucle"}</b>{" : "}
-                {"Chaque livrable est relu et validé par moi, puis par les personnes concernées si besoin, avant toute publication."}
+            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
+              <span style={css(`display: flex; align-items: center; gap: 10px`)}>
+                <Coche />
+                <b style={css(`font-size: 17px; color: #1A1033`)}>{"Garder l’humain dans la boucle"}</b>
               </span>
+              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"Chaque livrable est relu et validé par moi, puis par les personnes concernées si besoin, avant toute publication."}</span>
             </li>
-            <li style={css(`display: flex; gap: 12px; align-items: flex-start; padding: 18px 20px; border-radius: 16px; background: #FFFFFF`)}>
-              <Coche />
-              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>
-                <b style={css(`color: #1A1033`)}>{"Verrouiller le périmètre"}</b>{" : "}
-                {"Je précise ce que l’IA ne doit pas modifier et les étapes de vérification imposées."}
+            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
+              <span style={css(`display: flex; align-items: center; gap: 10px`)}>
+                <Coche />
+                <b style={css(`font-size: 17px; color: #1A1033`)}>{"Verrouiller le périmètre"}</b>
               </span>
+              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"Je précise ce que l’IA ne doit pas modifier et les étapes de vérification imposées."}</span>
             </li>
-            <li style={css(`display: flex; gap: 12px; align-items: flex-start; padding: 18px 20px; border-radius: 16px; background: #FFFFFF`)}>
-              <Coche />
-              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>
-                <b style={css(`color: #1A1033`)}>{"Protéger les secrets"}</b>{" : "}
-                {"Je ne confie jamais à l’IA de clés d’API, de secrets, de jetons ni d’identifiants."}
+            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
+              <span style={css(`display: flex; align-items: center; gap: 10px`)}>
+                <Coche />
+                <b style={css(`font-size: 17px; color: #1A1033`)}>{"Protéger les secrets"}</b>
               </span>
+              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"Je ne confie jamais à l’IA de clés d’API, de secrets, de jetons ni d’identifiants."}</span>
             </li>
             </ul>
           </div>
