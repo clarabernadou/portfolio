@@ -20,14 +20,17 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
       ? "La connexion n’a pas abouti. Réessaie dans un instant."
       : null;
   return (
-    <main style={css(`box-sizing: border-box; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 16px; background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%)`)}>
+    <main className={"zone-sombre"} style={css(`box-sizing: border-box; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 16px; background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%)`)}>
+      {/* « Retour au site » au-dessus de la carte, aligné sur son bord gauche (19 nov. 2026) : la carte ne
+          contient que la connexion, et le lien est le premier atteint au clavier. */}
+      <div style={css(`box-sizing: border-box; width: 100%; max-width: 440px; margin-bottom: 12px`)}>
+        <Link href={"/"} style={css(`min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700; color: #C4B5FD; text-decoration: none`)}>
+          {"← Retour au site"}
+        </Link>
+      </div>
       <div style={css(`box-sizing: border-box; width: 100%; max-width: 440px; background: #FFFFFF; border-radius: 24px; padding: 36px; box-shadow: 0 24px 64px rgba(10,6,24,0.45); display: flex; flex-direction: column; gap: 14px`)}>
-        {/* Logo, puis « Retour au site » en haut à gauche de la carte (19 nov. 2026). */}
         <Link href={"/"} aria-label={"Clara Bernadou, accueil"} style={css(`align-self: flex-start; display: flex; min-height: 44px; align-items: center`)}>
           <LogoClara height={32} />
-        </Link>
-        <Link href={"/"} style={css(`align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none`)}>
-          {"← Retour au site"}
         </Link>
         <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
           {"Administration"}
