@@ -109,7 +109,7 @@ export function IaView({ v }: { v: any }) {
                   {etiquettesRestantes(v.jarvis.tags) > 0 && (
                     <li style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
                       <span aria-hidden={"true"}>{`+${etiquettesRestantes(v.jarvis.tags)}`}</span>
-                      <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(v.jarvis.tags)} autres`}</span>
+                      <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(v.jarvis.tags)} autre${etiquettesRestantes(v.jarvis.tags) > 1 ? "s" : ""}`}</span>
                     </li>
                   )}
                 </ul>

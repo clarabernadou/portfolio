@@ -87,7 +87,7 @@ export function ProjetsView({ v }: { v: any }) {
                                 {etiquettesRestantes(p.tags) > 0 && (
                                   <li style={css(`padding: 3px 8px; border-radius: 6px; background: #FFFFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
                                     <span aria-hidden={"true"}>{`+${etiquettesRestantes(p.tags)}`}</span>
-                                    <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(p.tags)} autres`}</span>
+                                    <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(p.tags)} autre${etiquettesRestantes(p.tags) > 1 ? "s" : ""}`}</span>
                                   </li>
                                 )}
                               </ul>
@@ -226,7 +226,7 @@ export function ProjetsView({ v }: { v: any }) {
                           {etiquettesRestantes(p.tags) > 0 && (
                             <li style={css(`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
                               <span aria-hidden={"true"}>{`+${etiquettesRestantes(p.tags)}`}</span>
-                              <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(p.tags)} autres`}</span>
+                              <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(p.tags)} autre${etiquettesRestantes(p.tags) > 1 ? "s" : ""}`}</span>
                             </li>
                           )}
                         </ul>
