@@ -94,7 +94,7 @@ function detail(p: Project) {
   };
 }
 
-export function ProjetsListe({ projects: PROJECTS, featuredOrder, categories }: { projects: SiteProject[]; featuredOrder: string[]; categories: { types: string[]; cadres: string[] } }) {
+export function ProjetsListe({ projects: PROJECTS, categories }: { projects: SiteProject[]; categories: { types: string[]; cadres: string[] } }) {
   const TYPES = ["Tous", ...categories.types];
   // Un cadre sans projet public (tous privés ou en brouillon) n'est pas proposé en filtre.
   const PARS = ["Tous les parcours", ...categories.cadres.filter((c) => PROJECTS.some((p) => p.parcours === c))];
@@ -130,7 +130,7 @@ export function ProjetsListe({ projects: PROJECTS, featuredOrder, categories }: 
   const v = {
     isList: true,
     isDetail: false,
-    honored: sortFeatured(PROJECTS, featuredOrder).map(card),
+    honored: sortFeatured(PROJECTS).map(card),
     vide: PROJECTS.length === 0,
     showHonor: type === "Tous" && par === "Tous les parcours" && PROJECTS.some((p) => p.featured),
     filtered: type !== "Tous" || par !== "Tous les parcours",

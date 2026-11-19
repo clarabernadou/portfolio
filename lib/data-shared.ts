@@ -1,4 +1,5 @@
 import type { Experience, Formation, IaContent, Project } from "./types";
+import { plusRecentsDabord } from "./admin/projects";
 
 // Types et fonctions sans accès à la base : utilisables dans les composants client.
 
@@ -12,18 +13,14 @@ export interface HomeCard {
 
 export type SiteProject = Project & { homeCard?: HomeCard };
 
-export function sortFeatured(projects: SiteProject[], order: string[]): SiteProject[] {
-  const rank = (id: string) => {
-    const i = order.indexOf(id);
-    return i < 0 ? order.length : i;
-  };
-  return projects.filter((p) => p.featured).sort((a, b) => rank(a.id) - rank(b.id));
+// Projets phares et projets de l'accueil : du plus récent au plus ancien (demande de Clara,
+// 19 nov. 2026), comme « Tous les projets ». Les rangées de l'accueil gardent leur ordre fixe.
+export function sortFeatured(projects: SiteProject[]): SiteProject[] {
+  return plusRecentsDabord(projects.filter((p) => p.featured));
 }
 
 export function homeProjects(projects: SiteProject[]): SiteProject[] {
-  return projects
-    .filter((p) => p.onHome)
-    .sort((a, b) => (a.homeCard?.order ?? 99) - (b.homeCard?.order ?? 99));
+  return plusRecentsDabord(projects.filter((p) => p.onHome));
 }
 
 export interface AlternanceCard {

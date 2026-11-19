@@ -1,5 +1,5 @@
 import { ProjetsListe } from "@/components/proto/Projets";
-import { getCategories, getFeaturedOrder, getSiteProjects } from "@/lib/data";
+import { getCategories, getSiteProjects } from "@/lib/data";
 import { pageMetadata } from "@/lib/metadata";
 
 // Le nombre de projets vient de la base : aucun compteur écrit en dur.
@@ -15,6 +15,6 @@ export async function generateMetadata() {
 }
 
 export default async function ProjetsPage() {
-  const [projects, featuredOrder, categories] = await Promise.all([getSiteProjects(), getFeaturedOrder(), getCategories()]);
-  return <ProjetsListe projects={projects} featuredOrder={featuredOrder} categories={categories} />;
+  const [projects, categories] = await Promise.all([getSiteProjects(), getCategories()]);
+  return <ProjetsListe projects={projects} categories={categories} />;
 }
