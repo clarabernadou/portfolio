@@ -92,6 +92,23 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .visuellement-masque{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Listes sans puces (9.3) : role="list" garde la liste annoncée par Safari. */
 .liste-nue{list-style:none;margin:0;padding:0}
+/* Aération entre les sections (demande de Clara, 19 nov. 2026) : 72 px sur mobile, jusqu'à 112 px sur grand écran.
+   Page IA : l'espace de part et d'autre de chaque séparateur (52 à 72 px). */
+/* Page IA : une section sur deux sur fond Brume, en pleine largeur (l'ombre étend le fond, clip-path le coupe
+   aux bords de l'écran sans créer de défilement horizontal). */
+.ia-bande{background:var(--brume);box-shadow:0 0 0 100vmax var(--brume);clip-path:inset(0 -100vmax);padding-block:var(--espace-section-demi)}
+.ia-bande:last-child{padding-bottom:var(--espace-section)}
+:root{--espace-section:clamp(4.5rem, 8vw, 7rem);--espace-section-demi:clamp(3.25rem, 5vw, 4.5rem)}
+/* Colonnes du CV (19 nov. 2026) : compétences puis formations à gauche ; profil, expériences et projet à droite.
+   Ordre du code : profil, compétences, contenu principal, formations (sur mobile, les formations finissent la page). */
+.cv-colonnes{display:flex;flex-direction:column;gap:2.5rem}
+@media (min-width: 900px){
+  .cv-colonnes{display:grid;grid-template-columns:minmax(300px,1fr) minmax(0,1.7fr);grid-template-rows:auto auto 1fr;column-gap:3rem;row-gap:2.5rem;align-items:start}
+  .cv-profil{grid-column:2;grid-row:1}
+  .cv-competences{grid-column:1;grid-row:1 / span 2}
+  .cv-principal{grid-column:2;grid-row:2 / span 2}
+  .cv-formations{grid-column:1;grid-row:3}
+}
 /* Lien étiré (cartes de /ia, 13 nov. 2026) : le lien « Voir le projet » couvre toute sa carte. */
 .lien-etire::after{content:"";position:absolute;inset:0;border-radius:inherit}
 /* Carrousel des livrables (components/proto/ListeLivrables.tsx) : chaque carte s'aligne au début de la rangée. */

@@ -68,8 +68,10 @@ check(!!anglais && cv.includes(`Anglais ${anglais}`), "/cv reprend le niveau d'a
 const skills = Number(pdf.match(/(\d+) skills créés/)?.[1]);
 check(skills > 0, `nombre de skills lu dans le PDF : ${skills}`);
 check(ia.includes(`${skills} skills créés`), `/ia annonce ${skills} skills`);
+// Skills mis en avant (cartes « Skill ») et autres skills (liste compacte « Autres skills », 19 nov. 2026).
 const cartes = (iaHtml.match(/>Skill</g) ?? []).length;
-check(cartes === skills, `/ia présente ${cartes} cartes de skill (attendu : ${skills})`);
+const autres = iaHtml.split(">Autres skills<")[1]?.split("</ul>")[0].match(/<li\b/g)?.length ?? 0;
+check(cartes + autres === skills, `/ia présente ${cartes + autres} skills (${cartes} en carte, ${autres} en liste ; attendu : ${skills})`);
 check(cv.includes(`${skills} skills créés`), `/cv annonce ${skills} skills`);
 
 console.log(failures ? `\n${failures} écart(s) entre le CV PDF et le site.` : "\nLe site est cohérent avec le CV PDF.");

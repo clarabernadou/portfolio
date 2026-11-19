@@ -189,28 +189,27 @@ function LienFormation({ f, style }: { f: SiteFormation; style: string }) {
   );
 }
 
+// Formation du CV, dans la colonne latérale (19 nov. 2026) : version resserrée, années au-dessus du titre.
 export function CvFormation({ f }: { f: SiteFormation }) {
   return (
-    <div style={css(`display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 18px 0; border-top: 1px solid #E4DCF7`)}>
-      <span style={css(`flex: 0 0 150px; font-size: 14px; font-weight: 700; color: #5B5470`)}>{f.annees}</span>
+    <div style={css(`display: flex; flex-direction: column; gap: 6px; padding: 16px 0; border-top: 1px solid #E4DCF7`)}>
+      <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{f.annees}</span>
       {" "}
-      <div style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 8px`)}>
-        <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px`)}>
-          <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
-            <LienFormation f={f} style={`color: inherit; text-decoration: none`} />
-          </h3>{" "}
-          <span style={css(f.statut === "En cours" ? STATUT_EN_COURS : `padding: 3px 9px; border-radius: 6px; background: #E7F6EE; color: #067647; font-size: 13px; font-weight: 800`)}>{f.statut}</span>{" "}
-          <span style={css(MODE)}>{f.mode}</span>{" "}
-        </div>
-        {" "}
-        <span style={css(`font-size: 14px; color: #5B5470`)}>{ligneFormation(f)}</span>
-        {" "}
-        {f.mentionComplementaire && (
-          <span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6; font-style: italic`)}>
-            <Mention texte={f.mentionComplementaire} />
-          </span>
-        )}
-      </div>{" "}
+      <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 18px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25`)}>
+        <LienFormation f={f} style={`color: inherit; text-decoration: none`} />
+      </h3>{" "}
+      <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 6px`)}>
+        <span style={css(f.statut === "En cours" ? STATUT_EN_COURS : `padding: 3px 9px; border-radius: 6px; background: #E7F6EE; color: #067647; font-size: 13px; font-weight: 800`)}>{f.statut}</span>{" "}
+        <span style={css(MODE)}>{f.mode}</span>{" "}
+      </div>
+      {" "}
+      <span style={css(`font-size: 14px; color: #5B5470`)}>{ligneFormation(f)}</span>
+      {" "}
+      {f.mentionComplementaire && (
+        <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6; font-style: italic`)}>
+          <Mention texte={f.mentionComplementaire} />
+        </span>
+      )}
     </div>
   );
 }

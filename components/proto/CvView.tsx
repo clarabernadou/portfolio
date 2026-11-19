@@ -79,11 +79,22 @@ export function CvView({ v }: { v: any }) {
           </div>
         </div>
         {" "}
-        <div style={css(`display: flex; flex-wrap: wrap; gap: 3rem; align-items: flex-start`)}>
-          {" "}
-          <aside style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 1.5rem; border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 26px`)}>
+        {/* Mise en page du CV (19 nov. 2026) : compétences puis formations à gauche ; profil, expériences et projet
+            à droite. Ordre du code (et donc du clavier et du mobile) : profil, compétences, contenu principal,
+            formations (grille .cv-colonnes, globals.css). */}
+        <div className={"cv-colonnes"}>
+          {/* Profil titré, en tête de la colonne de droite, face aux compétences (19 nov. 2026). */}
+          <section aria-labelledby={"cv-profil"} className={"cv-profil"}>
+            <h2 id={"cv-profil"} style={css(`margin: 0 0 14px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+              {"Profil"}
+            </h2>
+            <p style={css(`margin: 0; padding: 18px 20px; border-radius: 16px; background: #F3EFFF; font-size: 17px; line-height: 1.6`)}>
+              {v.profil.profilEssentiel}
+            </p>
+          </section>
+            <section aria-labelledby={"cv-competences"} className={"cv-competences"} style={css(`display: flex; flex-direction: column; gap: 1.5rem; border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 26px`)}>
             {" "}
-            <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+            <h2 id={"cv-competences"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
               {"Compétences"}
             </h2>
             {" "}
@@ -120,15 +131,9 @@ export function CvView({ v }: { v: any }) {
               </div>
             </div>
             {" "}
-          </aside>
-          {" "}
-          <div style={css(`flex: 1.7 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 2.5rem`)}>
-            {" "}
-            <section>
-              <p style={css(`margin: 0; padding: 18px 20px; border-radius: 16px; background: #F3EFFF; font-size: 17px; line-height: 1.6`)}>
-                {v.profil.profilEssentiel}
-              </p>
             </section>
+          <div className={"cv-principal"} style={css(`min-width: 0; display: flex; flex-direction: column; gap: 2.5rem`)}>
+            {" "}
             {v.profil.competencesIa?.length > 0 && (
               <section>
                 <h2 style={css(`margin: 0 0 14px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
@@ -155,17 +160,16 @@ export function CvView({ v }: { v: any }) {
                 ))}
               </section>
             )}
-            <section>
-              <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+            {" "}
+          </div>
+            <section aria-labelledby={"cv-formations"} className={"cv-formations"} style={css(`display: flex; flex-direction: column; border-radius: 24px; border: 1px solid #E4DCF7; background: #FFFFFF; padding: 26px`)}>
+              <h2 id={"cv-formations"} style={css(`margin: 0 0 10px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
                 {"Formations"}
               </h2>
               {v.formations.map((f: any, i_f: number) => (
                 <CvFormation key={i_f} f={f} />
               ))}
             </section>
-            {" "}
-          </div>
-          {" "}
         </div>
         </div>
       </main>

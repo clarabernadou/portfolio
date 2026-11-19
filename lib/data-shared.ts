@@ -162,3 +162,13 @@ export const commenceParCadre = (texte: string, phrase: string) => {
 };
 
 export const profilPublic =(p: SiteProfile): SiteProfile => ({ ...p, telephone: "", noteIA: "" });
+
+// Étiquettes des cartes de projets (demande de Clara, 19 nov. 2026) : les 4 premières, puis « +N ».
+// La liste complète reste sur la fiche du projet.
+export const ETIQUETTES_MAX = 4;
+// Une carte à une étiquette de trop les garde toutes (pas de « +1 »), sauf sur l'accueil où elles doivent
+// tenir sur une ligne (3 au plus, 19 nov. 2026).
+export const ETIQUETTES_ACCUEIL = 3;
+export const etiquettesVisibles = (tags: string[], max = ETIQUETTES_MAX): string[] =>
+  tags.length > (max === ETIQUETTES_MAX ? max + 1 : max) ? tags.slice(0, max) : tags;
+export const etiquettesRestantes = (tags: string[], max = ETIQUETTES_MAX): number => tags.length - etiquettesVisibles(tags, max).length;

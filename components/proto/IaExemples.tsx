@@ -4,6 +4,7 @@ import { useCallback, useState, type KeyboardEvent, type MouseEvent } from "reac
 import { css } from "@/lib/css";
 import { useModal } from "@/lib/useModal";
 import type { IaExamples } from "@/lib/types";
+import { ImageZoomable } from "./ImageZoomable";
 
 // Bouton « Voir un exemple » et fenêtre d'exemples d'une routine (README §18), avec le
 // markup et les styles du prototype (ia.source.html, .ex-modal). Les onglets n'apparaissent
@@ -61,11 +62,8 @@ export function IaExemples({ ex, routine, id }: { ex: IaExamples; routine: strin
               tab === i ? (
                 <div key={it.tab} {...(onglets ? { id: `${id}-panneau-${i}`, role: "tabpanel", "aria-labelledby": `${id}-onglet-${i}` } : {})} style={css(`display: flex; flex-direction: column; gap: 12px`)}>
                   <p style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>{it.caption}</p>
-                  {/* Cadre défilant : tabindex pour le faire défiler au clavier (RGAA 12.13). */}
-                  <div tabIndex={0} role={"region"} aria-label={`Capture : ${it.tab}`} style={css(`max-height: 62vh; overflow-y: auto; border-radius: 16px; border: 1px solid #E4DCF7; background: #F3EFFF`)}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={it.image} alt={it.alt} style={css(`display: block; width: 100%; height: auto`)} />
-                  </div>
+                  {/* Capture entière puis zoomable, comme dans la visionneuse des projets (19 nov. 2026). */}
+                  <ImageZoomable key={it.image} src={it.image} alt={it.alt} label={`Capture : ${it.tab}`} hauteur={0.52} />
                 </div>
               ) : null,
             )}
