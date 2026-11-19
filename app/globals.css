@@ -94,6 +94,10 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .liste-nue{list-style:none;margin:0;padding:0}
 /* Aération entre les sections (demande de Clara, 19 nov. 2026) : 72 px sur mobile, jusqu'à 112 px sur grand écran.
    Page IA : l'espace de part et d'autre de chaque séparateur (52 à 72 px). */
+/* Page IA : une section sur deux sur fond Brume, en pleine largeur (l'ombre étend le fond, clip-path le coupe
+   aux bords de l'écran sans créer de défilement horizontal). */
+.ia-bande{background:var(--brume);box-shadow:0 0 0 100vmax var(--brume);clip-path:inset(0 -100vmax);padding-block:var(--espace-section-demi)}
+.ia-bande:last-child{padding-bottom:var(--espace-section)}
 :root{--espace-section:clamp(4.5rem, 8vw, 7rem);--espace-section-demi:clamp(3.25rem, 5vw, 4.5rem)}
 /* Colonnes du CV (19 nov. 2026) : compétences puis formations à gauche ; profil, expériences et projet à droite.
    Ordre du code : profil, compétences, contenu principal, formations (sur mobile, les formations finissent la page). */
