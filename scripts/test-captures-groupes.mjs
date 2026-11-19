@@ -117,13 +117,22 @@ const ouvrir = async (page, chemin) => {
   ok((await page.evaluate(() => document.activeElement?.getAttribute("aria-label"))) === "Zoomer", "au zoom maximal, le focus reste sur « Zoomer »");
   await zoom.getByRole("button", { name: "Ajuster" }).click();
   const m2 = await mesure();
-  ok(m2.entiere && !m2.defile && (await page.evaluate(() => document.activeElement?.textContent)) === "Ajuster", "« Ajuster » rend l'image entière et garde le focus");
+  ok(m2.entiere && !m2.defile && (await page.evaluate(() => document.activeElement?.getAttribute("aria-label"))) === "Ajuster", "« Ajuster » rend l'image entière et garde le focus");
   await image.click();
   ok((await mesure()).defile, "clic sur l'image : zoom");
   await page.keyboard.press("0");
   ok((await mesure()).entiere, "touche 0 : image entière");
   const axe = await new AxeBuilder({ page }).include("[role=dialog]").analyze();
   ok(axe.violations.length === 0, `axe dans la visionneuse : ${axe.violations.map((v) => v.id).join(", ") || "0 erreur"}`);
+  await page.keyboard.press("Escape");
+  await ouvrir(page, AVEC);
+  await vignettes(page).first().click();
+  const place = await page.getByRole("dialog").evaluate((d) => {
+    const c = d.querySelector("[role=region]").getBoundingClientRect();
+    const b = d.querySelector("button[aria-label='Capture suivante']").getBoundingClientRect();
+    return Math.abs((b.top + b.bottom) / 2 - (c.top + c.bottom) / 2) < 2 && b.right <= c.right && b.left >= c.left;
+  });
+  ok(place, "flèche « suivante » posée sur le cadre, centrée en hauteur");
   await ctx.close();
 }
 

@@ -82,6 +82,16 @@ export function Visionneuse({ id, elements, index, onIndex, noms }: { id: string
     if (e.target === e.currentTarget) fermer();
   };
 
+  const fleche = (sens: 1 | -1) => (
+    <button type={"button"} onClick={() => aller(sens)} aria-label={sens === 1 ? noms.suivant : noms.precedent} style={css(`${ROND}; position: absolute; top: 50%; ${sens === 1 ? "right" : "left"}: 12px; transform: translateY(-50%); z-index: 1; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre); box-shadow: var(--ombre-modale)`)}>
+      <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+        <path d={sens === 1 ? "M9 18l6-6-6-6" : "M15 18l-6-6 6-6"} />
+      </svg>
+    </button>
+  );
+  const BOUTON = `${ROND}; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre)`;
+  const inactif = (off: boolean) => `opacity: ${off ? 0.4 : 1}; cursor: ${off ? "default" : "pointer"}`;
+
   return (
     <div className={"ex-modal"} onClick={fond}>
       <div id={id} className={"ex-dialog"} role={"dialog"} aria-modal={"true"} aria-labelledby={`${id}-titre`} onKeyDown={clavier} style={css(`max-width: 1100px; display: flex; flex-direction: column; gap: 16px`)}>
@@ -92,99 +102,87 @@ export function Visionneuse({ id, elements, index, onIndex, noms }: { id: string
               {cur.titre}
             </span>
           </div>
-          <button type={"button"} onClick={fermer} aria-label={"Fermer"} style={css(`${ROND}; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre)`)}>
-            <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"}>
-              <path d={"M6 6l12 12M18 6L6 18"} />
-            </svg>
-          </button>
+          {/* Ouvrir dans un nouvel onglet, puis Fermer : deux icônes en haut à droite (demande de Clara, 19 nov. 2026). */}
+          <div style={css(`display: flex; gap: 8px; flex-shrink: 0`)}>
+            <a href={cur.src} target={"_blank"} rel={"noopener noreferrer"} aria-label={"Ouvrir dans un nouvel onglet"} title={"Ouvrir dans un nouvel onglet"} style={css(BOUTON)}>
+              <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                <path d={"M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"} />
+              </svg>
+            </a>
+            <button type={"button"} onClick={fermer} aria-label={"Fermer"} style={css(BOUTON)}>
+              <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"}>
+                <path d={"M6 6l12 12M18 6L6 18"} />
+              </svg>
+            </button>
+          </div>
         </div>
-        {cur.type === "pdf" ? (
-          <iframe key={cur.src} src={cur.src} title={cur.titre} style={css(`display: block; width: 100%; height: 72vh; border: 1px solid var(--bordure); border-radius: 16px; background: var(--fond-section)`)} />
-        ) : cur.type === "video" ? (
-          <video key={cur.src} src={cur.src} controls style={css(`display: block; width: 100%; max-height: 72vh; border-radius: 16px; background: var(--encre)`)} />
-        ) : (
-          // Image entière par défaut ; zoomée, le cadre défile (tabindex : défilement au clavier, RGAA 12.13).
-          <div
-            ref={cadre}
-            tabIndex={0}
-            role={"region"}
-            aria-label={cur.titre}
-            style={css(
-              zoome
-                ? `height: ${HAUTEUR_CADRE * 100}vh; overflow: auto; border-radius: 16px; border: 1px solid var(--bordure); background: var(--fond-section)`
-                : `max-height: ${HAUTEUR_CADRE * 100}vh; overflow: hidden; display: flex; justify-content: center; border-radius: 16px; border: 1px solid var(--bordure); background: var(--fond-section)`,
-            )}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              key={cur.src}
-              src={cur.src}
-              alt={cur.alt ?? ""}
-              onLoad={(e) => {
-                const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
-                setTailles((x) => ({ ...x, [cur.src]: { w, h } }));
-              }}
-              onClick={(e) => {
-                const r = e.currentTarget.getBoundingClientRect();
-                changerZoom(zoome ? 0 : 2, { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height });
-              }}
+        {/* Précédent / suivant posés sur le cadre, centrés en hauteur ; hors du cadre qui défile, ils restent en place une fois l'image zoomée. */}
+        <div style={css(`position: relative`)}>
+          {n > 1 && fleche(-1)}
+          {cur.type === "pdf" ? (
+            <iframe key={cur.src} src={cur.src} title={cur.titre} style={css(`display: block; width: 100%; height: 72vh; border: 1px solid var(--bordure); border-radius: 16px; background: var(--fond-section)`)} />
+          ) : cur.type === "video" ? (
+            <video key={cur.src} src={cur.src} controls style={css(`display: block; width: 100%; max-height: 72vh; border-radius: 16px; background: var(--encre)`)} />
+          ) : (
+            // Image entière par défaut ; zoomée, le cadre défile (tabindex : défilement au clavier, RGAA 12.13).
+            <div
+              ref={cadre}
+              tabIndex={0}
+              role={"region"}
+              aria-label={cur.titre}
               style={css(
                 zoome
-                  ? `display: block; width: ${Math.round(taille!.w * ajuste * ZOOMS[niveau])}px; max-width: none; height: auto; margin: 0 auto; cursor: zoom-out`
-                  : `display: block; width: auto; height: auto; max-width: 100%; max-height: ${HAUTEUR_CADRE * 100}vh; margin: 0 auto; cursor: zoom-in`,
+                  ? `height: ${HAUTEUR_CADRE * 100}vh; overflow: auto; border-radius: 16px; border: 1px solid var(--bordure); background: var(--fond-section)`
+                  : `max-height: ${HAUTEUR_CADRE * 100}vh; overflow: hidden; display: flex; justify-content: center; border-radius: 16px; border: 1px solid var(--bordure); background: var(--fond-section)`,
               )}
-            />
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                key={cur.src}
+                src={cur.src}
+                alt={cur.alt ?? ""}
+                onLoad={(e) => {
+                  const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
+                  setTailles((x) => ({ ...x, [cur.src]: { w, h } }));
+                }}
+                onClick={(e) => {
+                  const r = e.currentTarget.getBoundingClientRect();
+                  changerZoom(zoome ? 0 : 2, { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height });
+                }}
+                style={css(
+                  zoome
+                    ? `display: block; width: ${Math.round(taille!.w * ajuste * ZOOMS[niveau])}px; max-width: none; height: auto; margin: 0 auto; cursor: zoom-out`
+                    : `display: block; width: auto; height: auto; max-width: 100%; max-height: ${HAUTEUR_CADRE * 100}vh; margin: 0 auto; cursor: zoom-in`,
+                )}
+              />
+            </div>
+          )}
+          {n > 1 && fleche(1)}
+        </div>
+        {src && (
+          // Zoom centré sous le cadre : − niveau +, puis « Ajuster » en icône.
+          // aria-disabled plutôt que disabled : le bouton garde le focus quand il devient inactif.
+          <div role={"group"} aria-label={"Zoom"} style={css(`display: flex; justify-content: center; align-items: center; gap: 8px`)}>
+            <button type={"button"} onClick={() => changerZoom(niveau - 1)} aria-disabled={niveau === 0} aria-label={"Dézoomer"} style={css(`${BOUTON}; ${inactif(niveau === 0)}`)}>
+              <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"}>
+                <path d={"M5 12h14"} />
+              </svg>
+            </button>
+            <span aria-live={"polite"} style={css(`min-width: 72px; text-align: center; font-size: 15px; font-weight: 700; color: var(--encre)`)}>
+              {zoome ? `${pourcent} %` : "Ajustée"}
+            </span>
+            <button type={"button"} onClick={() => changerZoom(niveau + 1)} aria-disabled={niveau === ZOOMS.length - 1} aria-label={"Zoomer"} style={css(`${BOUTON}; ${inactif(niveau === ZOOMS.length - 1)}`)}>
+              <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"}>
+                <path d={"M12 5v14M5 12h14"} />
+              </svg>
+            </button>
+            <button type={"button"} onClick={() => changerZoom(0)} aria-disabled={!zoome} aria-label={"Ajuster"} title={"Ajuster à la fenêtre"} style={css(`${BOUTON}; margin-left: 8px; ${inactif(!zoome)}`)}>
+              <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                <path d={"M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"} />
+              </svg>
+            </button>
           </div>
         )}
-        <div style={css(`display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap`)}>
-          {n > 1 ? (
-            <button type={"button"} onClick={() => aller(-1)} aria-label={noms.precedent} style={css(`${ROND}; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre)`)}>
-              <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
-                <path d={"M15 18l-6-6 6-6"} />
-              </svg>
-            </button>
-          ) : (
-            <span />
-          )}
-          <span style={css(`display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 16px`)}>
-          {src && (
-            <span role={"group"} aria-label={"Zoom"} style={css(`display: inline-flex; align-items: center; gap: 8px`)}>
-              <button type={"button"} onClick={() => changerZoom(niveau - 1)} aria-disabled={niveau === 0} aria-label={"Dézoomer"} style={css(`${ROND}; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre); opacity: ${niveau === 0 ? 0.4 : 1}; cursor: ${niveau === 0 ? "default" : "pointer"}`)}>
-                <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"}>
-                  <path d={"M5 12h14"} />
-                </svg>
-              </button>
-              <span aria-live={"polite"} style={css(`min-width: 64px; text-align: center; font-size: 15px; font-weight: 700; color: var(--encre)`)}>
-                {zoome ? `${pourcent} %` : "Ajustée"}
-              </span>
-              <button type={"button"} onClick={() => changerZoom(niveau + 1)} aria-disabled={niveau === ZOOMS.length - 1} aria-label={"Zoomer"} style={css(`${ROND}; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre); opacity: ${niveau === ZOOMS.length - 1 ? 0.4 : 1}; cursor: ${niveau === ZOOMS.length - 1 ? "default" : "pointer"}`)}>
-                <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"}>
-                  <path d={"M12 5v14M5 12h14"} />
-                </svg>
-              </button>
-              {/* aria-disabled plutôt que disabled : le bouton garde le focus quand il devient inactif. */}
-              <button type={"button"} onClick={() => changerZoom(0)} aria-disabled={!zoome} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre); font: inherit; font-size: 15px; font-weight: 700; opacity: ${zoome ? 1 : 0.4}; cursor: ${zoome ? "pointer" : "default"}`)}>
-                {"Ajuster"}
-              </button>
-            </span>
-          )}
-          <a href={cur.src} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 44px; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; color: var(--amethyste)`)}>
-            {"Ouvrir dans un nouvel onglet"}
-            <svg width={"14"} height={"14"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
-              <path d={"M7 17L17 7M9 7h8v8"} />
-            </svg>
-          </a>
-          </span>
-          {n > 1 ? (
-            <button type={"button"} onClick={() => aller(1)} aria-label={noms.suivant} style={css(`${ROND}; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre)`)}>
-              <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
-                <path d={"M9 18l6-6-6-6"} />
-              </svg>
-            </button>
-          ) : (
-            <span />
-          )}
-        </div>
       </div>
     </div>
   );

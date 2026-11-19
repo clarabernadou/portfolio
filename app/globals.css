@@ -75,7 +75,9 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .ft-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem}
 .ft-row > :first-child{justify-self:start}
 .ft-row > :last-child{justify-self:end}
-@media (max-width: 640px){.ft-row{grid-template-columns:1fr;justify-items:center}.ft-row > :first-child,.ft-row > :last-child{justify-self:center}}
+/* Bouton « Retour en haut de page » (fixe, 56 px à 24 px du bord) : sous 1300 px de large, il recouvrirait « Connexion » ; la rangée lui réserve sa place (19 nov. 2026). */
+@media (max-width: 1299px){.ft-row{padding-right:72px}}
+@media (max-width: 640px){.ft-row{grid-template-columns:1fr;justify-items:center;padding-right:0}.ft-row > :first-child,.ft-row > :last-child{justify-self:center}}
 
 /* Reflow avec espacement du texte élargi (RGAA 10.12) : l'adresse e-mail du CV peut passer à la ligne sur petit écran. */
 @media (max-width: 640px){.cv-contacts a{white-space:normal;min-width:0}.cv-contact-txt{display:inline;overflow-wrap:anywhere}}
