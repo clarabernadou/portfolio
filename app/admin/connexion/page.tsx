@@ -20,14 +20,14 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
       ? "La connexion n’a pas abouti. Réessaie dans un instant."
       : null;
   return (
-    <main className={"zone-sombre"} style={css(`box-sizing: border-box; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 16px; background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%)`)}>
+    <main className={"zone-sombre"} style={css(`box-sizing: border-box; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 5rem 16px; background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%)`)}>
       {/* « Retour au site » au-dessus de la carte, aligné sur son bord gauche (19 nov. 2026) : la carte ne
-          contient que la connexion, et le lien est le premier atteint au clavier. */}
-      <div style={css(`box-sizing: border-box; width: 100%; max-width: 440px; margin-bottom: 12px`)}>
-        <Link href={"/"} style={css(`min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700; color: #C4B5FD; text-decoration: none`)}>
+          contient que la connexion, le lien est le premier atteint au clavier, et c'est la carte seule qui est
+          centrée dans l'écran (le lien est posé au-dessus, hors du flux). */}
+      <div style={css(`position: relative; box-sizing: border-box; width: 100%; max-width: 440px`)}>
+        <Link href={"/"} style={css(`position: absolute; left: 0; bottom: calc(100% + 12px); min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700; color: #C4B5FD; text-decoration: none`)}>
           {"← Retour au site"}
         </Link>
-      </div>
       <div style={css(`box-sizing: border-box; width: 100%; max-width: 440px; background: #FFFFFF; border-radius: 24px; padding: 36px; box-shadow: 0 24px 64px rgba(10,6,24,0.45); display: flex; flex-direction: column; gap: 14px`)}>
         <Link href={"/"} aria-label={"Clara Bernadou, accueil"} style={css(`align-self: flex-start; display: flex; min-height: 44px; align-items: center`)}>
           <LogoClara height={32} />
@@ -49,6 +49,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
         <Suspense>
           <GitHubSignIn />
         </Suspense>
+      </div>
       </div>
     </main>
   );
