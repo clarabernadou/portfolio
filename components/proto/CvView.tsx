@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 import { css } from "@/lib/css";
-import { CvExperience, CvFormation, CvProjet, PucesGras } from "./Parcours";
+import { CvExperience, CvFormation, CvProjet, Etiquettes, PucesGras } from "./Parcours";
 import { Lieu } from "./Lieu";
 
 // Généré depuis docs/passation/prototype-source/cv.source.html
@@ -79,61 +79,27 @@ export function CvView({ v }: { v: any }) {
           </div>
         </div>
         {" "}
-        <div style={css(`display: flex; flex-wrap: wrap; gap: 3rem; align-items: flex-start`)}>
-          {/* Contenu principal d'abord, colonne latérale ensuite (19 nov. 2026) : à l'écran, au clavier et
-              sur mobile, on lit le profil et les expériences avant les compétences et les formations. */}
-          <div style={css(`flex: 1.7 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 2.5rem`)}>
-            {" "}
-            <section>
-              <p style={css(`margin: 0; padding: 18px 20px; border-radius: 16px; background: #F3EFFF; font-size: 17px; line-height: 1.6`)}>
-                {v.profil.profilEssentiel}
-              </p>
-            </section>
-            {v.profil.competencesIa?.length > 0 && (
-              <section>
-                <h2 style={css(`margin: 0 0 14px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
-                  {"Compétences IA"}
-                </h2>
-                <PucesGras items={v.profil.competencesIa} />
-              </section>
-            )}
-            <section>
-              <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
-                {"Expériences professionnelles"}
-              </h2>
-              {v.experiences.map((e: any, i_e: number) => (
-                <CvExperience key={i_e} e={e} />
-              ))}
-            </section>
-            {v.profil.projetsCv?.length > 0 && (
-              <section>
-                <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
-                  {v.profil.projetsCv.length > 1 ? "Projets personnels" : "Projet personnel"}
-                </h2>
-                {v.profil.projetsCv.map((pj: any) => (
-                  <CvProjet key={pj.titre} p={pj} />
-                ))}
-              </section>
-            )}
-            {" "}
-          </div>
-          <aside style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 1.5rem`)}>
-            <section aria-labelledby={"cv-competences"} style={css(`display: flex; flex-direction: column; gap: 1.5rem; border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 26px`)}>
+        <section>
+          <p style={css(`margin: 0; padding: 18px 20px; border-radius: 16px; background: #F3EFFF; font-size: 17px; line-height: 1.6`)}>
+            {v.profil.profilEssentiel}
+          </p>
+        </section>
+        {/* Mise en page du CV (19 nov. 2026) : profil en pleine largeur, puis compétences à gauche, expériences et
+            projet à droite, formations sous les compétences. Ordre du code (et donc du clavier et du mobile) :
+            compétences, contenu principal, formations (grille .cv-colonnes, globals.css). */}
+        <div className={"cv-colonnes"}>
+            <section aria-labelledby={"cv-competences"} className={"cv-competences"} style={css(`display: flex; flex-direction: column; gap: 1.5rem; border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 26px`)}>
             {" "}
             <h2 id={"cv-competences"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
               {"Compétences"}
             </h2>
             {" "}
-            <div style={css(`display: flex; flex-direction: column; gap: 1.1rem`)}>
+            <div style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
               {v.skillsEssentiel.map((g: any) => (
-                <div key={g.name} style={css(`display: flex; flex-direction: column; gap: 4px`)}>
+                <div key={g.name} style={css(`display: flex; flex-direction: column; gap: 8px`)}>
                   <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{g.name}</h3>
                   {" "}
-                  <ul role={"list"} className={"liste-points"}>
-                    {g.items.map((t: string) => (
-                      <li key={t}>{t}</li>
-                    ))}
-                  </ul>
+                  <Etiquettes items={g.items} style={`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`} />
                 </div>
               ))}
             </div>
@@ -162,8 +128,37 @@ export function CvView({ v }: { v: any }) {
             </div>
             {" "}
             </section>
-            {/* Formations sous les compétences, dans la colonne latérale (19 nov. 2026). */}
-            <section aria-labelledby={"cv-formations"} style={css(`display: flex; flex-direction: column; border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 26px`)}>
+          <div className={"cv-principal"} style={css(`min-width: 0; display: flex; flex-direction: column; gap: 2.5rem`)}>
+            {" "}
+            {v.profil.competencesIa?.length > 0 && (
+              <section>
+                <h2 style={css(`margin: 0 0 14px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+                  {"Compétences IA"}
+                </h2>
+                <PucesGras items={v.profil.competencesIa} />
+              </section>
+            )}
+            <section>
+              <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+                {"Expériences professionnelles"}
+              </h2>
+              {v.experiences.map((e: any, i_e: number) => (
+                <CvExperience key={i_e} e={e} />
+              ))}
+            </section>
+            {v.profil.projetsCv?.length > 0 && (
+              <section>
+                <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+                  {v.profil.projetsCv.length > 1 ? "Projets personnels" : "Projet personnel"}
+                </h2>
+                {v.profil.projetsCv.map((pj: any) => (
+                  <CvProjet key={pj.titre} p={pj} />
+                ))}
+              </section>
+            )}
+            {" "}
+          </div>
+            <section aria-labelledby={"cv-formations"} className={"cv-formations"} style={css(`display: flex; flex-direction: column; border-radius: 24px; border: 1px solid #E4DCF7; background: #FFFFFF; padding: 26px`)}>
               <h2 id={"cv-formations"} style={css(`margin: 0 0 10px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
                 {"Formations"}
               </h2>
@@ -171,7 +166,6 @@ export function CvView({ v }: { v: any }) {
                 <CvFormation key={i_f} f={f} />
               ))}
             </section>
-          </aside>
         </div>
         </div>
       </main>

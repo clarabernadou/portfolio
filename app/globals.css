@@ -92,10 +92,6 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .visuellement-masque{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Listes sans puces (9.3) : role="list" garde la liste annoncée par Safari. */
 .liste-nue{list-style:none;margin:0;padding:0}
-/* Compétences du CV en liste de texte compacte (19 nov. 2026) : « JavaScript · TypeScript · React ».
-   Le point est décoratif (texte alternatif vide), les éléments restent une vraie liste (RGAA 9.3). */
-.liste-points{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;row-gap:2px;font-size:15px;line-height:1.5;font-weight:600;color:var(--encre)}
-.liste-points li:not(:last-child)::after{content:"·" / "";margin:0 8px;color:var(--amethyste);font-weight:800}
 /* Lien étiré (cartes de /ia, 13 nov. 2026) : le lien « Voir le projet » couvre toute sa carte. */
 .lien-etire::after{content:"";position:absolute;inset:0;border-radius:inherit}
 /* Carrousel des livrables (components/proto/ListeLivrables.tsx) : chaque carte s'aligne au début de la rangée. */
