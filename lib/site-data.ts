@@ -18,7 +18,7 @@ export const siteContact = {
   cvPdfHref: "/media/cv/CV_Clara_Bernadou_Developpeuse_Full_Stack.pdf",
   photo: "/photo-clara.jpg",
   disponibiliteEntretiens:
-    "Entretiens possibles le vendredi, le samedi et en semaine après 17 h.",
+    "Entretiens possibles en semaine après 17 h ou le samedi.",
 } as const;
 
 export const siteFooterLinks = {
