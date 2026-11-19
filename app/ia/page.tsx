@@ -12,5 +12,7 @@ export const metadata = pageMetadata(
 export default async function IaPage() {
   const [ia, projets] = await Promise.all([getIa(), getSiteProjects()]);
   // Projets publiés : les cartes de « Ce que ça a produit » ne sont des liens que vers eux.
-  return <IaView v={{ stats: iaStats(ia), tools: ia.tools, skills: ia.skills, routines: ia.routines, publics: projets.map((p) => p.id) }} />;
+  // Repères : le nombre d'outils hors Claude n'est plus affiché (il mettait la quantité en avant, 19 nov. 2026).
+  const stats = iaStats(ia).filter((_, i) => ia.stats[i]?.computed !== "nombre d’outils hors Claude");
+  return <IaView v={{ stats, tools: ia.tools, skills: ia.skills, routines: ia.routines, publics: projets.map((p) => p.id) }} />;
 }

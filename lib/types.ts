@@ -70,12 +70,16 @@ export interface IaTool {
   category: string;
   description: string;
   favorite: boolean;
+  /** Carte mise en avant sur la page IA ; les autres outils passent dans la liste compacte (19 nov. 2026). */
+  vedette?: boolean;
 }
 
 export interface IaSkill {
   name: string;
   description: string;
   deliverables: string[];
+  /** Carte mise en avant sur la page IA ; les autres skills passent dans la liste compacte (19 nov. 2026). */
+  vedette?: boolean;
 }
 
 export interface IaRoutine {

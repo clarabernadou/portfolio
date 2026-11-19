@@ -142,6 +142,14 @@ export function IaEditor({ initial, stats }: { initial: Lists; stats: IaContent[
                       onChange={(v) => setList(items.map((x, i) => ({ ...x, favorite: i === sel ? v : v ? false : x.favorite })))}
                     />
                   )}
+                  {(
+                    <Toggle
+                      label="Mis en avant"
+                      help="En grande carte sur la page. Les autres apparaissent dans une liste compacte, par leur nom. Sans aucun choix, les 3 premiers sont mis en avant."
+                      checked={Boolean(cur.vedette)}
+                      onChange={(v) => setCur({ vedette: v || undefined })}
+                    />
+                  )}
                   {onglet === "skills" && <TagInput label="Livrables" value={(cur.deliverables as string[]) ?? []} onChange={(v) => setCur({ deliverables: v })} help="Gardés dans les données (non affichés sur la page)." />}
                 </>
               )}
