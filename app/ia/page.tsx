@@ -14,5 +14,8 @@ export default async function IaPage() {
   // Projets publiés : les cartes de « Ce que ça a produit » ne sont des liens que vers eux.
   // Repères : le nombre d'outils hors Claude n'est plus affiché (il mettait la quantité en avant, 19 nov. 2026).
   const stats = iaStats(ia).filter((_, i) => ia.stats[i]?.computed !== "nombre d’outils hors Claude");
-  return <IaView v={{ stats, tools: ia.tools, skills: ia.skills, routines: ia.routines, publics: projets.map((p) => p.id) }} />;
+  // J.A.R.V.I.S, fait avec Claude Code : grande carte en tête de « Ce que ça a produit » (19 nov. 2026).
+  const j = projets.find((p) => p.id === "jarvis");
+  const jarvis = j && { name: j.name, line: j.line, tags: j.tags, image: j.captures?.[0]?.url ?? null };
+  return <IaView v={{ stats, jarvis, tools: ia.tools, skills: ia.skills, routines: ia.routines, publics: projets.map((p) => p.id) }} />;
 }
