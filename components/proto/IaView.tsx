@@ -65,7 +65,7 @@ export function IaView({ v }: { v: any }) {
         {/* Introduction plus grande et plus aérée (19 nov. 2026). */}
         <section style={css(`display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 3rem); padding-bottom: clamp(0.5rem, 2vw, 1.5rem)`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 20px`)}>
-            <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 7vw, 76px); letter-spacing: -0.045em; line-height: 1`)}>
+            <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 7vw, 76px); letter-spacing: -0.045em; line-height: 1; hyphens: manual`)}>
               <span style={css(`font-weight: 800`)}>
                 {"Ma façon de travailler"}
               </span>
