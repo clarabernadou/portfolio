@@ -45,8 +45,8 @@ function RecoForm({ initial, onDone }: { initial: RecoInput; onDone: () => void 
         <TextField label="Relation" value={r.relation} onChange={(v) => set("relation", v)} placeholder="Mentore OpenClassrooms · …" />
         <TextField label="Profil LinkedIn" type="url" value={r.linkedin} onChange={(v) => set("linkedin", v)} />
         <div className="adm-field">
-          <TextField label="Lettre en PDF" value={r.lettrePdf} onChange={(v) => set("lettrePdf", v)} placeholder="Envoie le fichier, ou colle son adresse" />
-          <BlobUpload folder="recommandations" accept="application/pdf,.pdf" label="Envoyer la lettre" onDone={(url) => set("lettrePdf", url)} />
+          <TextField label="Lettre (PDF ou image)" value={r.lettrePdf} onChange={(v) => set("lettrePdf", v)} placeholder="Envoie le fichier, ou colle son adresse" help="PDF, PNG, JPG ou WebP." />
+          <BlobUpload folder="recommandations" accept="application/pdf,.pdf,image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp" label="Envoyer la lettre" onDone={(url) => set("lettrePdf", url)} />
         </div>
         <TextField label="Lien de l’entreprise" type="url" value={r.entrepriseHref} onChange={(v) => set("entrepriseHref", v)} />
         <TextField label="Mot du rôle relié à l’entreprise" value={r.lienTexte} onChange={(v) => set("lienTexte", v)} help="Par exemple « IntuitLearn »." />

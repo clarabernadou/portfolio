@@ -4,10 +4,17 @@ import { useCallback, useState, type MouseEvent } from "react";
 import { css } from "@/lib/css";
 import { useModal } from "@/lib/useModal";
 import type { SiteReco } from "@/lib/data-shared";
+import { formatLivrable } from "@/lib/livrables";
 
 // Cartes « Ils me recommandent » et fenêtre « Lire en entier » de l'accueil, rendues
 // depuis les données (étape 9) avec le markup et les styles du prototype (AccueilView).
 const LIEN_RECOS = "https://www.linkedin.com/in/clarabernadou/details/recommendations/";
+
+// La lettre peut être un PDF ou une image (demande de Clara, 19 nov. 2026) : le lien annonce son format.
+function libelleLettre(href: string) {
+  const f = formatLivrable(href);
+  return f === "Lien" || f === "Fichier" ? "Lettre" : `Lettre · ${f}`;
+}
 
 function Role({ r }: { r: SiteReco }) {
   if (!r.entrepriseHref || !r.lienTexte || !r.poste.includes(r.lienTexte)) return <>{r.poste}</>;
@@ -74,7 +81,7 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
               </button>
               {it.lettrePdf && (
                 <a href={it.lettrePdf} target={"_blank"} rel={"noopener noreferrer"} style={css(`font-size: 14px; font-weight: 700`)}>
-                  {"Lettre · PDF"}
+                  {libelleLettre(it.lettrePdf)}
                 </a>
               )}
               {it.voirLinkedin && (
