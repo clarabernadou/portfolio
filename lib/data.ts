@@ -23,9 +23,6 @@ import { avecCompteProjets } from "./data-shared";
 // le rendu est identique, seules les modifications faites en administration manquent.
 // Après chaque écriture, l'administration appelle revalidatePath("/", "layout").
 
-// Ordre du bandeau « Projets phares » (maquettes/site-mobile/projets.jpg).
-const FEATURED_ORDER_DEFAUT = ["portfolio", "watchedthis", "intuitlearn"];
-
 const hasDb = () => Boolean(process.env.DATABASE_URL);
 
 // Pendant « next build », les pages statiques (dont les 39 fiches projet) sont générées en
@@ -102,12 +99,6 @@ export async function getProjetApercu(id: string): Promise<SiteProject | null> {
   if (!hasDb()) return fromJson().find((p) => p.id === id) ?? null;
   const row = await (await prisma()).project.findFirst({ where: { id, deletedAt: null } });
   return row ? fromRow(row) : null;
-}
-
-async function getFeaturedOrderSource(): Promise<string[]> {
-  if (!hasDb()) return FEATURED_ORDER_DEFAUT;
-  const row = await (await prisma()).singleton.findUnique({ where: { key: "phares" } });
-  return ((row?.data as { ids?: string[] } | null)?.ids) ?? FEATURED_ORDER_DEFAUT;
 }
 
 // Expériences, de la plus récente à la plus ancienne (ordre du CV).
@@ -252,7 +243,6 @@ async function getIaSource(): Promise<IaContent> {
 }
 
 export const getSiteProjects = uneFoisAuBuild("getSiteProjects", getSiteProjectsSource);
-export const getFeaturedOrder = uneFoisAuBuild("getFeaturedOrder", getFeaturedOrderSource);
 export const getExperiences = uneFoisAuBuild("getExperiences", getExperiencesSource);
 export const getFormations = uneFoisAuBuild("getFormations", getFormationsSource);
 export const getSkills = uneFoisAuBuild("getSkills", getSkillsSource);
