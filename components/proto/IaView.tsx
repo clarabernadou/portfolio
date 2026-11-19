@@ -62,10 +62,10 @@ export function IaView({ v }: { v: any }) {
   return (
     <>
       <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(3rem, 7vw, 5rem) 2rem 0; display: flex; flex-direction: column; gap: var(--espace-section-demi)`)}>
-        {/* Introduction plus grande et plus aérée (19 nov. 2026). */}
+        {/* Introduction plus aérée (19 nov. 2026). */}
         <section style={css(`display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 3rem); padding-bottom: clamp(0.5rem, 2vw, 1.5rem)`)}>
-          <div style={css(`display: flex; flex-direction: column; gap: 20px`)}>
-            <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 7vw, 76px); letter-spacing: -0.045em; line-height: 1; hyphens: manual`)}>
+          <div style={css(`display: flex; flex-direction: column; gap: 14px`)}>
+            <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 6vw, 64px); letter-spacing: -0.045em; line-height: 1; hyphens: manual`)}>
               <span style={css(`font-weight: 800`)}>
                 {"Ma façon de travailler"}
               </span>
@@ -74,7 +74,7 @@ export function IaView({ v }: { v: any }) {
                 {"avec l’IA"}
               </span>
             </h1>
-            <p style={css(`margin: 0; font-size: clamp(19px, 2vw, 22px); line-height: 1.6`)}>
+            <p style={css(`margin: 0; font-size: 20px; line-height: 1.55`)}>
               {"J’utilise l’IA tous les jours pour développer, concevoir et produire du contenu. Je choisis l’outil le plus adapté à chaque tâche, je construis des skills pour automatiser le répétitif, et je vérifie toujours le résultat avant de le livrer."}
             </p>
           </div>
@@ -177,10 +177,11 @@ export function IaView({ v }: { v: any }) {
               {"Chaque IA a ses points forts. Je choisis la plus adaptée à chaque tâche."}
             </p>
           </div>
-          <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
+          {/* Outils Claude mis en avant, tous de prédilection : plus de badge sur un seul (19 nov. 2026). */}
+          <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 16px`)}>
             {vedettes(v.tools).map((t: any) => (
               <li key={t.name} style={css(`display: grid`)}>
-                <IaCard kicker={t.category} title={t.name} text={t.description} favorite={t.favorite} />
+                <IaCard kicker={t.category} title={t.name} text={t.description} />
               </li>
             ))}
           </ul>
