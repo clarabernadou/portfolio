@@ -34,7 +34,7 @@ function Autres({ titre, items }: { titre: string; items: { nom: string; detail?
   return (
     <div style={css(`display: flex; flex-direction: column; gap: 10px; padding: 20px 22px; border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF`)}>
       <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{titre}</h3>
-      <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 8px 24px`)}>
+      <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap: 8px 24px`)}>
         {items.map((x) => (
           <li key={x.nom} style={css(`font-size: 16px; line-height: 1.45`)}>
             <b style={css(`color: #1A1033`)}>{x.nom}</b>
@@ -269,7 +269,7 @@ export function IaView({ v }: { v: any }) {
             <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
               {"Utiliser l’IA vite ne sert à rien si le résultat n’est pas fiable. Voici ce que je m’impose."}
             </p>
-            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 14px 32px; margin-top: 6px`)}>
+            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 16px 40px; margin-top: 6px`)}>
             <li style={css(`display: flex; gap: 12px; align-items: flex-start`)}>
               <Coche />
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>
