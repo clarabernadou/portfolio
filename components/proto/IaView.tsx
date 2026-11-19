@@ -10,18 +10,6 @@ import { IaExemples } from "./IaExemples";
 // Généré depuis docs/passation/prototype-source/ia.source.html
 // (scripts/tools/gen.mjs) : markup et styles recopiés à l'identique.
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Séparateur décoratif entre les sections de la page IA (demande de Clara, 24 octobre 2026).
-function Sep() {
-  return (
-    <div aria-hidden={"true"} style={css(`display: flex; align-items: center; gap: 14px; margin: -0.5rem 0`)}>
-      <span style={css(`flex: 1; height: 2px; border-radius: 2px; background: linear-gradient(90deg, rgba(185,168,236,0) 0%, #B9A8EC 100%)`)} />
-      {" "}
-      <span style={css(`width: 10px; height: 10px; border-radius: 50%; background: #6A4FB6; box-shadow: 0 0 0 4px #F3EFFF, 0 0 0 5px #B9A8EC; flex-shrink: 0`)} />
-      {" "}
-      <span style={css(`flex: 1; height: 2px; border-radius: 2px; background: linear-gradient(90deg, #B9A8EC 0%, rgba(185,168,236,0) 100%)`)} />
-    </div>
-  );
-}
 
 // Outils et skills mis en avant (case « Mis en avant » de l'administration ; à défaut, les 3 premiers).
 const vedettes = (l: any[]) => (l.some((x) => x.vedette) ? l.filter((x) => x.vedette) : l.slice(0, 3));
@@ -73,7 +61,7 @@ function Coche() {
 export function IaView({ v }: { v: any }) {
   return (
     <>
-      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 2rem var(--espace-section); display: flex; flex-direction: column; gap: var(--espace-section-demi)`)}>
+      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 2rem 0; display: flex; flex-direction: column; gap: var(--espace-section-demi)`)}>
         <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 14px`)}>
             <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 6vw, 64px); letter-spacing: -0.045em; line-height: 1`)}>
@@ -96,11 +84,9 @@ export function IaView({ v }: { v: any }) {
             ))}
           </ul>
         </section>
-        <Sep />
-        {" "}
         {/* Hiérarchie de la page (19 nov. 2026) : les réalisations d'abord, puis les outils et skills mis en avant
             (les autres en liste compacte), la méthode avec ses règles, et les routines. */}
-        <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
+        <section className={"ia-bande"} style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
             <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Ce que ça a produit"}
@@ -181,8 +167,6 @@ export function IaView({ v }: { v: any }) {
             </li>
           </ul>
         </section>
-        <Sep />
-        {" "}
         <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
             <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
@@ -201,9 +185,7 @@ export function IaView({ v }: { v: any }) {
           </ul>
           <Autres titre={"Aussi, selon la tâche"} items={autres(v.tools).map((t: any) => ({ nom: t.name, detail: t.category }))} />
         </section>
-        <Sep />
-        {" "}
-        <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
+        <section className={"ia-bande"} style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
             <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Les skills que j’ai créés"}
@@ -221,8 +203,6 @@ export function IaView({ v }: { v: any }) {
           </ul>
           <Autres titre={"Autres skills"} items={autres(v.skills).map((t: any) => ({ nom: t.name }))} />
         </section>
-        <Sep />
-        {" "}
         <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
             <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
@@ -336,9 +316,7 @@ export function IaView({ v }: { v: any }) {
             </ul>
           </div>
         </section>
-        <Sep />
-        {" "}
-        <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
+        <section className={"ia-bande"} style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
             <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Mes routines"}

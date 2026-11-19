@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { css } from "@/lib/css";
-import { etiquettesRestantes, etiquettesVisibles } from "@/lib/data-shared";
+import { ETIQUETTES_ACCUEIL, etiquettesRestantes, etiquettesVisibles } from "@/lib/data-shared";
 import { CarteAlternance, FormationsCourtes, FriseFormation } from "./Parcours";
 import { Lieu } from "./Lieu";
 import { Recommandations } from "./Recommandations";
@@ -200,7 +200,7 @@ export function AccueilView({ v }: { v: any }) {
           </div>
           {" "}
         </section>
-        <section aria-label={"En bref"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem var(--espace-section)`)}>
+        <section aria-label={"En bref"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem var(--espace-section-demi)`)}>
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
             {v.chiffreCle && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
@@ -247,7 +247,12 @@ export function AccueilView({ v }: { v: any }) {
         </section>
         {/* Section masquée tant qu'aucun projet de l'accueil n'est public. */}
         {v.homeEntreprise.length + v.homeDev.length + v.homeDesign.length > 0 && (
-        <section id={"projets"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem var(--espace-section); display: flex; flex-direction: column; gap: 1.5rem`)}>
+        <>
+        {/* Fine ligne entre l'arrivée et les projets, sur le même fond blanc (19 nov. 2026). */}
+        <div aria-hidden={"true"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem`)}>
+          <div style={css(`height: 1px; background: #E4DCF7`)} />
+        </div>
+        <section id={"projets"} style={css(`max-width: 1200px; margin: 0 auto; padding: var(--espace-section-demi) 2rem var(--espace-section); display: flex; flex-direction: column; gap: 1.5rem`)}>
           {" "}
           <div style={css(`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem`)}>
             <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
@@ -294,15 +299,15 @@ export function AccueilView({ v }: { v: any }) {
                     </span>
                     {" "}
                     <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
-                      {etiquettesVisibles(c.tags).map((t: string, i_t: number) => (
+                      {etiquettesVisibles(c.tags, ETIQUETTES_ACCUEIL).map((t: string, i_t: number) => (
                         <li key={i_t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
                           {t}
                         </li>
                       ))}
-                      {etiquettesRestantes(c.tags) > 0 && (
+                      {etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL) > 0 && (
                         <li style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                          <span aria-hidden={"true"}>{`+${etiquettesRestantes(c.tags)}`}</span>
-                          <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(c.tags)} autres`}</span>
+                          <span aria-hidden={"true"}>{`+${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)}`}</span>
+                          <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)} autres`}</span>
                         </li>
                       )}
                     </ul>
@@ -341,15 +346,15 @@ export function AccueilView({ v }: { v: any }) {
                     </span>
                     {" "}
                     <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
-                      {etiquettesVisibles(c.tags).map((t: string, i_t: number) => (
+                      {etiquettesVisibles(c.tags, ETIQUETTES_ACCUEIL).map((t: string, i_t: number) => (
                         <li key={i_t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
                           {t}
                         </li>
                       ))}
-                      {etiquettesRestantes(c.tags) > 0 && (
+                      {etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL) > 0 && (
                         <li style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                          <span aria-hidden={"true"}>{`+${etiquettesRestantes(c.tags)}`}</span>
-                          <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(c.tags)} autres`}</span>
+                          <span aria-hidden={"true"}>{`+${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)}`}</span>
+                          <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)} autres`}</span>
                         </li>
                       )}
                     </ul>
@@ -388,15 +393,15 @@ export function AccueilView({ v }: { v: any }) {
                     </span>
                     {" "}
                     <ul role={"list"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-end; min-height: 64px; margin-top: auto`)}>
-                      {etiquettesVisibles(c.tags).map((t: string, i_t: number) => (
+                      {etiquettesVisibles(c.tags, ETIQUETTES_ACCUEIL).map((t: string, i_t: number) => (
                         <li key={i_t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
                           {t}
                         </li>
                       ))}
-                      {etiquettesRestantes(c.tags) > 0 && (
+                      {etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL) > 0 && (
                         <li style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                          <span aria-hidden={"true"}>{`+${etiquettesRestantes(c.tags)}`}</span>
-                          <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(c.tags)} autres`}</span>
+                          <span aria-hidden={"true"}>{`+${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)}`}</span>
+                          <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(c.tags, ETIQUETTES_ACCUEIL)} autres`}</span>
                         </li>
                       )}
                     </ul>
@@ -409,6 +414,7 @@ export function AccueilView({ v }: { v: any }) {
           )}
           {" "}
         </section>
+        </>
         )}
         <section id={"parcours"} style={css(`background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: var(--espace-section) 0`)}>
           {" "}
