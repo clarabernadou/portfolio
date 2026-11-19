@@ -5,6 +5,7 @@ import { css } from "@/lib/css";
 import { useModal } from "@/lib/useModal";
 import type { SiteReco } from "@/lib/data-shared";
 import { formatLivrable } from "@/lib/livrables";
+import { Visionneuse } from "./Visionneuse";
 
 // Cartes « Ils me recommandent » et fenêtre « Lire en entier » de l'accueil, rendues
 // depuis les données (étape 9) avec le markup et les styles du prototype (AccueilView).
@@ -15,6 +16,11 @@ function libelleLettre(href: string) {
   const f = formatLivrable(href);
   return f === "Lien" || f === "Fichier" ? "Lettre" : `Lettre · ${f}`;
 }
+
+// Lettre en PDF ou en image : ouverte dans la visionneuse du site, comme les livrables (20 nov. 2026).
+// Un autre format s'ouvre dans un nouvel onglet, avec la flèche des liens qui sortent du site.
+const typeLettre = (href: string) => ({ PDF: "pdf", Image: "image" } as const)[formatLivrable(href) as "PDF" | "Image"] ?? null;
+const NOMS_LETTRE = { un: "Lettre", precedent: "Lettre précédente", suivant: "Lettre suivante" };
 
 function Role({ r }: { r: SiteReco }) {
   if (!r.entrepriseHref || !r.lienTexte || !r.poste.includes(r.lienTexte)) return <>{r.poste}</>;
@@ -38,6 +44,8 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
     if (e.target === e.currentTarget) close();
   };
   const r = open === null ? null : items[open];
+  const [lettre, setLettre] = useState<number | null>(null);
+  const l = lettre === null ? null : items[lettre];
 
   return (
     <>
@@ -79,11 +87,16 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
               <button type={"button"} aria-haspopup={"dialog"} onClick={() => setOpen(open === i ? null : i)} style={css(`min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer`)}>
                 <span>{open === i ? "Masquer" : "Lire en entier"}</span>
               </button>
-              {it.lettrePdf && (
-                <a href={it.lettrePdf} target={"_blank"} rel={"noopener noreferrer"} style={css(`font-size: 14px; font-weight: 700`)}>
+              {it.lettrePdf && (typeLettre(it.lettrePdf) ? (
+                <button type={"button"} aria-haspopup={"dialog"} onClick={() => setLettre(i)} style={css(`min-height: 40px; padding: 0; border: 0; background: none; font: inherit; font-size: 14px; font-weight: 700; color: var(--amethyste); text-decoration: underline; text-underline-offset: 3px; cursor: pointer`)}>
                   {libelleLettre(it.lettrePdf)}
+                </button>
+              ) : (
+                <a href={it.lettrePdf} target={"_blank"} rel={"noopener noreferrer"} style={css(`font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px`)}>
+                  {libelleLettre(it.lettrePdf)}
+                  <span aria-hidden={"true"}>{"↗"}</span>
                 </a>
-              )}
+              ))}
               {it.voirLinkedin && (
                 <a href={LIEN_RECOS} target={"_blank"} rel={"noopener noreferrer"} style={css(`font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px`)}>
                   {"Voir sur LinkedIn"}
@@ -96,6 +109,9 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
         ))}
       </div>
       {" "}
+      {l?.lettrePdf && typeLettre(l.lettrePdf) && (
+        <Visionneuse id={"lettre-fenetre"} elements={[{ titre: `Lettre de recommandation de ${l.auteur}`, type: typeLettre(l.lettrePdf)!, src: l.lettrePdf, alt: `Lettre de recommandation de ${l.auteur}` }]} index={0} onIndex={(i) => setLettre(i === null ? null : lettre)} noms={NOMS_LETTRE} />
+      )}
       {r && open !== null && (
         <div className={"reco-modal"} onClick={backdrop}>
           <div id={`reco-full-${open}`} className={"reco-dialog"} role={"dialog"} aria-modal={"true"} aria-label={`Recommandation complète de ${r.auteur}`} style={css(`display: flex; flex-direction: column; gap: 12px`)}>
