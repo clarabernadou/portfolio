@@ -3,7 +3,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { css } from "@/lib/css";
-import { etiquettesRestantes, etiquettesVisibles } from "@/lib/data-shared";
+import { EtiquettesCarte } from "./EtiquettesCarte";
 import { CapturesSite } from "./CapturesSite";
 import { ListeLivrables } from "./ListeLivrables";
 import { RetourExperience } from "./RetourExperience";
@@ -78,19 +78,7 @@ export function ProjetsView({ v }: { v: any }) {
                                 <span>{p.ctx}</span>
                               </p>
                               {" "}
-                              <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
-                                {etiquettesVisibles(p.tags).map((t: any, i_t: number) => (
-                                    <li key={i_t} style={css(`padding: 3px 8px; border-radius: 6px; background: #FFFFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
-                                      {t}
-                                    </li>
-                                ))}
-                                {etiquettesRestantes(p.tags) > 0 && (
-                                  <li style={css(`padding: 3px 8px; border-radius: 6px; background: #FFFFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
-                                    <span aria-hidden={"true"}>{`+${etiquettesRestantes(p.tags)}`}</span>
-                                    <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(p.tags)} autre${etiquettesRestantes(p.tags) > 1 ? "s" : ""}`}</span>
-                                  </li>
-                                )}
-                              </ul>
+                              <EtiquettesCarte tags={p.tags} label={"Technologies et livrables"} tagStyle={`padding: 3px 8px; border-radius: 6px; background: #FFFFFF; color: #5B5470; font-size: 13px; font-weight: 600`} listeStyle={``} cadreStyle={``} />
                               <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px`)}>
                                 <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
                                   {"Voir le projet"}
@@ -117,6 +105,8 @@ export function ProjetsView({ v }: { v: any }) {
                       ))}
                     </ul>
                   </section>
+                  {/* Fine ligne entre les projets phares et le filtrage (19 nov. 2026). */}
+                  <div aria-hidden={"true"} style={css(`height: 1px; background: #E4DCF7; margin: 0.75rem 0`)} />
                 </>
               )}
               {" "}
@@ -169,10 +159,12 @@ export function ProjetsView({ v }: { v: any }) {
                 {" "}
               </div>
               {" "}
-              <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px`)}>
+              {/* Compteur rapproché des cartes dont il annonce le nombre (19 nov. 2026) ; trait décoratif avant le tri. */}
+              <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 0.5rem 0 -0.75rem`)}>
                 <span style={css(`font-size: 16px; font-weight: 700`)} aria-live={"polite"}>
                   <span>{v.countLabel}</span>
                 </span>{" "}
+                <span aria-hidden={"true"} style={css(`width: 1.5px; height: 18px; background: #B9A8EC`)} />
                 <span style={css(`font-size: 14px; color: #5B5470`)}>
                   {"Du plus récent au plus ancien."}
                 </span>
@@ -217,19 +209,7 @@ export function ProjetsView({ v }: { v: any }) {
                           <span>{p.line}</span>
                         </p>
                         {" "}
-                        <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
-                          {etiquettesVisibles(p.tags).map((t: any, i_t: number) => (
-                              <li key={i_t} style={css(`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
-                                {t}
-                              </li>
-                          ))}
-                          {etiquettesRestantes(p.tags) > 0 && (
-                            <li style={css(`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
-                              <span aria-hidden={"true"}>{`+${etiquettesRestantes(p.tags)}`}</span>
-                              <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(p.tags)} autre${etiquettesRestantes(p.tags) > 1 ? "s" : ""}`}</span>
-                            </li>
-                          )}
-                        </ul>
+                        <EtiquettesCarte tags={p.tags} label={"Technologies et livrables"} tagStyle={`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`} listeStyle={``} cadreStyle={``} />
                         {" "}
                         <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px`)}>
                           {" "}
