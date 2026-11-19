@@ -90,7 +90,6 @@ export function IaEditor({ initial, stats }: { initial: Lists; stats: IaContent[
                     {sous(onglet, x)}
                   </small>
                 </span>
-                {Boolean(x.favorite) && <span className="adm-badge adm-badge--cours">Prédilection</span>}
                 <button type="button" className="adm-icon-btn" aria-label={`Modifier « ${nom(onglet, x)} »`} aria-pressed={i === sel} onClick={() => setSel(i)}>
                   <Icon name="edit" size={16} />
                 </button>
@@ -134,14 +133,6 @@ export function IaEditor({ initial, stats }: { initial: Lists; stats: IaContent[
                   <TextField label="Nom" required value={String(cur.name ?? "")} onChange={(v) => setCur({ name: v })} />
                   {onglet === "tools" && <TextField label="Catégorie" value={String(cur.category ?? "")} onChange={(v) => setCur({ category: v })} />}
                   <TextArea label="Description" value={String(cur.description ?? "")} onChange={(v) => setCur({ description: v })} max={onglet === "tools" ? 220 : 260} rows={4} />
-                  {onglet === "tools" && (
-                    <Toggle
-                      label="Outil de prédilection"
-                      help="Une seule carte peut porter ce badge."
-                      checked={Boolean(cur.favorite)}
-                      onChange={(v) => setList(items.map((x, i) => ({ ...x, favorite: i === sel ? v : v ? false : x.favorite })))}
-                    />
-                  )}
                   {(
                     <Toggle
                       label="Mis en avant"
