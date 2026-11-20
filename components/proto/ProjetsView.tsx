@@ -67,12 +67,12 @@ export function ProjetsView({ v }: { v: any }) {
                               (p.hasSite || p.hasGh) && (
                                 <>
                                   {p.hasSite && (
-                                    <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
+                                    <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: underline; text-underline-offset: 3px`)}>
                                       {"Site ↗"}
                                     </a>
                                   )}
                                   {p.hasGh && (
-                                    <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
+                                    <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: underline; text-underline-offset: 3px`)}>
                                       {"GitHub ↗"}
                                     </a>
                                   )}
@@ -124,7 +124,7 @@ export function ProjetsView({ v }: { v: any }) {
                   </span>
                   {v.pars.map((c: any, i_c: number) => (
                     <Fragment key={i_c}>
-                      <button type={"button"} aria-pressed={c.on} onClick={c.pick} style={css(`min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #B9A8EC; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; background: ${c.bg}; color: ${c.fg}`)}>
+                      <button type={"button"} aria-pressed={c.on} onClick={c.pick} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #6A4FB6; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; background: ${c.bg}; color: ${c.fg}`)}>
                         <span>{c.label}</span>{" "}
                         <span style={css(`opacity: 0.9`)}>
                           <span>{c.n}</span>
@@ -190,15 +190,15 @@ export function ProjetsView({ v }: { v: any }) {
                         {" "}
                         <EtiquettesCarte tags={p.tags} label={"Technologies et livrables"} tagStyle={`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`} listeStyle={``} cadreStyle={``} />
                         {" "}
-                        <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px`)}>
+                        <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: auto; padding-top: 8px`)}>
                           {" "}
-                          <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
+                          <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
                             {"Voir le projet"}
                           </Link>
                           {" "}
                           {p.hasSite && (
                             <>
-                              <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
+                              <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: underline; text-underline-offset: 3px`)}>
                                 {"Site "}
                                 <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                                   <path d={"M7 17L17 7M9 7h8v8"} />
@@ -209,7 +209,7 @@ export function ProjetsView({ v }: { v: any }) {
                           {" "}
                           {p.hasGh && (
                             <>
-                              <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
+                              <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: underline; text-underline-offset: 3px`)}>
                                 {"GitHub "}
                                 <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                                   <path d={"M7 17L17 7M9 7h8v8"} />

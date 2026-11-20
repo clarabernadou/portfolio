@@ -125,7 +125,7 @@ export function enBref(formations: Pick<Formation, "diplome" | "statut" | "intit
   const niveau = (f: Pick<Formation, "diplome">) => Number(/Bac\+(\d)/.exec(f.diplome)?.[1]) || 0;
   const haut = formations.filter((f) => f.statut === "Obtenu" && niveau(f) > 0).sort((a, b) => niveau(b) - niveau(a))[0];
   return {
-    projets: publics.length > 0 ? { valeur: String(publics.length), libelle: "projets" } : null,
+    projets: publics.length > 0 ? { valeur: String(publics.length), libelle: "projets présentés sur ce site" } : null,
     titres: haut ? { valeur: `Bac+${niveau(haut)}`, libelle: haut.intitule.replace(/\s+-\s+/g, " ") } : null,
   };
 }

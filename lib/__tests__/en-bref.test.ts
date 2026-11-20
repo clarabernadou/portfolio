@@ -16,7 +16,7 @@ const publics = [
 
 describe("enBref", () => {
   it("compte les projets publiés, ceux de /projets", () => {
-    expect(enBref(formations, publics).projets).toEqual({ valeur: "14", libelle: "projets" });
+    expect(enBref(formations, publics).projets).toEqual({ valeur: "14", libelle: "projets présentés sur ce site" });
   });
   it("met en avant le plus haut diplôme obtenu et sa formation", () => {
     expect(enBref(formations, []).titres).toEqual({ valeur: "Bac+5", libelle: "Full Stack Java & Angular" });
