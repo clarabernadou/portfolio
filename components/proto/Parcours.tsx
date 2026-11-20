@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 import { css } from "@/lib/css";
-import { ligneFormation, type SiteExperience, type SiteFormation } from "@/lib/data-shared";
+import Link from "next/link";
+import { ancreExperience, lienProjetsCadre, ligneFormation, type SiteExperience, type SiteFormation } from "@/lib/data-shared";
 import type { FormationCourte } from "@/lib/types";
 
 // Expériences et formations rendues depuis les données (étape 9), avec le markup
@@ -124,7 +125,7 @@ function Mention({ texte }: { texte: string }) {
 // Dates au-dessus du titre (20 nov. 2026) : le texte prend toute la largeur de la colonne.
 export function CvExperience({ e }: { e: SiteExperience }) {
   return (
-    <article style={css(`display: flex; flex-direction: column; gap: 6px; padding: 22px 0; border-top: 1px solid #E4DCF7`)}>
+    <article id={ancreExperience(e)} style={css(`scroll-margin-top: 110px; display: flex; flex-direction: column; gap: 6px; padding: 22px 0; border-top: 1px solid #E4DCF7`)}>
       <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{e.periode}</span>
       {" "}
       <div style={css(`min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
@@ -215,18 +216,27 @@ export function CvFormation({ f }: { f: SiteFormation }) {
   );
 }
 
+// Carte d'expérience de l'accueil (20 nov. 2026) : l'entreprise en titre, le poste et la période dessous ;
+// le poste actuel mis en avant (badge « Aujourd'hui », contour Améthyste). Toute la carte mène au détail
+// de l'expérience sur le CV (lien étiré).
 export function CarteAlternance({ e }: { e: SiteExperience }) {
+  const actuel = /aujourd/i.test(e.periode);
+  const id = `carte-${ancreExperience(e)}`;
   return (
-    <article style={css(`border-radius: 20px; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 8px`)}>
-      <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{e.periode}</span>
-      {" "}
-      <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</h3>
-      {" "}
-      <Entreprise e={e} />
-      {" "}
-      <span style={css(`font-size: 14px; color: #5B5470`)}>{e.homeCard?.lieuMode ?? e.lieuMode}</span>
-      {" "}
+    <article style={css(`position: relative; height: 100%; box-sizing: border-box; border-radius: 20px; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 8px; border: ${actuel ? "2px solid #6A4FB6" : "2px solid transparent"}`)}>
+      <div style={css(`display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px`)}>
+        <h3 id={`${id}-titre`} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1`)}>
+          {e.entreprise}
+          {e.entrepriseParent && <span style={css(`font-weight: 300; color: #6A4FB6`)}>{` by ${e.entrepriseParent}`}</span>}
+        </h3>
+        {actuel && <span style={css(`padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"AUJOURD’HUI"}</span>}
+      </div>
+      <span style={css(`font-size: 17px; font-weight: 700; color: #1A1033`)}>{e.poste}</span>
+      <span style={css(`font-size: 14px; color: #5B5470`)}>{[e.periode, e.homeCard?.lieuMode ?? e.lieuMode].filter(Boolean).join(" · ")}</span>
       <Etiquettes items={e.homeCard?.technologies ?? []} style={TAG_TECHNO} label={"Technologies"} marge={"4px"} />
+      <Link href={`/cv#${ancreExperience(e)}`} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-suite ${id}-titre`} style={css(`margin-top: auto; padding-top: 6px; min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none; align-self: flex-start`)}>
+        {"Voir le détail sur le CV →"}
+      </Link>
     </article>
   );
 }
@@ -243,12 +253,20 @@ export function FriseFormation({ f }: { f: SiteFormation }) {
         </h4>
         {" "}
         <span style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; color: #5B5470`)}>
-          <b style={css(`color: #1A1033`)}>{f.diplome}</b>{" "}
           <span style={css(f.statut === "En cours" ? STATUT_EN_COURS : `padding: 3px 9px; border-radius: 6px; background: #E7F6EE; border: 0; color: #067647; font-size: 13px; font-weight: 800`)}>{f.statut}</span>{" "}
-          <span style={css(MODE)}>{f.mode}</span>{" "}
+          <span>{[f.diplome, f.mode].filter(Boolean).join(" · ")}</span>
         </span>
         {" "}
-        {f.projets && <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>{f.projets}</span>}
+        {/* Les projets de la formation (20 nov. 2026) : lien vers /projets filtré, s'il y en a de publiés. */}
+        {f.projets &&
+          ((f as SiteFormation & { nbPublies?: number }).nbPublies ? (
+            <Link href={lienProjetsCadre(f.intitule)} style={css(`align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; font-size: 14px; font-weight: 700; color: #6A4FB6; text-decoration: underline; text-underline-offset: 3px`)}>
+              {`${f.projets} →`}
+              <span className={"visuellement-masque"}>{` (formation ${f.intitule})`}</span>
+            </Link>
+          ) : (
+            <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>{f.projets}</span>
+          ))}
       </div>
     </li>
   );
