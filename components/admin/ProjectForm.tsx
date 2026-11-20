@@ -420,7 +420,7 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
 }
 
 // Phrase d'ouverture commune à tous les contextes (31 oct. 2026) : si le contexte ne commence pas
-// par elle, un bouton l'ajoute au début ; le bouton disparaît, le focus revient dans le champ.
+// par elle, un bouton l'ajoute au début, en paragraphe à part (20 nov. 2026) ; le bouton disparaît, le focus revient dans le champ.
 function OuvertureContexte({ phrase, texte, onInserer }: { phrase: string; texte: string; onInserer: (v: string) => void }) {
   const bloc = useRef<HTMLDivElement>(null);
   if (commenceParCadre(texte, phrase)) return null;
@@ -432,7 +432,7 @@ function OuvertureContexte({ phrase, texte, onInserer }: { phrase: string; texte
         className="adm-btn adm-btn--soft"
         onClick={() => {
           const champ = bloc.current?.previousElementSibling?.querySelector("textarea");
-          onInserer(`${phrase} ${texte.trim()}`.trim());
+          onInserer(`${phrase}\n\n${texte.trim()}`.trim());
           setTimeout(() => champ?.focus(), 0);
         }}
       >
