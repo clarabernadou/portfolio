@@ -171,31 +171,23 @@ export function IaView({ v }: { v: any }) {
             </p>
           </div>
           {/* Outils Claude mis en avant, tous de prédilection : plus de badge sur un seul (19 nov. 2026). */}
-          {/* Outils (20 nov. 2026) : une grande carte Claude (outils « Mis en avant » de l'administration, 2 × 2),
-              et à côté les autres outils, « selon la tâche ». Empilées sur mobile (.ia-outils-duo). */}
-          <div className={"ia-outils-duo"}>
-            <div className={"ia-claude"}>
-              <div style={css(`display: flex; flex-direction: column; gap: 2px`)}>
-                <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{"Mon IA de prédilection"}</h3>
-              </div>
-              <ul role={"list"} className={"liste-nue ia-outils"}>
-                {vedettes(v.tools).map((t: any) => (
-                  <li key={t.name} className={"ia-outil"}>
-                    <Icone d={iconeOutil(t.category)} />
-                    <div style={css(`display: flex; flex-direction: column; gap: 2px`)}>
-                      <h4 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{t.name}</h4>
-                      <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{t.category}</span>
-                    </div>
-                    <p style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>{t.description}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Outils en colonnes (20 nov. 2026, format préféré de Clara) : un seul bloc à filets, 4 outils puis « Aussi, selon la tâche » (.ia-outils). */}
+          <ul role={"list"} className={"liste-nue ia-outils"}>
+            {vedettes(v.tools).map((t: any) => (
+              <li key={t.name} className={"ia-outil"}>
+                <Icone d={iconeOutil(t.category)} />
+                <div style={css(`display: flex; flex-direction: column; gap: 2px`)}>
+                  <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{t.name}</h3>
+                  <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{t.category}</span>
+                </div>
+                <p style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>{t.description}</p>
+              </li>
+            ))}
             {autres(v.tools).length > 0 && (
-              <div className={"ia-outils-autres"}>
+              <li className={"ia-outil ia-outil-autres"}>
                 <Icone d={"M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"} />
                 <h3 style={css(`margin: 4px 0 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{"Aussi, selon la tâche"}</h3>
-                <ul role={"list"} className={"liste-nue ia-outils-autres-liste"}>
+                <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; gap: 8px`)}>
                   {autres(v.tools).map((t: any) => (
                     <li key={t.name} style={css(`font-size: 15px; line-height: 1.4`)}>
                       <b style={css(`color: #1A1033`)}>{t.name}</b>
@@ -204,9 +196,9 @@ export function IaView({ v }: { v: any }) {
                   ))}
                 </ul>
                 <p style={css(`margin: 0; font-size: 15px; font-weight: 700; color: #5B5470`)}>{"Et bien d’autres…"}</p>
-              </div>
+              </li>
             )}
-          </div>
+          </ul>
         </section>
         <section className={"ia-bande"} style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
