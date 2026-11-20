@@ -417,9 +417,9 @@ export function AccueilView({ v }: { v: any }) {
                   <FriseFormation key={i_f} f={f} />
                 ))}
               </ol>
+              {/* Formations courtes dans la même carte, sous un filet (20 nov. 2026). */}
+              <FormationsCourtes items={v.courtes ?? []} integre />
             </div>
-            {" "}
-            <FormationsCourtes items={v.courtes ?? []} />
           </div>
           {" "}
         </section>

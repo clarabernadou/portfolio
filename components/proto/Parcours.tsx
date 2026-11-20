@@ -168,7 +168,22 @@ export function CvProjet({ p }: { p: { titre: string; lien?: string; periode: st
       <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{p.periode}</span>
       {" "}
       <div style={css(`min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
-        <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{p.titre}</h3>
+        <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>
+          {/* Titre relié à la fiche du projet (20 nov. 2026) ; une adresse externe garde la flèche ↗. */}
+          {p.lien?.startsWith("/") ? (
+            <Link href={p.lien} style={css(LIEN)}>
+              {p.titre}
+            </Link>
+          ) : p.lien ? (
+            <a href={p.lien} target={"_blank"} rel={"noopener noreferrer"} style={css(LIEN)}>
+              {p.titre}
+              <span aria-hidden={"true"}>{" ↗"}</span>
+              <span className={"visuellement-masque"}>{" (nouvel onglet)"}</span>
+            </a>
+          ) : (
+            p.titre
+          )}
+        </h3>
         {p.description && <p style={css(`margin: 4px 0 0; font-size: 15px; line-height: 1.55`)}>{p.description}</p>}
         <Puces items={p.puces} />
         <Stack texte={p.stack} />
@@ -223,7 +238,7 @@ export function CarteAlternance({ e }: { e: SiteExperience }) {
   const actuel = /aujourd/i.test(e.periode);
   const id = `carte-${ancreExperience(e)}`;
   return (
-    <article style={css(`position: relative; height: 100%; box-sizing: border-box; border-radius: 20px; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 8px; border: ${actuel ? "2px solid #6A4FB6" : "2px solid transparent"}`)}>
+    <article style={css(`position: relative; height: 100%; box-sizing: border-box; border-radius: 20px; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 8px; border: ${actuel ? "2px solid #6A4FB6" : "2px solid transparent"}`)}>
       <div style={css(`display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px`)}>
         <h3 id={`${id}-titre`} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1`)}>
           {e.entreprise}
@@ -234,7 +249,7 @@ export function CarteAlternance({ e }: { e: SiteExperience }) {
       <span style={css(`font-size: 17px; font-weight: 700; color: #1A1033`)}>{e.poste}</span>
       <span style={css(`font-size: 14px; color: #5B5470`)}>{[e.periode, e.homeCard?.lieuMode ?? e.lieuMode].filter(Boolean).join(" · ")}</span>
       <Etiquettes items={e.homeCard?.technologies ?? []} style={TAG_TECHNO} label={"Technologies"} marge={"4px"} />
-      <Link href={`/cv#${ancreExperience(e)}`} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-suite ${id}-titre`} style={css(`margin-top: auto; padding-top: 6px; min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none; align-self: flex-start`)}>
+      <Link href={`/cv#${ancreExperience(e)}`} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-suite ${id}-titre`} style={css(`margin-top: auto; padding-top: 8px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none; align-self: flex-start`)}>
         {"Voir le détail sur le CV →"}
       </Link>
     </article>
@@ -274,7 +289,8 @@ export function FriseFormation({ f }: { f: SiteFormation }) {
 
 // Formations courtes et certifications (accueil, sous la frise, 17 nov. 2026) : une ligne par
 // organisme, dans l'ordre de l'administration ; les intitulés d'une même date partagent la date.
-export function FormationsCourtes({ items }: { items: FormationCourte[] }) {
+// integre (20 nov. 2026) : dans la carte de la frise, sous un filet, une colonne par organisme.
+export function FormationsCourtes({ items, integre = false }: { items: FormationCourte[]; integre?: boolean }) {
   if (!items.length) return null;
   const groupes: { organisme: string; dates: { date: string; items: FormationCourte[] }[] }[] = [];
   for (const f of items) {
@@ -286,17 +302,17 @@ export function FormationsCourtes({ items }: { items: FormationCourte[] }) {
   }
   const certifs = items.some((f) => f.type === "certification");
   return (
-    <div style={css(`display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 24px; background: #FFFFFF`)}>
+    <div style={css(integre ? `display: flex; flex-direction: column; gap: 14px; padding-top: 22px; border-top: 1px solid #E4DCF7` : `display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 24px; background: #FFFFFF`)}>
       <h3 style={css(`margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5470`)}>
         {certifs ? "Certifications et formations courtes" : "Formations courtes"}
       </h3>
       {" "}
-      <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column`)}>
+      <ul role={"list"} className={"liste-nue"} style={css(integre ? `display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 16px 28px` : `display: flex; flex-direction: column`)}>
         {groupes.map((g) => (
-          <li key={g.organisme} style={css(`display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #E4DCF7`)}>
-            <span style={css(`flex: 0 0 240px; font-size: 16px; font-weight: 700; color: #1A1033`)}>{g.organisme}</span>
+          <li key={g.organisme} style={css(integre ? `display: flex; flex-direction: column; gap: 4px` : `display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #E4DCF7`)}>
+            <span style={css(integre ? `font-size: 16px; font-weight: 700; color: #1A1033` : `flex: 0 0 240px; font-size: 16px; font-weight: 700; color: #1A1033`)}>{g.organisme}</span>
             {" "}
-            <span style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 4px; font-size: 16px; line-height: 1.55; color: #5B5470; text-wrap: pretty`)}>
+            <span style={css(integre ? `min-width: 0; display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.5; color: #5B5470` : `flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 4px; font-size: 16px; line-height: 1.55; color: #5B5470`)}>
               {g.dates.map((d) => (
                 <span key={d.date}>
                   {d.items.map((f, i) => (

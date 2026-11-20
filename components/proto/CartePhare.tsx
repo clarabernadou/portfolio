@@ -46,7 +46,7 @@ export function CartePhare({
       </div>
   );
   return (
-    <article style={css(verticale ? `position: relative; display: flex; flex-direction: column; gap: 22px; height: 100%; box-sizing: border-box; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; overflow: hidden` : `position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px; align-items: center; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 28px; overflow: hidden`)}>
+    <article style={css(verticale ? `position: relative; display: flex; flex-direction: column; gap: 22px; height: 100%; box-sizing: border-box; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; overflow: hidden` : `position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px; align-items: center; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; overflow: hidden`)}>
       {verticale && visuel}
       <div style={css(`display: flex; flex-direction: column; gap: 12px; flex-grow: 1`)}>
         <div style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 8px`)}>
@@ -78,7 +78,7 @@ export function CartePhare({
         </ul>
         )}
         <div style={css(`display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: ${verticale ? "auto" : "4px"}`)}>
-          <Link href={href} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-titre ${id}-suite`} aria-describedby={`${id}-desc`} style={css(`min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none`)}>
+          <Link href={href} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-titre ${id}-suite`} aria-describedby={`${id}-desc`} style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none`)}>
             {"Voir le projet →"}
           </Link>
           {liens && <span style={css(`position: relative; z-index: 1; display: inline-flex; flex-wrap: wrap; gap: 4px 16px`)}>{liens}</span>}

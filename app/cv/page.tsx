@@ -1,7 +1,7 @@
 import { profilPublic } from "@/lib/data-shared";
 import { Cv } from "@/components/proto/Cv";
 import { pageMetadata } from "@/lib/metadata";
-import { getExperiences, getFormations, getPhotoUrl, getProfile, getSkills } from "@/lib/data";
+import { getExperiences, getFormations, getPhotoUrl, getProfile, getSiteProjects, getSkills } from "@/lib/data";
 
 export const metadata = pageMetadata(
   "CV · Développeuse full stack",
@@ -10,6 +10,10 @@ export const metadata = pageMetadata(
 );
 
 export default async function CvPage() {
-  const [experiences, formations, skills, profil, photoUrl] = await Promise.all([getExperiences(), getFormations(), getSkills(), getProfile(), getPhotoUrl()]);
-  return <Cv experiences={experiences} formations={formations} skills={skills.essentiel} profil={profilPublic(profil)} photoUrl={photoUrl} />;
+  const [experiences, formations, skills, profil, photoUrl, projets] = await Promise.all([getExperiences(), getFormations(), getSkills(), getProfile(), getPhotoUrl(), getSiteProjects()]);
+  // Projet personnel du CV relié à sa fiche (20 nov. 2026) : le projet publié du même nom ; jamais un lien
+  // vers un projet non publié (CLAUDE.md). Un lien saisi à la main reste prioritaire.
+  const pub = profilPublic(profil);
+  const projetsCv = pub.projetsCv?.map((pj) => ({ ...pj, lien: pj.lien || (projets.find((p) => p.name === pj.titre) ? `/projets/${projets.find((p) => p.name === pj.titre)!.id}` : undefined) }));
+  return <Cv experiences={experiences} formations={formations} skills={skills.essentiel} profil={{ ...pub, projetsCv }} photoUrl={photoUrl} />;
 }

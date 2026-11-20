@@ -50,9 +50,10 @@ export function ProjetsView({ v }: { v: any }) {
                       </span>
                     </div>
                     {" "}
-                    {/* Gabarit de la carte J.A.R.V.I.S de /ia (CartePhare, 20 nov. 2026), en colonne : 3 par rangée, visuel en haut. */}
-                    <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 1.25rem`)}>
-                      {v.honored.map((p: any) => (
+                    {/* Projets phares (20 nov. 2026) : le plus récent en grande carte pleine largeur (visuel à droite), les deux
+                        autres dessous côte à côte (visuel en haut) ; tout empilé sur mobile (.phares). */}
+                    <ul role={"list"} className={"liste-nue phares"}>
+                      {v.honored.map((p: any, i_p: number) => (
                         <li key={p.id} style={css(`display: grid`)}>
                           <CartePhare
                             id={`phare-${p.id}`}
@@ -60,7 +61,7 @@ export function ProjetsView({ v }: { v: any }) {
                             resume={p.line}
                             tags={p.tags}
                             href={p.href}
-                            verticale
+                            verticale={i_p > 0}
                             infos={[p.parcours, p.date]}
                             image={p.captures?.[0] ? { url: p.captures[0].url, alt: p.captures[0].alt } : null}
                           />
@@ -146,7 +147,7 @@ export function ProjetsView({ v }: { v: any }) {
                   <li key={i_p} style={css(`display: grid`)}>
                     <article style={css(`position: relative; border-radius: 20px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
                       {" "}
-                      <div style={css(`padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 9px; flex-grow: 1`)}>
+                      <div style={css(`padding: 24px; display: flex; flex-direction: column; gap: 9px; flex-grow: 1`)}>
                         {" "}
                         <div style={css(`display: flex; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 700; color: #5B5470`)}>
                           <span style={css(`letter-spacing: 0.06em; text-transform: uppercase`)}>
@@ -176,7 +177,7 @@ export function ProjetsView({ v }: { v: any }) {
                         {" "}
                         <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: auto; padding-top: 8px`)}>
                           {" "}
-                          <Link href={p.href} aria-label={`Voir le projet ${p.name}`} className={"lien-etire"} style={css(`min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none`)}>
+                          <Link href={p.href} aria-label={`Voir le projet ${p.name}`} className={"lien-etire"} style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none`)}>
                             {"Voir le projet →"}
                           </Link>
                           {" "}

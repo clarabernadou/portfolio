@@ -164,3 +164,7 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
   .ia-etape{padding:60px 0 0}
   .ia-etape::before{display:none}
 }
+
+/* Projets phares de /projets (20 nov. 2026) : le premier sur toute la largeur, les autres 2 par rangée. */
+.phares{display:grid;grid-template-columns:minmax(0,1fr);gap:1.25rem}
+@media (min-width: 760px){.phares{grid-template-columns:repeat(2,minmax(0,1fr))}.phares > li:first-child{grid-column:1 / -1}}
