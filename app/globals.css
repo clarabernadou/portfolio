@@ -116,6 +116,7 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .lien-etire::after{content:"";position:absolute;inset:0;border-radius:inherit}
 /* Carrousel des livrables (components/proto/ListeLivrables.tsx) : chaque carte s'aligne au début de la rangée. */
 .livrables-carrousel > li{scroll-snap-align:start}
+.livrables-carrousel:focus-visible{outline:3px solid #6A4FB6;outline-offset:3px}
 /* Anneau de focus sur fond Encre / Nuit (10.7) : Lilas au lieu d'Améthyste, contraste suffisant. */
 .zone-sombre a:focus-visible,.zone-sombre button:focus-visible{outline-color:var(--lilas)}
 [tabindex="-1"]:focus{outline:none}
