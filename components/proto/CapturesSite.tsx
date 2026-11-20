@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { css } from "@/lib/css";
 import type { ProjectCapture } from "@/lib/types";
 import { filtreDepuisParam, filtresCaptures, PARAM_FILTRE } from "@/lib/captures-groupes";
@@ -11,6 +11,11 @@ import { Visionneuse } from "./Visionneuse";
 // Sous-catégories (17 nov. 2026, lib/captures-groupes.ts) : à partir de 2 groupes, une rangée de
 // filtres au-dessus des vignettes ; le filtre actif est dans l'adresse (?captures=…) et la
 // visionneuse ne parcourt que ses captures. Sans groupe, ou avec un seul, rien ne change.
+// Deux lignes au plus (choix de Clara, 20 nov. 2026) : au-delà, la dernière case est un collage des captures
+// suivantes sous un voile sombre (« +7 autres captures ») ; un clic ouvre la visionneuse sur la première d'entre
+// elles. Le nombre de colonnes est mesuré dans le navigateur : le rendu serveur (et la page sans JavaScript)
+// montre toujours toutes les captures.
+const LIGNES = 2;
 const NOMS = { un: "Capture", precedent: "Capture précédente", suivant: "Capture suivante" };
 
 const nombre = (k: number) => `${k} capture${k > 1 ? "s" : ""} affichée${k > 1 ? "s" : ""}`;
@@ -35,6 +40,25 @@ export function CapturesSite({ captures }: { captures: ProjectCapture[] }) {
   const filtre = filtres?.find((f) => f.slug === actif) ?? null;
   const visibles = filtre ? filtre.indices.map((i) => captures[i]) : captures;
   const n = visibles.length;
+
+  // Colonnes de la grille (null avant la première mesure : toutes les captures sont affichées).
+  const grille = useRef<HTMLUListElement>(null);
+  const [colonnes, setColonnes] = useState<number | null>(null);
+  useEffect(() => {
+    const ul = grille.current;
+    if (!ul) return;
+    const mesurer = () => setColonnes(getComputedStyle(ul).gridTemplateColumns.split(" ").filter(Boolean).length);
+    mesurer();
+    const ro = new ResizeObserver(mesurer);
+    ro.observe(ul);
+    return () => ro.disconnect();
+  }, []);
+  // Cases affichées : 2 lignes, au moins 4 cases (mobile, une colonne). Le collage n'apparaît que s'il
+  // regroupe au moins 2 captures ; sinon tout est affiché.
+  const cases = colonnes ? Math.max(colonnes * LIGNES, 4) : n;
+  const collage = n > cases;
+  const montrees = collage ? cases - 1 : n;
+  const cachees = visibles.slice(montrees);
 
   const choisir = (slug: string | null) => {
     setActif(slug);
@@ -80,8 +104,8 @@ export function CapturesSite({ captures }: { captures: ProjectCapture[] }) {
           </p>
         </>
       )}
-      <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 1rem`)}>
-        {visibles.map((c, i) => (
+      <ul ref={grille} role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 1rem`)}>
+        {visibles.slice(0, montrees).map((c, i) => (
           <li key={c.url} className={filtres ? "captures-apparition" : undefined} style={css(`display: grid`)}>
             <button type={"button"} onClick={() => setOuverte(i)} aria-haspopup={"dialog"} aria-label={c.alt ? `Agrandir la capture ${i + 1} sur ${n} : ${c.alt}` : `Agrandir la capture ${i + 1} sur ${n}`} style={css(`height: 200px; padding: 0; border-radius: 18px; border: 1px solid var(--bordure); background: var(--fond-section); overflow: hidden; cursor: zoom-in`)}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -89,6 +113,23 @@ export function CapturesSite({ captures }: { captures: ProjectCapture[] }) {
             </button>
           </li>
         ))}
+        {collage && (
+          <li key={"collage"} className={filtres ? "captures-apparition" : undefined} style={css(`display: grid`)}>
+            <button type={"button"} onClick={() => setOuverte(montrees)} aria-haspopup={"dialog"} aria-label={`Voir les ${cachees.length} autres captures, à partir de la capture ${montrees + 1} sur ${n}`} style={css(`position: relative; height: 200px; padding: 0; border-radius: 18px; border: 1px solid var(--bordure); background: var(--fond-section); overflow: hidden; cursor: pointer`)}>
+              {/* Collage des 4 premières captures cachées au plus, décoratif. */}
+              <span aria-hidden={"true"} style={css(`position: absolute; inset: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 3px; background: var(--fond)`)}>
+                {cachees.slice(0, 4).map((c, k, liste) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img key={c.url} src={c.url} alt={""} loading={"lazy"} style={css(`width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; ${liste.length === 3 && k === 0 ? "grid-row: span 2" : ""}${liste.length === 2 ? "grid-row: span 2" : ""}`)} />
+                ))}
+              </span>
+              <span aria-hidden={"true"} style={css(`position: absolute; inset: 0; background: linear-gradient(135deg, color-mix(in srgb, var(--encre) 80%, transparent) 0%, color-mix(in srgb, var(--nuit) 72%, transparent) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--fond)`)}>
+                <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1`)}>{`+${cachees.length}`}</span>
+                <span style={css(`font-size: 16px; font-weight: 700`)}>{"autres captures"}</span>
+              </span>
+            </button>
+          </li>
+        )}
       </ul>
       <Visionneuse id={"captures-fenetre"} elements={visibles.map((c, i) => ({ titre: c.alt || `Capture ${i + 1}`, type: "image", src: c.url, alt: c.alt }))} index={ouverte} onIndex={setOuverte} noms={NOMS} />
     </section>
