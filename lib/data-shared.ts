@@ -133,21 +133,17 @@ export function enBref(formations: Pick<Formation, "diplome" | "statut" | "intit
 // Ligne « projets » de chaque formation (4 nov. 2026) : le nombre de projets publiés de la formation,
 // le même que le filtre de /projets. Une mention saisie dans l'administration (« Fin prévue
 // en 2027 ») le remplace ; sans projet publié ni mention, la ligne est vide.
-// nbPublies (20 nov. 2026) : la ligne « projets » de la frise mène à /projets filtré sur la formation s'il y en a.
-export function avecCompteProjets<F extends Pick<Formation, "intitule" | "projets">>(formations: F[], publics: Pick<Project, "parcours">[]): (F & { nbPublies: number })[] {
+export function avecCompteProjets<F extends Pick<Formation, "intitule" | "projets">>(formations: F[], publics: Pick<Project, "parcours">[]): F[] {
   return formations.map((f) => {
+    if (f.projets.trim()) return f;
     const n = publics.filter((p) => p.parcours === f.intitule).length;
-    if (f.projets.trim()) return { ...f, nbPublies: n };
-    return { ...f, projets: n > 0 ? `${n} projet${n > 1 ? "s" : ""}` : "", nbPublies: n };
+    return { ...f, projets: n > 0 ? `${n} projet${n > 1 ? "s" : ""}` : "" };
   });
 }
 
 /** Ancre d'une expérience sur la page CV (« experience-digital4better »), pour y mener depuis l'accueil. */
 export const ancreExperience = (e: { entreprise: string }) =>
   `experience-${e.entreprise.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
-
-/** Lien vers /projets filtré sur un cadre ou une formation (lu par la liste au chargement). */
-export const lienProjetsCadre = (cadre: string) => `/projets?cadre=${encodeURIComponent(cadre)}`;
 
 /** « Établissement et titre · projets », sans séparateur quand la ligne « projets » est vide. */
 export const ligneFormation = (f: Pick<Formation, "niveauComplet" | "projets">) => [f.niveauComplet, f.projets].filter((x) => x.trim()).join(" · ");

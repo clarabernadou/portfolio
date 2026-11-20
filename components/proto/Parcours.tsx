@@ -1,7 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 import { css } from "@/lib/css";
 import Link from "next/link";
-import { ancreExperience, lienProjetsCadre, ligneFormation, type SiteExperience, type SiteFormation } from "@/lib/data-shared";
+import { ancreExperience, ligneFormation, type SiteExperience, type SiteFormation } from "@/lib/data-shared";
 import type { FormationCourte } from "@/lib/types";
 
 // Expériences et formations rendues depuis les données (étape 9), avec le markup
@@ -240,10 +240,10 @@ export function CarteAlternance({ e }: { e: SiteExperience }) {
   return (
     <article style={css(`position: relative; height: 100%; box-sizing: border-box; border-radius: 20px; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 8px; border: ${actuel ? "2px solid #6A4FB6" : "2px solid transparent"}`)}>
       <div style={css(`display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px`)}>
-        <h3 id={`${id}-titre`} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1`)}>
+        <h4 id={`${id}-titre`} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1`)}>
           {e.entreprise}
           {e.entrepriseParent && <span style={css(`font-weight: 300; color: #6A4FB6`)}>{` by ${e.entrepriseParent}`}</span>}
-        </h3>
+        </h4>
         {actuel && <span style={css(`padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"AUJOURD’HUI"}</span>}
       </div>
       <span style={css(`font-size: 17px; font-weight: 700; color: #1A1033`)}>{e.poste}</span>
@@ -272,16 +272,7 @@ export function FriseFormation({ f }: { f: SiteFormation }) {
           <span>{[f.diplome, f.mode].filter(Boolean).join(" · ")}</span>
         </span>
         {" "}
-        {/* Les projets de la formation (20 nov. 2026) : lien vers /projets filtré, s'il y en a de publiés. */}
-        {f.projets &&
-          ((f as SiteFormation & { nbPublies?: number }).nbPublies ? (
-            <Link href={lienProjetsCadre(f.intitule)} style={css(`align-self: flex-start; min-height: 44px; display: inline-flex; align-items: center; font-size: 14px; font-weight: 700; color: #6A4FB6; text-decoration: underline; text-underline-offset: 3px`)}>
-              {`${f.projets} →`}
-              <span className={"visuellement-masque"}>{` (formation ${f.intitule})`}</span>
-            </Link>
-          ) : (
-            <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>{f.projets}</span>
-          ))}
+        {f.projets && <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>{f.projets}</span>}
       </div>
     </li>
   );
@@ -309,8 +300,16 @@ export function FormationsCourtes({ items, integre = false }: { items: Formation
       {" "}
       <ul role={"list"} className={"liste-nue"} style={css(integre ? `display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 16px 28px` : `display: flex; flex-direction: column`)}>
         {groupes.map((g) => (
-          <li key={g.organisme} style={css(integre ? `display: flex; flex-direction: column; gap: 4px` : `display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #E4DCF7`)}>
-            <span style={css(integre ? `font-size: 16px; font-weight: 700; color: #1A1033` : `flex: 0 0 240px; font-size: 16px; font-weight: 700; color: #1A1033`)}>{g.organisme}</span>
+          <li key={g.organisme} style={css(integre ? `display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: auto 1fr; align-content: start; column-gap: 14px; row-gap: 4px; align-items: start` : `display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #E4DCF7`)}>
+            {/* Icône décorative (20 nov. 2026) : médaille pour une certification, livre pour une attestation de suivi. */}
+            {integre && (
+              <span aria-hidden={"true"} style={css(`grid-row: 1 / span 2; width: 40px; height: 40px; border-radius: 12px; background: #F3EFFF; color: #6A4FB6; display: inline-flex; align-items: center; justify-content: center`)}>
+                <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.8"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                  <path d={g.dates.some((d) => d.items.some((f) => f.type === "certification")) ? "M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14l-1.5 7 5-3 5 3-1.5-7" : "M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"} />
+                </svg>
+              </span>
+            )}
+            <span style={css(integre ? `font-size: 16px; font-weight: 700; color: #1A1033; padding-top: 2px` : `flex: 0 0 240px; font-size: 16px; font-weight: 700; color: #1A1033`)}>{g.organisme}</span>
             {" "}
             <span style={css(integre ? `min-width: 0; display: flex; flex-direction: column; gap: 4px; font-size: 15px; line-height: 1.5; color: #5B5470` : `flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 4px; font-size: 16px; line-height: 1.55; color: #5B5470`)}>
               {g.dates.map((d) => (

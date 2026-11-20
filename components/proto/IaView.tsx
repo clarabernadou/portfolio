@@ -29,11 +29,6 @@ function Icone({ d }: { d: string }) {
   );
 }
 
-// Miniature des petites cartes de réalisations (20 nov. 2026) : cadre neutre en attendant les images.
-function Miniature() {
-  return <span aria-hidden={"true"} style={css(`display: block; aspect-ratio: 16 / 9; border-radius: 14px; background: #F3EFFF; border: 1px solid #E4DCF7`)} />;
-}
-
 // Icônes décoratives des chiffres de l'intro et des outils (choisies d'après le libellé ou la catégorie).
 function iconeChiffre(label: string) {
   if (/skill/i.test(label)) return "M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM19 15l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z";
@@ -119,7 +114,6 @@ export function IaView({ v }: { v: any }) {
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
             <li style={css(`display: grid`)}>
             <CarteProjet id={"portfolio"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
-              <Miniature />
               <Icone d={"M3 5h18v14H3zM3 9h18M7 7h.01M10 7h.01"} />
               {" "}
               <h3 id={"portfolio-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
@@ -133,7 +127,6 @@ export function IaView({ v }: { v: any }) {
             </li>
             <li style={css(`display: grid`)}>
             <CarteProjet id={"intuitlearn"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
-              <Miniature />
               <Icone d={"M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5M8 11l2 2 4-4"} />
               {" "}
               <h3 id={"intuitlearn-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
@@ -147,7 +140,6 @@ export function IaView({ v }: { v: any }) {
             </li>
             <li style={css(`display: grid`)}>
             <CarteProjet id={"saga-films-fruggr"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
-              <Miniature />
               <Icone d={"M4 6h12v12H4zM16 10l4-2v8l-4-2"} />
               {" "}
               <h3 id={"saga-films-fruggr-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>

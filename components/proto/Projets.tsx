@@ -102,13 +102,6 @@ export function ProjetsListe({ projects: PROJECTS, categories }: { projects: Sit
   const [par, setPar] = useState("Tous les parcours");
   const [limit, setLimit] = useState(12);
   // Retour depuis une fiche : filtres et nombre de projets affichés tels qu'on les avait laissés.
-  // Arrivée depuis l'accueil (« N projets → » d'une formation, 20 nov. 2026) : /projets?cadre=… filtre la liste.
-  useEffect(() => {
-    const cadre = new URLSearchParams(window.location.search).get("cadre");
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- lecture unique de l'adresse, au montage
-    if (cadre && PARS.includes(cadre)) setPar(cadre);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- une seule fois, à l'arrivée sur la liste
-  }, []);
   useEffect(() => {
     const o = lireOrigine("site");
     if (!restaurationDemandee("site") || o?.path !== "/projets") return;
