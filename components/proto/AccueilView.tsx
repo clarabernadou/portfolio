@@ -61,7 +61,7 @@ export function AccueilView({ v }: { v: any }) {
           {" "}
           <div className={"ds-panel"} style={css(`flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px`)}>
             {" "}
-            <div style={css(`border-radius: 28px; overflow: hidden; box-shadow: 0 8px 24px rgba(26,16,51,0.08); height: 430px; display: flex; flex-direction: column`)}>
+            <div style={css(`border-radius: 28px; overflow: hidden; box-shadow: 0 8px 24px rgba(26,16,51,0.08); min-height: 430px; display: flex; flex-direction: column`)}>
               {" "}
               <div style={css(`flex-grow: 1; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 18px; display: flex; flex-direction: column; gap: 14px`)}>
                 {" "}
@@ -183,14 +183,25 @@ export function AccueilView({ v }: { v: any }) {
                     </span>
                   </div>
                   {" "}
-                  <div style={css(`flex: 1 1 170px; border-radius: 16px; background: #FFFFFF; padding: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap`)}>
-                    <span style={css(`padding: 8px 14px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 700`)}>
-                      {"Bouton"}
-                    </span>
+                  {/* Boutons et étiquettes du site (20 nov. 2026) : primaire et secondaire ; technologie, information,
+                      statuts (règles de CLAUDE.md). Exemples visuels, pas des boutons cliquables. */}
+                  <div style={css(`flex: 1 1 170px; border-radius: 16px; background: #FFFFFF; padding: 14px; display: flex; flex-direction: column; justify-content: center; gap: 10px`)}>
+                    <div style={css(`display: flex; align-items: center; gap: 8px; flex-wrap: wrap`)}>
+                      <span style={css(`padding: 8px 14px; border-radius: 999px; background: #6A4FB6; border: 1.5px solid #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 700`)}>
+                        {"Bouton primaire"}
+                      </span>
+                      {" "}
+                      <span style={css(`padding: 8px 14px; border-radius: 999px; background: #FFFFFF; border: 1.5px solid #1A1033; color: #1A1033; font-size: 13px; font-weight: 700`)}>
+                        {"Bouton secondaire"}
+                      </span>
+                    </div>
                     {" "}
-                    <span style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                      {"Tag"}
-                    </span>
+                    <div style={css(`display: flex; align-items: center; gap: 6px; flex-wrap: wrap`)}>
+                      <span style={css(`padding: 3px 8px; border-radius: 6px; font-size: 13px; font-weight: 700; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6`)}>{"Technologie"}</span>{" "}
+                      <span style={css(`padding: 3px 8px; border-radius: 6px; font-size: 13px; font-weight: 700; background: #F3EFFF; color: #1A1033`)}>{"Information"}</span>{" "}
+                      <span style={css(`padding: 3px 8px; border-radius: 6px; font-size: 13px; font-weight: 700; background: #E7F6EE; color: #067647; font-weight: 800`)}>{"Obtenu"}</span>{" "}
+                      <span style={css(`padding: 3px 8px; border-radius: 6px; font-size: 13px; font-weight: 700; background: #FFFFFF; border: 1.5px dashed #6A4FB6; color: #6A4FB6; font-weight: 800`)}>{"En cours"}</span>
+                    </div>
                   </div>
                   {" "}
                 </div>

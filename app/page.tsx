@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { dureeAlternance, enBref, profilPublic } from "@/lib/data-shared";
 import { Accueil } from "@/components/proto/Accueil";
-import { getExperiences, getFormations, getFormationsCourtes, getPhotoUrl, getProfile, getRecommendations, getSiteProjects, getSkills, homeProjects } from "@/lib/data";
+import { getExperiences, getFormations, getFormationsCourtes, getPhotoUrl, getProfile, getRecommendations, getProjetsHorsFormation, getSiteProjects, getSkills, homeProjects } from "@/lib/data";
 import { JsonLd, personneJsonLd, siteJsonLd } from "@/lib/seo";
 
 // Titre et description de l'accueil : la page qui doit sortir sur une recherche du nom de Clara.
@@ -20,12 +20,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [projects, experiences, formations, profil, recos, skills, photoUrl, courtes] = await Promise.all([getSiteProjects(), getExperiences(), getFormations(), getProfile(), getRecommendations(), getSkills(), getPhotoUrl(), getFormationsCourtes()]);
+  const [projects, experiences, formations, profil, recos, skills, photoUrl, courtes, horsFormation] = await Promise.all([getSiteProjects(), getExperiences(), getFormations(), getProfile(), getRecommendations(), getSkills(), getPhotoUrl(), getFormationsCourtes(), getProjetsHorsFormation()]);
   const publique = profilPublic(profil);
   return (
     <>
       <JsonLd data={[personneJsonLd(publique, skills.essentiel.flatMap((g) => g.items), photoUrl), siteJsonLd()]} />
-      <Accueil home={homeProjects(projects)} total={projects.length} bref={enBref(formations, projects)} experiences={experiences} duree={dureeAlternance(experiences)} formations={formations} courtes={courtes} profil={publique} recos={recos} />
+      <Accueil home={homeProjects(projects)} total={projects.length} bref={enBref(formations, projects, horsFormation)} experiences={experiences} duree={dureeAlternance(experiences)} formations={formations} courtes={courtes} profil={publique} recos={recos} />
     </>
   );
 }

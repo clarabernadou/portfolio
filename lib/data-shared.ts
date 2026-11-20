@@ -121,11 +121,16 @@ export function dureeAlternance(experiences: Pick<Experience, "periode">[], main
 // Projets (4 nov. 2026) : les projets publiés, ceux que le visiteur retrouve dans /projets.
 // Titre : le plus haut diplôme obtenu et sa formation (« Bac+5 · Full Stack Java & Angular »), comme
 // dans la maquette ; le détail des 4 titres était trop long (demande de Clara, 2 nov. 2026).
-export function enBref(formations: Pick<Formation, "diplome" | "statut" | "intitule">[], publics: unknown[]) {
+// Total réalisé (20 nov. 2026, demande de Clara) : les projets de chaque formation (« N projets » de sa ligne
+// « projets », mention saisie ou projets publiés ; « Fin prévue en 2027 » ne compte pas) et les projets personnels et indépendants, publiés ou non ;
+// jamais les projets d'entreprise. Affiché seulement s'il dépasse le nombre de projets présentés.
+export function enBref(formations: Pick<Formation, "diplome" | "statut" | "intitule" | "projets">[], publics: unknown[], horsFormation = 0) {
   const niveau = (f: Pick<Formation, "diplome">) => Number(/Bac\+(\d)/.exec(f.diplome)?.[1]) || 0;
   const haut = formations.filter((f) => f.statut === "Obtenu" && niveau(f) > 0).sort((a, b) => niveau(b) - niveau(a))[0];
+  const total = formations.reduce((n, f) => n + (Number(/(\d+)\s+projets?\b/.exec(f.projets ?? "")?.[1]) || 0), 0) + horsFormation;
+  const libelle = total > publics.length ? `projets présentés sur ce site, sur ${total} réalisés hors entreprise` : "projets présentés sur ce site";
   return {
-    projets: publics.length > 0 ? { valeur: String(publics.length), libelle: "projets présentés sur ce site" } : null,
+    projets: publics.length > 0 ? { valeur: String(publics.length), libelle } : null,
     titres: haut ? { valeur: `Bac+${niveau(haut)}`, libelle: haut.intitule.replace(/\s+-\s+/g, " ") } : null,
   };
 }

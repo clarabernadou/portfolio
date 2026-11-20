@@ -18,6 +18,10 @@ describe("enBref", () => {
   it("compte les projets publiés, ceux de /projets", () => {
     expect(enBref(formations, publics).projets).toEqual({ valeur: "14", libelle: "projets présentés sur ce site" });
   });
+  it("ajoute le total réalisé hors entreprise quand il dépasse les projets présentés", () => {
+    const fs = [{ diplome: "Bac+2", statut: "Obtenu" as const, intitule: "Développeur Web", projets: "7 projets réalisés" }, { diplome: "Bac+3/4", statut: "En cours" as const, intitule: "UX Design", projets: "8 projets validés sur 11" }];
+    expect(enBref(fs, [1, 2, 3], 4).projets).toEqual({ valeur: "3", libelle: "projets présentés sur ce site, sur 19 réalisés hors entreprise" });
+  });
   it("met en avant le plus haut diplôme obtenu et sa formation", () => {
     expect(enBref(formations, []).titres).toEqual({ valeur: "Bac+5", libelle: "Full Stack Java & Angular" });
   });

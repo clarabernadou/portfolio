@@ -252,3 +252,13 @@ export const getRecommendations = uneFoisAuBuild("getRecommendations", getRecomm
 export const getPhotoUrl = uneFoisAuBuild("getPhotoUrl", getPhotoUrlSource);
 export const getIa = uneFoisAuBuild("getIa", getIaSource);
 export const getFormationsCourtes = uneFoisAuBuild("getFormationsCourtes", getFormationsCourtesSource);
+
+// Projets personnels et indépendants (cadres de nature « Projet perso » ou « Audit »), publiés ou non, pour le
+// total « réalisés hors entreprise » de l'accueil (20 nov. 2026). Les projets d'entreprise ne sont pas comptés.
+async function getProjetsHorsFormationSource(): Promise<number> {
+  if (!hasDb()) return 0;
+  const db = await prisma();
+  const cadres = (await db.category.findMany({ where: { kind: "cadre", nature: { in: ["Projet perso", "Audit"] } }, select: { name: true } })).map((c) => c.name);
+  return cadres.length ? db.project.count({ where: { deletedAt: null, parcours: { in: cadres } } }) : 0;
+}
+export const getProjetsHorsFormation = uneFoisAuBuild("getProjetsHorsFormation", getProjetsHorsFormationSource);
