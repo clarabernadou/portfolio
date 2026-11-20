@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Page introuvable" };
 // (titre de page, paragraphe d'introduction, boutons principal et secondaire du héros).
 export default function NotFound() {
   return (
-    <main id={"contenu"} tabIndex={-1} style={css("max-width: 1200px; margin: 0 auto; padding: 4.5rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center")}>
+    <main id={"contenu"} tabIndex={-1} style={css("width: var(--container); margin: 0 auto; padding: 4.5rem 0; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center")}>
       <span style={css("font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 64px; font-weight: 800; letter-spacing: -0.045em; line-height: 1; color: #6A4FB6")}>
         404
       </span>

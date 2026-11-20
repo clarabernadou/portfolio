@@ -12,7 +12,7 @@ export function FooterView({ v }: { v: any }) {
     <>
       <footer id={"contact"} className={"zone-sombre"} style={css(`background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%); color: #C4B5FD`)}>
         {" "}
-        <div className={"ft-in"} style={css(`max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 2.25rem`)}>
+        <div className={"ft-in"} style={css(`width: var(--container); margin: 0 auto; padding: 4rem 0 2rem; display: flex; flex-direction: column; align-items: center; gap: 2.25rem`)}>
           {" "}
           <div style={css(`display: flex; flex-direction: column; align-items: center; gap: 1.25rem; text-align: center; width: 100%`)}>
             {" "}

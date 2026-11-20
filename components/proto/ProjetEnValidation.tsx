@@ -5,7 +5,7 @@ import { css } from "@/lib/css";
 // sans rien dévoiler du projet. Pas de maquette : composée comme la page introuvable (app/not-found.tsx).
 export function ProjetEnValidation() {
   return (
-    <main id={"contenu"} tabIndex={-1} style={css("max-width: 1200px; margin: 0 auto; padding: 4.5rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center")}>
+    <main id={"contenu"} tabIndex={-1} style={css("width: var(--container); margin: 0 auto; padding: 4.5rem 0; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center")}>
       <h1 style={css("margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 60px); letter-spacing: -0.045em; line-height: 1; text-wrap: balance")}>
         <span style={css("font-weight: 800")}>Projet</span> <span style={css("font-weight: 300; color: #6A4FB6")}>en cours de validation</span>
       </h1>

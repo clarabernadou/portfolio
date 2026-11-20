@@ -10,9 +10,9 @@ import { css } from "@/lib/css";
 export function HeaderView({ v }: { v: any }) {
   return (
     <>
-      <div className={"hdr-wrap"} style={css(`position: sticky; top: 0; z-index: 10; padding: 16px 2rem 0`)}>
+      <div className={"hdr-wrap"} style={css(`position: sticky; top: 0; z-index: 10; padding: 16px 0 0`)}>
         {" "}
-        <header className={"hdr"} style={css(`max-width: 1200px; margin: 0 auto; padding: 8px 8px 8px 22px; border-radius: 999px; background: rgba(255,255,255,0.92); box-shadow: 0 8px 24px rgba(26,16,51,0.08)`)}>
+        <header className={"hdr"} style={css(`width: var(--container); box-sizing: border-box; margin: 0 auto; padding: 8px 8px 8px 22px; border-radius: 999px; background: rgba(255,255,255,0.92); box-shadow: 0 8px 24px rgba(26,16,51,0.08)`)}>
           {" "}
           <Link href={"/"} aria-label={"Clara Bernadou, accueil"} style={css(`display: flex; align-items: center; min-height: 44px`)}>
             <svg viewBox={"0 0 5678 2000"} height={"42"} width={"119"} role={"img"} aria-label={"Clara Bernadou"} style={css(`max-width: 100%; flex-shrink: 0`)}>

@@ -16,6 +16,6 @@ export default async function IaPage() {
   const stats = iaStats(ia).filter((_, i) => ia.stats[i]?.computed !== "nombre d’outils hors Claude");
   // J.A.R.V.I.S, fait avec Claude Code : grande carte en tête de « Ce que ça a produit » (19 nov. 2026).
   const j = projets.find((p) => p.id === "jarvis");
-  const jarvis = j && { name: j.name, line: j.line, tags: j.tags, image: j.captures?.[0]?.url ?? null };
+  const jarvis = j && { name: j.name, line: j.line, tags: j.tags, parcours: j.parcours, date: j.date, image: j.captures?.[0] ? { url: j.captures[0].url, alt: j.captures[0].alt } : null };
   return <IaView v={{ stats, jarvis, tools: ia.tools, skills: ia.skills, routines: ia.routines, publics: projets.map((p) => p.id) }} />;
 }

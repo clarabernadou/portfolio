@@ -21,7 +21,8 @@
     "demo:donnees": "tsx scripts/demo/donnees-demo.ts",
     "demo:serveur": "node scripts/demo/serveur-demo.mjs",
     "demo:captures": "node scripts/demo/captures-demo.mjs",
-    "test:reception": "node scripts/test-admin-protection.mjs && node scripts/test-admin-projets.mjs && node scripts/test-admin-categories.mjs && node scripts/test-admin-contenus.mjs && node scripts/test-admin-cv.mjs && tsx scripts/test-sync-github.ts && tsx scripts/test-restauration.ts"
+    "test:reception": "node scripts/test-admin-protection.mjs && node scripts/test-admin-projets.mjs && node scripts/test-admin-categories.mjs && node scripts/test-admin-contenus.mjs && node scripts/test-admin-cv.mjs && tsx scripts/test-sync-github.ts && tsx scripts/test-restauration.ts",
+    "test:largeurs": "node scripts/test-largeurs.mjs"
   },
   "dependencies": {
     "@octokit/rest": "22.0.1",

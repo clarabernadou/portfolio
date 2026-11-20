@@ -14,7 +14,7 @@ export function AccueilView({ v }: { v: any }) {
   return (
     <>
       <main id={"contenu"} tabIndex={-1}>
-        <section style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 2rem 2.5rem; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center`)}>
+        <section style={css(`width: var(--container); margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 0 2.5rem; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center`)}>
           {" "}
           <div style={css(`flex: 1.45 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 1.5rem`)}>
             {" "}
@@ -200,7 +200,7 @@ export function AccueilView({ v }: { v: any }) {
           </div>
           {" "}
         </section>
-        <section aria-label={"En bref"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem var(--espace-section-demi)`)}>
+        <section aria-label={"En bref"} style={css(`width: var(--container); margin: 0 auto; padding: 0 0 var(--espace-section-demi)`)}>
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
             {v.chiffreCle && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
@@ -249,10 +249,10 @@ export function AccueilView({ v }: { v: any }) {
         {v.homeEntreprise.length + v.homeDev.length + v.homeDesign.length > 0 && (
         <>
         {/* Fine ligne entre l'arrivée et les projets, sur le même fond blanc (19 nov. 2026). */}
-        <div aria-hidden={"true"} style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem`)}>
+        <div aria-hidden={"true"} style={css(`width: var(--container); margin: 0 auto; padding: 0 0`)}>
           <div style={css(`height: 1px; background: #E4DCF7`)} />
         </div>
-        <section id={"projets"} style={css(`max-width: 1200px; margin: 0 auto; padding: var(--espace-section-demi) 2rem var(--espace-section); display: flex; flex-direction: column; gap: 1.5rem`)}>
+        <section id={"projets"} style={css(`width: var(--container); margin: 0 auto; padding: var(--espace-section-demi) 0 var(--espace-section); display: flex; flex-direction: column; gap: 1.5rem`)}>
           {" "}
           <div style={css(`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem`)}>
             <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
@@ -382,7 +382,7 @@ export function AccueilView({ v }: { v: any }) {
         )}
         <section id={"parcours"} style={css(`background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: var(--espace-section) 0`)}>
           {" "}
-          <div style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; flex-direction: column; gap: 1.75rem`)}>
+          <div style={css(`width: var(--container); margin: 0 auto; padding: 0 0; display: flex; flex-direction: column; gap: 1.75rem`)}>
             {" "}
             <div style={css(`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem`)}>
               <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #1A1033`)}>
@@ -421,7 +421,7 @@ export function AccueilView({ v }: { v: any }) {
           {" "}
         </section>
         <section className={"zone-sombre"} style={css(`background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%); padding: var(--espace-section) 0`)}>
-          <div style={css(`max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center`)}>
+          <div style={css(`width: var(--container); margin: 0 auto; padding: 0 0; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center`)}>
             {" "}
             <div style={css(`flex: 1.3 1 400px; display: flex; flex-direction: column; gap: 16px`)}>
               <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #FFFFFF`)}>
@@ -470,7 +470,7 @@ export function AccueilView({ v }: { v: any }) {
             </div>
           </div>
         </section>
-        <section aria-labelledby={"recos"} style={css(`max-width: 1200px; margin: 0 auto; padding: var(--espace-section) 2rem; display: flex; flex-direction: column; gap: 1.5rem`)}>
+        <section aria-labelledby={"recos"} style={css(`width: var(--container); margin: 0 auto; padding: var(--espace-section) 0; display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div id={"recos"}>
             <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #1A1033`)}>
               <span style={css(`font-weight: 800`)}>

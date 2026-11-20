@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useLayoutEffect, useRef } from "react";
 import { css } from "@/lib/css";
 import { CvExperience, CvFormation, CvProjet, Etiquettes, PucesGras } from "./Parcours";
 import { Lieu } from "./Lieu";
@@ -9,9 +9,10 @@ import { Lieu } from "./Lieu";
 // (scripts/tools/gen.mjs) : markup et styles recopiés à l'identique.
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export function CvView({ v }: { v: any }) {
+  const laterale = useColonneCollante();
   return (
     <>
-      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 2rem 4rem; display: flex; flex-direction: column; gap: 3rem`)}>
+      <main id={"contenu"} tabIndex={-1} style={css(`width: var(--container); margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 0 4rem; display: flex; flex-direction: column; gap: 3rem`)}>
         {" "}
         <section className={"cv-hero"}>
           {" "}
@@ -92,6 +93,40 @@ export function CvView({ v }: { v: any }) {
               {v.profil.profilEssentiel}
             </p>
           </section>
+          <div className={"cv-principal"} style={css(`min-width: 0; display: flex; flex-direction: column; gap: 2.5rem`)}>
+            {" "}
+            {v.profil.competencesIa?.length > 0 && (
+              <section>
+                <h2 style={css(`margin: 0 0 14px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+                  {"Compétences IA"}
+                </h2>
+                <PucesGras items={v.profil.competencesIa} />
+              </section>
+            )}
+            <section>
+              <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+                {"Expériences professionnelles"}
+              </h2>
+              {v.experiences.map((e: any, i_e: number) => (
+                <CvExperience key={i_e} e={e} />
+              ))}
+            </section>
+            {v.profil.projetsCv?.length > 0 && (
+              <section>
+                <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+                  {v.profil.projetsCv.length > 1 ? "Projets personnels" : "Projet personnel"}
+                </h2>
+                {v.profil.projetsCv.map((pj: any) => (
+                  <CvProjet key={pj.titre} p={pj} />
+                ))}
+              </section>
+            )}
+            {" "}
+          </div>
+          {/* Colonne latérale (20 nov. 2026) : compétences puis formations, collante sur toute la hauteur de la
+              colonne principale (useColonneCollante). Après le contenu principal dans le DOM : sur mobile, profil,
+              expériences et projet personnel d'abord, puis compétences et formations. */}
+          <aside ref={laterale} aria-label={"Compétences et formations"} className={"cv-laterale"}>
             <section aria-labelledby={"cv-competences"} className={"cv-competences"} style={css(`display: flex; flex-direction: column; gap: 1.5rem; border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 26px`)}>
             {" "}
             <h2 id={"cv-competences"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
@@ -132,36 +167,6 @@ export function CvView({ v }: { v: any }) {
             </div>
             {" "}
             </section>
-          <div className={"cv-principal"} style={css(`min-width: 0; display: flex; flex-direction: column; gap: 2.5rem`)}>
-            {" "}
-            {v.profil.competencesIa?.length > 0 && (
-              <section>
-                <h2 style={css(`margin: 0 0 14px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
-                  {"Compétences IA"}
-                </h2>
-                <PucesGras items={v.profil.competencesIa} />
-              </section>
-            )}
-            <section>
-              <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
-                {"Expériences professionnelles"}
-              </h2>
-              {v.experiences.map((e: any, i_e: number) => (
-                <CvExperience key={i_e} e={e} />
-              ))}
-            </section>
-            {v.profil.projetsCv?.length > 0 && (
-              <section>
-                <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
-                  {v.profil.projetsCv.length > 1 ? "Projets personnels" : "Projet personnel"}
-                </h2>
-                {v.profil.projetsCv.map((pj: any) => (
-                  <CvProjet key={pj.titre} p={pj} />
-                ))}
-              </section>
-            )}
-            {" "}
-          </div>
             <section aria-labelledby={"cv-formations"} className={"cv-formations"} style={css(`display: flex; flex-direction: column; border-radius: 24px; border: 1px solid #E4DCF7; background: #FFFFFF; padding: 26px`)}>
               <h2 id={"cv-formations"} style={css(`margin: 0 0 10px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
                 {"Formations"}
@@ -170,9 +175,31 @@ export function CvView({ v }: { v: any }) {
                 <CvFormation key={i_f} f={f} />
               ))}
             </section>
+          </aside>
         </div>
         </div>
       </main>
     </>
   );
+}
+
+// Colonne latérale collante (20 nov. 2026). Plus courte que l'écran : elle reste sous la barre de navigation.
+// Plus haute que l'écran : elle défile avec la page jusqu'à ce que son bas apparaisse, puis reste collée par le
+// bas ; tout son contenu reste donc accessible sans défilement interne.
+function useColonneCollante() {
+  const ref = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const calculer = () => el.style.setProperty("--cv-collant", `${Math.min(104, window.innerHeight - el.offsetHeight - 24)}px`);
+    calculer();
+    const ro = new ResizeObserver(calculer);
+    ro.observe(el);
+    window.addEventListener("resize", calculer);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", calculer);
+    };
+  }, []);
+  return ref;
 }

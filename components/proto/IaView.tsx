@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { CarteProjet } from "./LienProjet";
-import { etiquettesRestantes, etiquettesVisibles } from "@/lib/data-shared";
 import { css } from "@/lib/css";
+import { CartePhare } from "./CartePhare";
 import { IaCard, IaStat } from "./IaCards";
 import { IaExemples } from "./IaExemples";
 
@@ -47,6 +46,24 @@ function Icone({ d }: { d: string }) {
   );
 }
 
+// Miniature des petites cartes de réalisations (20 nov. 2026) : cadre neutre en attendant les images.
+function Miniature() {
+  return <span aria-hidden={"true"} style={css(`display: block; aspect-ratio: 16 / 9; border-radius: 14px; background: #F3EFFF; border: 1px solid #E4DCF7`)} />;
+}
+
+// Icônes décoratives des chiffres de l'intro et des outils (choisies d'après le libellé ou la catégorie).
+function iconeChiffre(label: string) {
+  if (/skill/i.test(label)) return "M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z";
+  if (/routine/i.test(label)) return "M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z";
+  return "M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z";
+}
+function iconeOutil(categorie: string) {
+  if (/d[ée]velopp/i.test(categorie)) return "M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14";
+  if (/concep|visuel|design/i.test(categorie)) return "M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z";
+  if (/autonom|t[âa]che/i.test(categorie)) return "M4 4l7 17 2.5-7.5L21 11z";
+  return "M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z";
+}
+
 // Coche décorative des règles de travail.
 function Coche() {
   return (
@@ -61,11 +78,11 @@ function Coche() {
 export function IaView({ v }: { v: any }) {
   return (
     <>
-      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(3rem, 7vw, 5rem) 2rem 0; display: flex; flex-direction: column; gap: var(--espace-section-demi)`)}>
+      <main id={"contenu"} tabIndex={-1} style={css(`width: var(--container); margin: 0 auto; padding: clamp(3rem, 7vw, 5rem) 0 0; display: flex; flex-direction: column; gap: var(--espace-section-demi)`)}>
         {/* Introduction plus aérée (19 nov. 2026). */}
-        <section style={css(`display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 3rem); padding-bottom: clamp(0.5rem, 2vw, 1.5rem)`)}>
-          <div style={css(`display: flex; flex-direction: column; gap: 14px`)}>
-            <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 6vw, 64px); letter-spacing: -0.045em; line-height: 1; hyphens: manual`)}>
+        {/* Intro en deux colonnes sur ordinateur (20 nov. 2026) : texte à gauche, les 3 chiffres à droite (.ia-intro). */}
+        <section className={"ia-intro"} style={css(`padding-bottom: clamp(0.5rem, 2vw, 1.5rem)`)}>
+          <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 6vw, 64px); letter-spacing: -0.045em; line-height: 1; hyphens: manual`)}>
               <span style={css(`font-weight: 800`)}>
                 {"Ma façon de travailler"}
               </span>
@@ -74,18 +91,19 @@ export function IaView({ v }: { v: any }) {
                 {"avec l’IA"}
               </span>
             </h1>
+          <div style={css(`display: flex; flex-direction: column; gap: 14px`)}>
             <p style={css(`margin: 0; font-size: 20px; line-height: 1.55`)}>
               {"J’utilise l’IA tous les jours pour développer, concevoir et produire du contenu. Je choisis l’outil le plus adapté à chaque tâche, je construis des skills pour automatiser le répétitif, et je vérifie toujours le résultat avant de le livrer."}
             </p>
             {/* Phrase reprise du CV final (Compétences IA, ligne « Claude Code »), validée par Clara le 19 nov. 2026. */}
-            <p style={css(`margin: 0; font-size: 18px; line-height: 1.6; color: #5B5470`)}>
+            <p style={css(`margin: 0; font-size: 18px; line-height: 1.6; color: #1A1033`)}>
               {"Claude Code est mon outil principal depuis début 2026 : je conçois, développe, teste et automatise avec lui, côté produit et marketing, avec une vérification humaine de chaque livrable avant publication."}
             </p>
           </div>
           {" "}
-          <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
+          <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
             {v.stats.map((st: any) => (
-              <IaStat key={st.label} value={st.value} label={st.label} />
+              <IaStat key={st.label} value={st.value} label={st.label} icone={iconeChiffre(st.label)} />
             ))}
           </ul>
         </section>
@@ -98,41 +116,12 @@ export function IaView({ v }: { v: any }) {
             </h2>
           </div>
           {v.jarvis && v.publics.includes("jarvis") && (
-            <div style={css(`position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px; align-items: center; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 28px; overflow: hidden`)}>
-              <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
-                <span style={css(`align-self: flex-start; padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"PROJET PHARE"}</span>
-                <h3 id={"jarvis-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(26px, 3vw, 32px); font-weight: 800; letter-spacing: -0.03em`)}>
-                  {v.jarvis.name}
-                </h3>
-                <span id={"jarvis-desc"} style={css(`font-size: 17px; line-height: 1.55; color: #5B5470`)}>{v.jarvis.line}</span>
-                <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
-                  {etiquettesVisibles(v.jarvis.tags).map((t: string) => (
-                    <li key={t} style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                      {t}
-                    </li>
-                  ))}
-                  {etiquettesRestantes(v.jarvis.tags) > 0 && (
-                    <li style={css(`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`)}>
-                      <span aria-hidden={"true"}>{`+${etiquettesRestantes(v.jarvis.tags)}`}</span>
-                      <span className={"visuellement-masque"}>{`et ${etiquettesRestantes(v.jarvis.tags)} autre${etiquettesRestantes(v.jarvis.tags) > 1 ? "s" : ""}`}</span>
-                    </li>
-                  )}
-                </ul>
-                <Link href={"/projets/jarvis"} id={"jarvis-suite"} className={"lien-etire"} aria-labelledby={"jarvis-titre jarvis-suite"} aria-describedby={"jarvis-desc"} style={css(`align-self: flex-start; margin-top: 4px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none`)}>
-                  {"Voir le projet →"}
-                </Link>
-              </div>
-              {v.jarvis.image && (
-                <div aria-hidden={"true"} style={css(`height: 300px; border-radius: 18px; background: #F3EFFF; display: flex; justify-content: center; align-items: flex-start; padding-top: 24px; overflow: hidden`)}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={v.jarvis.image} alt={""} loading={"lazy"} style={css(`width: 220px; height: auto; border-radius: 16px; box-shadow: 0 8px 24px rgba(26,16,51,0.18)`)} />
-                </div>
-              )}
-            </div>
+            <CartePhare id={"jarvis"} titre={v.jarvis.name} resume={v.jarvis.line} tags={v.jarvis.tags} href={"/projets/jarvis"} image={v.jarvis.image} infos={[v.jarvis.parcours, v.jarvis.date]} />
           )}
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
             <li style={css(`display: grid`)}>
             <CarteProjet id={"portfolio"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+              <Miniature />
               <Icone d={"M3 5h18v14H3zM3 9h18M7 7h.01M10 7h.01"} />
               {" "}
               <h3 id={"portfolio-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
@@ -146,6 +135,7 @@ export function IaView({ v }: { v: any }) {
             </li>
             <li style={css(`display: grid`)}>
             <CarteProjet id={"intuitlearn"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+              <Miniature />
               <Icone d={"M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5M8 11l2 2 4-4"} />
               {" "}
               <h3 id={"intuitlearn-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
@@ -159,6 +149,7 @@ export function IaView({ v }: { v: any }) {
             </li>
             <li style={css(`display: grid`)}>
             <CarteProjet id={"repositionnement-fruggr"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+              <Miniature />
               <Icone d={"M4 6h12v12H4zM16 10l4-2v8l-4-2"} />
               {" "}
               <h3 id={"repositionnement-fruggr-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
@@ -182,10 +173,16 @@ export function IaView({ v }: { v: any }) {
             </p>
           </div>
           {/* Outils Claude mis en avant, tous de prédilection : plus de badge sur un seul (19 nov. 2026). */}
-          <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 16px`)}>
+          {/* Une ligne par outil (20 nov. 2026) : icône, nom, catégorie, description (.ia-outil). */}
+          <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF; overflow: hidden`)}>
             {vedettes(v.tools).map((t: any) => (
-              <li key={t.name} style={css(`display: grid`)}>
-                <IaCard kicker={t.category} title={t.name} text={t.description} />
+              <li key={t.name} className={"ia-outil"}>
+                <Icone d={iconeOutil(t.category)} />
+                <div style={css(`display: flex; flex-direction: column; gap: 2px`)}>
+                  <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{t.name}</h3>
+                  <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{t.category}</span>
+                </div>
+                <p style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>{t.description}</p>
               </li>
             ))}
           </ul>
@@ -215,9 +212,10 @@ export function IaView({ v }: { v: any }) {
               {"Ma méthode"}
             </h2>
           </div>
-          <ol style={css(`list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); gap: 12px`)}>
-            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px; border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF`)}>
-              <span style={css(`width: 32px; height: 32px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800`)}>
+          {/* Étapes sur une barre horizontale sur ordinateur, verticale sur mobile (.ia-methode, 20 nov. 2026). */}
+          <ol className={"ia-methode"}>
+            <li className={"ia-etape"}>
+              <span className={"ia-etape-num"}>
                 {"1"}
               </span>
               {" "}
@@ -229,8 +227,8 @@ export function IaView({ v }: { v: any }) {
                 {"Une tâche récurrente ou longue, qui se prête à l’automatisation."}
               </span>
             </li>
-            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px; border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF`)}>
-              <span style={css(`width: 32px; height: 32px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800`)}>
+            <li className={"ia-etape"}>
+              <span className={"ia-etape-num"}>
                 {"2"}
               </span>
               {" "}
@@ -242,8 +240,8 @@ export function IaView({ v }: { v: any }) {
                 {"Le texte source fourni, le format attendu et ce que l’IA ne doit pas toucher."}
               </span>
             </li>
-            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px; border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF`)}>
-              <span style={css(`width: 32px; height: 32px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800`)}>
+            <li className={"ia-etape"}>
+              <span className={"ia-etape-num"}>
                 {"3"}
               </span>
               {" "}
@@ -255,8 +253,8 @@ export function IaView({ v }: { v: any }) {
                 {"Je fais produire, je relis, je corrige avec des consignes précises."}
               </span>
             </li>
-            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px; border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF`)}>
-              <span style={css(`width: 32px; height: 32px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800`)}>
+            <li className={"ia-etape"}>
+              <span className={"ia-etape-num"}>
                 {"4"}
               </span>
               {" "}
@@ -268,8 +266,8 @@ export function IaView({ v }: { v: any }) {
                 {"Contrastes, cohérence avec la charte, fidélité au texte d’origine."}
               </span>
             </li>
-            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px; border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF`)}>
-              <span style={css(`width: 32px; height: 32px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800`)}>
+            <li className={"ia-etape"}>
+              <span className={"ia-etape-num"}>
                 {"5"}
               </span>
               {" "}

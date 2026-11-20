@@ -121,12 +121,13 @@ function Mention({ texte }: { texte: string }) {
   );
 }
 
+// Dates au-dessus du titre (20 nov. 2026) : le texte prend toute la largeur de la colonne.
 export function CvExperience({ e }: { e: SiteExperience }) {
   return (
-    <article style={css(`display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 22px 0; border-top: 1px solid #E4DCF7`)}>
-      <span style={css(`flex: 0 0 150px; font-size: 14px; font-weight: 700; color: #5B5470`)}>{e.periode}</span>
+    <article style={css(`display: flex; flex-direction: column; gap: 6px; padding: 22px 0; border-top: 1px solid #E4DCF7`)}>
+      <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{e.periode}</span>
       {" "}
-      <div style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
+      <div style={css(`min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
         <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</h3>
         {" "}
         <Entreprise e={e} />
@@ -162,10 +163,10 @@ export function CvExperience({ e }: { e: SiteExperience }) {
 // Projet personnel du CV (profil.projetsCv) : même présentation qu'une expérience.
 export function CvProjet({ p }: { p: { titre: string; lien?: string; periode: string; description?: string; stack?: string; puces: string[] } }) {
   return (
-    <article style={css(`display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 22px 0; border-top: 1px solid #E4DCF7`)}>
-      <span style={css(`flex: 0 0 150px; font-size: 14px; font-weight: 700; color: #5B5470`)}>{p.periode}</span>
+    <article style={css(`display: flex; flex-direction: column; gap: 6px; padding: 22px 0; border-top: 1px solid #E4DCF7`)}>
+      <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{p.periode}</span>
       {" "}
-      <div style={css(`flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
+      <div style={css(`min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
         <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{p.titre}</h3>
         {p.description && <p style={css(`margin: 4px 0 0; font-size: 15px; line-height: 1.55`)}>{p.description}</p>}
         <Puces items={p.puces} />

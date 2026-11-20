@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { css } from "@/lib/css";
+import { CartePhare } from "./CartePhare";
 import { EtiquettesCarte } from "./EtiquettesCarte";
 import { CapturesSite } from "./CapturesSite";
 import { ListeLivrables } from "./ListeLivrables";
@@ -15,7 +16,7 @@ import { PAPILLON } from "./papillon";
 export function ProjetsView({ v }: { v: any }) {
   return (
     <>
-      <main id={"contenu"} tabIndex={-1} style={css(`max-width: 1200px; margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 2rem 4.5rem`)}>
+      <main id={"contenu"} tabIndex={-1} style={css(`width: var(--container); margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 0 4.5rem`)}>
         {" "}
         {v.isList && (
           <>
@@ -49,58 +50,35 @@ export function ProjetsView({ v }: { v: any }) {
                       </span>
                     </div>
                     {" "}
-                    <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1.25rem`)}>
-                      {v.honored.map((p: any, i_p: number) => (
-                        <li key={i_p} style={css(`display: grid`)}>
-                          <article style={css(`border-radius: 20px; background: #F3EFFF; border: 1.5px solid #B9A8EC; display: flex; flex-direction: column`)}>
-                            <div style={css(`padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1`)}>
-                              <div style={css(`display: flex; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 700; color: #5B5470`)}>
-                                <span style={css(`letter-spacing: 0.06em; text-transform: uppercase`)}>
-                                  <span>{p.type}</span>
-                                </span>
-                                {" "}
-                                <span>
-                                  <span>{p.date}</span>
-                                </span>
-                              </div>
-                              {" "}
-                              <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1`)}>
-                                <Link href={p.href} className={"titre-lien"}>
-                            {p.name}
-                          </Link>
-                              </h3>
-                              {" "}
-                              <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>
-                                <span>{p.parcours}</span>
-                              </span>
-                              {" "}
-                              <p style={css(`margin: 0; font-size: 16px; line-height: 1.55`)}>
-                                <span>{p.ctx}</span>
-                              </p>
-                              {" "}
-                              <EtiquettesCarte tags={p.tags} label={"Technologies et livrables"} tagStyle={`padding: 3px 8px; border-radius: 6px; background: #FFFFFF; color: #5B5470; font-size: 13px; font-weight: 600`} listeStyle={``} cadreStyle={``} />
-                              <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px`)}>
-                                <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #6A4FB6; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
-                                  {"Voir le projet"}
-                                </Link>
-                                {" "}
-                                {p.hasSite && (
-                                  <>
+                    {/* Gabarit de la carte J.A.R.V.I.S de /ia (CartePhare, 20 nov. 2026), une carte par ligne. */}
+                    <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; gap: 1.25rem`)}>
+                      {v.honored.map((p: any) => (
+                        <li key={p.id}>
+                          <CartePhare
+                            id={`phare-${p.id}`}
+                            titre={p.name}
+                            resume={p.line}
+                            tags={p.tags}
+                            href={p.href}
+                            infos={[p.parcours, p.date]}
+                            image={p.captures?.[0] ? { url: p.captures[0].url, alt: p.captures[0].alt } : null}
+                            liens={
+                              (p.hasSite || p.hasGh) && (
+                                <>
+                                  {p.hasSite && (
                                     <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
                                       {"Site ↗"}
                                     </a>
-                                  </>
-                                )}
-                                {p.hasGh && (
-                                  <>
+                                  )}
+                                  {p.hasGh && (
                                     <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
                                       {"GitHub ↗"}
                                     </a>
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                          </article>
+                                  )}
+                                </>
+                              )
+                            }
+                          />
                         </li>
                       ))}
                     </ul>
