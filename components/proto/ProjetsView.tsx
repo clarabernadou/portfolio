@@ -50,16 +50,17 @@ export function ProjetsView({ v }: { v: any }) {
                       </span>
                     </div>
                     {" "}
-                    {/* Gabarit de la carte J.A.R.V.I.S de /ia (CartePhare, 20 nov. 2026), une carte par ligne. */}
-                    <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; gap: 1.25rem`)}>
+                    {/* Gabarit de la carte J.A.R.V.I.S de /ia (CartePhare, 20 nov. 2026), en colonne : 3 par rangée, visuel en haut. */}
+                    <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 1.25rem`)}>
                       {v.honored.map((p: any) => (
-                        <li key={p.id}>
+                        <li key={p.id} style={css(`display: grid`)}>
                           <CartePhare
                             id={`phare-${p.id}`}
                             titre={p.name}
                             resume={p.line}
                             tags={p.tags}
                             href={p.href}
+                            verticale
                             infos={[p.parcours, p.date]}
                             image={p.captures?.[0] ? { url: p.captures[0].url, alt: p.captures[0].alt } : null}
                             liens={

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { css } from "@/lib/css";
+import { EtiquettesCarte } from "./EtiquettesCarte";
 import { etiquettesRestantes, etiquettesVisibles } from "@/lib/data-shared";
 
 // Carte « projet phare » (20 nov. 2026) : gabarit de la carte J.A.R.V.I.S de /ia, repris pour les projets
@@ -19,6 +20,7 @@ export function CartePhare({
   niveauTitre = "h3",
   liens,
   infos,
+  verticale = false,
 }: {
   id: string;
   titre: string;
@@ -30,13 +32,24 @@ export function CartePhare({
   liens?: ReactNode;
   /** Cadre et date (« Projet personnel », « nov. 2026 · en cours »), à côté du badge (20 nov. 2026). */
   infos?: string[];
+  /** Carte en colonne, visuel en haut (projets phares de /projets, 3 par rangée) ; sinon visuel à droite. */
+  verticale?: boolean;
 }) {
   const Titre = niveauTitre;
   const reste = etiquettesRestantes(tags);
+  const visuel = (
+      <div style={css(`height: ${verticale ? 220 : 300}px; border-radius: 18px; background: #F3EFFF; display: flex; justify-content: center; align-items: flex-start; padding-top: ${verticale ? 20 : 24}px; overflow: hidden; box-sizing: border-box`)}>
+        {image && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={image.url} alt={image.alt} loading={"lazy"} style={css(`width: ${verticale ? 180 : 220}px; height: auto; border-radius: 16px; box-shadow: 0 8px 24px rgba(26,16,51,0.18)`)} />
+        )}
+      </div>
+  );
   return (
-    <article style={css(`position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px; align-items: center; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 28px; overflow: hidden`)}>
-      <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
-        <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px`)}>
+    <article style={css(verticale ? `position: relative; display: flex; flex-direction: column; gap: 22px; height: 100%; box-sizing: border-box; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; overflow: hidden` : `position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px; align-items: center; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 28px; overflow: hidden`)}>
+      {verticale && visuel}
+      <div style={css(`display: flex; flex-direction: column; gap: 12px; flex-grow: 1`)}>
+        <div style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 8px`)}>
           <span style={css(`padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"PROJET PHARE"}</span>
           {infos?.filter(Boolean).length ? <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{infos.filter(Boolean).join(" · ")}</span> : null}
         </div>
@@ -46,6 +59,10 @@ export function CartePhare({
         <p id={`${id}-desc`} style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
           {resume}
         </p>
+        {/* En colonne : étiquettes sur une seule ligne, puis « +N » (EtiquettesCarte). */}
+        {verticale ? (
+          <EtiquettesCarte tags={tags} label={"Technologies et livrables"} listeStyle={``} cadreStyle={``} />
+        ) : (
         <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
           {etiquettesVisibles(tags).map((t) => (
             <li key={t} style={css(ETIQUETTE)}>
@@ -59,19 +76,15 @@ export function CartePhare({
             </li>
           )}
         </ul>
-        <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 4px`)}>
+        )}
+        <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: ${verticale ? "auto" : "4px"}`)}>
           <Link href={href} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-titre ${id}-suite`} aria-describedby={`${id}-desc`} style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center`)}>
             {"Voir le projet →"}
           </Link>
           {liens && <span style={css(`position: relative; z-index: 1; display: inline-flex; flex-wrap: wrap; gap: 8px`)}>{liens}</span>}
         </div>
       </div>
-      <div style={css(`height: 300px; border-radius: 18px; background: #F3EFFF; display: flex; justify-content: center; align-items: flex-start; padding-top: 24px; overflow: hidden; box-sizing: border-box`)}>
-        {image && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={image.url} alt={image.alt} loading={"lazy"} style={css(`width: 220px; height: auto; border-radius: 16px; box-shadow: 0 8px 24px rgba(26,16,51,0.18)`)} />
-        )}
-      </div>
+      {!verticale && visuel}
     </article>
   );
 }

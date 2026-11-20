@@ -53,9 +53,9 @@ function Miniature() {
 
 // Icônes décoratives des chiffres de l'intro et des outils (choisies d'après le libellé ou la catégorie).
 function iconeChiffre(label: string) {
-  if (/skill/i.test(label)) return "M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z";
-  if (/routine/i.test(label)) return "M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z";
-  return "M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z";
+  if (/skill/i.test(label)) return "M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM19 15l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z";
+  if (/routine/i.test(label)) return "M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5";
+  return "M12 3l9 5-9 5-9-5zM3 13l9 5 9-5M3 17.5l9 5 9-5";
 }
 function iconeOutil(categorie: string) {
   if (/d[ée]velopp/i.test(categorie)) return "M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14";
@@ -173,8 +173,8 @@ export function IaView({ v }: { v: any }) {
             </p>
           </div>
           {/* Outils Claude mis en avant, tous de prédilection : plus de badge sur un seul (19 nov. 2026). */}
-          {/* Une ligne par outil (20 nov. 2026) : icône, nom, catégorie, description (.ia-outil). */}
-          <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF; overflow: hidden`)}>
+          {/* Outils en colonnes (20 nov. 2026) : icône au-dessus, nom, catégorie, description (.ia-outils). */}
+          <ul role={"list"} className={"liste-nue ia-outils"}>
             {vedettes(v.tools).map((t: any) => (
               <li key={t.name} className={"ia-outil"}>
                 <Icone d={iconeOutil(t.category)} />
@@ -198,13 +198,12 @@ export function IaView({ v }: { v: any }) {
             </p>
           </div>
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
-            {vedettes(v.skills).map((t: any) => (
+            {[...vedettes(v.skills), ...autres(v.skills)].map((t: any) => (
               <li key={t.name} style={css(`display: grid`)}>
                 <IaCard kicker={"Skill"} title={t.name} text={t.description} />
               </li>
             ))}
           </ul>
-          <Autres titre={"Autres skills"} items={autres(v.skills).map((t: any) => ({ nom: t.name }))} />
         </section>
         <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>

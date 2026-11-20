@@ -2,6 +2,7 @@
 
 import { useCallback, useState, type MouseEvent } from "react";
 import { css } from "@/lib/css";
+import { ListeLivrables } from "./ListeLivrables";
 import { useModal } from "@/lib/useModal";
 import type { SiteReco } from "@/lib/data-shared";
 import { formatLivrable } from "@/lib/livrables";
@@ -49,9 +50,11 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
 
   return (
     <>
-      <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem; align-items: stretch`)}>
+      {/* 3 recommandations par vue ; à partir de 4, une rangée qui défile avec flèches (20 nov. 2026). */}
+      <ListeLivrables total={items.length} parVue={3} largeurMin={300} noms={{ un: "Recommandation", plusieurs: "recommandations", precedents: "Recommandations précédentes", suivants: "Recommandations suivantes" }}>
         {items.map((it, i) => (
-          <figure key={it.auteur} style={css(`margin: 0; border-radius: 22px; border: 1px solid #E4DCF7; padding: 26px; display: flex; flex-direction: column; gap: 18px; height: 100%; box-sizing: border-box`)}>
+          <li key={it.auteur} style={css(`display: grid`)}>
+          <figure style={css(`margin: 0; border-radius: 22px; border: 1px solid #E4DCF7; padding: 26px; display: flex; flex-direction: column; gap: 18px; height: 100%; box-sizing: border-box`)}>
             <blockquote style={css(`margin: 0; flex-grow: 1; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 21px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.35`)}>{it.citationCourte}</blockquote>
             <figcaption style={css(`display: flex; flex-direction: column; gap: 12px`)}>
               <div style={css(`display: flex; align-items: center; gap: 12px`)}>
@@ -106,8 +109,9 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
             </div>
             </figcaption>
           </figure>
+          </li>
         ))}
-      </div>
+      </ListeLivrables>
       {" "}
       {l?.lettrePdf && typeLettre(l.lettrePdf) && (
         <Visionneuse id={"lettre-fenetre"} elements={[{ titre: `Lettre de recommandation de ${l.auteur}`, type: typeLettre(l.lettrePdf)!, src: l.lettrePdf, alt: `Lettre de recommandation de ${l.auteur}` }]} index={0} onIndex={(i) => setLettre(i === null ? null : lettre)} noms={NOMS_LETTRE} />
