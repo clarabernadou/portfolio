@@ -345,7 +345,8 @@ export function ProjetsView({ v }: { v: any }) {
                 </>
               )}
               {" "}
-              <div style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 1.25rem; align-items: stretch`)}>
+              {/* Contexte sur 2/3, compétences sur 1/3 dès 900 px ; un bloc seul prend toute la largeur (.fiche-contexte, 20 nov. 2026). */}
+              <div className={"fiche-contexte"}>
                 {" "}
                 {v.cur.hasCtx && (
                   <>
