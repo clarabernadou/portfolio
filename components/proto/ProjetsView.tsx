@@ -86,8 +86,8 @@ export function ProjetsView({ v }: { v: any }) {
                                 {" "}
                                 {p.hasSite && (
                                   <>
-                                    <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
-                                      {"Site ↗"}
+                                    <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Démo de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
+                                      {"Démo ↗"}
                                     </a>
                                   </>
                                 )}
@@ -219,8 +219,8 @@ export function ProjetsView({ v }: { v: any }) {
                           {" "}
                           {p.hasSite && (
                             <>
-                              <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
-                                {"Site "}
+                              <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Démo de ${p.name}`} style={css(`min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #1A1033; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; text-decoration: none`)}>
+                                {"Démo "}
                                 <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                                   <path d={"M7 17L17 7M9 7h8v8"} />
                                 </svg>
@@ -321,7 +321,7 @@ export function ProjetsView({ v }: { v: any }) {
                   {v.cur.hasSite && (
                     <>
                       <a href={v.cur.siteh} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; text-decoration: none`)}>
-                        {"Voir le site "}
+                        {"Essayer la démo "}
                         <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                           <path d={"M7 17L17 7M9 7h8v8"} />
                         </svg>
