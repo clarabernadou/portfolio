@@ -3,6 +3,7 @@
 import { CarteProjet } from "./LienProjet";
 import { css } from "@/lib/css";
 import { CartePhare } from "./CartePhare";
+import { ListeLivrables } from "./ListeLivrables";
 import { IaCard, IaStat } from "./IaCards";
 import { IaExemples } from "./IaExemples";
 
@@ -175,8 +176,7 @@ export function IaView({ v }: { v: any }) {
           <div className={"ia-outils-duo"}>
             <div className={"ia-claude"}>
               <div style={css(`display: flex; flex-direction: column; gap: 2px`)}>
-                <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{"Mon IA de prédilection"}</span>
-                <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 28px; font-weight: 800; letter-spacing: -0.03em`)}>{"Claude"}</h3>
+                <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{"Mon IA de prédilection"}</h3>
               </div>
               <ul role={"list"} className={"liste-nue ia-outils"}>
                 {vedettes(v.tools).map((t: any) => (
@@ -195,7 +195,7 @@ export function IaView({ v }: { v: any }) {
               <div className={"ia-outils-autres"}>
                 <Icone d={"M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"} />
                 <h3 style={css(`margin: 4px 0 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{"Aussi, selon la tâche"}</h3>
-                <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; gap: 10px`)}>
+                <ul role={"list"} className={"liste-nue ia-outils-autres-liste"}>
                   {autres(v.tools).map((t: any) => (
                     <li key={t.name} style={css(`font-size: 15px; line-height: 1.4`)}>
                       <b style={css(`color: #1A1033`)}>{t.name}</b>
@@ -217,13 +217,14 @@ export function IaView({ v }: { v: any }) {
               {"Des skills Claude réutilisables, créés pour mon poste chez Digital4Better, l’entreprise où je suis alternante, et proposés à l’équipe. Chaque skill regroupe les consignes, les modèles et les vérifications d’une tâche récurrente, pour la refaire à l’identique. Ils restent internes à l’entreprise : je décris ce qu’ils font, sans en montrer le contenu."}
             </p>
           </div>
-          <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
+          {/* Skills en carrousel, 3 par vue, comme les recommandations (20 nov. 2026). */}
+          <ListeLivrables total={v.skills.length} parVue={3} largeurMin={280} noms={{ un: "Skill", plusieurs: "skills", precedents: "Skills précédents", suivants: "Skills suivants" }}>
             {[...vedettes(v.skills), ...autres(v.skills)].map((t: any) => (
               <li key={t.name} style={css(`display: grid`)}>
                 <IaCard kicker={"Skill"} title={t.name} text={t.description} icone={iconeSkill(t.name)} />
               </li>
             ))}
-          </ul>
+          </ListeLivrables>
         </section>
         <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
