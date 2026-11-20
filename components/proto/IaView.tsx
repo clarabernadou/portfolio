@@ -73,7 +73,7 @@ export function IaView({ v }: { v: any }) {
     <>
       <main id={"contenu"} tabIndex={-1} style={css(`width: var(--container); margin: 0 auto; padding: clamp(3rem, 7vw, 5rem) 0 0; display: flex; flex-direction: column; gap: var(--espace-section-demi)`)}>
         {/* Introduction plus aérée (19 nov. 2026). */}
-        {/* Intro (20 nov. 2026) : titre, deux paragraphes, puis les 3 chiffres en bandeau (.ia-intro). */}
+        {/* Intro en deux colonnes sur ordinateur (20 nov. 2026) : texte à gauche, les 3 chiffres à droite (.ia-intro). */}
         <section className={"ia-intro"} style={css(`padding-bottom: clamp(0.5rem, 2vw, 1.5rem)`)}>
           <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 6vw, 64px); letter-spacing: -0.045em; line-height: 1; hyphens: manual`)}>
               <span style={css(`font-weight: 800`)}>
@@ -94,8 +94,7 @@ export function IaView({ v }: { v: any }) {
             </p>
           </div>
           {" "}
-          {/* Chiffres en bandeau sous le texte (20 nov. 2026), comme « En bref » sur l'accueil. */}
-          <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
+          <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
             {v.stats.map((st: any) => (
               <IaStat key={st.label} value={st.value} label={st.label} icone={iconeChiffre(st.label)} />
             ))}
@@ -300,11 +299,14 @@ export function IaView({ v }: { v: any }) {
               </span>
             </li>
           </ol>
-                    {/* Règles de travail (20 nov. 2026) : un seul bloc à filets, 4 colonnes, comme les outils (.ia-regles). */}
-          <div style={css(`display: flex; flex-direction: column; gap: 14px; margin-top: 1rem`)}>
-            <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 24px; font-weight: 800; letter-spacing: -0.03em`)}>
+                  </section>
+        {/* Règles de travail (20 nov. 2026) : section à part, séparée de la méthode (un processus d'un côté, des
+            principes de l'autre) ; bloc à filets en 4 colonnes (.ia-regles). */}
+        <section className={"ia-bande"} style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
+          <div style={css(`display: flex; flex-direction: column; gap: 14px`)}>
+            <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Mes règles de travail"}
-            </h3>
+            </h2>
             <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
               {"Utiliser l’IA vite ne sert à rien si le résultat n’est pas fiable. Voici ce que je m’impose."}
             </p>
@@ -340,7 +342,7 @@ export function IaView({ v }: { v: any }) {
             </ul>
           </div>
         </section>
-        <section className={"ia-bande"} style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
+        <section style={css(`display: flex; flex-direction: column; gap: 1.5rem; padding-bottom: var(--espace-section)`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
             <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Mes routines"}

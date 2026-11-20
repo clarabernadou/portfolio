@@ -136,11 +136,13 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 /* Page /ia (20 nov. 2026). Intro : texte à gauche, chiffres à droite sur ordinateur. */
 .ia-intro{display:flex;flex-direction:column;gap:14px}
 .ia-intro > ul{margin-top:clamp(1.25rem, 3vw, 2rem) !important}
+/* Les chiffres sont centrés sur la hauteur du titre et des paragraphes (20 nov. 2026). */
+@media (min-width: 900px){.ia-intro{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);grid-template-rows:auto 1fr;align-items:start;column-gap:clamp(2rem, 5vw, 4.5rem);row-gap:14px}.ia-intro > h1{grid-column:1;grid-row:1;text-wrap:balance}.ia-intro > div{grid-column:1;grid-row:2}.ia-intro > ul{grid-column:2;grid-row:1 / span 2;align-self:center;margin-top:0 !important}}
 /* Outils : une colonne par outil, icône au-dessus ; filets de 1 px entre les colonnes (fond de la liste).
-   5e colonne « Aussi, selon la tâche » : pleine largeur sur 2 colonnes, à sa place sur 5. */
+   3 outils mis en avant et « Aussi, selon la tâche » : 4 colonnes, 2 × 2 sur tablette (20 nov. 2026). */
 .ia-outils{display:grid;grid-template-columns:1fr;gap:1px;background:#E4DCF7;border:1px solid #E4DCF7;border-radius:20px;overflow:hidden}
-@media (min-width: 640px){.ia-outils{grid-template-columns:repeat(2,minmax(0,1fr))}.ia-outil-autres{grid-column:1 / -1}}
-@media (min-width: 1180px){.ia-outils{grid-template-columns:repeat(5,minmax(0,1fr))}.ia-outil-autres{grid-column:auto}}
+@media (min-width: 640px){.ia-outils{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width: 1100px){.ia-outils{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .ia-outil{display:flex;flex-direction:column;gap:10px;padding:22px;background:#FFFFFF}
 .ia-outil-autres{background:#FAF8FF}
 .ia-outil > div{margin-top:4px}
@@ -155,7 +157,7 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .ia-etape::before{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:#B9A8EC}
 .ia-etape:last-child::before{display:none}
 @media (min-width: 900px){
-  .ia-methode{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;margin-bottom:1.25rem}
+  .ia-methode{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}
   .ia-methode::before{content:"";position:absolute;left:calc(clamp(1.25rem, 3vw, 2rem) + 22px);right:clamp(1.25rem, 3vw, 2rem);top:calc(clamp(1.25rem, 3vw, 2rem) + 21px);height:2px;background:#B9A8EC}
   .ia-etape{padding:60px 0 0}
   .ia-etape::before{display:none}
@@ -166,7 +168,7 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 @media (min-width: 760px){.phares{grid-template-columns:repeat(2,minmax(0,1fr))}.phares > li:first-child{grid-column:1 / -1}}
 
 /* Règles de travail de /ia (20 nov. 2026) : un bloc à filets comme les outils ; 4 colonnes, 2 sur tablette, 1 sur mobile. */
-.ia-regles{display:grid;grid-template-columns:minmax(0,1fr);gap:1px;background:#E4DCF7;border:1px solid #E4DCF7;border-radius:20px;overflow:hidden;margin-top:6px}
+.ia-regles{display:grid;grid-template-columns:minmax(0,1fr);gap:1px;background:#E4DCF7;border:1px solid #E4DCF7;border-radius:20px;overflow:hidden}
 @media (min-width: 640px){.ia-regles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (min-width: 1100px){.ia-regles{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .ia-regle{display:flex;flex-direction:column;gap:8px;padding:22px;background:#FFFFFF}
