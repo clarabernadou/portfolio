@@ -47,7 +47,7 @@ h1,h2,h3{overflow-wrap:anywhere;hyphens:auto}
 a[href^="mailto:"]{overflow-wrap:anywhere}
 
 /* cv.css */
-.cv-hero{display:flex;flex-direction:column;gap:2rem}
+.cv-hero{display:flex;flex-direction:column;gap:2rem;padding-bottom:2rem;border-bottom:1px solid var(--bordure)}
 /* En-tête du CV (demandes de Clara, 24 oct. 2026) : coordonnées comme sur le CV papier ;
    barre au-dessus du contenu avec le téléchargement du PDF, à droite (version essentielle seulement).
    Bureau : les 4 coordonnées sur une ligne, alignées sous le nom ; en dessous de 1200 px,
@@ -65,10 +65,9 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
   .cv-contacts li + li{border-top:1px solid var(--bordure)}
   .cv-contacts a{display:flex;min-height:48px}
 }
-.cv-version{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:16px 24px;padding-top:2rem;border-top:1px solid var(--bordure)}
-.cv-dl{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:12px}
+.cv-dl{display:flex;margin-left:auto;align-self:center}
 .cv-dl-btn{box-sizing:border-box;height:54px}
-@media (max-width: 640px){.cv-version{justify-content:flex-start}.cv-dl{justify-content:flex-start}}
+@media (max-width: 640px){.cv-dl{flex:1 1 100%;margin-left:0}.cv-dl-btn{width:100%;justify-content:center}}
 
 /* Pied de page : disposition demandée par Clara (logo à gauche, mentions au centre,
    Connexion à droite, copyright centré en dessous), au lieu de la ligne unique de la source. */
@@ -147,7 +146,7 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .ia-outil-autres{background:#FAF8FF}
 .ia-outil > div{margin-top:4px}
 /* Méthode : frise dans une carte ; pastilles à icône reliées par une barre, verticale sur mobile,
-   horizontale et centrée sur ordinateur (20 nov. 2026). */
+   horizontale sur ordinateur, texte aligné à gauche (20 nov. 2026). */
 .ia-methode{list-style:none;margin:0;padding:clamp(1.25rem, 3vw, 2rem);display:flex;flex-direction:column;gap:0;border-radius:24px;border:1px solid #E4DCF7;background:#FFFFFF}
 .ia-etape{position:relative;display:flex;flex-direction:column;gap:4px;padding:0 0 26px 62px}
 .ia-etape:last-child{padding-bottom:0}
@@ -157,7 +156,6 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .ia-etape:last-child::before{display:none}
 @media (min-width: 900px){
   .ia-methode{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;margin-bottom:1.25rem}
-  .ia-etape{padding:60px 0 0;align-items:center;text-align:center}
-  .ia-etape-num{left:50%;transform:translateX(-50%)}
-  .ia-etape::before{left:calc(50% + 22px);right:calc(-50% - 2px);top:21px;bottom:auto;width:auto;height:2px}
+  .ia-etape{padding:60px 0 0}
+  .ia-etape::before{left:52px;right:-16px;top:21px;bottom:auto;width:auto;height:2px}
 }

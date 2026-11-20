@@ -44,6 +44,16 @@ export function CvView({ v }: { v: any }) {
                 </span>
               </div>
             </div>
+            {/* Téléchargement du PDF dans l'en-tête du CV (20 nov. 2026) : l'action principale de la page, à côté
+                de l'identité ; pleine largeur sur mobile. Un seul CV : le PDF envoyé depuis l'administration. */}
+            <div className={"cv-dl"}>
+              <a href={v.cvUrl} target={"_blank"} rel={"noopener noreferrer"} className={"cv-dl-btn"} style={css(`padding: 0 22px; border-radius: 999px; background: var(--amethyste); color: var(--fond); border: 2px solid var(--amethyste); display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 700; text-decoration: none`)}>
+              <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                <path d={"M12 4v12M7 11l5 5 5-5M4 20h16"} />
+              </svg>
+              {"Télécharger le CV · PDF"}
+            </a>
+            </div>
           </div>
           {/* Coordonnées, comme sur le CV papier : e-mail, téléphone, LinkedIn, GitHub. */}
           <ul className={"cv-contacts"} aria-label={"Coordonnées"}>
@@ -66,19 +76,7 @@ export function CvView({ v }: { v: any }) {
             ))}
           </ul>
         </section>
-        {/* Barre du CV, juste au-dessus du contenu : téléchargement du PDF. */}
         <div style={css(`display: flex; flex-direction: column; gap: 2rem`)}>
-        <div className={"cv-version"}>
-          {/* Un seul CV depuis le 12 nov. 2026 : le PDF synthétisé envoyé depuis l'administration. */}
-          <div className={"cv-dl"}>
-            <a href={v.cvUrl} target={"_blank"} rel={"noopener noreferrer"} className={"cv-dl-btn"} style={css(`padding: 0 22px; border-radius: 999px; background: var(--amethyste); color: var(--fond); border: 2px solid var(--amethyste); display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 700; text-decoration: none`)}>
-              <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
-                <path d={"M12 4v12M7 11l5 5 5-5M4 20h16"} />
-              </svg>
-              {"Télécharger le CV · PDF"}
-            </a>
-          </div>
-        </div>
         {" "}
         {/* Mise en page du CV (19 nov. 2026) : compétences puis formations à gauche ; profil, expériences et projet
             à droite. Ordre du code (et donc du clavier et du mobile) : profil, compétences, contenu principal,
@@ -133,12 +131,12 @@ export function CvView({ v }: { v: any }) {
               {"Compétences"}
             </h2>
             {" "}
-            <div style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
+            <div style={css(`display: flex; flex-direction: column; gap: 1.75rem`)}>
               {v.skillsEssentiel.map((g: any) => (
-                <div key={g.name} style={css(`display: flex; flex-direction: column; gap: 8px`)}>
+                <div key={g.name} style={css(`display: flex; flex-direction: column; gap: 6px`)}>
                   <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{g.name}</h3>
                   {" "}
-                  <p style={css(`margin: 0; font-size: 15px; line-height: 1.6; color: #1A1033`)}>{g.items.join(" · ")}</p>
+                  <p style={css(`margin: 0; font-size: 15px; line-height: 1.65; color: #1A1033`)}>{g.items.join(", ")}</p>
                 </div>
               ))}
             </div>

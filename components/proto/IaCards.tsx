@@ -60,7 +60,8 @@ export function IaCard({ kicker, title, text, favorite, note, icone, children }:
       <p style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>{text}</p>
       {" "}
       {note && <Note text={note} />}
-      {children}
+      {/* Bouton d'exemple en bas de carte : aligné d'une carte à l'autre (20 nov. 2026). */}
+      {children && <div style={css(`margin-top: auto; padding-top: 6px`)}>{children}</div>}
     </article>
   );
 }
