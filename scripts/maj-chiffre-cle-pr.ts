@@ -1,5 +1,5 @@
-// 20 nov. 2026 : le chiffre clé de l'accueil (« 75 pull requests mergées en 15 mois sur Fruggr ») est aligné sur
-// le CV du site, qui dit « sur Fruggr et CarbonScore ». Validé par Clara.
+// 20 nov. 2026 : le chiffre clé de l'accueil reprend la phrase exacte du CV final en PDF (demande de Clara) :
+// « 75 pull requests mergées en 15 mois, dont 22 fonctionnalités en autonomie ».
 // Par défaut, simulation (avant / après). Avec --appliquer, écriture, après une sauvegarde (npm run db:backup).
 // Rien n'est écrit si le libellé actuel n'est pas celui attendu.
 // Usage : npx tsx scripts/maj-chiffre-cle-pr.ts [--appliquer]
@@ -8,8 +8,8 @@ process.loadEnvFile(".env.local");
 const { db } = await import("../lib/db");
 const prisma = db();
 
-const AVANT = "pull requests mergées en 15 mois sur Fruggr";
-const APRES = "pull requests mergées en 15 mois sur Fruggr et CarbonScore";
+const AVANT = "pull requests mergées en 15 mois sur Fruggr et CarbonScore";
+const APRES = "pull requests mergées en 15 mois, dont 22 fonctionnalités en autonomie";
 
 type Profil = { chiffreCle?: { valeur: string; libelle: string } };
 const row = await prisma.singleton.findUniqueOrThrow({ where: { key: "profil" } });

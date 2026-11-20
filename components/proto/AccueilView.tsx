@@ -300,6 +300,7 @@ export function AccueilView({ v }: { v: any }) {
                     {" "}
                     <EtiquettesCarte tags={c.tags} />
                     {" "}
+                    <span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>
                   </Link>
                 </li>
               ))}
@@ -335,6 +336,7 @@ export function AccueilView({ v }: { v: any }) {
                     {" "}
                     <EtiquettesCarte tags={c.tags} />
                     {" "}
+                    <span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>
                   </Link>
                 </li>
               ))}
@@ -370,6 +372,7 @@ export function AccueilView({ v }: { v: any }) {
                     {" "}
                     <EtiquettesCarte tags={c.tags} />
                     {" "}
+                    <span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>
                   </Link>
                 </li>
               ))}

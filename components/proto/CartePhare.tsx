@@ -77,11 +77,11 @@ export function CartePhare({
           )}
         </ul>
         )}
-        <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: ${verticale ? "auto" : "4px"}`)}>
-          <Link href={href} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-titre ${id}-suite`} aria-describedby={`${id}-desc`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
-            {"Voir le projet"}
+        <div style={css(`display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: ${verticale ? "auto" : "4px"}`)}>
+          <Link href={href} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-titre ${id}-suite`} aria-describedby={`${id}-desc`} style={css(`min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none`)}>
+            {"Voir le projet →"}
           </Link>
-          {liens && <span style={css(`position: relative; z-index: 1; display: inline-flex; flex-wrap: wrap; gap: 8px`)}>{liens}</span>}
+          {liens && <span style={css(`position: relative; z-index: 1; display: inline-flex; flex-wrap: wrap; gap: 4px 16px`)}>{liens}</span>}
         </div>
       </div>
       {!verticale && visuel}

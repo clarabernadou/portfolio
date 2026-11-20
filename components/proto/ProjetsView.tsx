@@ -67,12 +67,12 @@ export function ProjetsView({ v }: { v: any }) {
                               (p.hasSite || p.hasGh) && (
                                 <>
                                   {p.hasSite && (
-                                    <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: underline; text-underline-offset: 3px`)}>
+                                    <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`position: relative; z-index: 1; min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #5B5470; text-decoration: underline; text-underline-offset: 3px`)}>
                                       {"Site ↗"}
                                     </a>
                                   )}
                                   {p.hasGh && (
-                                    <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: underline; text-underline-offset: 3px`)}>
+                                    <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`position: relative; z-index: 1; min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #5B5470; text-decoration: underline; text-underline-offset: 3px`)}>
                                       {"GitHub ↗"}
                                     </a>
                                   )}
@@ -160,7 +160,7 @@ export function ProjetsView({ v }: { v: any }) {
               <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 1.25rem`)}>
                 {v.shown.map((p: any, i_p: number) => (
                   <li key={i_p} style={css(`display: grid`)}>
-                    <article style={css(`border-radius: 20px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
+                    <article style={css(`position: relative; border-radius: 20px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
                       {" "}
                       <div style={css(`padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 9px; flex-grow: 1`)}>
                         {" "}
@@ -190,15 +190,15 @@ export function ProjetsView({ v }: { v: any }) {
                         {" "}
                         <EtiquettesCarte tags={p.tags} label={"Technologies et livrables"} tagStyle={`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`} listeStyle={``} cadreStyle={``} />
                         {" "}
-                        <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: auto; padding-top: 8px`)}>
+                        <div style={css(`display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: auto; padding-top: 8px`)}>
                           {" "}
-                          <Link href={p.href} aria-label={`Voir le projet ${p.name}`} style={css(`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none`)}>
-                            {"Voir le projet"}
+                          <Link href={p.href} aria-label={`Voir le projet ${p.name}`} className={"lien-etire"} style={css(`min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none`)}>
+                            {"Voir le projet →"}
                           </Link>
                           {" "}
                           {p.hasSite && (
                             <>
-                              <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: underline; text-underline-offset: 3px`)}>
+                              <a href={p.siteh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Site en ligne de ${p.name}`} style={css(`position: relative; z-index: 1; min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #5B5470; text-decoration: underline; text-underline-offset: 3px`)}>
                                 {"Site "}
                                 <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                                   <path d={"M7 17L17 7M9 7h8v8"} />
@@ -209,7 +209,7 @@ export function ProjetsView({ v }: { v: any }) {
                           {" "}
                           {p.hasGh && (
                             <>
-                              <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: underline; text-underline-offset: 3px`)}>
+                              <a href={p.ghh} target={"_blank"} rel={"noopener noreferrer"} aria-label={`Dépôt GitHub de ${p.name}`} style={css(`position: relative; z-index: 1; min-height: 44px; display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #5B5470; text-decoration: underline; text-underline-offset: 3px`)}>
                                 {"GitHub "}
                                 <svg width={"16"} height={"16"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                                   <path d={"M7 17L17 7M9 7h8v8"} />
