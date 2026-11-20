@@ -52,7 +52,8 @@ IA de l'administration (4 novembre 2026) : Gemini (offre gratuite) reste le bout
 - Listes visuelles (cartes, étiquettes) en `<ul role="list" className="liste-nue">` ; navigation par de vrais liens, jamais `router.push` sur un bouton ; zones sombres avec la classe `zone-sombre` (anneau de focus Lilas) ; un élément qui disparaît après une action rend le focus à un élément voisin.
 
 ## Responsive
-- Aucun plafond de largeur sur les paragraphes d'introduction ; `text-wrap: pretty` sur les paragraphes, `balance` sur les titres de niveau 2 et 3.
+- Aucun plafond de largeur sur les paragraphes (ni `max-width` en caractères) ; pas de `text-wrap: pretty`, qui coupait les lignes trop tôt (20 novembre 2026) ; `balance` seulement sur les titres de niveau 2 et 3.
+- Largeur de contenu fluide (20 novembre 2026) : variables `--gutter` et `--container` de `app/globals.css` pour l'en-tête, les sections et le pied de page ; `npm run test:largeurs` vérifie l'absence de défilement horizontal de 320 à 2560 px.
 - Aucun texte tronqué : ni `line-clamp`, ni points de suspension.
 - Le pied de page touche toujours le bas : de l'écran quand la page est courte, de la page sinon. Jamais de bande blanche sous le pied de page (mise en page en colonne flexible sur 100dvh dans `app/layout.tsx`).
 - Points de rupture : 900 px (burger), 760 px (frise des formations), 640 px (panneau design system masqué).

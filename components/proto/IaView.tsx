@@ -17,24 +17,6 @@ const autres = (l: any[]) => {
   return l.filter((x) => !v.includes(x));
 };
 
-// Liste compacte des outils ou skills qui ne sont pas mis en avant.
-function Autres({ titre, items }: { titre: string; items: { nom: string; detail?: string }[] }) {
-  if (!items.length) return null;
-  return (
-    <div style={css(`display: flex; flex-direction: column; gap: 10px; padding: 20px 22px; border-radius: 20px; border: 1px solid #E4DCF7; background: #FFFFFF`)}>
-      <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{titre}</h3>
-      <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap: 8px 24px`)}>
-        {items.map((x) => (
-          <li key={x.nom} style={css(`font-size: 16px; line-height: 1.45`)}>
-            <b style={css(`color: #1A1033`)}>{x.nom}</b>
-            {x.detail && <span style={css(`color: #5B5470`)}>{` · ${x.detail}`}</span>}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 // Icône décorative en tête des cartes « Ce que ça a produit ».
 function Icone({ d }: { d: string }) {
   return (
@@ -57,6 +39,20 @@ function iconeChiffre(label: string) {
   if (/routine/i.test(label)) return "M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5";
   return "M12 3l9 5-9 5-9-5zM3 13l9 5 9-5M3 17.5l9 5 9-5";
 }
+function iconeSkill(nom: string) {
+  if (/wordpress/i.test(nom)) return "M4 4h16v16H4zM4 9h16M9 9v11";
+  if (/marque/i.test(nom)) return "M20 12l-8 8-9-9V3h8zM7.5 7.5h.01";
+  if (/audit/i.test(nom)) return "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5M8 11l2 2 4-4";
+  if (/linkedin|visuel/i.test(nom)) return "M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M15 9h.01";
+  if (/youtube|miniature/i.test(nom)) return "M3 6h18v12H3zM10 9l5 3-5 3z";
+  if (/webinar/i.test(nom)) return "M3 6h18v12H3zM3 7l9 6 9-6";
+  return "M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z";
+}
+function iconeRoutine(titre: string) {
+  if (/matin/i.test(titre)) return "M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z";
+  if (/veille/i.test(titre)) return "M4 5h13v14H6a2 2 0 0 1-2-2zM17 9h3v8a2 2 0 0 1-2 2M8 9h5M8 13h5M8 17h3";
+  return "M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z";
+}
 function iconeOutil(categorie: string) {
   if (/d[ée]velopp/i.test(categorie)) return "M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14";
   if (/concep|visuel|design/i.test(categorie)) return "M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z";
@@ -64,16 +60,17 @@ function iconeOutil(categorie: string) {
   return "M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z";
 }
 
-// Coche décorative des règles de travail.
-function Coche() {
+// Pictogramme décoratif d'une règle de travail (20 nov. 2026, à la place de la coche).
+function Pictogramme({ d }: { d: string }) {
   return (
-    <span aria-hidden={"true"} style={css(`flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; `)}>
-      <svg width={"15"} height={"15"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"3"} strokeLinecap={"round"} strokeLinejoin={"round"}>
-        <path d={"M5 12l5 5 9-10"} />
+    <span aria-hidden={"true"} style={css(`flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px; background: #F3EFFF; color: #6A4FB6; display: inline-flex; align-items: center; justify-content: center`)}>
+      <svg width={"19"} height={"19"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.9"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+        <path d={d} />
       </svg>
     </span>
   );
 }
+
 
 export function IaView({ v }: { v: any }) {
   return (
@@ -92,11 +89,11 @@ export function IaView({ v }: { v: any }) {
               </span>
             </h1>
           <div style={css(`display: flex; flex-direction: column; gap: 14px`)}>
-            <p style={css(`margin: 0; font-size: 20px; line-height: 1.55`)}>
+            <p style={css(`margin: 0; font-size: 22px; font-weight: 500; line-height: 1.5; color: #1A1033`)}>
               {"J’utilise l’IA tous les jours pour développer, concevoir et produire du contenu. Je choisis l’outil le plus adapté à chaque tâche, je construis des skills pour automatiser le répétitif, et je vérifie toujours le résultat avant de le livrer."}
             </p>
             {/* Phrase reprise du CV final (Compétences IA, ligne « Claude Code »), validée par Clara le 19 nov. 2026. */}
-            <p style={css(`margin: 0; font-size: 18px; line-height: 1.6; color: #1A1033`)}>
+            <p style={css(`margin: 0; font-size: 17px; line-height: 1.6; color: #5B5470`)}>
               {"Claude Code est mon outil principal depuis début 2026 : je conçois, développe, teste et automatise avec lui, côté produit et marketing, avec une vérification humaine de chaque livrable avant publication."}
             </p>
           </div>
@@ -148,15 +145,15 @@ export function IaView({ v }: { v: any }) {
             </CarteProjet>
             </li>
             <li style={css(`display: grid`)}>
-            <CarteProjet id={"repositionnement-fruggr"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+            <CarteProjet id={"saga-films-fruggr"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
               <Miniature />
               <Icone d={"M4 6h12v12H4zM16 10l4-2v8l-4-2"} />
               {" "}
-              <h3 id={"repositionnement-fruggr-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
+              <h3 id={"saga-films-fruggr-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
                 {"Saga de 3 films pour Fruggr"}
               </h3>
               {" "}
-              <span id={"repositionnement-fruggr-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
+              <span id={"saga-films-fruggr-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
                 {"Du script au rendu final : Remotion, voix off ElevenLabs, musique, déclinaison en 16:9, 9:16 et 1:1, publiée sur YouTube."}
               </span>
             </CarteProjet>
@@ -185,8 +182,21 @@ export function IaView({ v }: { v: any }) {
                 <p style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>{t.description}</p>
               </li>
             ))}
+            {autres(v.tools).length > 0 && (
+              <li className={"ia-outil ia-outil-autres"}>
+                <Icone d={"M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"} />
+                <h3 style={css(`margin: 4px 0 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{"Aussi, selon la tâche"}</h3>
+                <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; gap: 8px`)}>
+                  {autres(v.tools).map((t: any) => (
+                    <li key={t.name} style={css(`font-size: 15px; line-height: 1.4`)}>
+                      <b style={css(`color: #1A1033`)}>{t.name}</b>
+                      <span style={css(`display: block; color: #5B5470; font-size: 14px`)}>{t.category}</span>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            )}
           </ul>
-          <Autres titre={"Aussi, selon la tâche"} items={autres(v.tools).map((t: any) => ({ nom: t.name, detail: t.category }))} />
         </section>
         <section className={"ia-bande"} style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
@@ -200,7 +210,7 @@ export function IaView({ v }: { v: any }) {
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
             {[...vedettes(v.skills), ...autres(v.skills)].map((t: any) => (
               <li key={t.name} style={css(`display: grid`)}>
-                <IaCard kicker={"Skill"} title={t.name} text={t.description} />
+                <IaCard kicker={"Skill"} title={t.name} text={t.description} icone={iconeSkill(t.name)} />
               </li>
             ))}
           </ul>
@@ -214,9 +224,12 @@ export function IaView({ v }: { v: any }) {
           {/* Étapes sur une barre horizontale sur ordinateur, verticale sur mobile (.ia-methode, 20 nov. 2026). */}
           <ol className={"ia-methode"}>
             <li className={"ia-etape"}>
-              <span className={"ia-etape-num"}>
-                {"1"}
+              <span className={"ia-etape-num"} aria-hidden={"true"}>
+                <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.9"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                  <path d={"M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5"} />
+                </svg>
               </span>
+              <span className={"ia-etape-n"} aria-hidden={"true"}>{"01"}</span>
               {" "}
               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Repérer"}
@@ -227,9 +240,12 @@ export function IaView({ v }: { v: any }) {
               </span>
             </li>
             <li className={"ia-etape"}>
-              <span className={"ia-etape-num"}>
-                {"2"}
+              <span className={"ia-etape-num"} aria-hidden={"true"}>
+                <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.9"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                  <path d={"M6 2v14h14M2 6h14v14"} />
+                </svg>
               </span>
+              <span className={"ia-etape-n"} aria-hidden={"true"}>{"02"}</span>
               {" "}
               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Cadrer"}
@@ -240,9 +256,12 @@ export function IaView({ v }: { v: any }) {
               </span>
             </li>
             <li className={"ia-etape"}>
-              <span className={"ia-etape-num"}>
-                {"3"}
+              <span className={"ia-etape-num"} aria-hidden={"true"}>
+                <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.9"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                  <path d={"M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"} />
+                </svg>
               </span>
+              <span className={"ia-etape-n"} aria-hidden={"true"}>{"03"}</span>
               {" "}
               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Itérer"}
@@ -253,9 +272,12 @@ export function IaView({ v }: { v: any }) {
               </span>
             </li>
             <li className={"ia-etape"}>
-              <span className={"ia-etape-num"}>
-                {"4"}
+              <span className={"ia-etape-num"} aria-hidden={"true"}>
+                <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.9"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                  <path d={"M9 12l2 2 4-4M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"} />
+                </svg>
               </span>
+              <span className={"ia-etape-n"} aria-hidden={"true"}>{"04"}</span>
               {" "}
               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Vérifier"}
@@ -266,9 +288,12 @@ export function IaView({ v }: { v: any }) {
               </span>
             </li>
             <li className={"ia-etape"}>
-              <span className={"ia-etape-num"}>
-                {"5"}
+              <span className={"ia-etape-num"} aria-hidden={"true"}>
+                <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.9"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+                  <path d={"M4 12v7h16v-7M12 3v12M8 7l4-4 4 4"} />
+                </svg>
               </span>
+              <span className={"ia-etape-n"} aria-hidden={"true"}>{"05"}</span>
               {" "}
               <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Partager"}
@@ -290,28 +315,28 @@ export function IaView({ v }: { v: any }) {
             <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 14px; margin-top: 6px`)}>
             <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
               <span style={css(`display: flex; align-items: center; gap: 10px`)}>
-                <Coche />
+                <Pictogramme d={"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM5.6 5.6l12.8 12.8"} />
                 <b style={css(`font-size: 17px; color: #1A1033`)}>{"Ne rien inventer"}</b>
               </span>
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"L’IA travaille à partir des textes et des données que je fournis, sans supposition : quand une information manque, elle pose la question."}</span>
             </li>
             <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
               <span style={css(`display: flex; align-items: center; gap: 10px`)}>
-                <Coche />
+                <Pictogramme d={"M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 10.5-4M16 19l2 2 4-4"} />
                 <b style={css(`font-size: 17px; color: #1A1033`)}>{"Garder l’humain dans la boucle"}</b>
               </span>
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"Chaque livrable est relu et validé par moi, puis par les personnes concernées si besoin, avant toute publication."}</span>
             </li>
             <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
               <span style={css(`display: flex; align-items: center; gap: 10px`)}>
-                <Coche />
+                <Pictogramme d={"M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4"} />
                 <b style={css(`font-size: 17px; color: #1A1033`)}>{"Verrouiller le périmètre"}</b>
               </span>
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"Je précise ce que l’IA ne doit pas modifier et les étapes de vérification imposées."}</span>
             </li>
             <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
               <span style={css(`display: flex; align-items: center; gap: 10px`)}>
-                <Coche />
+                <Pictogramme d={"M15 7a4 4 0 1 1-3.9 4.9L3 20v-3h3v-3h3l2.1-2.1A4 4 0 0 1 15 7z"} />
                 <b style={css(`font-size: 17px; color: #1A1033`)}>{"Protéger les secrets"}</b>
               </span>
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"Je ne confie jamais à l’IA de clés d’API, de secrets, de jetons ni d’identifiants."}</span>
@@ -331,7 +356,7 @@ export function IaView({ v }: { v: any }) {
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
             {v.routines.map((t: any, i_t: number) => (
               <li key={t.title} style={css(`display: grid`)}>
-                <IaCard kicker={t.when} title={t.title} text={t.description} note={t.note}>
+                <IaCard kicker={t.when} title={t.title} text={t.description} note={t.note} icone={iconeRoutine(t.title)}>
                   {t.examples && <IaExemples ex={t.examples} routine={t.title} id={`ia-exemples-${i_t}`} />}
                 </IaCard>
               </li>

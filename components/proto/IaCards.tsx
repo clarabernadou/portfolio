@@ -38,9 +38,17 @@ function Note({ text }: { text: string }) {
   );
 }
 
-export function IaCard({ kicker, title, text, favorite, note, children }: { kicker: string; title: string; text: string; favorite?: boolean; note?: string; children?: ReactNode }) {
+export function IaCard({ kicker, title, text, favorite, note, icone, children }: { kicker: string; title: string; text: string; favorite?: boolean; note?: string; icone?: string; children?: ReactNode }) {
   return (
     <article style={css(`border-radius: 20px; border: ${favorite ? "2px solid #6A4FB6" : "1px solid #E4DCF7"}; background: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 10px`)}>
+      {/* Icône décorative facultative (skills et routines de /ia, 20 nov. 2026). */}
+      {icone && (
+        <span aria-hidden={"true"} style={css(`width: 44px; height: 44px; border-radius: 12px; background: #F3EFFF; color: #6A4FB6; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 4px`)}>
+          <svg width={"22"} height={"22"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.75"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+            <path d={icone} />
+          </svg>
+        </span>
+      )}
       <div style={css(`display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px`)}>
         <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{kicker}</span>
         {" "}

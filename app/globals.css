@@ -41,7 +41,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #6A4FB6;outline-offset:3p
 .tl-dot{position:absolute;left:0;top:4px;width:22px;height:22px;border-radius:50%;background:#6A4FB6;border:4px solid #F3EFFF;box-sizing:border-box;box-shadow:0 0 0 2px #6A4FB6}
 .tl-now .tl-dot{background:#FFFFFF}
 @media (max-width: 760px){.tl{grid-template-columns:1fr}.tl-item{padding:0 0 28px 40px}.tl-item::before{left:10px;right:auto;top:0;bottom:0;width:3px;height:auto}.tl-item.tl-now::before{background:repeating-linear-gradient(180deg,#6A4FB6 0 8px,transparent 8px 14px)}.tl-dot{top:0}}
-p,li{text-wrap:pretty}h2,h3{text-wrap:balance}
+h2,h3{text-wrap:balance}
 /* Reflow à 320 px (RGAA 10.11) : un mot trop long pour l'écran, comme « Repositionnement » en grand titre, passe à la ligne au lieu de déborder. */
 h1,h2,h3{overflow-wrap:anywhere;hyphens:auto}
 a[href^="mailto:"]{overflow-wrap:anywhere}
@@ -136,25 +136,28 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 /* Page /ia (20 nov. 2026). Intro : texte à gauche, chiffres à droite sur ordinateur. */
 .ia-intro{display:flex;flex-direction:column;gap:14px}
 .ia-intro > ul{margin-top:clamp(1.25rem, 3vw, 2rem) !important}
-/* Les chiffres s'alignent sur le haut du titre (20 nov. 2026). */
-@media (min-width: 900px){.ia-intro{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);grid-template-rows:auto 1fr;align-items:start;column-gap:clamp(2rem, 5vw, 4.5rem);row-gap:14px}.ia-intro > h1{grid-column:1;grid-row:1;text-wrap:balance}.ia-intro > div{grid-column:1;grid-row:2}.ia-intro > ul{grid-column:2;grid-row:1 / span 2;margin-top:0 !important}}
-/* Outils : une colonne par outil, icône au-dessus ; filets de 1 px entre les colonnes (fond de la liste). */
-.ia-outils{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:1px;background:#E4DCF7;border:1px solid #E4DCF7;border-radius:20px;overflow:hidden}
+/* Les chiffres sont centrés sur la hauteur du titre et des paragraphes (20 nov. 2026). */
+@media (min-width: 900px){.ia-intro{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);grid-template-rows:auto 1fr;align-items:start;column-gap:clamp(2rem, 5vw, 4.5rem);row-gap:14px}.ia-intro > h1{grid-column:1;grid-row:1;text-wrap:balance}.ia-intro > div{grid-column:1;grid-row:2}.ia-intro > ul{grid-column:2;grid-row:1 / span 2;align-self:center;margin-top:0 !important}}
+/* Outils : une colonne par outil, icône au-dessus ; filets de 1 px entre les colonnes (fond de la liste).
+   5e colonne « Aussi, selon la tâche » : pleine largeur sur 2 colonnes, à sa place sur 5. */
+.ia-outils{display:grid;grid-template-columns:1fr;gap:1px;background:#E4DCF7;border:1px solid #E4DCF7;border-radius:20px;overflow:hidden}
+@media (min-width: 640px){.ia-outils{grid-template-columns:repeat(2,minmax(0,1fr))}.ia-outil-autres{grid-column:1 / -1}}
+@media (min-width: 1180px){.ia-outils{grid-template-columns:repeat(5,minmax(0,1fr))}.ia-outil-autres{grid-column:auto}}
 .ia-outil{display:flex;flex-direction:column;gap:10px;padding:22px;background:#FFFFFF}
+.ia-outil-autres{background:#FAF8FF}
 .ia-outil > div{margin-top:4px}
-/* Méthode : étapes reliées par une barre, verticale sur mobile, horizontale sur ordinateur. */
-.ia-methode{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
-.ia-etape{position:relative;display:flex;flex-direction:column;gap:6px;padding:0 0 26px 52px}
+/* Méthode : frise dans une carte ; pastilles à icône reliées par une barre, verticale sur mobile,
+   horizontale et centrée sur ordinateur (20 nov. 2026). */
+.ia-methode{list-style:none;margin:0;padding:clamp(1.25rem, 3vw, 2rem);display:flex;flex-direction:column;gap:0;border-radius:24px;border:1px solid #E4DCF7;background:#FFFFFF}
+.ia-etape{position:relative;display:flex;flex-direction:column;gap:4px;padding:0 0 26px 62px}
 .ia-etape:last-child{padding-bottom:0}
-.ia-etape-num{position:absolute;left:0;top:0;z-index:1;width:36px;height:36px;border-radius:50%;background:#6A4FB6;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;box-shadow:0 0 0 5px #FFFFFF}
-.ia-etape::before{content:"";position:absolute;left:17px;top:36px;bottom:0;width:2px;background:#B9A8EC}
+.ia-etape-num{position:absolute;left:0;top:0;z-index:1;width:44px;height:44px;border-radius:50%;background:#6A4FB6;color:#FFFFFF;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px #FFFFFF}
+.ia-etape-n{font-size:13px;font-weight:800;letter-spacing:0.08em;color:#6A4FB6}
+.ia-etape::before{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:#B9A8EC}
 .ia-etape:last-child::before{display:none}
-.ia-etape > h3{margin-top:5px !important}
-/* Ordinateur : frise centrée, la barre relie le centre de chaque pastille au centre de la suivante. */
 @media (min-width: 900px){
   .ia-methode{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;margin-bottom:1.25rem}
-  .ia-etape{padding:52px 0 0;align-items:center;text-align:center}
+  .ia-etape{padding:60px 0 0;align-items:center;text-align:center}
   .ia-etape-num{left:50%;transform:translateX(-50%)}
-  .ia-etape::before{left:calc(50% + 18px);right:calc(-50% - 6px);top:17px;bottom:auto;width:auto;height:2px}
-  .ia-etape > h3{margin-top:0 !important}
+  .ia-etape::before{left:calc(50% + 22px);right:calc(-50% - 2px);top:21px;bottom:auto;width:auto;height:2px}
 }

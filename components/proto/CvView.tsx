@@ -2,7 +2,7 @@
 
 import { Fragment, useLayoutEffect, useRef } from "react";
 import { css } from "@/lib/css";
-import { CvExperience, CvFormation, CvProjet, Etiquettes, PucesGras } from "./Parcours";
+import { CvExperience, CvFormation, CvProjet, PucesGras } from "./Parcours";
 import { Lieu } from "./Lieu";
 
 // Généré depuis docs/passation/prototype-source/cv.source.html
@@ -138,7 +138,7 @@ export function CvView({ v }: { v: any }) {
                 <div key={g.name} style={css(`display: flex; flex-direction: column; gap: 8px`)}>
                   <h3 style={css(`margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{g.name}</h3>
                   {" "}
-                  <Etiquettes items={g.items} style={`padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`} />
+                  <p style={css(`margin: 0; font-size: 15px; line-height: 1.6; color: #1A1033`)}>{g.items.join(" · ")}</p>
                 </div>
               ))}
             </div>

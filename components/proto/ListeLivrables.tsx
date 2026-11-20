@@ -65,7 +65,7 @@ export function ListeLivrables({ total, children, parVue = SEUIL, largeurMin = 2
   return (
     <div style={css(`display: flex; flex-direction: column; gap: 12px`)}>
       {/* Marge intérieure de 6 px : l'anneau de focus des cartes n'est pas rogné par le défilement. */}
-      <ul ref={liste} role={"list"} className={"liste-nue livrables-carrousel"} style={css(`position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: max(min(${largeurMin}px, 100%), calc((100% - ${parVue - 1}rem) / ${parVue})); gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 6px; padding: 6px; margin: -6px; scrollbar-width: thin`)}>
+      <ul ref={liste} role={"list"} className={"liste-nue livrables-carrousel"} style={css(`position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: max(min(${largeurMin}px, 100%), calc((100% - ${parVue - 1}rem) / ${parVue})); gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 6px; padding: 6px 6px 18px; margin: -6px -6px 0; scrollbar-width: thin`)}>
         {children}
       </ul>
       <div style={css(`display: flex; align-items: center; justify-content: space-between; gap: 12px`)}>
