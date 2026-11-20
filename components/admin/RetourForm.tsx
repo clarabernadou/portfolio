@@ -2,6 +2,7 @@
 
 import { useId } from "react";
 import { TextArea } from "./fields";
+import { AIDE_MISE_EN_FORME } from "@/lib/texte-formate";
 import { CHAMPS_RETOUR, champsRemplis, pistesRetour, type ProjetPistes, type Retour } from "@/lib/retour";
 
 // Section « Retour d'expérience » de la fiche projet (demande de Clara, 4 nov. 2026). Sous chaque
@@ -20,7 +21,7 @@ export function RetourForm({ valeur, onChange, projet }: { valeur: Retour; onCha
           Retour d’expérience
         </h2>
         <p className="adm-sub">
-          Ce qu’un recruteur cherche derrière le projet : les obstacles, ce que tu en as tiré, ton recul. Chaque champ rempli s’affiche sur la fiche publique.{" "}
+          Ce qu’un recruteur cherche derrière le projet : les obstacles, ce que tu en as tiré, ton recul. Chaque champ rempli s’affiche sur la fiche publique. {AIDE_MISE_EN_FORME}{" "}
           <b>
             {n} {n > 1 ? "champs remplis" : "champ rempli"} sur {CHAMPS_RETOUR.length}
           </b>

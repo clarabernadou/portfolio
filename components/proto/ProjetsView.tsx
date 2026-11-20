@@ -9,6 +9,7 @@ import { EtiquettesCarte } from "./EtiquettesCarte";
 import { CapturesSite } from "./CapturesSite";
 import { ListeLivrables } from "./ListeLivrables";
 import { RetourExperience } from "./RetourExperience";
+import { TexteFormate } from "@/lib/texte-formate";
 import { PAPILLON } from "./papillon";
 
 // Généré depuis docs/passation/prototype-source/projets.source.html
@@ -352,9 +353,8 @@ export function ProjetsView({ v }: { v: any }) {
                       <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
                         {"Contexte"}
                       </h2>
-                      <p style={css(`margin: 0; font-size: 17px; line-height: 1.65; white-space: pre-line`)}>
-                        <span>{v.cur.ctx}</span>
-                      </p>
+                      {/* Mise en forme légère (puces, gras, italique, paragraphes) : lib/texte-formate.tsx, 20 nov. 2026. */}
+                      <TexteFormate texte={v.cur.ctx} style={`font-size: 17px; line-height: 1.65`} />
                     </section>
                   </>
                 )}
