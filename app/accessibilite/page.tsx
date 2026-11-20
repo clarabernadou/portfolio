@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { css } from "@/lib/css";
+import { RapportRgaa } from "@/components/proto/RapportRgaa";
 import { pageMetadata } from "@/lib/metadata";
 import { getProfile, getSiteProjects } from "@/lib/data";
 import { siteUrl } from "@/lib/site-url";
@@ -67,9 +68,7 @@ export default async function AccessibilitePage() {
         </ul>
         {RAPPORT_PDF && (
           <p style={css(P)}>
-            <a href={RAPPORT_PDF} target={"_blank"} rel={"noopener noreferrer"} style={css(`font-weight: 700`)}>
-              {"Rapport d’audit complet, avec les 106 critères · PDF"}
-            </a>
+            <RapportRgaa src={RAPPORT_PDF} libelle={"Rapport d’audit complet, avec les 106 critères · PDF"} />
           </p>
         )}
       </section>

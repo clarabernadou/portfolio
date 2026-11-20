@@ -3,6 +3,7 @@
 import { useCallback, useState, type MouseEvent } from "react";
 import { css } from "@/lib/css";
 import { ListeLivrables } from "./ListeLivrables";
+import { FlecheExterne } from "./FlecheExterne";
 import { useModal } from "@/lib/useModal";
 import type { SiteReco } from "@/lib/data-shared";
 import { formatLivrable } from "@/lib/livrables";
@@ -31,6 +32,7 @@ function Role({ r }: { r: SiteReco }) {
       {avant}
       <a href={r.entrepriseHref} target={"_blank"} rel={"noopener noreferrer"} style={css(`color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px`)}>
         {r.lienTexte}
+        <FlecheExterne taille={11} />
       </a>
       {apres.join(r.lienTexte)}
     </>
@@ -74,6 +76,7 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
                       </span>
                       {" "}
                       <span style={css(`position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)`)}>{", profil LinkedIn"}</span>
+                      <FlecheExterne taille={12} />
                     </a>
                   ) : (
                     <span style={css(`display: inline-flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 800; color: #1A1033; text-decoration: none`)}>{it.auteur}</span>

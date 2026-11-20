@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { css } from "@/lib/css";
+import { FlecheExterne } from "./FlecheExterne";
 
 // Généré depuis docs/passation/prototype-source/accueil.source.html
 // (scripts/tools/gen.mjs) : markup et styles recopiés à l'identique.
@@ -57,6 +58,7 @@ export function FooterView({ v }: { v: any }) {
                   <path d={"M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"} />
                 </svg>
                 {"LinkedIn"}
+                <FlecheExterne />
               </a>
               </li>
               <li>
@@ -65,6 +67,7 @@ export function FooterView({ v }: { v: any }) {
                   <path d={"M9 19c-4 1.5-4-2-6-2.5M15 21v-3.5a3 3 0 0 0-.9-2.4c3-.3 6-1.4 6-6.6a5 5 0 0 0-1.4-3.6 4.7 4.7 0 0 0-.1-3.6s-1.1-.3-3.6 1.4a12.4 12.4 0 0 0-6.5 0C5.9 1.7 4.8 2 4.8 2a4.7 4.7 0 0 0-.1 3.6A5 5 0 0 0 3.3 9.2c0 5.2 3 6.3 6 6.6a3 3 0 0 0-.9 2.3V21"} />
                 </svg>
                 {"GitHub"}
+                <FlecheExterne />
               </a>
               </li>
               <li>
@@ -75,6 +78,7 @@ export function FooterView({ v }: { v: any }) {
                   <path d={"M10 13h6M10 17h6"} />
                 </svg>
                 {"CV · PDF"}
+                <FlecheExterne />
               </a>
               </li>
             </ul>

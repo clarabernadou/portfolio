@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { css } from "@/lib/css";
+import { FlecheExterne } from "./FlecheExterne";
 import { EtiquettesCarte } from "./EtiquettesCarte";
 import { CarteAlternance, FormationsCourtes, FriseFormation } from "./Parcours";
 import { Lieu } from "./Lieu";
@@ -52,6 +53,7 @@ export function AccueilView({ v }: { v: any }) {
               {" "}
               <a href={v.cvUrl} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 48px; padding: 0 22px; border-radius: 999px; background: transparent; color: #1A1033; border: 2px solid #1A1033; display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; text-decoration: none`)}>
                 {"Télécharger le CV"}
+                <FlecheExterne />
               </a>
             </div>
             {" "}

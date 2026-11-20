@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { css } from "@/lib/css";
+import { FlecheExterne } from "./FlecheExterne";
 import { CartePhare } from "./CartePhare";
 import { EtiquettesCarte } from "./EtiquettesCarte";
 import { CapturesSite } from "./CapturesSite";
@@ -273,9 +274,18 @@ export function ProjetsView({ v }: { v: any }) {
                   {" "}
                   {v.cur.hasPdf && (
                     <>
-                      <a href={v.cur.pdfh} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; text-decoration: none`)}>
-                        {v.cur.pdfLabel}
-                      </a>
+                      {/* Livrables lisibles dans la page (PDF, image) : visionneuse, sans quitter le site (20 nov. 2026) ;
+                          sinon lien qui sort du site, avec ↗. */}
+                      {v.cur.toutOuvrable ? (
+                        <button type={"button"} onClick={v.cur.toutOuvrir} aria-haspopup={"dialog"} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; text-decoration: none; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer`)}>
+                          {v.cur.pdfLabel}
+                        </button>
+                      ) : (
+                        <a href={v.cur.pdfh} target={"_blank"} rel={"noopener noreferrer"} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; text-decoration: none`)}>
+                          {v.cur.pdfLabel}
+                          <FlecheExterne />
+                        </a>
+                      )}
                     </>
                   )}
                   {" "}
@@ -454,6 +464,7 @@ export function ProjetsView({ v }: { v: any }) {
                           ) : (
                             <a href={v.cur.pdfh} target={"_blank"} rel={"noopener noreferrer"} style={css(`padding: 10px 0; font-size: 15px; font-weight: 700`)}>
                               {v.cur.pdfToutOuvrir}
+                              <FlecheExterne />
                             </a>
                           )}
                         </>

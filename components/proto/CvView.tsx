@@ -2,6 +2,7 @@
 
 import { Fragment, useLayoutEffect, useRef } from "react";
 import { css } from "@/lib/css";
+import { FlecheExterne } from "./FlecheExterne";
 import { CvExperience, CvFormation, CvProjet, PucesGras } from "./Parcours";
 import { Lieu } from "./Lieu";
 
@@ -52,6 +53,7 @@ export function CvView({ v }: { v: any }) {
                 <path d={"M12 4v12M7 11l5 5 5-5M4 20h16"} />
               </svg>
               {"Télécharger le CV · PDF"}
+              <FlecheExterne />
             </a>
             </div>
           </div>

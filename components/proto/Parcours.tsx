@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 import { css } from "@/lib/css";
+import { FlecheExterne } from "./FlecheExterne";
 import Link from "next/link";
 import { ancreExperience, ligneFormation, type SiteExperience, type SiteFormation } from "@/lib/data-shared";
 import type { FormationCourte } from "@/lib/types";
@@ -17,6 +18,7 @@ function Entreprise({ e }: { e: SiteExperience }) {
     href ? (
       <a href={href} target={"_blank"} rel={"noopener noreferrer"} style={css(LIEN)}>
         {nom}
+        <FlecheExterne taille={12} />
       </a>
     ) : (
       <>{nom}</>
@@ -280,7 +282,8 @@ export function FriseFormation({ f }: { f: SiteFormation }) {
 
 // Formations courtes et certifications (accueil, sous la frise, 17 nov. 2026) : une ligne par
 // organisme, dans l'ordre de l'administration ; les intitulés d'une même date partagent la date.
-// integre (20 nov. 2026) : surtitre puis une carte blanche par organisme, comme les cartes d'expérience.
+// integre (20 nov. 2026) : surtitre puis une carte blanche par organisme, comme les cartes d'expérience ;
+// icône et texte centrés dans la hauteur de la carte (petites cartes sans bouton, comme les chiffres de /ia).
 export function FormationsCourtes({ items, integre = false }: { items: FormationCourte[]; integre?: boolean }) {
   if (!items.length) return null;
   const groupes: { organisme: string; dates: { date: string; items: FormationCourte[] }[] }[] = [];
@@ -300,10 +303,10 @@ export function FormationsCourtes({ items, integre = false }: { items: Formation
       {" "}
       <ul role={"list"} className={"liste-nue"} style={css(integre ? `display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1.25rem` : `display: flex; flex-direction: column`)}>
         {groupes.map((g) => (
-          <li key={g.organisme} style={css(integre ? `display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: auto 1fr; align-content: start; column-gap: 14px; row-gap: 4px; align-items: start; padding: 24px; border-radius: 20px; background: #FFFFFF` : `display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #E4DCF7`)}>
+          <li key={g.organisme} style={css(integre ? `display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; column-gap: 14px; row-gap: 4px; align-items: start; padding: 24px; border-radius: 20px; background: #FFFFFF` : `display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #E4DCF7`)}>
             {/* Icône décorative (20 nov. 2026) : médaille pour une certification, livre pour une attestation de suivi. */}
             {integre && (
-              <span aria-hidden={"true"} style={css(`grid-row: 1 / span 2; width: 40px; height: 40px; border-radius: 12px; background: #F3EFFF; color: #6A4FB6; display: inline-flex; align-items: center; justify-content: center`)}>
+              <span aria-hidden={"true"} style={css(`grid-row: 1 / span 2; align-self: center; width: 40px; height: 40px; border-radius: 12px; background: #F3EFFF; color: #6A4FB6; display: inline-flex; align-items: center; justify-content: center`)}>
                 <svg width={"20"} height={"20"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.8"} strokeLinecap={"round"} strokeLinejoin={"round"}>
                   <path d={g.dates.some((d) => d.items.some((f) => f.type === "certification")) ? "M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM8.5 14l-1.5 7 5-3 5 3-1.5-7" : "M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"} />
                 </svg>
