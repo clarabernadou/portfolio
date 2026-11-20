@@ -1,5 +1,6 @@
 import type { SiteProfile } from "@/lib/data-shared";
 import { siteUrl } from "@/lib/site-url";
+import { texteBrut } from "@/lib/texte-formate";
 
 // Données structurées (schema.org, JSON-LD) lues par Google : la « fiche d'identité »
 // qui relie le nom de Clara à son métier, à son site et à ses profils. Uniquement des
@@ -53,7 +54,7 @@ export function projetJsonLd(p: { id: string; name: string; line: string; contex
       "@type": "CreativeWork",
       name: p.name,
       headline: p.name,
-      description: p.context || p.line,
+      description: p.context ? texteBrut(p.context) : p.line,
       url: abs(`/projets/${p.id}`),
       inLanguage: "fr-FR",
       keywords: p.tags.join(", "),

@@ -1,5 +1,6 @@
 import { css } from "@/lib/css";
 import { CHAMPS_RETOUR, type Retour } from "@/lib/retour";
+import { TexteFormate } from "@/lib/texte-formate";
 
 // Section « Retour d'expérience » de la fiche projet (demande de Clara, 4 nov. 2026) : une carte par
 // champ rempli, au style de la carte « Contexte ». Rien ne s'affiche tant qu'aucun champ n'est rempli.
@@ -17,7 +18,7 @@ export function RetourExperience({ retour }: { retour: Retour }) {
           <li key={c.cle} style={css(`display: grid`)}>
             <article style={css(`border-radius: var(--r-22); border: 1px solid var(--bordure); padding: 24px; display: flex; flex-direction: column; gap: 10px`)}>
               <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; color: var(--amethyste); text-wrap: balance`)}>{c.titre}</h3>
-              <p style={css(`margin: 0; font-size: 17px; line-height: 1.65; white-space: pre-line`)}>{retour[c.cle].trim()}</p>
+              <TexteFormate texte={retour[c.cle]} style={`font-size: 17px; line-height: 1.65`} />
             </article>
           </li>
         ))}

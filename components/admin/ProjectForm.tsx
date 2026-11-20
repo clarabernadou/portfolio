@@ -8,6 +8,7 @@ import { RestoreBanner, SaveBar, useDraft } from "./SaveBar";
 import { useToast } from "./Toast";
 import { Icon } from "./icons";
 import { BlobUpload, BlobUploadMulti } from "./BlobUpload";
+import { AIDE_MISE_EN_FORME } from "@/lib/texte-formate";
 import { RetourProjets } from "./RetourProjets";
 import { slugify } from "@/lib/admin/projects";
 import { IaPage } from "./AvisIA";
@@ -134,7 +135,7 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
               max={500}
               rows={5}
               consigneIA={ouverture ? `Le contexte commence obligatoirement, mot pour mot, par la phrase « ${ouverture} », suivie du reste du texte, qui ne répète pas ce cadre.` : undefined}
-              help={ouverture && `Commence toujours par la phrase de cadre : « ${ouverture} »`}
+              help={ouverture ? `Commence toujours par la phrase de cadre : « ${ouverture} ». ${AIDE_MISE_EN_FORME}` : AIDE_MISE_EN_FORME}
             />
             {ouverture && <OuvertureContexte phrase={ouverture} texte={p.context} onInserer={(v) => set("context", v)} />}
             <TagInput label="Tags" value={p.tags} onChange={(v) => set("tags", v)} suggestions={tagSuggestions[p.parcours] ?? []} />
