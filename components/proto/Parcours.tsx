@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 import { css } from "@/lib/css";
 import { FlecheExterne } from "./FlecheExterne";
+import { ListeLivrables } from "./ListeLivrables";
 import Link from "next/link";
 import { ancreExperience, ligneFormation, type SiteExperience, type SiteFormation } from "@/lib/data-shared";
 import type { FormationCourte } from "@/lib/types";
@@ -284,6 +285,10 @@ export function FriseFormation({ f }: { f: SiteFormation }) {
 // organisme, dans l'ordre de l'administration ; les intitulés d'une même date partagent la date.
 // integre (20 nov. 2026) : surtitre puis une carte blanche par organisme, comme les cartes d'expérience ;
 // icône et texte centrés dans la hauteur de la carte (petites cartes sans bouton, comme les chiffres de /ia).
+// Au-delà de 4 organismes (choix de Clara, 20 nov. 2026) : rangée qui défile, comme les livrables et les skills.
+const SEUIL_COURTES = 4;
+const NOMS_COURTES = { un: "Formation courte", plusieurs: "formations courtes", precedents: "Formations courtes précédentes", suivants: "Formations courtes suivantes" };
+
 export function FormationsCourtes({ items, integre = false }: { items: FormationCourte[]; integre?: boolean }) {
   if (!items.length) return null;
   const groupes: { organisme: string; dates: { date: string; items: FormationCourte[] }[] }[] = [];
@@ -295,14 +300,7 @@ export function FormationsCourtes({ items, integre = false }: { items: Formation
     else g.dates.push({ date: f.date, items: [f] });
   }
   const certifs = items.some((f) => f.type === "certification");
-  return (
-    <div style={css(integre ? `display: flex; flex-direction: column; gap: 14px` : `display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 24px; background: #FFFFFF`)}>
-      <h3 style={css(`margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5470`)}>
-        {certifs ? "Certifications et formations courtes" : "Formations courtes"}
-      </h3>
-      {" "}
-      <ul role={"list"} className={"liste-nue"} style={css(integre ? `display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1.25rem` : `display: flex; flex-direction: column`)}>
-        {groupes.map((g) => (
+  const cartes = groupes.map((g) => (
           <li key={g.organisme} style={css(integre ? `display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; column-gap: 14px; row-gap: 4px; align-items: start; padding: 24px; border-radius: 20px; background: #FFFFFF` : `display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #E4DCF7`)}>
             {/* Icône décorative (20 nov. 2026) : médaille pour une certification, livre pour une attestation de suivi. */}
             {integre && (
@@ -328,8 +326,22 @@ export function FormationsCourtes({ items, integre = false }: { items: Formation
               ))}
             </span>
           </li>
-        ))}
-      </ul>
+  ));
+  return (
+    <div style={css(integre ? `display: flex; flex-direction: column; gap: 14px` : `display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 24px; background: #FFFFFF`)}>
+      <h3 style={css(`margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5470`)}>
+        {certifs ? "Certifications et formations courtes" : "Formations courtes"}
+      </h3>
+      {" "}
+      {integre && groupes.length > SEUIL_COURTES ? (
+        <ListeLivrables total={groupes.length} parVue={SEUIL_COURTES} largeurMin={260} noms={NOMS_COURTES}>
+          {cartes}
+        </ListeLivrables>
+      ) : (
+        <ul role={"list"} className={"liste-nue"} style={css(integre ? `display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1.25rem` : `display: flex; flex-direction: column`)}>
+          {cartes}
+        </ul>
+      )}
     </div>
   );
 }
