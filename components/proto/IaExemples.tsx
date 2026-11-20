@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState, type KeyboardEvent, type MouseEvent } from "react";
+import { createPortal } from "react-dom";
 import { css } from "@/lib/css";
 import { useModal } from "@/lib/useModal";
 import type { IaExamples } from "@/lib/types";
@@ -35,7 +36,9 @@ export function IaExemples({ ex, routine, id }: { ex: IaExamples; routine: strin
       <button type={"button"} onClick={() => setTab(0)} aria-haspopup={"dialog"} style={css(`align-self: flex-start; margin-top: 6px; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer`)}>
         {"Voir un exemple"}
       </button>
-      {tab !== null && (
+      {/* Fenêtre rendue à la racine du document (20 nov. 2026) : dans une bande de /ia (.ia-bande, clip-path),
+          elle était rognée aux limites de la bande. */}
+      {tab !== null && typeof document !== "undefined" && createPortal(
         <div className={"ex-modal"} onClick={backdrop}>
           <div id={id} className={"ex-dialog"} role={"dialog"} aria-modal={"true"} aria-labelledby={`${id}-titre`} style={css(`display: flex; flex-direction: column; gap: 16px`)}>
             <div style={css(`display: flex; justify-content: space-between; align-items: flex-start; gap: 16px`)}>
@@ -69,7 +72,8 @@ export function IaExemples({ ex, routine, id }: { ex: IaExamples; routine: strin
             )}
             <p style={css(`margin: 0; font-size: 14px; line-height: 1.5; font-style: italic; color: #5B5470`)}>{ex.note}</p>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

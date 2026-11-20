@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, type KeyboardEvent, type MouseEvent } from "react";
+import { createPortal } from "react-dom";
 import { css } from "@/lib/css";
 import { useModal } from "@/lib/useModal";
 import { ImageZoomable } from "./ImageZoomable";
@@ -43,7 +44,9 @@ export function Visionneuse({ id, elements, index, onIndex, noms }: { id: string
   );
   const BOUTON = `${ROND}; border: 1.5px solid var(--encre); background: #FFFFFF; color: var(--encre)`;
 
-  return (
+  // Rendue à la racine du document (20 nov. 2026) : jamais rognée par une section (clip-path, overflow).
+  if (typeof document === "undefined") return null;
+  return createPortal(
     <div className={"ex-modal"} onClick={fond}>
       <div id={id} className={"ex-dialog"} role={"dialog"} aria-modal={"true"} aria-labelledby={`${id}-titre`} onKeyDown={clavier} style={css(`max-width: 1100px; display: flex; flex-direction: column; gap: 16px`)}>
         <div style={css(`display: flex; justify-content: space-between; align-items: center; gap: 16px`)}>
@@ -82,6 +85,7 @@ export function Visionneuse({ id, elements, index, onIndex, noms }: { id: string
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
