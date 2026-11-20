@@ -73,7 +73,7 @@ export function IaView({ v }: { v: any }) {
     <>
       <main id={"contenu"} tabIndex={-1} style={css(`width: var(--container); margin: 0 auto; padding: clamp(3rem, 7vw, 5rem) 0 0; display: flex; flex-direction: column; gap: var(--espace-section-demi)`)}>
         {/* Introduction plus aérée (19 nov. 2026). */}
-        {/* Intro en deux colonnes sur ordinateur (20 nov. 2026) : texte à gauche, les 3 chiffres à droite (.ia-intro). */}
+        {/* Intro (20 nov. 2026) : titre, deux paragraphes, puis les 3 chiffres en bandeau (.ia-intro). */}
         <section className={"ia-intro"} style={css(`padding-bottom: clamp(0.5rem, 2vw, 1.5rem)`)}>
           <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 6vw, 64px); letter-spacing: -0.045em; line-height: 1; hyphens: manual`)}>
               <span style={css(`font-weight: 800`)}>
@@ -94,7 +94,8 @@ export function IaView({ v }: { v: any }) {
             </p>
           </div>
           {" "}
-          <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
+          {/* Chiffres en bandeau sous le texte (20 nov. 2026), comme « En bref » sur l'accueil. */}
+          <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
             {v.stats.map((st: any) => (
               <IaStat key={st.label} value={st.value} label={st.label} icone={iconeChiffre(st.label)} />
             ))}
@@ -299,38 +300,38 @@ export function IaView({ v }: { v: any }) {
               </span>
             </li>
           </ol>
-          {/* Règles de travail dans la méthode (19 nov. 2026) : une liste à 2 colonnes, plus lisible que 5 colonnes étroites. */}
-          <div style={css(`display: flex; flex-direction: column; gap: 14px; padding: 2rem; border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%)`)}>
+                    {/* Règles de travail (20 nov. 2026) : un seul bloc à filets, 4 colonnes, comme les outils (.ia-regles). */}
+          <div style={css(`display: flex; flex-direction: column; gap: 14px; margin-top: 1rem`)}>
             <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 24px; font-weight: 800; letter-spacing: -0.03em`)}>
               {"Mes règles de travail"}
             </h3>
             <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
               {"Utiliser l’IA vite ne sert à rien si le résultat n’est pas fiable. Voici ce que je m’impose."}
             </p>
-            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 14px; margin-top: 6px`)}>
-            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
-              <span style={css(`display: flex; align-items: center; gap: 10px`)}>
+            <ul role={"list"} className={"liste-nue ia-regles"}>
+            <li className={"ia-regle"}>
+              <span style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 12px`)}>
                 <Pictogramme d={"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM5.6 5.6l12.8 12.8"} />
                 <b style={css(`font-size: 17px; color: #1A1033`)}>{"Ne rien inventer"}</b>
               </span>
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"L’IA travaille à partir des textes et des données que je fournis, sans supposition : quand une information manque, elle pose la question."}</span>
             </li>
-            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
-              <span style={css(`display: flex; align-items: center; gap: 10px`)}>
+            <li className={"ia-regle"}>
+              <span style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 12px`)}>
                 <Pictogramme d={"M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 10.5-4M16 19l2 2 4-4"} />
                 <b style={css(`font-size: 17px; color: #1A1033`)}>{"Garder l’humain dans la boucle"}</b>
               </span>
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"Chaque livrable est relu et validé par moi, puis par les personnes concernées si besoin, avant toute publication."}</span>
             </li>
-            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
-              <span style={css(`display: flex; align-items: center; gap: 10px`)}>
+            <li className={"ia-regle"}>
+              <span style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 12px`)}>
                 <Pictogramme d={"M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4"} />
                 <b style={css(`font-size: 17px; color: #1A1033`)}>{"Verrouiller le périmètre"}</b>
               </span>
               <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"Je précise ce que l’IA ne doit pas modifier et les étapes de vérification imposées."}</span>
             </li>
-            <li style={css(`display: flex; flex-direction: column; gap: 8px; padding: 20px 22px; border-radius: 16px; background: #FFFFFF`)}>
-              <span style={css(`display: flex; align-items: center; gap: 10px`)}>
+            <li className={"ia-regle"}>
+              <span style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 12px`)}>
                 <Pictogramme d={"M15 7a4 4 0 1 1-3.9 4.9L3 20v-3h3v-3h3l2.1-2.1A4 4 0 0 1 15 7z"} />
                 <b style={css(`font-size: 17px; color: #1A1033`)}>{"Protéger les secrets"}</b>
               </span>

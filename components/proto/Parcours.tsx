@@ -280,7 +280,7 @@ export function FriseFormation({ f }: { f: SiteFormation }) {
 
 // Formations courtes et certifications (accueil, sous la frise, 17 nov. 2026) : une ligne par
 // organisme, dans l'ordre de l'administration ; les intitulés d'une même date partagent la date.
-// integre (20 nov. 2026) : dans la carte de la frise, sous un filet, une colonne par organisme.
+// integre (20 nov. 2026) : surtitre puis une carte blanche par organisme, comme les cartes d'expérience.
 export function FormationsCourtes({ items, integre = false }: { items: FormationCourte[]; integre?: boolean }) {
   if (!items.length) return null;
   const groupes: { organisme: string; dates: { date: string; items: FormationCourte[] }[] }[] = [];
@@ -293,14 +293,14 @@ export function FormationsCourtes({ items, integre = false }: { items: Formation
   }
   const certifs = items.some((f) => f.type === "certification");
   return (
-    <div style={css(integre ? `display: flex; flex-direction: column; gap: 14px; padding-top: 22px; border-top: 1px solid #E4DCF7` : `display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 24px; background: #FFFFFF`)}>
+    <div style={css(integre ? `display: flex; flex-direction: column; gap: 14px` : `display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 24px; background: #FFFFFF`)}>
       <h3 style={css(`margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5470`)}>
         {certifs ? "Certifications et formations courtes" : "Formations courtes"}
       </h3>
       {" "}
-      <ul role={"list"} className={"liste-nue"} style={css(integre ? `display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 16px 28px` : `display: flex; flex-direction: column`)}>
+      <ul role={"list"} className={"liste-nue"} style={css(integre ? `display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 1.25rem` : `display: flex; flex-direction: column`)}>
         {groupes.map((g) => (
-          <li key={g.organisme} style={css(integre ? `display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: auto 1fr; align-content: start; column-gap: 14px; row-gap: 4px; align-items: start` : `display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #E4DCF7`)}>
+          <li key={g.organisme} style={css(integre ? `display: grid; grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: auto 1fr; align-content: start; column-gap: 14px; row-gap: 4px; align-items: start; padding: 24px; border-radius: 20px; background: #FFFFFF` : `display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 14px 0; border-top: 1px solid #E4DCF7`)}>
             {/* Icône décorative (20 nov. 2026) : médaille pour une certification, livre pour une attestation de suivi. */}
             {integre && (
               <span aria-hidden={"true"} style={css(`grid-row: 1 / span 2; width: 40px; height: 40px; border-radius: 12px; background: #F3EFFF; color: #6A4FB6; display: inline-flex; align-items: center; justify-content: center`)}>
