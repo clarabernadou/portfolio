@@ -36,11 +36,19 @@ export function blocs(texte: string): Bloc[] {
 
 const INLINE = /(\*\*[^*\n]+?\*\*|\*[^*\s][^*\n]*?\*|_[^_\s][^_\n]*?_)/g;
 
+// Mot avec trait d'union (« demo-jarvis-portfolio », « mini-applications ») : jamais coupé en fin de ligne
+// (demande de Clara, 20 nov. 2026). Pas de trait d'union insécable U+2011 : le mot copié resterait faux.
+const MOT_TRAIT = /(\S*\p{L}-\p{L}\S*)/u;
+
+function insecable(texte: string, cle: string): ReactNode[] {
+  return texte.split(MOT_TRAIT).map((m, i) => (i % 2 ? <span key={`${cle}-${i}`} style={css(`white-space: nowrap`)}>{m}</span> : m));
+}
+
 function enLigne(texte: string): ReactNode[] {
-  return texte.split(INLINE).map((morceau, i) => {
-    if (i % 2 === 0) return morceau;
-    if (morceau.startsWith("**")) return <strong key={i}>{morceau.slice(2, -2)}</strong>;
-    return <em key={i}>{morceau.slice(1, -1)}</em>;
+  return texte.split(INLINE).flatMap<ReactNode>((morceau, i) => {
+    if (i % 2 === 0) return insecable(morceau, `t${i}`);
+    if (morceau.startsWith("**")) return [<strong key={i}>{insecable(morceau.slice(2, -2), `g${i}`)}</strong>];
+    return [<em key={i}>{insecable(morceau.slice(1, -1), `i${i}`)}</em>];
   });
 }
 

@@ -24,6 +24,13 @@ describe("texte formaté", () => {
     expect(html).toContain("Tout se parcourt.<br/>");
   });
 
+  it("garde d'un bloc les mots avec trait d'union", () => {
+    const html = renderToStaticMarkup(<TexteFormate texte={"- Mot de passe : demo-jarvis-portfolio\n**5 mini-applications** et l'API"} style={""} />);
+    expect(html).toContain('<span style="white-space:nowrap">demo-jarvis-portfolio</span>');
+    expect(html).toContain('<strong>5 <span style="white-space:nowrap">mini-applications</span></strong>');
+    expect(html).not.toContain("\u2011");
+  });
+
   it("laisse un astérisque isolé et un tiret au milieu d'une ligne", () => {
     expect(texteBrut("5 * 3 - 2 et 2*3")).toBe("5 * 3 - 2 et 2*3");
   });

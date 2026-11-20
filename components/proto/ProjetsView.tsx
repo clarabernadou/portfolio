@@ -345,7 +345,7 @@ export function ProjetsView({ v }: { v: any }) {
                 </>
               )}
               {" "}
-              {/* Contexte sur 2/3, compétences sur 1/3 dès 900 px ; un bloc seul prend toute la largeur (.fiche-contexte, 20 nov. 2026). */}
+              {/* Contexte sur 2/3, compétences sur 1/3 dès 1024 px ; un bloc seul prend toute la largeur (.fiche-contexte, 20 nov. 2026). */}
               <div className={"fiche-contexte"}>
                 {" "}
                 {v.cur.hasCtx && (
