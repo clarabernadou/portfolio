@@ -162,7 +162,7 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
               value={p.site}
               onChange={(v) => set("site", v)}
               placeholder="https://…"
-              help="Optionnel. Affiché en tête de la fiche du projet : « Voir le site »."
+              help="Optionnel. Affiché en tête de la fiche du projet : « Essayer la démo »."
             />
             {p.github && !p.site && (
               <div>

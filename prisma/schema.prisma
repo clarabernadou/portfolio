@@ -35,7 +35,7 @@ model Project {
   retour          Json?
   github          String?   @db.VarChar(400)
   figma           String?   @db.VarChar(400)
-  // Site en ligne du projet (GitHub Pages, Vercel…), bouton « Voir le site » de la fiche.
+  // Site en ligne du projet (GitHub Pages, Vercel…), bouton « Essayer la démo » de la fiche.
   site            String?   @db.VarChar(400)
   context         String    @db.Text
   skillsValidated Json
