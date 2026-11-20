@@ -4,20 +4,22 @@ import { css } from "@/lib/css";
 // Cartes de la page IA (repères, outils, skills, routines) rendues depuis les données
 // (étape 9), avec le markup et les styles du prototype (IaView).
 
-// Chiffre de l'intro de /ia (20 nov. 2026) : tuile d'indicateur, le chiffre en grand, la légende dessous,
-// l'icône décorative discrète en haut à droite.
+// Chiffre de l'intro de /ia (20 nov. 2026, choix de Clara) : icône décorative au début, puis le chiffre et
+// sa légende empilés à droite.
 export function IaStat({ value, label, icone }: { value: string; label: string; icone?: string }) {
   return (
-    <li style={css(`position: relative; background: #FFFFFF; padding: 18px 64px 18px 22px; display: flex; flex-direction: column; gap: 6px`)}>
-      <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 48px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6; line-height: 1`)}>{value}</span>{" "}
-      <span style={css(`font-size: 15px; font-weight: 700; line-height: 1.35`)}>{label}</span>
+    <li style={css(`background: #FFFFFF; padding: 18px 22px; display: flex; align-items: center; gap: 18px`)}>
       {icone && (
-        <span aria-hidden={"true"} style={css(`position: absolute; top: 18px; right: 18px; width: 36px; height: 36px; border-radius: 10px; background: #F3EFFF; color: #6A4FB6; display: inline-flex; align-items: center; justify-content: center`)}>
-          <svg width={"19"} height={"19"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.8"} strokeLinecap={"round"} strokeLinejoin={"round"}>
+        <span aria-hidden={"true"} style={css(`width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; background: #F3EFFF; color: #6A4FB6; display: inline-flex; align-items: center; justify-content: center`)}>
+          <svg width={"24"} height={"24"} viewBox={"0 0 24 24"} fill={"none"} stroke={"currentColor"} strokeWidth={"1.8"} strokeLinecap={"round"} strokeLinejoin={"round"}>
             <path d={icone} />
           </svg>
         </span>
       )}
+      <span style={css(`display: flex; flex-direction: column; gap: 4px; min-width: 0`)}>
+        <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 44px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6; line-height: 1`)}>{value}</span>{" "}
+        <span style={css(`font-size: 15px; font-weight: 700; line-height: 1.35`)}>{label}</span>
+      </span>
     </li>
   );
 }

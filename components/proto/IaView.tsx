@@ -35,6 +35,10 @@ function iconeChiffre(label: string) {
   if (/routine/i.test(label)) return "M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5";
   return "M12 3l9 5-9 5-9-5zM3 13l9 5 9-5M3 17.5l9 5 9-5";
 }
+// Les mots à trait d'union (« e-mails », « front-end ») ne se coupent pas en fin de ligne.
+function sansCoupure(texte: string) {
+  return texte.split(/(\S+-\S+)/).map((m, i) => (i % 2 ? <span key={i} style={css(`white-space: nowrap`)}>{m}</span> : m));
+}
 function iconeSkill(nom: string) {
   if (/wordpress/i.test(nom)) return "M4 4h16v16H4zM4 9h16M9 9v11";
   if (/marque/i.test(nom)) return "M20 12l-8 8-9-9V3h8zM7.5 7.5h.01";
@@ -172,7 +176,12 @@ export function IaView({ v }: { v: any }) {
                   <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{t.name}</h3>
                   <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{t.category}</span>
                 </div>
-                <p style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>{t.description}</p>
+                <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
+                  {/* Un paragraphe par ligne saisie dans l'administration (20 nov. 2026). */}
+                  {String(t.description).split("\n").filter((l: string) => l.trim()).map((l: string) => (
+                    <p key={l} style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>{sansCoupure(l)}</p>
+                  ))}
+                </div>
               </li>
             ))}
             {autres(v.tools).length > 0 && (
