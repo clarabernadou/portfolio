@@ -352,7 +352,7 @@ export function ProjetsView({ v }: { v: any }) {
                       <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
                         {"Contexte"}
                       </h2>
-                      <p style={css(`margin: 0; font-size: 17px; line-height: 1.65`)}>
+                      <p style={css(`margin: 0; font-size: 17px; line-height: 1.65; white-space: pre-line`)}>
                         <span>{v.cur.ctx}</span>
                       </p>
                     </section>
