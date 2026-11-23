@@ -18,7 +18,7 @@ const NAV = [
 // L'administration a sa propre mise en page, sans l'en-tête ni le pied de page du site.
 const isAdmin = (pathname: string) => pathname.startsWith("/admin");
 
-export function SiteHeader() {
+export function SiteHeader({ iaPubliee = true }: { iaPubliee?: boolean }) {
   const pathname = usePathname();
   // Le menu est ouvert pour une page donnée : changer de page le referme sans effet de bord.
   const [menuPage, setMenuPage] = useState<string | null>(null);
@@ -26,7 +26,9 @@ export function SiteHeader() {
   const setMenu = (ouvert: boolean | ((m: boolean) => boolean)) =>
     setMenuPage((p) => ((typeof ouvert === "function" ? ouvert(p === pathname) : ouvert) ? pathname : null));
   const v = {
-    nav: NAV.map((n) => ({ ...n, active: n.href === "/" ? pathname === "/" : pathname.startsWith(n.href) })),
+    // Page IA masquée depuis l'administration : plus de lien « IA » (23 nov. 2026).
+    nav: NAV.filter((n) => iaPubliee || n.href !== "/ia").map((n) => ({ ...n, active: n.href === "/" ? pathname === "/" : pathname.startsWith(n.href) })),
+    iaPubliee,
     menuOpen: menu,
     menuClosed: !menu,
     menuLabel: menu ? "Fermer le menu" : "Ouvrir le menu",

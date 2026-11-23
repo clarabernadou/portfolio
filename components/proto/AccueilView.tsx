@@ -442,6 +442,8 @@ export function AccueilView({ v }: { v: any }) {
           </div>
           {" "}
         </section>
+        {/* « L’IA, au quotidien » : masquée avec la page IA (interrupteur de l'administration, 23 nov. 2026). */}
+        {v.iaPubliee !== false && (
         <section className={"zone-sombre"} style={css(`background: linear-gradient(160deg, #1A1033 0%, #2E1065 100%); padding: var(--espace-section) 0`)}>
           <div style={css(`width: var(--container); margin: 0 auto; padding: 0 0; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center`)}>
             {" "}
@@ -492,6 +494,7 @@ export function AccueilView({ v }: { v: any }) {
             </div>
           </div>
         </section>
+        )}
         <section aria-labelledby={"recos"} style={css(`width: var(--container); margin: 0 auto; padding: var(--espace-section) 0; display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div id={"recos"}>
             <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #1A1033`)}>

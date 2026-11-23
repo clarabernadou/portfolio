@@ -252,6 +252,8 @@ export const getRecommendations = uneFoisAuBuild("getRecommendations", getRecomm
 export const getPhotoUrl = uneFoisAuBuild("getPhotoUrl", getPhotoUrlSource);
 export const getIa = uneFoisAuBuild("getIa", getIaSource);
 export const getFormationsCourtes = uneFoisAuBuild("getFormationsCourtes", getFormationsCourtesSource);
+/** Page IA publiée ? (interrupteur de l'administration, publiée par défaut). */
+export const getIaPubliee = async (): Promise<boolean> => (await getIa()).publiee !== false;
 
 // Projets personnels et indépendants (cadres de nature « Projet perso » ou « Audit »), publiés ou non, pour le
 // total « réalisés hors entreprise » de l'accueil (20 nov. 2026). Les projets d'entreprise ne sont pas comptés.

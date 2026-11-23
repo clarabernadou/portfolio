@@ -78,9 +78,11 @@ export function HeaderView({ v }: { v: any }) {
                 {"CV"}
               </Link>
               {" "}
+              {v.iaPubliee && (
               <Link href={"/ia"} onClick={v.closeMenu} style={css(`padding: 16px 0; font-size: 20px; font-weight: 500; color: #1A1033; text-decoration: none; border-bottom: 1px solid #E4DCF7`)}>
                 {"IA"}
               </Link>
+              )}
               {" "}
               <a href={"#contact"} onClick={v.toggleMenu} style={css(`margin-top: 24px; min-height: 52px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800; text-decoration: none`)}>
                 {"Me contacter"}

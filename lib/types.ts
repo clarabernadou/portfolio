@@ -130,6 +130,9 @@ export interface FormationCourte {
 }
 
 export interface IaContent {
+  // Interrupteur « Page IA publiée » de l'administration (23 nov. 2026) : absent = publiée. Désactivé, /ia renvoie
+  // une 404 et tous les liens vers elle disparaissent (navigation, accueil, plan du site, sitemap).
+  publiee?: boolean;
   intro: { title: string; lead: string };
   stats: IaStat[];
   tools: IaTool[];

@@ -18,8 +18,9 @@ function cards(home: SiteProject[], section: string) {
     }));
 }
 
-export function Accueil({ home, total, bref, experiences, duree, formations, courtes, profil, recos }: { home: SiteProject[]; total: number; bref: ReturnType<typeof enBref>; experiences: SiteExperience[]; duree: { ans: number; mois: number } | null; formations: SiteFormation[]; courtes: FormationCourte[]; profil: SiteProfile; recos: SiteReco[] }) {
+export function Accueil({ home, total, bref, experiences, duree, formations, courtes, profil, recos, iaPubliee = true }: { home: SiteProject[]; total: number; bref: ReturnType<typeof enBref>; experiences: SiteExperience[]; duree: { ans: number; mois: number } | null; formations: SiteFormation[]; courtes: FormationCourte[]; profil: SiteProfile; recos: SiteReco[]; iaPubliee?: boolean }) {
   const v: Record<string, unknown> = {
+    iaPubliee,
     cvUrl: siteContact.cvPdfHref,
     profil,
     dispo: dispoLabel(profil),

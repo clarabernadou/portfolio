@@ -23,3 +23,17 @@ export async function saveIa(lists: Lists): Promise<{ ok: true } | { ok: false; 
   revalidatePath("/", "layout");
   return { ok: true };
 }
+
+// Interrupteur « Page IA publiée » (23 nov. 2026) : enregistré tout de suite, avec le reste du contenu conservé.
+// Tout le site est régénéré (navigation, accueil, plan du site), ainsi que le sitemap.
+export async function setIaPubliee(publiee: boolean): Promise<{ ok: true } | { ok: false; error: string; session?: boolean }> {
+  if (!(await isAdminSession())) return { ok: false, error: "Ta session a expiré.", session: true };
+  const prisma = db();
+  const row = await prisma.singleton.findUnique({ where: { key: "ia" } });
+  const data = JSON.parse(JSON.stringify({ ...((row?.data as object) ?? {}), publiee }));
+  await prisma.singleton.upsert({ where: { key: "ia" }, create: { key: "ia", data }, update: { data } });
+  await logActivity("ia", "ia", publiee ? "Page IA publiée" : "Page IA masquée");
+  revalidatePath("/", "layout");
+  revalidatePath("/sitemap.xml");
+  return { ok: true };
+}
