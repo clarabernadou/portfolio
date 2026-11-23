@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SiteHeader, SiteFooter, ToTop } from "@/components/proto/SiteChrome";
-import { getProfile } from "@/lib/data";
+import { getIaPubliee, getProfile } from "@/lib/data";
 import { siteUrl } from "@/lib/site-url";
 import { css } from "@/lib/css";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const profil = await getProfile();
+  const [profil, iaPubliee] = await Promise.all([getProfile(), getIaPubliee()]);
   return (
     // data-scroll-behavior : Next.js coupe le défilement doux pendant les changements de page.
     <html lang="fr" data-scroll-behavior="smooth">
@@ -58,7 +58,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <span id="top" tabIndex={-1} />
           <ScrollToTop />
           <MemoireNavigation />
-          <SiteHeader />
+          <SiteHeader iaPubliee={iaPubliee} />
           <div style={css("flex: 1 0 auto")}>{children}</div>
           <SiteFooter profil={{ email: profil.email, entretiens: profil.entretiens, linkedin: profil.linkedin, github: profil.github }} />
           {/* Après le pied de page : affiché en bas à droite, il est atteint en dernier au clavier (RGAA 12.8). */}

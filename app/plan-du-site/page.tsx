@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { css } from "@/lib/css";
 import { pageMetadata } from "@/lib/metadata";
-import { getSiteProjects } from "@/lib/data";
+import { getIaPubliee, getSiteProjects } from "@/lib/data";
 
 export const metadata = pageMetadata("Plan du site", "Toutes les pages du portfolio de Clara Bernadou.", "/plan-du-site");
 
@@ -10,7 +10,8 @@ const LISTE = `margin: 0; padding-left: 1.25rem; display: flex; flex-direction: 
 const LIEN = `display: inline-block; padding: 6px 0; font-weight: 700`;
 
 export default async function PlanDuSitePage() {
-  const projets = await getSiteProjects();
+  // Page IA masquée depuis l'administration : pas de lien vers elle (23 nov. 2026).
+  const [projets, iaPubliee] = await Promise.all([getSiteProjects(), getIaPubliee()]);
   return (
     <main id={"contenu"} tabIndex={-1} style={css(`width: var(--container); margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 0 4.5rem; display: flex; flex-direction: column; gap: 2.5rem`)}>
       <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
@@ -45,11 +46,13 @@ export default async function PlanDuSitePage() {
               {"CV"}
             </Link>
           </li>
-          <li>
-            <Link href={"/ia"} style={css(LIEN)}>
-              {"IA"}
-            </Link>
-          </li>
+          {iaPubliee && (
+            <li>
+              <Link href={"/ia"} style={css(LIEN)}>
+                {"IA"}
+              </Link>
+            </li>
+          )}
           <li>
             <Link href={"/mentions-legales"} style={css(LIEN)}>
               {"Mentions légales et confidentialité"}

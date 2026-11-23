@@ -5,6 +5,7 @@ import { css } from "@/lib/css";
 import type { ProjectCapture } from "@/lib/types";
 import { filtreDepuisParam, filtresCaptures, PARAM_FILTRE } from "@/lib/captures-groupes";
 import { Visionneuse } from "./Visionneuse";
+import { legendeAffichee } from "@/lib/captures-legende";
 
 // Section « Captures du site » de la fiche projet (choix de Clara, 29 oct. 2026) : vignettes,
 // agrandies au clic dans la visionneuse commune aux livrables (Visionneuse.tsx).
@@ -105,14 +106,29 @@ export function CapturesSite({ captures }: { captures: ProjectCapture[] }) {
         </>
       )}
       <ul ref={grille} role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 1rem`)}>
-        {visibles.slice(0, montrees).map((c, i) => (
-          <li key={c.url} className={filtres ? "captures-apparition" : undefined} style={css(`display: grid`)}>
+        {visibles.slice(0, montrees).map((c, i) => {
+          const vignette = (
             <button type={"button"} onClick={() => setOuverte(i)} aria-haspopup={"dialog"} aria-label={c.alt ? `Agrandir la capture ${i + 1} sur ${n} : ${c.alt}` : `Agrandir la capture ${i + 1} sur ${n}`} style={css(`height: 200px; padding: 0; border-radius: 18px; border: 1px solid var(--bordure); background: var(--fond-section); overflow: hidden; cursor: zoom-in`)}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={c.url} alt={""} loading={"lazy"} style={css(`width: 100%; height: 100%; object-fit: cover; object-position: top; display: block`)} />
             </button>
-          </li>
-        ))}
+          );
+          const legende = legendeAffichee(c);
+          return (
+            <li key={c.url} className={filtres ? "captures-apparition" : undefined} style={css(`display: grid`)}>
+              {/* Légende (23 nov. 2026) : image et légende dans un figure role="figure" dont l'aria-label reprend
+                  le figcaption (RGAA 4.1.2, critère 1.9). Sans légende, la vignette seule, comme avant. */}
+              {legende ? (
+                <figure role={"figure"} aria-label={legende} style={css(`margin: 0; display: flex; flex-direction: column; gap: 8px`)}>
+                  {vignette}
+                  <figcaption style={css(`font-size: 15px; line-height: 1.5; color: var(--ardoise)`)}>{legende}</figcaption>
+                </figure>
+              ) : (
+                vignette
+              )}
+            </li>
+          );
+        })}
         {collage && (
           <li key={"collage"} className={filtres ? "captures-apparition" : undefined} style={css(`display: grid`)}>
             <button type={"button"} onClick={() => setOuverte(montrees)} aria-haspopup={"dialog"} aria-label={`Voir les ${cachees.length} autres captures, à partir de la capture ${montrees + 1} sur ${n}`} style={css(`position: relative; height: 200px; padding: 0; border-radius: 18px; border: 1px solid var(--bordure); background: var(--fond-section); overflow: hidden; cursor: pointer`)}>

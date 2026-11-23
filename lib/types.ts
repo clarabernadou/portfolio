@@ -24,6 +24,8 @@ export interface ProjectCapture {
   decorative?: boolean;
   // Sous-catégorie facultative (lib/captures-groupes.ts) : absente quand la capture n'est pas regroupée.
   groupe?: string;
+  // Légende facultative, 160 caractères au plus (lib/captures-legende.ts) : jamais sur une image décorative.
+  legende?: string;
 }
 
 export interface ProjectVideo {
@@ -128,6 +130,9 @@ export interface FormationCourte {
 }
 
 export interface IaContent {
+  // Interrupteur « Page IA publiée » de l'administration (23 nov. 2026) : absent = publiée. Désactivé, /ia renvoie
+  // une 404 et tous les liens vers elle disparaissent (navigation, accueil, plan du site, sitemap).
+  publiee?: boolean;
   intro: { title: string; lead: string };
   stats: IaStat[];
   tools: IaTool[];

@@ -9,6 +9,7 @@ import { slugify } from "@/lib/admin/projects";
 import { parseRepoUrl, siteDuDepot } from "@/lib/admin/github";
 import { CHAMPS_RETOUR, type Retour } from "@/lib/retour";
 import { harmoniserGroupes } from "@/lib/captures-groupes";
+import { erreurLegende } from "@/lib/captures-legende";
 
 // Actions serveur des écrans Projets. Chacune revérifie la session (requireAdmin) :
 // une action serveur est un point d'entrée public, la vérification de la page ne suffit pas.
@@ -31,7 +32,7 @@ export interface ProjectInput {
   docs: { label: string; href: string; thumb?: string; alt?: string }[];
   steps: { label: string; status: string }[];
   videos: { title: string; kicker: string; url: string }[];
-  captures: { url: string; alt: string; decorative?: boolean; groupe?: string }[];
+  captures: { url: string; alt: string; decorative?: boolean; groupe?: string; legende?: string }[];
   retour: Retour;
   visible: boolean;
   onHome: boolean;
@@ -81,10 +82,13 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
   const captures = harmoniserGroupes(
     input.captures
       .filter((c) => c.url.trim())
-      .map((c) => ({ ...(c.decorative ? { url: c.url.trim(), alt: "", decorative: true } : { url: c.url.trim(), alt: c.alt.trim() }), groupe: c.groupe })),
+      .map((c) => ({ ...(c.decorative ? { url: c.url.trim(), alt: "", decorative: true } : { url: c.url.trim(), alt: c.alt.trim(), ...(c.legende?.trim() ? { legende: c.legende.trim() } : {}) }), groupe: c.groupe })),
   );
   const sansTexte = captures.findIndex((c) => !c.alt && !("decorative" in c));
   if (sansTexte >= 0) return { ok: false, error: `Décris la capture ${sansTexte + 1} (lue aux personnes qui ne voient pas l’image), ou coche « Image décorative » si elle n’apporte aucune information.` };
+  // Légende facultative (23 nov. 2026) : 160 caractères au plus, retirée d'une image décorative (ci-dessus).
+  const legendeTropLongue = erreurLegende(captures);
+  if (legendeTropLongue) return { ok: false, error: legendeTropLongue };
 
   const others = await prisma.project.findMany({
     where: { deletedAt: null, NOT: { id: input.originalId ?? "" } },
