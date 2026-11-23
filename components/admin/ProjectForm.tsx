@@ -19,6 +19,7 @@ import { CHAMPS_PROJET } from "@/lib/admin/avis-ia";
 import { commenceParCadre } from "@/lib/data-shared";
 import { ACCEPT_LIVRABLES } from "@/lib/livrables";
 import { groupesDistincts } from "@/lib/captures-groupes";
+import { LEGENDE_MAX } from "@/lib/captures-legende";
 
 const ETAPES = ["Fait", "En cours", "À venir"];
 
@@ -244,7 +245,27 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
                     <BlobUpload folder={p.id || "nouveau"} accept="image/jpeg,image/png,image/webp" label={d.url ? "Remplacer l’image" : "Envoyer l’image"} onDone={(url) => setD({ ...d, url })} />
                   </span>
                   {!d.decorative && <InlineInput label="Description de la capture (obligatoire)" placeholder="Ce que montre la capture (lu aux personnes qui ne voient pas l’image)" value={d.alt} onChange={(v) => setD({ ...d, alt: v })} />}
-                  <Toggle label="Image décorative" help="À cocher seulement si l’image n’apporte aucune information : elle est alors ignorée par les lecteurs d’écran, sans description." checked={!!d.decorative} onChange={(v) => setD({ ...d, decorative: v, alt: v ? "" : d.alt })} />
+                  {/* Légende facultative (23 nov. 2026, lib/captures-legende.ts) : visible sous l'image, jamais sur une image décorative. */}
+                  {!d.decorative && (
+                    <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                      <label className="adm-label" htmlFor={`capture-legende-${i}`}>
+                        Légende (facultatif)
+                      </label>
+                      <input
+                        id={`capture-legende-${i}`}
+                        className="adm-input"
+                        maxLength={LEGENDE_MAX}
+                        aria-describedby={`capture-legende-${i}-aide`}
+                        placeholder="Par exemple : le budget du mois, mis à jour à chaque dépense"
+                        value={d.legende ?? ""}
+                        onChange={(e) => setD({ ...d, legende: e.target.value })}
+                      />
+                      <span className="adm-help" id={`capture-legende-${i}-aide`}>
+                        Affichée sous l’image, sur la fiche. {(d.legende ?? "").length} / {LEGENDE_MAX} caractères. Elle ne remplace pas la description.
+                      </span>
+                    </span>
+                  )}
+                  <Toggle label="Image décorative" help="À cocher seulement si l’image n’apporte aucune information : elle est alors ignorée par les lecteurs d’écran, sans description ni légende." checked={!!d.decorative} onChange={(v) => setD({ ...d, decorative: v, alt: v ? "" : d.alt, legende: v ? "" : d.legende })} />
                   <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                     <label className="adm-label" htmlFor={`capture-groupe-${i}`}>
                       Sous-catégorie (facultatif)

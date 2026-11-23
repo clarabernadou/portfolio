@@ -72,7 +72,7 @@
    "titre": "Chaque légende d’image est-elle, si nécessaire, correctement reliée à l’image correspondante ?",
    "statut": "NA",
    "pages": "Toutes les pages",
-   "constat": "Aucune image légendée."
+   "constat": "Aucune image légendée pour l’instant. Les captures des fiches projet peuvent recevoir une légende facultative (23 nov. 2026) : l’image et sa légende sont alors dans un figure role=\"figure\" dont l’aria-label reprend le texte du figcaption. Le critère deviendra applicable (conforme) dès la première légende publiée."
   },
   {
    "n": "2.1",

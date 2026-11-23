@@ -24,6 +24,8 @@ export interface ProjectCapture {
   decorative?: boolean;
   // Sous-catégorie facultative (lib/captures-groupes.ts) : absente quand la capture n'est pas regroupée.
   groupe?: string;
+  // Légende facultative, 160 caractères au plus (lib/captures-legende.ts) : jamais sur une image décorative.
+  legende?: string;
 }
 
 export interface ProjectVideo {
