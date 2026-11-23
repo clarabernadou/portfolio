@@ -17,6 +17,7 @@ import { RetourForm } from "./RetourForm";
 import { RETOUR_VIDE } from "@/lib/retour";
 import { EVALUATION_VIDE } from "@/lib/evaluation";
 import { EvaluationForm } from "./EvaluationForm";
+import { messageEnregistrement } from "@/lib/admin/statut-projet";
 import { CHAMPS_PROJET } from "@/lib/admin/avis-ia";
 import { commenceParCadre } from "@/lib/data-shared";
 import { ACCEPT_LIVRABLES } from "@/lib/livrables";
@@ -66,8 +67,12 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
         setError(r.error);
         return;
       }
-      draft.markSaved(input);
-      toast({ message: status === "draft" ? "Brouillon enregistré." : "Projet publié." });
+      // Le formulaire garde le statut réellement enregistré (une fiche Privé reste « published »).
+      const enregistre = { ...input, status: r.statut === "brouillon" ? ("draft" as const) : ("published" as const) };
+      draft.setValue(enregistre);
+      draft.markSaved(enregistre);
+      // Message selon le statut réellement enregistré (une fiche Privé reste Privé).
+      toast({ message: messageEnregistrement(r.statut) });
       if (isNew || r.id !== initial.originalId) router.replace(`/admin/projets/${r.id}`);
       else router.refresh();
     });

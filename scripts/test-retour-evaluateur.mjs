@@ -1,7 +1,7 @@
 // Test de bout en bout du bloc « Retour de l'évaluateur » (23 nov. 2026), sur la base de DÉMONSTRATION
 // (données fictives) : « Médiathèque » a une évaluation, « Carnet de rando » n'en a pas (aucun titre orphelin).
-// Puis l'administration : saisie de l'évaluation d'un projet Privé (« Tableau de bord énergie ») et
-// enregistrement avec « Publier » puis « Enregistrer le brouillon », pour vérifier le statut obtenu.
+// Puis l'administration : saisie de l'évaluation d'un projet Privé (« Tableau de bord énergie ») ; une fiche
+// Privé reste Privé avec « Publier » comme avec « Enregistrer le brouillon », et le message suit le statut réel.
 // Prérequis : npm run demo:donnees, puis DEMO_PORT=3200 node scripts/demo/build-demo.mjs.
 // Usage : DEMO_PORT=3200 node scripts/test-retour-evaluateur.mjs (relancer npm run demo:donnees ensuite).
 import { chromium } from "playwright";
@@ -78,8 +78,11 @@ for (const largeur of [1440, 390]) {
   ok(refus && !(await page.getByText("Projet publié.").isVisible()), "admin : 601 caractères refusés avec un message, rien n’est enregistré");
   await page.getByRole("textbox", { name: "Axes d’amélioration (facultatif)", exact: true }).fill("");
 
+  const PRIVE_MSG = "Fiche enregistrée, statut : Privé";
   await page.getByRole("button", { name: "Publier" }).click();
-  await page.getByText("Projet publié.").waitFor({ timeout: 15000 });
+  const msgPublier = await page.getByText(PRIVE_MSG).waitFor({ timeout: 15000 }).then(() => true, () => false);
+  ok(msgPublier && !(await page.getByText("Projet publié.").isVisible()), `admin : « Publier » sur une fiche Privé → message « ${PRIVE_MSG} »`);
+  ok(!(await page.getByText("Modifications non enregistrées").isVisible()), "admin : plus de modifications en attente après l’enregistrement");
   await page.reload();
   ok((await statut()) === "Privé", `admin : « Publier » sur un projet Privé → « ${await statut()} »`);
   ok((await page.getByRole("textbox", { name: "Points forts", exact: true }).inputValue()) === "Code lisible.\nTests complets.", "admin : évaluation relue après enregistrement");
@@ -88,10 +91,21 @@ for (const largeur of [1440, 390]) {
   const html = await pub.text();
   ok(!html.includes("Retour de l’évaluateur") && !html.includes("Code lisible."), `site public : le projet privé ne montre pas la fiche (${pub.status}, page « en cours de validation »)`);
 
+  // « Enregistrer le brouillon » ne fait plus passer une fiche Privé en Brouillon (23 nov. 2026).
   await page.getByRole("button", { name: "Enregistrer le brouillon" }).click();
-  await page.getByText("Brouillon enregistré.").waitFor({ timeout: 15000 });
+  const msgBrouillon = await page.getByText(PRIVE_MSG).waitFor({ timeout: 15000 }).then(() => true, () => false);
+  ok(msgBrouillon && !(await page.getByText("Brouillon enregistré.").isVisible()), `admin : « Enregistrer le brouillon » sur une fiche Privé → message « ${PRIVE_MSG} »`);
   await page.reload();
-  console.log(`  info : « Enregistrer le brouillon » sur un projet Privé → « ${await statut()} » (comportement d’avant, inchangé)`);
+  ok((await statut()) === "Privé", `admin : « Enregistrer le brouillon » sur un projet Privé → « ${await statut()} »`);
+
+  // Fiche publique : « Projet publié. » et statut Publié.
+  await page.goto(`${base}/admin/projets/mediatheque-refonte`);
+  ok((await statut()) === "Publié", `admin : fiche publique, statut de départ « ${await statut()} »`);
+  await page.getByRole("button", { name: "Publier" }).click();
+  const msgPublic = await page.getByText("Projet publié.").waitFor({ timeout: 15000 }).then(() => true, () => false);
+  ok(msgPublic, "admin : « Publier » sur une fiche publique → « Projet publié. »");
+  await page.reload();
+  ok((await statut()) === "Publié", `admin : fiche publique après « Publier » → « ${await statut()} »`);
   await ctx.close();
 }
 

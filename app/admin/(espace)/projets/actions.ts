@@ -9,6 +9,7 @@ import { slugify } from "@/lib/admin/projects";
 import { parseRepoUrl, siteDuDepot } from "@/lib/admin/github";
 import { CHAMPS_RETOUR, type Retour } from "@/lib/retour";
 import { colonnesEvaluation, type Evaluation } from "@/lib/evaluation";
+import { statusAEnregistrer, statutFiche, type StatutFiche } from "@/lib/admin/statut-projet";
 import { harmoniserGroupes } from "@/lib/captures-groupes";
 import { erreurLegende } from "@/lib/captures-legende";
 
@@ -43,7 +44,7 @@ export interface ProjectInput {
   status: "published" | "draft";
 }
 
-export type SaveResult = { ok: true; id: string } | { ok: false; error: string; session?: boolean };
+export type SaveResult = { ok: true; id: string; statut: StatutFiche } | { ok: false; error: string; session?: boolean };
 
 const MAX_ACCUEIL = 9;
 const MAX_PHARES = 3;
@@ -148,7 +149,8 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
     onHome: input.onHome,
     featured: input.featured,
     homeCard: input.onHome && input.homeCard ? { ...input.homeCard, order: (existing?.homeCard as { order?: number } | null)?.order ?? 99 } : undefined,
-    status: input.status,
+    // Une fiche Privé reste Privé, même avec « Enregistrer le brouillon » (lib/admin/statut-projet.ts).
+    status: statusAEnregistrer(input.status, input.visible, existing?.status ?? null),
     fieldMeta: meta,
   };
 
@@ -164,9 +166,9 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
     if (!ids.includes(id)) ids.push(id);
     await prisma.singleton.upsert({ where: { key: "phares" }, create: { key: "phares", data: { ids } }, update: { data: { ids } } });
   }
-  await logActivity("project", id, `Projet « ${name} » ${existing ? "modifié" : "créé"}${input.status === "draft" ? " (brouillon)" : ""}`, existing ? "updated" : "created");
+  await logActivity("project", id, `Projet « ${name} » ${existing ? "modifié" : "créé"}${data.status === "draft" ? " (brouillon)" : data.visible ? "" : " (privé)"}`, existing ? "updated" : "created");
   refresh();
-  return { ok: true, id };
+  return { ok: true, id, statut: statutFiche(data.status, data.visible) };
 }
 
 // Publication d'un projet depuis la liste : publié, privé (masqué du site, sans être
