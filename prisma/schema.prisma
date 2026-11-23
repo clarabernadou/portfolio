@@ -33,6 +33,12 @@ model Project {
   captures        Json?
   // Retour d'expérience (lib/retour.ts) : { difficultes, appris, ameliorations }, affiché s'il est rempli.
   retour          Json?
+  // Retour de l'évaluateur (lib/evaluation.ts, 23 nov. 2026) : évaluation de soutenance reformulée, distincte du
+  // retour d'expérience. Colonnes nullables, ajoutées sans toucher aux autres (base partagée avec la production).
+  evaluationMois        String?   @db.VarChar(40)
+  evaluationPointsForts String?   @db.Text
+  evaluationAxes        String?   @db.Text
+  evaluationRemarque    String?   @db.Text
   github          String?   @db.VarChar(400)
   figma           String?   @db.VarChar(400)
   // Site en ligne du projet (GitHub Pages, Vercel…), bouton « Essayer la démo » de la fiche.

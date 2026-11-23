@@ -424,7 +424,7 @@
    "titre": "Dans chaque page web, l’information est-elle structurée par l’utilisation appropriée de titres ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Corrigé : hiérarchie de titres sans saut (h1, h2, h3, h4) ; postes, formations, groupes de compétences et étapes balisés en titres ; titre « Liste des projets » ajouté."
+   "constat": "Corrigé : hiérarchie de titres sans saut (h1, h2, h3, h4) ; postes, formations, groupes de compétences et étapes balisés en titres ; titre « Liste des projets » ajouté. Fiche projet : « Retour de l’évaluateur » en h2 à la suite de « Retour d’expérience », un h3 par champ rempli, aucun titre sans contenu (23 nov. 2026)."
   },
   {
    "n": "9.2",
@@ -440,7 +440,7 @@
    "titre": "Dans chaque page web, chaque liste est-elle correctement structurée ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Corrigé : cartes, étiquettes et liens sociaux balisés en listes (role=\"list\") ; informations des mentions légales en liste de définitions."
+   "constat": "Corrigé : cartes, étiquettes et liens sociaux balisés en listes (role=\"list\") ; informations des mentions légales en liste de définitions. Retour de l’évaluateur : points forts et axes d’amélioration en liste (ul) dès qu’ils ont plusieurs lignes, en paragraphe sinon (23 nov. 2026)."
   },
   {
    "n": "9.4",

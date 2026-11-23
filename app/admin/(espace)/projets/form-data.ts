@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { phraseCadre } from "@/lib/data-shared";
 import { lireRetour, RETOUR_VIDE } from "@/lib/retour";
+import { EVALUATION_VIDE, lireEvaluation } from "@/lib/evaluation";
 import type { ProjectInput } from "./actions";
 import type { ProjectFormProps } from "@/components/admin/ProjectForm";
 
@@ -28,6 +29,7 @@ export function toInput(r: Row): ProjectInput {
     videos: ((r.videos as { title: string; kicker: string; url: string }[] | null) ?? []).map(({ title, kicker, url }) => ({ title, kicker, url })),
     captures: (r.captures as { url: string; alt: string; decorative?: boolean; groupe?: string; legende?: string }[] | null) ?? [],
     retour: lireRetour(r.retour),
+    evaluation: lireEvaluation(r),
     visible: r.visible,
     onHome: r.onHome,
     featured: r.featured,
@@ -56,6 +58,7 @@ export const EMPTY: ProjectInput = {
   videos: [],
   captures: [],
   retour: RETOUR_VIDE,
+  evaluation: EVALUATION_VIDE,
   visible: true,
   onHome: false,
   featured: false,

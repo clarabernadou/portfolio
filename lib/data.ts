@@ -6,6 +6,7 @@ import { experiences as experiencesJson } from "./content/experiences";
 import { formations as formationsJson } from "./content/formations";
 import { alternances } from "./content/accueil";
 import { champsRemplis, lireRetour } from "./retour";
+import { evaluationAffichee, lireEvaluation } from "./evaluation";
 import { avecAudit } from "./accessibilite";
 import { competencesEssentiel, identite, langues, profilCv } from "./content/profile";
 import liensJson from "@/data/liens.json";
@@ -79,6 +80,7 @@ function fromRow(r: ProjectRow): SiteProject {
     ...(r.videos ? { videos: r.videos as unknown as Project["videos"] } : {}),
     ...(r.captures ? { captures: r.captures as unknown as Project["captures"] } : {}),
     ...(champsRemplis(lireRetour(r.retour)) ? { retour: lireRetour(r.retour) } : {}),
+    ...(evaluationAffichee(lireEvaluation(r)) ? { evaluation: evaluationAffichee(lireEvaluation(r))! } : {}),
     ...(r.homeCard ? { homeCard: r.homeCard as unknown as HomeCard } : {}),
   };
 }

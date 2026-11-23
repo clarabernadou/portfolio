@@ -16,6 +16,7 @@
     "test:liens": "node scripts/test-liens-internes.mjs",
     "test:cv": "node scripts/test-cv-site.mjs",
     "test:captures": "node scripts/test-captures-groupes.mjs",
+    "test:evaluateur": "node scripts/test-retour-evaluateur.mjs",
     "db:backup": "tsx scripts/db-backup.ts",
     "db:restore": "tsx scripts/db-restore.ts",
     "demo:donnees": "tsx scripts/demo/donnees-demo.ts",

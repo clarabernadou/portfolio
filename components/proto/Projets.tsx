@@ -88,6 +88,7 @@ function detail(p: Project) {
     hasVideos: !!p.videos?.length,
     hasCaptures: !!p.captures?.length,
     retour: p.retour ?? null,
+    evaluation: p.evaluation ?? null,
     captures: (p.captures ?? []).map((c) => ({ ...c, url: asset(c.url) })),
     hasDocs: livrables(p).length > 0,
     docs: livrables(p).map((d) => ({ ...d, format: formatLivrable(d.href) })),

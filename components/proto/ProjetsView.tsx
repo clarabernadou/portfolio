@@ -9,6 +9,7 @@ import { EtiquettesCarte } from "./EtiquettesCarte";
 import { CapturesSite } from "./CapturesSite";
 import { ListeLivrables } from "./ListeLivrables";
 import { RetourExperience } from "./RetourExperience";
+import { RetourEvaluateur } from "./RetourEvaluateur";
 import { TexteFormate } from "@/lib/texte-formate";
 import { PAPILLON } from "./papillon";
 
@@ -447,6 +448,7 @@ export function ProjetsView({ v }: { v: any }) {
                 </>
               )}
               {v.cur.retour && <RetourExperience retour={v.cur.retour} />}
+              {v.cur.evaluation && <RetourEvaluateur evaluation={v.cur.evaluation} />}
               {v.cur.hasCaptures && <CapturesSite captures={v.cur.captures} />}
               {v.cur.hasDocs && (
                 <>

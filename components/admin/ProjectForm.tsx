@@ -15,6 +15,8 @@ import { IaPage } from "./AvisIA";
 import { AvisGlobalIA } from "./AvisGlobalIA";
 import { RetourForm } from "./RetourForm";
 import { RETOUR_VIDE } from "@/lib/retour";
+import { EVALUATION_VIDE } from "@/lib/evaluation";
+import { EvaluationForm } from "./EvaluationForm";
 import { CHAMPS_PROJET } from "@/lib/admin/avis-ia";
 import { commenceParCadre } from "@/lib/data-shared";
 import { ACCEPT_LIVRABLES } from "@/lib/livrables";
@@ -151,6 +153,8 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
           </section>
 
           <RetourForm valeur={p.retour ?? RETOUR_VIDE} onChange={(v) => set("retour", v)} projet={{ tags: p.tags, types: p.types, parcours: p.parcours, date: p.date }} />
+
+          <EvaluationForm valeur={p.evaluation ?? EVALUATION_VIDE} onChange={(v) => set("evaluation", v)} />
 
           <section className="adm-card" aria-labelledby="s-liens">
             <h2 className="adm-h2" id="s-liens">Liens et livrables</h2>

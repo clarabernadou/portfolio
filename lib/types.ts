@@ -59,6 +59,8 @@ export interface Project {
   captures?: ProjectCapture[];
   // Retour d'expérience (lib/retour.ts), seulement s'il a au moins un champ rempli.
   retour?: { difficultes: string; appris: string; ameliorations: string };
+  // Retour de l'évaluateur (lib/evaluation.ts), seulement s'il a au moins un champ rempli.
+  evaluation?: { mois: string; pointsForts: string; axes: string; remarque: string };
 }
 
 export interface IaStat {

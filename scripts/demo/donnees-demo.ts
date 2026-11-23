@@ -193,6 +193,11 @@ const projets: Projet[] = [
       capture(1, "Accueil de la médiathèque : actualités et nouveautés."),
     ],
     retour: retour("Trier 40 retours de lecteurs sans perdre les besoins des plus âgés.", "Animer un atelier de tri de cartes.", "Tester plus tôt la réservation sur mobile."),
+    // Retour de l'évaluateur (fictif) : plusieurs lignes → listes ; « Carnet de rando » n'en a pas (test Playwright).
+    evaluationMois: "juin 2025",
+    evaluationPointsForts: "Recherche utilisateur bien menée et restituée.\nMaquettes cohérentes avec le design system.",
+    evaluationAxes: "Justifier davantage les choix de navigation.",
+    evaluationRemarque: "Présentation claire, dans le temps imparti.",
     figma: "https://www.figma.com/design/exemple/mediatheque",
     context: "Projet de formation, mené en binôme sur 4 mois, avec une médiathèque fictive comme commanditaire.",
     skillsValidated: ["Mener une recherche utilisateur", "Concevoir un prototype"],
