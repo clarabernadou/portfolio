@@ -364,7 +364,7 @@ export function ProjetsView({ v }: { v: any }) {
                   <>
                     <section style={css(`border-radius: 22px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 24px; display: flex; flex-direction: column; gap: 12px`)}>
                       <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
-                        {"Compétences validées"}
+                        {"Compétences mises en pratique"}
                       </h2>
                       <ul style={css(`list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px`)}>
                         {v.cur.skills.map((k: any, i_k: number) => (

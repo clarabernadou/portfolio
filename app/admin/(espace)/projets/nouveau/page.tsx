@@ -17,10 +17,10 @@ export const dynamic = "force-dynamic";
 const MODELES: Record<string, { titre: string; texte: string; puces: string[]; data: Partial<ProjectInput>; note: string }> = {
   formation: {
     titre: "Projet de formation OpenClassrooms",
-    texte: "Type, cadre et compétences validées de la formation, livrables en PDF.",
+    texte: "Type, cadre et compétences mises en pratique de la formation, livrables en PDF.",
     puces: ["Cadre", "Compétences", "Livrables"],
     data: {},
-    note: "Choisis la formation dans « Cadre » : les compétences validées proposées viennent de ses autres projets.",
+    note: "Choisis la formation dans « Cadre » : les compétences mises en pratique proposées viennent de ses autres projets.",
   },
   audit: {
     titre: "Audit",

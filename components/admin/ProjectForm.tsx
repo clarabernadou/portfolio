@@ -70,7 +70,7 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
     });
 
   return (
-    <IaPage page={`Fiche projet « ${p.name || "nouveau projet"} » du portfolio · cadre : ${p.parcours || "non précisé"} · types : ${p.types.join(", ") || "non précisés"}`} infos={[`Accroche : ${p.line}`, `Contexte : ${p.context}`, `Tags : ${p.tags.join(", ")}`, `Étapes : ${p.steps.map((s) => `${s.label} (${s.status})`).join(" ; ")}`, `Compétences validées : ${p.skillsValidated.join(", ")}`, `Livrables : ${p.docs.map((d) => d.label).join(", ") || "aucun"}`, ...(p.site ? [`Site en ligne : ${p.site}`] : []), ...(p.figma ? ["Maquettes Figma : oui"] : [])].join("\n")} github={p.github ?? undefined}>
+    <IaPage page={`Fiche projet « ${p.name || "nouveau projet"} » du portfolio · cadre : ${p.parcours || "non précisé"} · types : ${p.types.join(", ") || "non précisés"}`} infos={[`Accroche : ${p.line}`, `Contexte : ${p.context}`, `Tags : ${p.tags.join(", ")}`, `Étapes : ${p.steps.map((s) => `${s.label} (${s.status})`).join(" ; ")}`, `Compétences mises en pratique : ${p.skillsValidated.join(", ")}`, `Livrables : ${p.docs.map((d) => d.label).join(", ") || "aucun"}`, ...(p.site ? [`Site en ligne : ${p.site}`] : []), ...(p.figma ? ["Maquettes Figma : oui"] : [])].join("\n")} github={p.github ?? undefined}>
     <>
       <div>
         <RetourProjets />
@@ -106,7 +106,7 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
                 fiche={{
                   objet: "projet",
                   page: `Fiche projet « ${p.name || "nouveau projet"} » du portfolio · cadre : ${p.parcours || "non précisé"} · types : ${p.types.join(", ") || "non précisés"}`,
-                  infos: [`Date : ${p.date || "non précisée"}`, `Étapes : ${p.steps.map((s) => `${s.label} (${s.status})`).join(" ; ") || "aucune"}`, `Compétences validées : ${p.skillsValidated.join(", ") || "aucune"}`, `Livrables : ${p.docs.map((d) => d.label).join(", ") || "aucun"}`, ...(p.site ? [`Site en ligne : ${p.site}`] : []), ...(p.figma ? ["Maquettes Figma : oui"] : [])].join("\n"),
+                  infos: [`Date : ${p.date || "non précisée"}`, `Étapes : ${p.steps.map((s) => `${s.label} (${s.status})`).join(" ; ") || "aucune"}`, `Compétences mises en pratique : ${p.skillsValidated.join(", ") || "aucune"}`, `Livrables : ${p.docs.map((d) => d.label).join(", ") || "aucun"}`, ...(p.site ? [`Site en ligne : ${p.site}`] : []), ...(p.figma ? ["Maquettes Figma : oui"] : [])].join("\n"),
                   github: p.github || undefined,
                   champs: [
                     { cle: "accroche", ...CHAMPS_PROJET.accroche, valeur: p.line },
@@ -140,13 +140,13 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
             {ouverture && <OuvertureContexte phrase={ouverture} texte={p.context} onInserer={(v) => set("context", v)} />}
             <TagInput label="Tags" value={p.tags} onChange={(v) => set("tags", v)} suggestions={tagSuggestions[p.parcours] ?? []} />
             <Checks
-              legend="Compétences validées"
+              legend="Compétences mises en pratique"
               options={skills}
               value={p.skillsValidated}
               onChange={(v) => set("skillsValidated", v)}
-              help={skills.length ? "Proposées d’après les autres projets du même cadre : coche celles que le projet valide." : "Aucune compétence proposée pour ce cadre : ajoute-les ci-dessous."}
+              help={skills.length ? "Proposées d’après les autres projets du même cadre : coche celles que le projet met en pratique." : "Aucune compétence proposée pour ce cadre : ajoute-les ci-dessous."}
             />
-            <TagInput label="Ajouter une compétence validée" value={[]} onChange={(v) => set("skillsValidated", [...p.skillsValidated, ...v.filter((x) => !p.skillsValidated.includes(x))])} />
+            <TagInput label="Ajouter une compétence mise en pratique" value={[]} onChange={(v) => set("skillsValidated", [...p.skillsValidated, ...v.filter((x) => !p.skillsValidated.includes(x))])} />
           </section>
 
           <RetourForm valeur={p.retour ?? RETOUR_VIDE} onChange={(v) => set("retour", v)} projet={{ tags: p.tags, types: p.types, parcours: p.parcours, date: p.date }} />
