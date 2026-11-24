@@ -9,6 +9,7 @@ import { slugify } from "@/lib/admin/projects";
 import { parseRepoUrl, siteDuDepot } from "@/lib/admin/github";
 import { CHAMPS_RETOUR, type Retour } from "@/lib/retour";
 import { colonnesEvaluation, type Evaluation } from "@/lib/evaluation";
+import { verifierCompetences } from "@/lib/competences";
 import { statusAEnregistrer, statutFiche, type StatutFiche } from "@/lib/admin/statut-projet";
 import { harmoniserGroupes } from "@/lib/captures-groupes";
 import { erreurLegende } from "@/lib/captures-legende";
@@ -109,6 +110,9 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
   // « evaluation » (brouillon local restauré, écrit avant le 23 nov. 2026), les colonnes ne sont pas touchées.
   const evaluation = input.evaluation ? colonnesEvaluation(input.evaluation) : ({ ok: true, data: {} } as const);
   if (!evaluation.ok) return { ok: false, error: evaluation.error };
+  // Compétences mises en pratique (lib/competences.ts) : doublons retirés (casse, accents), 80 caractères au plus.
+  const competences = verifierCompetences(input.skillsValidated ?? []);
+  if (!competences.ok) return { ok: false, error: competences.error };
 
   const existing = input.originalId ? await prisma.project.findUnique({ where: { id: input.originalId } }) : null;
   // Un champ modifié à la main est verrouillé : la synchronisation ne l'écrasera plus (§6.3).
@@ -132,7 +136,7 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
     line: input.line.trim(),
     context: input.context.trim(),
     tags: input.tags,
-    skillsValidated: input.skillsValidated,
+    skillsValidated: competences.data,
     github: input.github.trim() || null,
     figma: input.figma.trim() || null,
     site: input.site.trim() || null,

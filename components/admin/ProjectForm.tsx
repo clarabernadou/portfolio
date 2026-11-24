@@ -14,6 +14,7 @@ import { slugify } from "@/lib/admin/projects";
 import { IaPage } from "./AvisIA";
 import { AvisGlobalIA } from "./AvisGlobalIA";
 import { RetourForm } from "./RetourForm";
+import { AjoutCompetence } from "./AjoutCompetence";
 import { RETOUR_VIDE } from "@/lib/retour";
 import { EVALUATION_VIDE } from "@/lib/evaluation";
 import { EvaluationForm } from "./EvaluationForm";
@@ -154,7 +155,7 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
               onChange={(v) => set("skillsValidated", v)}
               help={skills.length ? "Proposées d’après les autres projets du même cadre : coche celles que le projet met en pratique." : "Aucune compétence proposée pour ce cadre : ajoute-les ci-dessous."}
             />
-            <TagInput label="Ajouter une compétence mise en pratique" value={[]} onChange={(v) => set("skillsValidated", [...p.skillsValidated, ...v.filter((x) => !p.skillsValidated.includes(x))])} />
+            <AjoutCompetence cochees={p.skillsValidated} proposees={skills} onChange={(v) => set("skillsValidated", v)} />
           </section>
 
           <RetourForm valeur={p.retour ?? RETOUR_VIDE} onChange={(v) => set("retour", v)} projet={{ tags: p.tags, types: p.types, parcours: p.parcours, date: p.date }} />
