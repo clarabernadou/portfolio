@@ -18,6 +18,7 @@ import { recommendations as recosJson } from "./content/recommendations";
 export type { HomeCard, SiteExperience, SiteFormation, SiteProfile, SiteProject, SiteReco } from "./data-shared";
 export { sortFeatured, homeProjects } from "./data-shared";
 import { avecCompteProjets } from "./data-shared";
+import { avecDimensions } from "./captures-dimensions";
 
 // Étape 9 : le site lit ses contenus dans la base (modifiables dans l'administration).
 // Sans DATABASE_URL (prévisualisation, tests), il lit les fichiers JSON d'origine :
@@ -92,7 +93,12 @@ async function getSiteProjectsSource(): Promise<SiteProject[]> {
     where: { deletedAt: null, visible: true, status: "published" },
     orderBy: [{ position: "asc" }, { createdAt: "desc" }],
   });
-  return plusRecentsDabord(rows.map(fromRow));
+  return plusRecentsDabord(await Promise.all(rows.map((r) => avecDimensionsCaptures(fromRow(r)))));
+}
+
+// Captures complétées de leurs dimensions réelles (format d'affichage selon le ratio, lib/captures-format.ts).
+async function avecDimensionsCaptures(p: SiteProject): Promise<SiteProject> {
+  return p.captures?.length ? { ...p, captures: await avecDimensions(p.captures) } : p;
 }
 
 // Aperçu d'un projet pour l'administration, quel que soit son statut (brouillon, privé ou publié).
@@ -100,7 +106,7 @@ async function getSiteProjectsSource(): Promise<SiteProject[]> {
 export async function getProjetApercu(id: string): Promise<SiteProject | null> {
   if (!hasDb()) return fromJson().find((p) => p.id === id) ?? null;
   const row = await (await prisma()).project.findFirst({ where: { id, deletedAt: null } });
-  return row ? fromRow(row) : null;
+  return row ? avecDimensionsCaptures(fromRow(row)) : null;
 }
 
 // Expériences, de la plus récente à la plus ancienne (ordre du CV).

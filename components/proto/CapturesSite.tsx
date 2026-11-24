@@ -6,6 +6,7 @@ import type { ProjectCapture } from "@/lib/types";
 import { filtreDepuisParam, filtresCaptures, PARAM_FILTRE } from "@/lib/captures-groupes";
 import { Visionneuse } from "./Visionneuse";
 import { legendeAffichee } from "@/lib/captures-legende";
+import { capturesMontrees, formatCapture } from "@/lib/captures-format";
 
 // Section « Captures du site » de la fiche projet (choix de Clara, 29 oct. 2026) : vignettes,
 // agrandies au clic dans la visionneuse commune aux livrables (Visionneuse.tsx).
@@ -16,6 +17,9 @@ import { legendeAffichee } from "@/lib/captures-legende";
 // suivantes sous un voile sombre (« +7 autres captures ») ; un clic ouvre la visionneuse sur la première d'entre
 // elles. Le nombre de colonnes est mesuré dans le navigateur : le rendu serveur (et la page sans JavaScript)
 // montre toujours toutes les captures.
+// Format selon le ratio (24 nov. 2026, lib/captures-format.ts) : un bandeau très large s'affiche entier sur toute la
+// largeur de la grille, une capture très haute entière sur 2 lignes ; jamais agrandis au-delà de leur taille native.
+// Les autres gardent leur case recadrée. L'ordre des captures, et donc celui de la tabulation, ne change pas.
 const LIGNES = 2;
 const NOMS = { un: "Capture", precedent: "Capture précédente", suivant: "Capture suivante" };
 
@@ -54,11 +58,11 @@ export function CapturesSite({ captures }: { captures: ProjectCapture[] }) {
     ro.observe(ul);
     return () => ro.disconnect();
   }, []);
-  // Cases affichées : 2 lignes, au moins 4 cases (mobile, une colonne). Le collage n'apparaît que s'il
-  // regroupe au moins 2 captures ; sinon tout est affiché.
-  const cases = colonnes ? Math.max(colonnes * LIGNES, 4) : n;
-  const collage = n > cases;
-  const montrees = collage ? cases - 1 : n;
+  // Cases affichées : 2 lignes, au moins 4 cases (mobile, une colonne) ; un bandeau pleine largeur ne compte
+  // pas. Le collage n'apparaît que s'il regroupe au moins 2 captures ; sinon tout est affiché.
+  const formats = visibles.map(formatCapture);
+  const montrees = capturesMontrees(formats, colonnes, LIGNES);
+  const collage = montrees < n;
   const cachees = visibles.slice(montrees);
 
   const choisir = (slug: string | null) => {
@@ -107,15 +111,26 @@ export function CapturesSite({ captures }: { captures: ProjectCapture[] }) {
       )}
       <ul ref={grille} role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 1rem`)}>
         {visibles.slice(0, montrees).map((c, i) => {
-          const vignette = (
-            <button type={"button"} onClick={() => setOuverte(i)} aria-haspopup={"dialog"} aria-label={c.alt ? `Agrandir la capture ${i + 1} sur ${n} : ${c.alt}` : `Agrandir la capture ${i + 1} sur ${n}`} style={css(`height: 200px; padding: 0; border-radius: 18px; border: 1px solid var(--bordure); background: var(--fond-section); overflow: hidden; cursor: zoom-in`)}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={c.url} alt={""} loading={"lazy"} style={css(`width: 100%; height: 100%; object-fit: cover; object-position: top; display: block`)} />
-            </button>
-          );
+          const format = formats[i];
+          const label = c.alt ? `Agrandir la capture ${i + 1} sur ${n} : ${c.alt}` : `Agrandir la capture ${i + 1} sur ${n}`;
+          const vignette =
+            format === "normal" ? (
+              <button type={"button"} onClick={() => setOuverte(i)} aria-haspopup={"dialog"} aria-label={label} style={css(`height: 200px; padding: 0; border-radius: 18px; border: 1px solid var(--bordure); background: var(--fond-section); overflow: hidden; cursor: zoom-in`)}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={c.url} alt={""} loading={"lazy"} style={css(`width: 100%; height: 100%; object-fit: cover; object-position: top; display: block`)} />
+              </button>
+            ) : (
+              // Image entière (contain), centrée sur le fond Brume, au plus à sa largeur native : jamais agrandie.
+              // Bandeau : hauteur naturelle. Capture haute : 2 lignes de la grille.
+              <button type={"button"} onClick={() => setOuverte(i)} aria-haspopup={"dialog"} aria-label={label} style={css(`${format === "haute" ? "height: calc(400px + 1rem); " : ""}padding: 12px; border-radius: 18px; border: 1px solid var(--bordure); background: var(--fond-section); overflow: hidden; cursor: zoom-in`)}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={c.url} alt={""} loading={"lazy"} width={c.largeur} height={c.hauteur} style={css(`display: block; margin: 0 auto; width: 100%; max-width: ${c.largeur}px; ${format === "haute" ? `height: 100%; max-height: ${c.hauteur}px` : "height: auto"}; object-fit: contain`)} />
+              </button>
+            );
           const legende = legendeAffichee(c);
+          const place = format === "large" ? "; grid-column: 1 / -1" : format === "haute" ? "; grid-row: span 2" : "";
           return (
-            <li key={c.url} className={filtres ? "captures-apparition" : undefined} style={css(`display: grid`)}>
+            <li key={c.url} className={filtres ? "captures-apparition" : undefined} style={css(`display: grid${place}`)}>
               {/* Légende (23 nov. 2026) : image et légende dans un figure role="figure" dont l'aria-label reprend
                   le figcaption (RGAA 4.1.2, critère 1.9). Sans légende, la vignette seule, comme avant. */}
               {legende ? (
