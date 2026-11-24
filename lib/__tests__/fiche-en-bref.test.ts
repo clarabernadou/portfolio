@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 import { colonnesEnBref, faitsEnBref, lireEnBref } from "@/lib/en-bref";
 
 describe("bandeau « en bref »", () => {
-  it("Cadre d'abord, puis seulement les champs remplis, dans l'ordre Rôle, Équipe, Durée", () => {
-    expect(faitsEnBref("UX Design", { role: "UX designer", equipe: "", duree: "4 mois" })).toEqual([
-      { libelle: "Cadre", valeur: "UX Design" },
+  it("seulement les champs remplis, dans l'ordre Rôle, Équipe, Durée ; aucun : pas de bandeau", () => {
+    expect(faitsEnBref({ role: "UX designer", equipe: "", duree: "4 mois" })).toEqual([
       { libelle: "Rôle", valeur: "UX designer" },
       { libelle: "Durée", valeur: "4 mois" },
     ]);
-    expect(faitsEnBref("Projet perso", undefined)).toEqual([{ libelle: "Cadre", valeur: "Projet perso" }]);
+    expect(faitsEnBref(undefined)).toEqual([]);
+    expect(faitsEnBref({ role: "  ", equipe: "", duree: "" })).toEqual([]);
   });
 
   it("lecture des colonnes nulles", () => {

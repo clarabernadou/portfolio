@@ -90,8 +90,8 @@ function detail(p: Project) {
     hasCaptures: !!p.captures?.length,
     retour: p.retour ?? null,
     evaluation: p.evaluation ?? null,
-    // Bandeau « en bref » : Cadre, Rôle, Équipe, Durée (lib/en-bref.ts).
-    faits: faitsEnBref(p.parcours, p.enBref),
+    // Bandeau « en bref » : Rôle, Équipe, Durée (lib/en-bref.ts).
+    faits: faitsEnBref(p.enBref),
     captures: (p.captures ?? []).map((c) => ({ ...c, url: asset(c.url) })),
     hasDocs: livrables(p).length > 0,
     docs: livrables(p).map((d) => ({ ...d, format: formatLivrable(d.href) })),
