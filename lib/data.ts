@@ -7,6 +7,7 @@ import { formations as formationsJson } from "./content/formations";
 import { alternances } from "./content/accueil";
 import { champsRemplis, lireRetour } from "./retour";
 import { evaluationAffichee, lireEvaluation } from "./evaluation";
+import { lireEnBref } from "./en-bref";
 import { avecAudit } from "./accessibilite";
 import { competencesEssentiel, identite, langues, profilCv } from "./content/profile";
 import liensJson from "@/data/liens.json";
@@ -82,6 +83,7 @@ function fromRow(r: ProjectRow): SiteProject {
     ...(r.captures ? { captures: r.captures as unknown as Project["captures"] } : {}),
     ...(champsRemplis(lireRetour(r.retour)) ? { retour: lireRetour(r.retour) } : {}),
     ...(evaluationAffichee(lireEvaluation(r)) ? { evaluation: evaluationAffichee(lireEvaluation(r))! } : {}),
+    ...(Object.values(lireEnBref(r)).some((x) => x.trim()) ? { enBref: lireEnBref(r) } : {}),
     ...(r.homeCard ? { homeCard: r.homeCard as unknown as HomeCard } : {}),
   };
 }

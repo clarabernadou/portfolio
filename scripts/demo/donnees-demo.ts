@@ -198,6 +198,10 @@ const projets: Projet[] = [
     evaluationPointsForts: "Recherche utilisateur bien menée et restituée.\nMaquettes cohérentes avec le design system.",
     evaluationAxes: "Justifier davantage les choix de navigation.",
     evaluationRemarque: "Présentation claire, dans le temps imparti.",
+    // Bandeau « en bref » (fictif) : rôle, équipe, durée ; les autres projets n'ont que le cadre.
+    role: "UX designer",
+    equipe: "En binôme",
+    duree: "4 mois",
     figma: "https://www.figma.com/design/exemple/mediatheque",
     context: "Projet de formation, mené en binôme sur 4 mois, avec une médiathèque fictive comme commanditaire.",
     skillsValidated: ["Mener une recherche utilisateur", "Concevoir un prototype"],

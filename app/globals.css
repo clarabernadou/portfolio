@@ -171,6 +171,12 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 @media (min-width: 640px){.ia-regles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (min-width: 1100px){.ia-regles{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .ia-regle{display:flex;flex-direction:column;gap:8px;padding:22px;background:#FFFFFF}
+/* Bandeau « en bref » de la fiche projet (24 nov. 2026) : Cadre, Rôle, Équipe, Durée, en cellules séparées par un filet ; 2 par ligne sur mobile. */
+.en-bref{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:1px;margin:0;background:var(--bordure);border:1px solid var(--bordure);border-radius:var(--r-lg);overflow:hidden}
+@media (max-width: 639px){.en-bref{grid-template-columns:repeat(2,minmax(0,1fr))}.en-bref > div:first-child:nth-last-child(odd){grid-column:1 / -1}}
+.en-bref > div{display:flex;flex-direction:column;gap:4px;padding:16px 20px;background:var(--fond)}
+.en-bref dt{font-size:13px;font-weight:700;color:var(--ardoise)}
+.en-bref dd{margin:0;font-size:16px;font-weight:700;line-height:1.4;color:var(--encre)}
 /* Fiche projet : contexte sur 2/3, avancement et compétences mises en pratique sur 1/3 à partir de 1024 px (colonne d'au moins 300 px) ; un bloc seul prend toute la largeur (20 nov. 2026). */
 .fiche-contexte{display:grid;grid-template-columns:minmax(0,1fr);gap:1.25rem;align-items:stretch}
 @media (min-width: 1024px){.fiche-contexte{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}.fiche-contexte > :only-child{grid-column:1 / -1}}

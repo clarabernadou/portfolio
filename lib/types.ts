@@ -65,6 +65,8 @@ export interface Project {
   retour?: { difficultes: string; appris: string; ameliorations: string };
   // Retour de l'évaluateur (lib/evaluation.ts), seulement s'il a au moins un champ rempli.
   evaluation?: { mois: string; pointsForts: string; axes: string; remarque: string };
+  // Bandeau « en bref » (lib/en-bref.ts) : rôle, équipe et durée, seulement si au moins un est rempli.
+  enBref?: { role: string; equipe: string; duree: string };
 }
 
 export interface IaStat {

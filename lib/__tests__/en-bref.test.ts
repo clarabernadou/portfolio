@@ -1,69 +1,28 @@
 import { describe, expect, it } from "vitest";
-import { avecCompteProjets, commenceParCadre, enBref, ligneFormation, phraseCadre } from "@/lib/data-shared";
+import { colonnesEnBref, faitsEnBref, lireEnBref } from "@/lib/en-bref";
 
-const formations = [
-  { intitule: "UX Design", projets: "Fin prévue en 2027", diplome: "Bac+3/4", statut: "En cours" as const },
-  { intitule: "Full Stack - Java & Angular", projets: "", diplome: "Bac+5", statut: "Obtenu" as const },
-  { intitule: "Application - JavaScript & React", projets: "", diplome: "Bac+3/4", statut: "Obtenu" as const },
-  { intitule: "Développeur Web", projets: "", diplome: "Bac+2", statut: "Obtenu" as const },
-];
-const publics = [
-  ...Array.from({ length: 11 }, () => ({ parcours: "Full Stack - Java & Angular" })),
-  { parcours: "Développeur Web" },
-  { parcours: "UX Design" },
-  { parcours: "Projet personnel" },
-];
+describe("bandeau « en bref »", () => {
+  it("Cadre d'abord, puis seulement les champs remplis, dans l'ordre Rôle, Équipe, Durée", () => {
+    expect(faitsEnBref("UX Design", { role: "UX designer", equipe: "", duree: "4 mois" })).toEqual([
+      { libelle: "Cadre", valeur: "UX Design" },
+      { libelle: "Rôle", valeur: "UX designer" },
+      { libelle: "Durée", valeur: "4 mois" },
+    ]);
+    expect(faitsEnBref("Projet perso", undefined)).toEqual([{ libelle: "Cadre", valeur: "Projet perso" }]);
+  });
 
-describe("enBref", () => {
-  it("compte les projets publiés, ceux de /projets", () => {
-    expect(enBref(formations, publics).projets).toEqual({ valeur: "14", libelle: "projets présentés sur ce site" });
+  it("lecture des colonnes nulles", () => {
+    expect(lireEnBref({ role: null, equipe: "En solo" })).toEqual({ role: "", equipe: "En solo", duree: "" });
   });
-  it("ajoute le total réalisé hors entreprise quand il dépasse les projets présentés", () => {
-    const fs = [{ diplome: "Bac+2", statut: "Obtenu" as const, intitule: "Développeur Web", projets: "7 projets réalisés" }, { diplome: "Bac+3/4", statut: "En cours" as const, intitule: "UX Design", projets: "8 projets validés sur 11" }];
-    expect(enBref(fs, [1, 2, 3], 4).projets).toEqual({ valeur: "3", libelle: "projets présentés sur ce site, sur 19 réalisés hors entreprise" });
-  });
-  it("met en avant le plus haut diplôme obtenu et sa formation", () => {
-    expect(enBref(formations, []).titres).toEqual({ valeur: "Bac+5", libelle: "Full Stack Java & Angular" });
-  });
-  it("ignore un diplôme en cours", () => {
-    expect(enBref([{ ...formations[1], statut: "En cours" as const }, formations[3]], []).titres?.valeur).toBe("Bac+2");
-  });
-  it("masque les cases sans donnée", () => {
-    expect(enBref([], [])).toEqual({ projets: null, titres: null });
-  });
-});
 
-describe("avecCompteProjets", () => {
-  const [ux, fs, react, web] = avecCompteProjets(formations, publics);
-  it("donne à chaque formation le nombre de ses projets publiés, comme le filtre de /projets", () => {
-    expect(fs.projets).toBe("11 projets");
-    expect(web.projets).toBe("1 projet");
-  });
-  it("garde la mention saisie dans l'administration à la place du nombre", () => {
-    expect(ux.projets).toBe("Fin prévue en 2027");
-  });
-  it("laisse la ligne vide sans projet publié, sans séparateur orphelin", () => {
-    expect(react.projets).toBe("");
-    expect(ligneFormation({ niveauComplet: "OpenClassrooms · Titre RNCP niveau 6", projets: react.projets })).toBe("OpenClassrooms · Titre RNCP niveau 6");
-    expect(ligneFormation({ niveauComplet: "OpenClassrooms", projets: fs.projets })).toBe("OpenClassrooms · 11 projets");
-  });
-});
-
-describe("phraseCadre", () => {
-  const formations = [{ intitule: "Développeur Web", nomOfficiel: "Développeur Web d'OpenClassrooms" }, { intitule: "UX Design" }];
-  it("donne la même formule pour chaque formation, avec son nom officiel", () => {
-    expect(phraseCadre("Développeur Web", formations)).toBe("Projet réalisé dans le cadre de la formation Développeur Web d'OpenClassrooms.");
-    expect(phraseCadre("UX Design", formations)).toBe("Projet réalisé dans le cadre de la formation UX Design.");
-  });
-  it("couvre les cadres hors formation", () => {
-    expect(phraseCadre("En entreprise", formations, "Fruggr")).toBe("Projet réalisé dans le cadre de mon alternance chez Fruggr.");
-    expect(phraseCadre("Projet personnel", formations)).toBe("Projet personnel, mené seule.");
-    expect(phraseCadre("Audit indépendant", formations)).toBe("Audit réalisé en indépendant.");
-    expect(phraseCadre("Autre", formations)).toBeNull();
-  });
-  it("reconnaît un contexte qui commence déjà par la phrase", () => {
-    expect(commenceParCadre("Projet personnel,  mené seule. Suite", "Projet personnel, mené seule.")).toBe(true);
-    expect(commenceParCadre("Projet réalisé dans le cadre de la formation Développeur Web d’OpenClassrooms. J'ai", "Projet réalisé dans le cadre de la formation Développeur Web d'OpenClassrooms.")).toBe(true);
-    expect(commenceParCadre("Dans le cadre de ma formation", "Projet personnel, mené seule.")).toBe(false);
+  it("enregistrement : espaces nettoyés, champ vide à null, limite refusée", () => {
+    expect(colonnesEnBref({ role: "  Développeuse   front-end ", equipe: "", duree: "6 semaines" })).toEqual({
+      ok: true,
+      data: { role: "Développeuse front-end", equipe: null, duree: "6 semaines" },
+    });
+    const r = colonnesEnBref({ role: "x".repeat(81), equipe: "", duree: "" });
+    expect(r.ok).toBe(false);
+    expect(!r.ok && r.error).toBe("« Rôle » dépasse 80 caractères (81).");
+    expect(colonnesEnBref({ duree: "x".repeat(41) }).ok).toBe(false);
   });
 });

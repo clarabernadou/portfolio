@@ -7,6 +7,7 @@ import { Visionneuse, type ElementVisionneuse } from "./Visionneuse";
 import type { Project } from "@/lib/types";
 import { sortFeatured, type SiteProject } from "@/lib/data-shared";
 import { formatLivrable } from "@/lib/livrables";
+import { faitsEnBref } from "@/lib/en-bref";
 
 // Logique reprise du renderVals() de docs/passation/prototype-source/projets.source.html.
 // Les projets viennent de la base (lib/data.ts), passés par la page serveur.
@@ -89,6 +90,8 @@ function detail(p: Project) {
     hasCaptures: !!p.captures?.length,
     retour: p.retour ?? null,
     evaluation: p.evaluation ?? null,
+    // Bandeau « en bref » : Cadre, Rôle, Équipe, Durée (lib/en-bref.ts).
+    faits: faitsEnBref(p.parcours, p.enBref),
     captures: (p.captures ?? []).map((c) => ({ ...c, url: asset(c.url) })),
     hasDocs: livrables(p).length > 0,
     docs: livrables(p).map((d) => ({ ...d, format: formatLivrable(d.href) })),

@@ -318,10 +318,6 @@ export function ProjetsView({ v }: { v: any }) {
                   <span>{v.cur.line}</span>
                 </p>
                 {" "}
-                <span style={css(`font-size: 17px; font-weight: 700; color: #6A4FB6`)}>
-                  <span>{v.cur.parcours}</span>
-                </span>
-                {" "}
                 <ul role={"list"} aria-label={"Technologies et livrables"} className={"liste-nue"} style={css(`display: flex; gap: 6px; flex-wrap: wrap`)}>
                   {v.cur.tags.map((t: any, i_t: number) => (
                       <li key={i_t} style={css(`padding: 3px 8px; border-radius: 6px; background: #F3EFFF; color: #5B5470; font-size: 13px; font-weight: 600`)}>
@@ -386,6 +382,22 @@ export function ProjetsView({ v }: { v: any }) {
                 {" "}
               </header>
               {" "}
+              {/* Bandeau « en bref » (24 nov. 2026, lib/en-bref.ts) : Cadre (l'ancienne ligne du parcours), Rôle, Équipe, Durée. */}
+              {v.cur.faits.length > 0 && (
+                <section aria-labelledby={"en-bref"}>
+                  <h2 id={"en-bref"} className={"visuellement-masque"}>
+                    {"Le projet en bref"}
+                  </h2>
+                  <dl className={"en-bref"}>
+                    {v.cur.faits.map((f: { libelle: string; valeur: string }) => (
+                      <div key={f.libelle}>
+                        <dt>{f.libelle}</dt>
+                        <dd>{f.valeur}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              )}
               {/* Contexte à gauche sur 2/3 ; à droite sur 1/3, avancement puis compétences, dès 1024 px (24 nov. 2026). En
                   dessous, contexte, avancement puis compétences. Un bloc seul prend toute la largeur (.fiche-contexte). Chaque
                   avancement et compétences ne restent à côté que s’ils tiennent dans la hauteur du contexte (coteAuContexte). */}
