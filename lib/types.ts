@@ -26,6 +26,10 @@ export interface ProjectCapture {
   groupe?: string;
   // Légende facultative, 160 caractères au plus (lib/captures-legende.ts) : jamais sur une image décorative.
   legende?: string;
+  // Dimensions réelles en pixels (lib/captures-dimensions.ts), lues à la construction de la page, jamais
+  // enregistrées en base : elles choisissent le format d'affichage (lib/captures-format.ts).
+  largeur?: number;
+  hauteur?: number;
 }
 
 export interface ProjectVideo {
