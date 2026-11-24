@@ -317,36 +317,8 @@ export function ProjetsView({ v }: { v: any }) {
                 {" "}
               </header>
               {" "}
-              {v.cur.hasSteps && (
-                <>
-                  <section style={css(`border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: clamp(1.25rem, 3vw, 2rem)`)}>
-                    <h2 style={css(`margin: 0 0 8px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 28px; font-weight: 800; letter-spacing: -0.03em`)}>
-                      {"Avancement"}
-                    </h2>
-                    <ol style={css(`list-style: none; margin: 0; padding: 0 18px; background: #FFFFFF; border-radius: 16px`)}>
-                      {v.cur.steps.map((s: any, i_s: number) => (
-                        <Fragment key={i_s}>
-                          <li style={css(`display: flex; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; font-weight: 700`)}>
-                            <span aria-hidden={"true"} style={css(`width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #6A4FB6; background: ${s.bg}; color: ${s.fg}; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0`)}>
-                              <span>{s.mark}</span>
-                            </span>
-                            {" "}
-                            <span style={css(`flex-grow: 1`)}>
-                              <span>{s.label}</span>
-                            </span>
-                            {" "}
-                            <span style={css(`font-size: 13px; font-weight: 700; color: #5B5470`)}>
-                              <span>{s.state}</span>
-                            </span>
-                          </li>
-                        </Fragment>
-                      ))}
-                    </ol>
-                  </section>
-                </>
-              )}
-              {" "}
-              {/* Contexte sur 2/3, compétences sur 1/3 dès 1024 px ; un bloc seul prend toute la largeur (.fiche-contexte, 20 nov. 2026). */}
+              {/* Contexte à gauche sur 2/3 ; à droite sur 1/3, avancement puis compétences, dès 1024 px (24 nov. 2026). En
+                  dessous, contexte, avancement puis compétences. Un bloc seul prend toute la largeur (.fiche-contexte). */}
               <div className={"fiche-contexte"}>
                 {" "}
                 {v.cur.hasCtx && (
@@ -361,31 +333,62 @@ export function ProjetsView({ v }: { v: any }) {
                   </>
                 )}
                 {" "}
-                {v.cur.hasSkills && (
-                  <>
-                    <section style={css(`border-radius: 22px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 24px; display: flex; flex-direction: column; gap: 12px`)}>
-                      <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
-                        {"Compétences mises en pratique"}
-                      </h2>
-                      <ul style={css(`list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px`)}>
-                        {v.cur.skills.map((k: any, i_k: number) => (
-                          <Fragment key={i_k}>
-                            <li style={css(`display: flex; gap: 10px; font-size: 16px; line-height: 1.5`)}>
-                              <span aria-hidden={"true"} style={css(`width: 20px; height: 20px; margin-top: 2px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0`)}>
-                                {"✓"}
-                              </span>
-                              {" "}
-                              <span>
-                                <span>{k}</span>
-                              </span>
-                            </li>
-                          </Fragment>
-                        ))}
-                      </ul>
-                    </section>
-                  </>
+                {(v.cur.hasSteps || v.cur.hasSkills) && (
+                  <div className={"fiche-cote"}>
+                  {v.cur.hasSteps && (
+                    <>
+                      <section style={css(`border-radius: 22px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 24px`)}>
+                        <h2 style={css(`margin: 0 0 8px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+                          {"Avancement"}
+                        </h2>
+                        <ol style={css(`list-style: none; margin: 0; padding: 0 18px; background: #FFFFFF; border-radius: 16px`)}>
+                          {v.cur.steps.map((s: any, i_s: number) => (
+                            <Fragment key={i_s}>
+                              <li style={css(`display: flex; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; font-weight: 700`)}>
+                                <span aria-hidden={"true"} style={css(`width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #6A4FB6; background: ${s.bg}; color: ${s.fg}; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0`)}>
+                                  <span>{s.mark}</span>
+                                </span>
+                                {" "}
+                                <span style={css(`flex-grow: 1`)}>
+                                  <span>{s.label}</span>
+                                </span>
+                                {" "}
+                                <span style={css(`font-size: 13px; font-weight: 700; color: #5B5470`)}>
+                                  <span>{s.state}</span>
+                                </span>
+                              </li>
+                            </Fragment>
+                          ))}
+                        </ol>
+                      </section>
+                    </>
+                  )}
+                    {v.cur.hasSkills && (
+                      <>
+                        <section style={css(`border-radius: 22px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 24px; display: flex; flex-direction: column; gap: 12px`)}>
+                          <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+                            {"Compétences mises en pratique"}
+                          </h2>
+                          <ul style={css(`list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px`)}>
+                            {v.cur.skills.map((k: any, i_k: number) => (
+                              <Fragment key={i_k}>
+                                <li style={css(`display: flex; gap: 10px; font-size: 16px; line-height: 1.5`)}>
+                                  <span aria-hidden={"true"} style={css(`width: 20px; height: 20px; margin-top: 2px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0`)}>
+                                    {"✓"}
+                                  </span>
+                                  {" "}
+                                  <span>
+                                    <span>{k}</span>
+                                  </span>
+                                </li>
+                              </Fragment>
+                            ))}
+                          </ul>
+                        </section>
+                      </>
+                    )}
+                  </div>
                 )}
-                {" "}
               </div>
               {" "}
               {v.cur.hasVideos && (
