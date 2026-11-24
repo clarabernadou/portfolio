@@ -440,7 +440,7 @@
    "titre": "Dans chaque page web, chaque liste est-elle correctement structurée ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Corrigé : cartes, étiquettes et liens sociaux balisés en listes (role=\"list\") ; informations des mentions légales en liste de définitions. Retour de l’évaluateur : points forts et axes d’amélioration en liste (ul) dès qu’ils ont plusieurs lignes, en paragraphe sinon (23 nov. 2026). Bandeau « en bref » de la fiche projet (24 nov. 2026) : cadre, rôle, équipe et durée en liste de définitions (dl, dt, dd)."
+   "constat": "Corrigé : cartes, étiquettes et liens sociaux balisés en listes (role=\"list\") ; informations des mentions légales en liste de définitions. Retour de l’évaluateur : points forts et axes d’amélioration en liste (ul) dès qu’ils ont plusieurs lignes, en paragraphe sinon (23 nov. 2026). Bandeau « en bref » de la fiche projet (24 nov. 2026) : rôle, équipe et durée en liste de définitions (dl, dt, dd) ; dans l'en-tête, le séparateur « | » entre la date et le cadre est masqué aux lecteurs d'écran."
   },
   {
    "n": "9.4",
