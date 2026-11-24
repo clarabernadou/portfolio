@@ -12,14 +12,15 @@ import { RetourExperience } from "./RetourExperience";
 import { RetourEvaluateur } from "./RetourEvaluateur";
 import { TexteFormate } from "@/lib/texte-formate";
 import { PAPILLON } from "./papillon";
+import { coteAuContexte } from "@/lib/fiche-disposition";
 
 // Généré depuis docs/passation/prototype-source/projets.source.html
 // (scripts/tools/gen.mjs) : markup et styles recopiés à l'identique.
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Avancement et compétences mises en pratique de la fiche (24 nov. 2026). Jusqu'à 6 éléments : colonne de droite, à côté du
-// contexte. Au-delà (« long ») : pleine largeur sous le contexte, en 2 colonnes dès 760 px (.liste-deux-colonnes, lues
-// colonne par colonne), pour que le contexte ne s'étire pas et ne laisse pas de vide.
-const LONGUE_LISTE = 6;
+// Avancement et compétences mises en pratique de la fiche (24 nov. 2026). À côté du contexte, à la même hauteur, quand
+// elles tiennent dans sa hauteur (lib/fiche-disposition.ts) ; sinon (« long ») en pleine largeur sous le contexte, en
+// 2 colonnes dès 760 px (.liste-deux-colonnes, lues colonne par colonne). Filets seulement entre deux étapes d'une même
+// colonne (.etape + .etape ; .debut-colonne pour la première de la 2e colonne).
 const lignes = (long: boolean, n: number) => (long ? ({ "--lignes": String(Math.ceil(n / 2)) } as React.CSSProperties) : {});
 
 function Avancement({ steps, long }: { steps: any[]; long: boolean }) {
@@ -31,7 +32,7 @@ function Avancement({ steps, long }: { steps: any[]; long: boolean }) {
         <ol className={long ? "liste-deux-colonnes" : undefined} style={{ ...css(`list-style: none; margin: 0; padding: 0 18px; background: #FFFFFF; border-radius: 16px`), ...lignes(long, steps.length) }}>
           {steps.map((s: any, i_s: number) => (
             <Fragment key={i_s}>
-              <li style={css(`display: flex; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; font-weight: 700`)}>
+              <li className={long && i_s === Math.ceil(steps.length / 2) ? "etape debut-colonne" : "etape"} style={css(`display: flex; align-items: center; gap: 12px; padding: 14px 0; font-size: 16px; font-weight: 700`)}>
                 <span aria-hidden={"true"} style={css(`width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #6A4FB6; background: ${s.bg}; color: ${s.fg}; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0`)}>
                   <span>{s.mark}</span>
                 </span>
@@ -77,6 +78,14 @@ function Competences({ skills, long }: { skills: string[]; long: boolean }) {
 }
 
 export function ProjetsView({ v }: { v: any }) {
+  // Colonne de droite à côté du contexte, ou en pleine largeur dessous (lib/fiche-disposition.ts).
+  const cote = v.cur
+    ? coteAuContexte({
+        ctx: v.cur.hasCtx ? String(v.cur.ctx ?? "") : "",
+        etapes: v.cur.hasSteps ? v.cur.steps.map((s: any) => String(s.label ?? "")) : [],
+        competences: v.cur.hasSkills ? v.cur.skills.map(String) : [],
+      })
+    : false;
   return (
     <>
       <main id={"contenu"} tabIndex={-1} style={css(`width: var(--container); margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 0 4.5rem`)}>
@@ -379,7 +388,7 @@ export function ProjetsView({ v }: { v: any }) {
               {" "}
               {/* Contexte à gauche sur 2/3 ; à droite sur 1/3, avancement puis compétences, dès 1024 px (24 nov. 2026). En
                   dessous, contexte, avancement puis compétences. Un bloc seul prend toute la largeur (.fiche-contexte). Chaque
-                  bloc garde la hauteur de son contenu ; une liste de plus de 6 éléments passe sous la grille (Avancement). */}
+                  avancement et compétences ne restent à côté que s’ils tiennent dans la hauteur du contexte (coteAuContexte). */}
               <div className={"fiche-contexte"}>
                 {" "}
                 {v.cur.hasCtx && (
@@ -394,15 +403,15 @@ export function ProjetsView({ v }: { v: any }) {
                   </>
                 )}
                 {" "}
-                {((v.cur.hasSteps && v.cur.steps.length <= LONGUE_LISTE) || (v.cur.hasSkills && v.cur.skills.length <= LONGUE_LISTE)) && (
+                {cote && (
                   <div className={"fiche-cote"}>
-                    {v.cur.hasSteps && v.cur.steps.length <= LONGUE_LISTE && <Avancement steps={v.cur.steps} long={false} />}
-                    {v.cur.hasSkills && v.cur.skills.length <= LONGUE_LISTE && <Competences skills={v.cur.skills} long={false} />}
+                    {v.cur.hasSteps && <Avancement steps={v.cur.steps} long={false} />}
+                    {v.cur.hasSkills && <Competences skills={v.cur.skills} long={false} />}
                   </div>
                 )}
               </div>
-              {v.cur.hasSteps && v.cur.steps.length > LONGUE_LISTE && <Avancement steps={v.cur.steps} long />}
-              {v.cur.hasSkills && v.cur.skills.length > LONGUE_LISTE && <Competences skills={v.cur.skills} long />}
+              {!cote && v.cur.hasSteps && <Avancement steps={v.cur.steps} long />}
+              {!cote && v.cur.hasSkills && <Competences skills={v.cur.skills} long />}
               {" "}
               {v.cur.hasVideos && (
                 <>

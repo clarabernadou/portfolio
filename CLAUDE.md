@@ -62,7 +62,7 @@ IA de l'administration (4 novembre 2026) : Gemini (offre gratuite) reste le bout
 - Largeur de contenu fluide (20 novembre 2026) : variables `--gutter` et `--container` de `app/globals.css` pour l'en-tête, les sections et le pied de page ; `npm run test:largeurs` vérifie l'absence de défilement horizontal de 320 à 2560 px.
 - Aucun texte tronqué : ni `line-clamp`, ni points de suspension.
 - Le pied de page touche toujours le bas : de l'écran quand la page est courte, de la page sinon. Jamais de bande blanche sous le pied de page (mise en page en colonne flexible sur 100dvh dans `app/layout.tsx`).
-- Points de rupture : 1024 px (fiche projet : contexte à gauche, avancement puis compétences à droite, chaque carte à la hauteur de son contenu ; une liste de plus de 6 éléments passe en pleine largeur sous le contexte, en 2 colonnes dès 760 px ; en dessous de 1024 px, contexte, avancement puis compétences, 24 novembre 2026), 900 px (burger), 760 px (frise des formations), 640 px (panneau design system masqué).
+- Points de rupture : 1024 px (fiche projet : contexte à gauche, avancement puis compétences à droite, à la même hauteur, seulement s'ils tiennent dans la hauteur du contexte, estimée au rendu par `lib/fiche-disposition.ts` ; sinon, ou au-delà de 6 éléments, pleine largeur sous le contexte, en 2 colonnes dès 760 px ; filets seulement entre deux étapes ; en dessous de 1024 px, contexte, avancement puis compétences, 24 novembre 2026), 900 px (burger), 760 px (frise des formations), 640 px (panneau design system masqué).
 - Vérifier à 1440, 1024, 768 et 390 px avant de déclarer une page terminée.
 
 ## Sécurité
