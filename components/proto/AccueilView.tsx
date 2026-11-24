@@ -183,27 +183,6 @@ export function AccueilView({ v }: { v: any }) {
                     </span>
                   </div>
                   {" "}
-                  {/* Boutons et étiquettes du site (20 nov. 2026) : primaire et secondaire ; technologie, information,
-                      statuts (règles de CLAUDE.md). Exemples visuels, pas des boutons cliquables. */}
-                  <div style={css(`flex: 1 1 170px; border-radius: 16px; background: #FFFFFF; padding: 14px; display: flex; flex-direction: column; justify-content: center; gap: 10px`)}>
-                    <div style={css(`display: flex; align-items: center; gap: 8px; flex-wrap: wrap`)}>
-                      <span style={css(`padding: 8px 14px; border-radius: 999px; background: #6A4FB6; border: 1.5px solid #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 700`)}>
-                        {"Bouton primaire"}
-                      </span>
-                      {" "}
-                      <span style={css(`padding: 8px 14px; border-radius: 999px; background: #FFFFFF; border: 1.5px solid #1A1033; color: #1A1033; font-size: 13px; font-weight: 700`)}>
-                        {"Bouton secondaire"}
-                      </span>
-                    </div>
-                    {" "}
-                    <div style={css(`display: flex; align-items: center; gap: 6px; flex-wrap: wrap`)}>
-                      <span style={css(`padding: 3px 8px; border-radius: 6px; font-size: 13px; font-weight: 700; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6`)}>{"Technologie"}</span>{" "}
-                      <span style={css(`padding: 3px 8px; border-radius: 6px; font-size: 13px; font-weight: 700; background: #F3EFFF; color: #1A1033`)}>{"Information"}</span>{" "}
-                      <span style={css(`padding: 3px 8px; border-radius: 6px; font-size: 13px; font-weight: 700; background: #E7F6EE; color: #067647; font-weight: 800`)}>{"Obtenu"}</span>{" "}
-                      <span style={css(`padding: 3px 8px; border-radius: 6px; font-size: 13px; font-weight: 700; background: #FFFFFF; border: 1.5px dashed #6A4FB6; color: #6A4FB6; font-weight: 800`)}>{"En cours"}</span>
-                    </div>
-                  </div>
-                  {" "}
                 </div>
                 {" "}
               </div>
