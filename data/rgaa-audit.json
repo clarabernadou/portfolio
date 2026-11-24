@@ -424,7 +424,7 @@
    "titre": "Dans chaque page web, l’information est-elle structurée par l’utilisation appropriée de titres ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Corrigé : hiérarchie de titres sans saut (h1, h2, h3, h4) ; postes, formations, groupes de compétences et étapes balisés en titres ; titre « Liste des projets » ajouté. Fiche projet : « Retour de l’évaluateur » en h2 à la suite de « Retour d’expérience », un h3 par champ rempli, aucun titre sans contenu (23 nov. 2026)."
+   "constat": "Corrigé : hiérarchie de titres sans saut (h1, h2, h3, h4) ; postes, formations, groupes de compétences et étapes balisés en titres ; titre « Liste des projets » ajouté. Fiche projet : « Retour de l’évaluateur » en h2 à la suite de « Retour d’expérience », un h3 par champ rempli, aucun titre sans contenu (23 nov. 2026). Bandeau « en bref » de la fiche projet (24 nov. 2026) : section introduite par un titre h2 « Le projet en bref », masqué visuellement, entre le h1 et les h2 suivants."
   },
   {
    "n": "9.2",
@@ -440,7 +440,7 @@
    "titre": "Dans chaque page web, chaque liste est-elle correctement structurée ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Corrigé : cartes, étiquettes et liens sociaux balisés en listes (role=\"list\") ; informations des mentions légales en liste de définitions. Retour de l’évaluateur : points forts et axes d’amélioration en liste (ul) dès qu’ils ont plusieurs lignes, en paragraphe sinon (23 nov. 2026)."
+   "constat": "Corrigé : cartes, étiquettes et liens sociaux balisés en listes (role=\"list\") ; informations des mentions légales en liste de définitions. Retour de l’évaluateur : points forts et axes d’amélioration en liste (ul) dès qu’ils ont plusieurs lignes, en paragraphe sinon (23 nov. 2026). Bandeau « en bref » de la fiche projet (24 nov. 2026) : cadre, rôle, équipe et durée en liste de définitions (dl, dt, dd)."
   },
   {
    "n": "9.4",
