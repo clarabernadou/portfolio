@@ -59,9 +59,11 @@ export function AccueilView({ v }: { v: any }) {
             {" "}
           </div>
           {" "}
+          {/* Panneau à sa hauteur naturelle (24 nov. 2026, sans la carte des boutons et étiquettes) : cartes à leur taille
+              d'origine, panneau centré verticalement sur le texte (align-items: center de la section). */}
           <div className={"ds-panel"} style={css(`flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px`)}>
             {" "}
-            <div style={css(`border-radius: 28px; overflow: hidden; box-shadow: 0 8px 24px rgba(26,16,51,0.08); min-height: 430px; display: flex; flex-direction: column`)}>
+            <div style={css(`border-radius: 28px; overflow: hidden; box-shadow: 0 8px 24px rgba(26,16,51,0.08); display: flex; flex-direction: column`)}>
               {" "}
               <div style={css(`flex-grow: 1; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 18px; display: flex; flex-direction: column; gap: 14px`)}>
                 {" "}
@@ -77,7 +79,7 @@ export function AccueilView({ v }: { v: any }) {
                   </span>
                 </div>
                 {" "}
-                <div style={css(`display: flex; flex-wrap: wrap; gap: 12px; flex-grow: 1`)}>
+                <div style={css(`display: flex; flex-wrap: wrap; gap: 12px`)}>
                   {" "}
                   <div style={css(`flex: 1 1 150px; min-height: 150px; border-radius: 16px; background: #FFFFFF; display: flex; align-items: center; justify-content: center`)}>
                     <svg viewBox={"95 107 920 920"} width={"120"} height={"120"} role={"img"} aria-label={"Logo papillon de Clara Bernadou"} style={css(`flex-shrink: 0;`)}>
