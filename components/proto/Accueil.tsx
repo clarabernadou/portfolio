@@ -14,7 +14,9 @@ function cards(home: SiteProject[], section: string) {
       name: p.name,
       eyebrow: p.homeCard?.eyebrow ?? p.parcours,
       line: p.homeCard?.line ?? p.line,
-      tags: p.homeCard?.tags ?? p.tags,
+      // Toutes les étiquettes du projet, celles choisies pour la carte d'accueil d'abord (24 nov. 2026) : la carte en
+      // montre autant que la largeur le permet, puis « +N », comme dans la bibliothèque de projets (EtiquettesCarte).
+      tags: [...new Set([...(p.homeCard?.tags ?? []), ...p.tags])],
     }));
 }
 
