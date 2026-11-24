@@ -298,6 +298,12 @@ export function ProjetsView({ v }: { v: any }) {
                   </ul>{" "}
                   <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470; margin-left: 4px`)}>
                     <span>{v.cur.date}</span>
+                    {/* Cadre (parcours) après la date, derrière un séparateur décoratif (24 nov. 2026). */}
+                    <span aria-hidden={"true"} style={css(`margin: 0 8px; color: #B9A8EC`)}>
+                      {"|"}
+                    </span>
+                    <span className={"visuellement-masque"}>{", "}</span>
+                    <span>{v.cur.parcours}</span>
                   </span>
                 </div>
                 {" "}
@@ -373,7 +379,7 @@ export function ProjetsView({ v }: { v: any }) {
                 {" "}
               </header>
               {" "}
-              {/* Bandeau « en bref » (24 nov. 2026, lib/en-bref.ts) : Cadre (l'ancienne ligne du parcours), Rôle, Équipe, Durée. */}
+              {/* Bandeau « en bref » (24 nov. 2026, lib/en-bref.ts) : Rôle, Équipe, Durée, seulement s'il y en a au moins un. */}
               {v.cur.faits.length > 0 && (
                 <section aria-labelledby={"en-bref"}>
                   <h2 id={"en-bref"} className={"visuellement-masque"}>
