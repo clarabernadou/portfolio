@@ -221,25 +221,14 @@ export function ProjetsView({ v }: { v: any }) {
                       {" "}
                       <div style={css(`padding: 24px; display: flex; flex-direction: column; gap: 9px; flex-grow: 1`)}>
                         {" "}
-                        <div style={css(`display: flex; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 700; color: #5B5470`)}>
-                          <span style={css(`letter-spacing: 0.06em; text-transform: uppercase`)}>
-                            <span>{p.type}</span>
-                          </span>
-                          {" "}
-                          <span>
-                            <span>{p.date}</span>
-                          </span>
-                        </div>
+                        {/* Cadre · date, comme sur toutes les cartes de projet (24 nov. 2026). */}
+                        <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{[p.parcours, p.date].filter(Boolean).join(" · ")}</span>
                         {" "}
                         <h3 id={`carte-projet-${i_p}`} tabIndex={-1} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1`)}>
                           <Link href={p.href} className={"titre-lien"}>
                             {p.name}
                           </Link>
                         </h3>
-                        {" "}
-                        <span style={css(`font-size: 14px; font-weight: 700; color: #6A4FB6`)}>
-                          <span>{p.parcours}</span>
-                        </span>
                         {" "}
                         <p style={css(`margin: 0; font-size: 15px; line-height: 1.5; color: #5B5470`)}>
                           <span>{p.line}</span>

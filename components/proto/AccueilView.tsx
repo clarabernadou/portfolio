@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { css } from "@/lib/css";
 import { FlecheExterne } from "./FlecheExterne";
-import { EtiquettesCarte } from "./EtiquettesCarte";
+import { CartePhare } from "./CartePhare";
 import { CarteAlternance, FormationsCourtes, FriseFormation } from "./Parcours";
 import { Lieu } from "./Lieu";
 import { Recommandations } from "./Recommandations";
@@ -276,27 +276,10 @@ export function AccueilView({ v }: { v: any }) {
             {" "}
             <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
               {v.homeEntreprise.map((c: any) => (
-                <li key={c.id}>
-                  <Link href={`/projets/${c.id}`} style={css(`text-decoration: none; color: #1A1033; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; padding: 24px; display: flex; flex-direction: column; gap: 12px; height: 100%; box-sizing: border-box`)}>
-                    {" "}
-                    <div style={css(`display: flex; justify-content: space-between; align-items: center; gap: 8px`)}>
-                      <span style={css(`font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
-                        {c.eyebrow}
-                      </span>
-                    </div>
-                    {" "}
-                    <h4 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: break-word`)}>
-                      {c.name}
-                    </h4>
-                    {" "}
-                    <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470; overflow-wrap: break-word`)}>
-                      {c.line}
-                    </span>
-                    {" "}
-                    <EtiquettesCarte tags={c.tags} />
-                    {" "}
-                    <span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>
-                  </Link>
+                <li key={c.id} style={css(`display: grid`)}>
+                  {/* Même carte que les projets phares de /projets (24 nov. 2026), sans badge ni visuel : cadre · date,
+                      titre, phrase, étiquettes avec « +N », lien vers la fiche. */}
+                  <CartePhare id={`accueil-${c.id}`} titre={c.name} resume={c.line} tags={c.tags} href={`/projets/${c.id}`} image={null} niveauTitre={"h4"} infos={[c.parcours, c.date]} verticale badge={false} />
                 </li>
               ))}
             </ul>
@@ -312,27 +295,10 @@ export function AccueilView({ v }: { v: any }) {
             {" "}
             <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
               {v.homeDev.map((c: any) => (
-                <li key={c.id}>
-                  <Link href={`/projets/${c.id}`} style={css(`text-decoration: none; color: #1A1033; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; padding: 24px; display: flex; flex-direction: column; gap: 12px; height: 100%; box-sizing: border-box`)}>
-                    {" "}
-                    <div style={css(`display: flex; justify-content: space-between; align-items: center; gap: 8px`)}>
-                      <span style={css(`font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
-                        {c.eyebrow}
-                      </span>
-                    </div>
-                    {" "}
-                    <h4 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: break-word`)}>
-                      {c.name}
-                    </h4>
-                    {" "}
-                    <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470; overflow-wrap: break-word`)}>
-                      {c.line}
-                    </span>
-                    {" "}
-                    <EtiquettesCarte tags={c.tags} />
-                    {" "}
-                    <span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>
-                  </Link>
+                <li key={c.id} style={css(`display: grid`)}>
+                  {/* Même carte que les projets phares de /projets (24 nov. 2026), sans badge ni visuel : cadre · date,
+                      titre, phrase, étiquettes avec « +N », lien vers la fiche. */}
+                  <CartePhare id={`accueil-${c.id}`} titre={c.name} resume={c.line} tags={c.tags} href={`/projets/${c.id}`} image={null} niveauTitre={"h4"} infos={[c.parcours, c.date]} verticale badge={false} />
                 </li>
               ))}
             </ul>
@@ -348,27 +314,10 @@ export function AccueilView({ v }: { v: any }) {
             {" "}
             <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem`)}>
               {v.homeDesign.map((c: any) => (
-                <li key={c.id}>
-                  <Link href={`/projets/${c.id}`} style={css(`text-decoration: none; color: #1A1033; border-radius: 22px; background: #FFFFFF; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; padding: 24px; display: flex; flex-direction: column; gap: 12px; height: 100%; box-sizing: border-box`)}>
-                    {" "}
-                    <div style={css(`display: flex; justify-content: space-between; align-items: center; gap: 8px`)}>
-                      <span style={css(`font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
-                        {c.eyebrow}
-                      </span>
-                    </div>
-                    {" "}
-                    <h4 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: break-word`)}>
-                      {c.name}
-                    </h4>
-                    {" "}
-                    <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470; overflow-wrap: break-word`)}>
-                      {c.line}
-                    </span>
-                    {" "}
-                    <EtiquettesCarte tags={c.tags} />
-                    {" "}
-                    <span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>
-                  </Link>
+                <li key={c.id} style={css(`display: grid`)}>
+                  {/* Même carte que les projets phares de /projets (24 nov. 2026), sans badge ni visuel : cadre · date,
+                      titre, phrase, étiquettes avec « +N », lien vers la fiche. */}
+                  <CartePhare id={`accueil-${c.id}`} titre={c.name} resume={c.line} tags={c.tags} href={`/projets/${c.id}`} image={null} niveauTitre={"h4"} infos={[c.parcours, c.date]} verticale badge={false} />
                 </li>
               ))}
             </ul>

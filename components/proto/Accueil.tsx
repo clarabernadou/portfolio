@@ -12,7 +12,9 @@ function cards(home: SiteProject[], section: string) {
     .map((p) => ({
       id: p.id,
       name: p.name,
-      eyebrow: p.homeCard?.eyebrow ?? p.parcours,
+      // Cadre · date, comme sur toutes les cartes de projet (24 nov. 2026).
+      parcours: p.parcours,
+      date: p.date,
       line: p.homeCard?.line ?? p.line,
       // Toutes les étiquettes du projet, celles choisies pour la carte d'accueil d'abord (24 nov. 2026) : la carte en
       // montre autant que la largeur le permet, puis « +N », comme dans la bibliothèque de projets (EtiquettesCarte).

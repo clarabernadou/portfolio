@@ -21,6 +21,7 @@ export function CartePhare({
   liens,
   infos,
   verticale = false,
+  badge = true,
 }: {
   id: string;
   titre: string;
@@ -28,12 +29,14 @@ export function CartePhare({
   tags: string[];
   href: string;
   image: { url: string; alt: string } | null;
-  niveauTitre?: "h2" | "h3";
+  niveauTitre?: "h2" | "h3" | "h4";
   liens?: ReactNode;
   /** Cadre et date (« Projet personnel », « nov. 2026 · en cours »), à côté du badge (20 nov. 2026). */
   infos?: string[];
   /** Carte en colonne, sans visuel (les 2 phares sous la grande carte de /projets, 20 nov. 2026) ; sinon visuel à droite. */
   verticale?: boolean;
+  /** Badge « PROJET PHARE » ; masqué pour les cartes de l'accueil (24 nov. 2026). */
+  badge?: boolean;
 }) {
   const Titre = niveauTitre;
   const reste = etiquettesRestantes(tags);
@@ -49,7 +52,7 @@ export function CartePhare({
     <article style={css(verticale ? `position: relative; display: flex; flex-direction: column; gap: 22px; height: 100%; box-sizing: border-box; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; overflow: hidden` : `position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px; align-items: center; border-radius: 24px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; overflow: hidden`)}>
       <div style={css(`display: flex; flex-direction: column; gap: 12px; flex-grow: 1`)}>
         <div style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 8px`)}>
-          <span style={css(`padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"PROJET PHARE"}</span>
+          {badge && <span style={css(`padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"PROJET PHARE"}</span>}
           {infos?.filter(Boolean).length ? <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{infos.filter(Boolean).join(" · ")}</span> : null}
         </div>
         <Titre id={`${id}-titre`} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(26px, 3vw, 32px); font-weight: 800; letter-spacing: -0.03em`)}>
