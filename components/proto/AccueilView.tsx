@@ -60,8 +60,9 @@ export function AccueilView({ v }: { v: any }) {
           </div>
           {" "}
           {/* Panneau à sa hauteur naturelle (24 nov. 2026, sans la carte des boutons et étiquettes) : cartes à leur taille
-              d'origine, panneau centré verticalement sur le texte (align-items: center de la section). */}
-          <div className={"ds-panel"} style={css(`flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px`)}>
+              d'origine, panneau centré verticalement sur le texte (align-items: center de la section), avec 56 px de marge au-dessus
+              et au-dessous pour garder l'aération de l'ancien panneau de 472 px. */}
+          <div className={"ds-panel"} style={css(`flex: 1 1 380px; min-width: 0; margin: 3.5rem 0; display: flex; flex-direction: column; gap: 14px`)}>
             {" "}
             <div style={css(`border-radius: 28px; overflow: hidden; box-shadow: 0 8px 24px rgba(26,16,51,0.08); display: flex; flex-direction: column`)}>
               {" "}
