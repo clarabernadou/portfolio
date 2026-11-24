@@ -16,6 +16,66 @@ import { PAPILLON } from "./papillon";
 // Généré depuis docs/passation/prototype-source/projets.source.html
 // (scripts/tools/gen.mjs) : markup et styles recopiés à l'identique.
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// Avancement et compétences mises en pratique de la fiche (24 nov. 2026). Jusqu'à 6 éléments : colonne de droite, à côté du
+// contexte. Au-delà (« long ») : pleine largeur sous le contexte, en 2 colonnes dès 760 px (.liste-deux-colonnes, lues
+// colonne par colonne), pour que le contexte ne s'étire pas et ne laisse pas de vide.
+const LONGUE_LISTE = 6;
+const lignes = (long: boolean, n: number) => (long ? ({ "--lignes": String(Math.ceil(n / 2)) } as React.CSSProperties) : {});
+
+function Avancement({ steps, long }: { steps: any[]; long: boolean }) {
+  return (
+    <section style={css(`border-radius: 22px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 24px`)}>
+        <h2 style={css(`margin: 0 0 8px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+          {"Avancement"}
+        </h2>
+        <ol className={long ? "liste-deux-colonnes" : undefined} style={{ ...css(`list-style: none; margin: 0; padding: 0 18px; background: #FFFFFF; border-radius: 16px`), ...lignes(long, steps.length) }}>
+          {steps.map((s: any, i_s: number) => (
+            <Fragment key={i_s}>
+              <li style={css(`display: flex; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; font-weight: 700`)}>
+                <span aria-hidden={"true"} style={css(`width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #6A4FB6; background: ${s.bg}; color: ${s.fg}; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0`)}>
+                  <span>{s.mark}</span>
+                </span>
+                {" "}
+                <span style={css(`flex-grow: 1`)}>
+                  <span>{s.label}</span>
+                </span>
+                {" "}
+                <span style={css(`font-size: 13px; font-weight: 700; color: #5B5470`)}>
+                  <span>{s.state}</span>
+                </span>
+              </li>
+            </Fragment>
+          ))}
+        </ol>
+      </section>
+  );
+}
+
+function Competences({ skills, long }: { skills: string[]; long: boolean }) {
+  return (
+    <section style={css(`border-radius: 22px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 24px; display: flex; flex-direction: column; gap: 12px`)}>
+        <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+          {"Compétences mises en pratique"}
+        </h2>
+        <ul className={long ? "liste-deux-colonnes" : undefined} style={{ ...css(long ? `list-style: none; margin: 0; padding: 0; gap: 10px 32px` : `list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px`), ...lignes(long, skills.length) }}>
+          {skills.map((k: any, i_k: number) => (
+            <Fragment key={i_k}>
+              <li style={css(`display: flex; gap: 10px; font-size: 16px; line-height: 1.5`)}>
+                <span aria-hidden={"true"} style={css(`width: 20px; height: 20px; margin-top: 2px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0`)}>
+                  {"✓"}
+                </span>
+                {" "}
+                <span>
+                  <span>{k}</span>
+                </span>
+              </li>
+            </Fragment>
+          ))}
+        </ul>
+      </section>
+  );
+}
+
 export function ProjetsView({ v }: { v: any }) {
   return (
     <>
@@ -318,7 +378,8 @@ export function ProjetsView({ v }: { v: any }) {
               </header>
               {" "}
               {/* Contexte à gauche sur 2/3 ; à droite sur 1/3, avancement puis compétences, dès 1024 px (24 nov. 2026). En
-                  dessous, contexte, avancement puis compétences. Un bloc seul prend toute la largeur (.fiche-contexte). */}
+                  dessous, contexte, avancement puis compétences. Un bloc seul prend toute la largeur (.fiche-contexte). Chaque
+                  bloc garde la hauteur de son contenu ; une liste de plus de 6 éléments passe sous la grille (Avancement). */}
               <div className={"fiche-contexte"}>
                 {" "}
                 {v.cur.hasCtx && (
@@ -333,63 +394,15 @@ export function ProjetsView({ v }: { v: any }) {
                   </>
                 )}
                 {" "}
-                {(v.cur.hasSteps || v.cur.hasSkills) && (
+                {((v.cur.hasSteps && v.cur.steps.length <= LONGUE_LISTE) || (v.cur.hasSkills && v.cur.skills.length <= LONGUE_LISTE)) && (
                   <div className={"fiche-cote"}>
-                  {v.cur.hasSteps && (
-                    <>
-                      <section style={css(`border-radius: 22px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 24px`)}>
-                        <h2 style={css(`margin: 0 0 8px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
-                          {"Avancement"}
-                        </h2>
-                        <ol style={css(`list-style: none; margin: 0; padding: 0 18px; background: #FFFFFF; border-radius: 16px`)}>
-                          {v.cur.steps.map((s: any, i_s: number) => (
-                            <Fragment key={i_s}>
-                              <li style={css(`display: flex; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; font-weight: 700`)}>
-                                <span aria-hidden={"true"} style={css(`width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #6A4FB6; background: ${s.bg}; color: ${s.fg}; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0`)}>
-                                  <span>{s.mark}</span>
-                                </span>
-                                {" "}
-                                <span style={css(`flex-grow: 1`)}>
-                                  <span>{s.label}</span>
-                                </span>
-                                {" "}
-                                <span style={css(`font-size: 13px; font-weight: 700; color: #5B5470`)}>
-                                  <span>{s.state}</span>
-                                </span>
-                              </li>
-                            </Fragment>
-                          ))}
-                        </ol>
-                      </section>
-                    </>
-                  )}
-                    {v.cur.hasSkills && (
-                      <>
-                        <section style={css(`border-radius: 22px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 24px; display: flex; flex-direction: column; gap: 12px`)}>
-                          <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
-                            {"Compétences mises en pratique"}
-                          </h2>
-                          <ul style={css(`list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px`)}>
-                            {v.cur.skills.map((k: any, i_k: number) => (
-                              <Fragment key={i_k}>
-                                <li style={css(`display: flex; gap: 10px; font-size: 16px; line-height: 1.5`)}>
-                                  <span aria-hidden={"true"} style={css(`width: 20px; height: 20px; margin-top: 2px; border-radius: 50%; background: #6A4FB6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0`)}>
-                                    {"✓"}
-                                  </span>
-                                  {" "}
-                                  <span>
-                                    <span>{k}</span>
-                                  </span>
-                                </li>
-                              </Fragment>
-                            ))}
-                          </ul>
-                        </section>
-                      </>
-                    )}
+                    {v.cur.hasSteps && v.cur.steps.length <= LONGUE_LISTE && <Avancement steps={v.cur.steps} long={false} />}
+                    {v.cur.hasSkills && v.cur.skills.length <= LONGUE_LISTE && <Competences skills={v.cur.skills} long={false} />}
                   </div>
                 )}
               </div>
+              {v.cur.hasSteps && v.cur.steps.length > LONGUE_LISTE && <Avancement steps={v.cur.steps} long />}
+              {v.cur.hasSkills && v.cur.skills.length > LONGUE_LISTE && <Competences skills={v.cur.skills} long />}
               {" "}
               {v.cur.hasVideos && (
                 <>
