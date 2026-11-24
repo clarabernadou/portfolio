@@ -214,7 +214,7 @@ export function ProjetsView({ v }: { v: any }) {
                 )}
               </div>
               {" "}
-              <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 1.25rem`)}>
+              <ul role={"list"} className={"liste-nue grille-projets"}>
                 {v.shown.map((p: any, i_p: number) => (
                   <li key={i_p} style={css(`display: grid`)}>
                     <article style={css(`position: relative; border-radius: 20px; background: #FFFFFF; border: 1px solid #E4DCF7; overflow: hidden; display: flex; flex-direction: column`)}>
