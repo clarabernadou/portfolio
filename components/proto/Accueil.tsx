@@ -12,7 +12,9 @@ function cards(home: SiteProject[], section: string) {
     .map((p) => ({
       id: p.id,
       name: p.name,
-      eyebrow: p.homeCard?.eyebrow ?? p.parcours,
+      // Cadre · date, comme sur toutes les cartes de projet (24 nov. 2026).
+      parcours: p.parcours,
+      date: p.date,
       line: p.homeCard?.line ?? p.line,
       tags: p.homeCard?.tags ?? p.tags,
     }));
