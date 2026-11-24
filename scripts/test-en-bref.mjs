@@ -22,7 +22,7 @@ for (const largeur of [1440, 390]) {
   const f = await faits(page);
   ok(f.length === 3 && f[0] === "Rôle : UX designer" && f[1] === "Équipe : En binôme" && f[2] === "Durée : 4 mois", `[${largeur}] médiathèque : ${f.join(" · ")}`);
   const entete = await page.locator("main header").first().innerText();
-  ok(/\|\s*Bachelor Concepteur UX/.test(entete), `[${largeur}] cadre dans l'en-tête, après la date`);
+  ok(/\|[\s,]*Bachelor Concepteur UX/.test(entete), `[${largeur}] cadre dans l'en-tête, après la date`);
   ok((await page.getByRole("heading", { level: 2, name: "Le projet en bref" }).count()) === 1, `[${largeur}] titre de section (masqué visuellement)`);
   const sw = await page.evaluate(() => document.documentElement.scrollWidth);
   ok(sw <= largeur, `[${largeur}] pas de défilement horizontal (${sw} px)`);
