@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { phraseCadre } from "@/lib/data-shared";
 import { lireRetour, RETOUR_VIDE } from "@/lib/retour";
 import { EVALUATION_VIDE, lireEvaluation } from "@/lib/evaluation";
+import { EN_BREF_VIDE, lireEnBref } from "@/lib/en-bref";
 import type { ProjectInput } from "./actions";
 import type { ProjectFormProps } from "@/components/admin/ProjectForm";
 
@@ -30,6 +31,7 @@ export function toInput(r: Row): ProjectInput {
     captures: (r.captures as { url: string; alt: string; decorative?: boolean; groupe?: string; legende?: string }[] | null) ?? [],
     retour: lireRetour(r.retour),
     evaluation: lireEvaluation(r),
+    enBref: lireEnBref(r),
     visible: r.visible,
     onHome: r.onHome,
     featured: r.featured,
@@ -59,6 +61,7 @@ export const EMPTY: ProjectInput = {
   captures: [],
   retour: RETOUR_VIDE,
   evaluation: EVALUATION_VIDE,
+  enBref: EN_BREF_VIDE,
   visible: true,
   onHome: false,
   featured: false,

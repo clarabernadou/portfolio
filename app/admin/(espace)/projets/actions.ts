@@ -9,6 +9,7 @@ import { slugify } from "@/lib/admin/projects";
 import { parseRepoUrl, siteDuDepot } from "@/lib/admin/github";
 import { CHAMPS_RETOUR, type Retour } from "@/lib/retour";
 import { colonnesEvaluation, type Evaluation } from "@/lib/evaluation";
+import { colonnesEnBref, type EnBref } from "@/lib/en-bref";
 import { statusAEnregistrer, statutFiche, type StatutFiche } from "@/lib/admin/statut-projet";
 import { harmoniserGroupes } from "@/lib/captures-groupes";
 import { erreurLegende } from "@/lib/captures-legende";
@@ -37,6 +38,7 @@ export interface ProjectInput {
   captures: { url: string; alt: string; decorative?: boolean; groupe?: string; legende?: string }[];
   retour: Retour;
   evaluation: Evaluation;
+  enBref?: EnBref;
   visible: boolean;
   onHome: boolean;
   featured: boolean;
@@ -109,6 +111,9 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
   // « evaluation » (brouillon local restauré, écrit avant le 23 nov. 2026), les colonnes ne sont pas touchées.
   const evaluation = input.evaluation ? colonnesEvaluation(input.evaluation) : ({ ok: true, data: {} } as const);
   if (!evaluation.ok) return { ok: false, error: evaluation.error };
+  // Bandeau « en bref » (lib/en-bref.ts) : même principe ; sans le champ (ancien brouillon local), colonnes inchangées.
+  const enBref = input.enBref ? colonnesEnBref(input.enBref) : ({ ok: true, data: {} } as const);
+  if (!enBref.ok) return { ok: false, error: enBref.error };
 
   const existing = input.originalId ? await prisma.project.findUnique({ where: { id: input.originalId } }) : null;
   // Un champ modifié à la main est verrouillé : la synchronisation ne l'écrasera plus (§6.3).
@@ -145,6 +150,7 @@ export async function saveProject(input: ProjectInput): Promise<SaveResult> {
     // Textes coupés à la longueur conseillée ×2 : le formulaire signale le dépassement sans bloquer.
     retour: Object.fromEntries(CHAMPS_RETOUR.map((c) => [c.cle, (input.retour?.[c.cle] ?? "").trim().slice(0, c.max * 2)])),
     ...evaluation.data,
+    ...enBref.data,
     visible: input.visible,
     onHome: input.onHome,
     featured: input.featured,

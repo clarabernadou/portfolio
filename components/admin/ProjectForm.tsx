@@ -16,6 +16,7 @@ import { AvisGlobalIA } from "./AvisGlobalIA";
 import { RetourForm } from "./RetourForm";
 import { RETOUR_VIDE } from "@/lib/retour";
 import { EVALUATION_VIDE } from "@/lib/evaluation";
+import { CHAMPS_EN_BREF, EN_BREF_VIDE } from "@/lib/en-bref";
 import { EvaluationForm } from "./EvaluationForm";
 import { messageEnregistrement } from "@/lib/admin/statut-projet";
 import { CHAMPS_PROJET } from "@/lib/admin/avis-ia";
@@ -101,6 +102,11 @@ export function ProjectForm({ initial, cadres, ouvertures, types: TYPES, tagSugg
               <TextField label="Adresse de la page" value={p.id} onChange={(v) => set("id", slugify(v))} help={`/projets/${p.id || "…"}${autoSlug ? " · automatique" : ""}`} />
               <TextField label="Date" value={p.date} onChange={(v) => set("date", v)} help="Texte libre : « août 2026 », « projet perso », « oct. 2026 · en cours »." />
               <SelectField label="Cadre" required value={p.parcours} onChange={(v) => set("parcours", v)} options={cadres} placeholder="Choisir…" help="Formation, audit, entreprise ou projet perso." />
+              {/* Bandeau « en bref » de la fiche (lib/en-bref.ts, 24 nov. 2026) : Cadre, puis ces 3 champs facultatifs. */}
+              {CHAMPS_EN_BREF.map((c) => {
+                const e = p.enBref ?? EN_BREF_VIDE;
+                return <TextField key={c.cle} label={`${c.libelle} (facultatif)`} value={e[c.cle]} onChange={(v) => set("enBref", { ...e, [c.cle]: v })} placeholder={c.exemple} help={`${c.aide} Affiché dans le bandeau « en bref » de la fiche. ${e[c.cle].length} / ${c.max} caractères.`} />;
+              })}
             </div>
             <Checks legend="Types" options={TYPES} value={p.types} onChange={(v) => set("types", v)} help="Un projet peut avoir plusieurs types." />
           </section>
