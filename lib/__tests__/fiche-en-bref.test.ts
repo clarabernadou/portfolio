@@ -26,3 +26,24 @@ describe("bandeau « en bref »", () => {
     expect(colonnesEnBref({ duree: "x".repeat(41) }).ok).toBe(false);
   });
 });
+
+// Bandeau sur toutes les fiches (retour de Clara du 25 novembre 2026) : Type, Cadre et Date depuis l'en-tête, puis Rôle,
+// Équipe et Durée quand ils sont remplis.
+import { faitsFiche } from "@/lib/en-bref";
+describe("faitsFiche", () => {
+  it("existe sans Rôle, Équipe ni Durée, et les ajoute quand ils sont remplis", () => {
+    expect(faitsFiche({ types: ["Développement"], parcours: "Bachelor UX", date: "mars 2025" }, undefined)).toEqual([
+      { libelle: "Type", valeur: "Développement" },
+      { libelle: "Cadre", valeur: "Bachelor UX" },
+      { libelle: "Date", valeur: "mars 2025" },
+    ]);
+    expect(
+      faitsFiche({ types: ["Développement", "UX / UI"], parcours: "", date: "2026 · en cours" }, { role: "Développeuse", equipe: "En solo", duree: "" }),
+    ).toEqual([
+      { libelle: "Types", valeur: "Développement, UX / UI" },
+      { libelle: "Date", valeur: "2026 · en cours" },
+      { libelle: "Rôle", valeur: "Développeuse" },
+      { libelle: "Équipe", valeur: "En solo" },
+    ]);
+  });
+});

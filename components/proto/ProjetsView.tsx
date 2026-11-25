@@ -290,25 +290,7 @@ export function ProjetsView({ v }: { v: any }) {
               {" "}
               <header style={css(`display: flex; flex-direction: column; gap: 12px`)}>
                 {" "}
-                <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 8px`)}>
-                  <ul role={"list"} aria-label={"Types de projet"} className={"liste-nue"} style={css(`display: flex; flex-wrap: wrap; gap: 8px`)}>
-                    {v.cur.types.map((ty: any, i_ty: number) => (
-                      <li key={i_ty} style={css(`padding: 5px 10px; border-radius: 8px; background: #F3EFFF; color: #6A4FB6; font-size: 13px; font-weight: 700`)}>
-                        {ty}
-                      </li>
-                    ))}
-                  </ul>{" "}
-                  <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470; margin-left: 4px`)}>
-                    <span>{v.cur.date}</span>
-                    {/* Cadre (parcours) après la date, derrière un séparateur décoratif (24 nov. 2026). */}
-                    <span aria-hidden={"true"} style={css(`margin: 0 8px; color: #B9A8EC`)}>
-                      {"|"}
-                    </span>
-                    <span className={"visuellement-masque"}>{", "}</span>
-                    <span>{v.cur.parcours}</span>
-                  </span>
-                </div>
-                {" "}
+                {/* Types, date et cadre : dans le bandeau « en bref » sous l'en-tête (25 nov. 2026). */}
                 <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 64px); font-weight: 800; letter-spacing: -0.045em; line-height: 1`)}>
                   <span>{v.cur.name}</span>
                 </h1>
@@ -381,7 +363,8 @@ export function ProjetsView({ v }: { v: any }) {
                 {" "}
               </header>
               {" "}
-              {/* Bandeau « en bref » (24 nov. 2026, lib/en-bref.ts) : Rôle, Équipe, Durée, seulement s'il y en a au moins un. */}
+              {/* Bandeau « en bref » (lib/en-bref.ts), sur toutes les fiches depuis le 25 nov. 2026 : Type, Cadre, Date, puis Rôle,
+                  Équipe, Durée quand ils sont remplis. */}
               {v.cur.faits.length > 0 && (
                 <section aria-labelledby={"en-bref"}>
                   <h2 id={"en-bref"} className={"visuellement-masque"}>

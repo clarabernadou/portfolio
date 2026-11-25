@@ -172,9 +172,10 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 @media (min-width: 1100px){.ia-regles{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .ia-regle{display:flex;flex-direction:column;gap:8px;padding:22px;background:#FFFFFF}
 /* Bandeau « en bref » de la fiche projet (24 nov. 2026) : Rôle, Équipe, Durée, en cellules séparées par un filet ; 2 par ligne sur mobile. */
-.en-bref{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:1px;margin:0;background:var(--bordure);border:1px solid var(--bordure);border-radius:var(--r-lg);overflow:hidden}
-@media (max-width: 639px){.en-bref{grid-template-columns:repeat(2,minmax(0,1fr))}.en-bref > div:first-child:nth-last-child(odd){grid-column:1 / -1}}
-.en-bref > div{display:flex;flex-direction:column;gap:4px;padding:16px 20px;background:var(--fond)}
+/* Bandeau « en bref » (25 nov. 2026) : 3 cases par ligne au plus (2 sur mobile) ; celles de la dernière ligne s'étirent, sans case vide. */
+.en-bref{display:flex;flex-wrap:wrap;gap:1px;margin:0;background:var(--bordure);border:1px solid var(--bordure);border-radius:var(--r-lg);overflow:hidden}
+.en-bref > div{box-sizing:border-box;flex:1 1 calc(33.333% - 1px);min-width:0;display:flex;flex-direction:column;gap:4px;padding:16px 20px;background:var(--fond)}
+@media (max-width: 639px){.en-bref > div{flex-basis:calc(50% - 1px)}}
 .en-bref dt{font-size:13px;font-weight:700;color:var(--ardoise)}
 .en-bref dd{margin:0;font-size:16px;font-weight:700;line-height:1.4;color:var(--encre)}
 /* Liste « Tous les projets » de /projets (24 nov. 2026) : 3 cartes par ligne au plus, pour laisser de la place à la ligne « Cadre · date », aux étiquettes et aux descriptions ; 2 puis 1 quand la largeur manque (cartes de 300 px au moins). */
