@@ -4,7 +4,7 @@
 // La base est partagée avec le site en ligne : par défaut, simulation. Avec --appliquer : sauvegarde des valeurs
 // d'avant dans backups/roles-avant-en-bref.json, puis écriture. Retour arrière : --restaurer.
 // Usage : npx tsx scripts/maj-roles-en-bref.ts [--appliquer | --restaurer]
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 process.loadEnvFile(".env.local");
 const { db } = await import("../lib/db");
 const prisma = db();
@@ -41,6 +41,7 @@ if (!process.argv.includes("--appliquer")) {
   console.log(`\nSimulation : ${a_ecrire.length} fiche(s) à écrire, rien n'est écrit. Relancer avec --appliquer.`);
   process.exit(0);
 }
+await mkdir("backups", { recursive: true });
 await writeFile(SAUVEGARDE, JSON.stringify(Object.fromEntries(a_ecrire.map((f) => [f.id, f.role ?? null])), null, 2));
 for (const f of a_ecrire) await prisma.project.update({ where: { id: f.id }, data: { role: ROLES[f.id] } });
 console.log(`\nÉcrit : ${a_ecrire.length} fiche(s). Sauvegarde : ${SAUVEGARDE}.`);
