@@ -242,12 +242,11 @@ export function CarteAlternance({ e }: { e: SiteExperience }) {
   const id = `carte-${ancreExperience(e)}`;
   return (
     <article style={css(`position: relative; height: 100%; box-sizing: border-box; border-radius: 20px; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 8px; border: ${actuel ? "2px solid #6A4FB6" : "2px solid transparent"}`)}>
-      {/* Comme les cartes de projet (25 nov. 2026) : badge du poste actuel et ligne d'infos grise au-dessus du titre, sur
-          une même ligne pour que les titres des cartes voisines restent alignés (le badge passe au-dessus si la place manque). */}
-      <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-height: 24px`)}>
-        {actuel && <span style={css(`padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"AUJOURD’HUI"}</span>}
-        <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{[e.periode, e.homeCard?.lieuMode ?? e.lieuMode].filter(Boolean).join(" · ")}</span>
-      </div>
+      {/* Badge du poste actuel posé sur la bordure Améthyste du haut, décalé du coin (25 nov. 2026) : il ne prend pas de
+          place dans la carte, les titres des cartes voisines restent alignés. Puis la ligne d'infos grise au-dessus du titre,
+          comme les cartes de projet. */}
+      {actuel && <span style={css(`position: absolute; top: 0; left: 24px; transform: translateY(-50%); padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em; line-height: 1.4`)}>{"AUJOURD’HUI"}</span>}
+      <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{[e.periode, e.homeCard?.lieuMode ?? e.lieuMode].filter(Boolean).join(" · ")}</span>
       <div>
         <h4 id={`${id}-titre`} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1`)}>
           {e.entreprise}
