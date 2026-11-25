@@ -165,6 +165,8 @@ export function ProjetsView({ v }: { v: any }) {
                     <Fragment key={i_c}>
                       <button type={"button"} aria-pressed={c.on} onClick={c.pick} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #6A4FB6; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; background: ${c.bg}; color: ${c.fg}`)}>
                         <span>{c.label}</span>{" "}
+                        {/* séparateur entre le nom et le nombre (retour de Clara du 25 novembre 2026), muet pour les lecteurs d'écran */}
+                        <span aria-hidden={"true"}>{"·"}</span>{" "}
                         <span style={css(`opacity: 0.9`)}>
                           <span>{c.n}</span>
                         </span>
@@ -183,6 +185,8 @@ export function ProjetsView({ v }: { v: any }) {
                     <Fragment key={i_c}>
                       <button type={"button"} aria-pressed={c.on} onClick={c.pick} style={css(`min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #6A4FB6; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; background: ${c.bg}; color: ${c.fg}`)}>
                         <span>{c.label}</span>{" "}
+                        {/* séparateur entre le nom et le nombre (retour de Clara du 25 novembre 2026), muet pour les lecteurs d'écran */}
+                        <span aria-hidden={"true"}>{"·"}</span>{" "}
                         <span style={css(`opacity: 0.9`)}>
                           <span>{c.n}</span>
                         </span>
