@@ -2,6 +2,7 @@
 // « Alternance · Pontoise, full remote », comme la carte Fruggr (« Alternance · Nantes, full remote ») et comme le CV
 // (lieu « Pontoise, full remote »). Rien d'autre ne change. Simulation par défaut ; --appliquer après npm run db:backup.
 // Usage : npx tsx scripts/maj-carbonscore-lieu.ts [--appliquer]
+export {};
 process.loadEnvFile(".env.local");
 const { db } = await import("../lib/db");
 const prisma = db();
