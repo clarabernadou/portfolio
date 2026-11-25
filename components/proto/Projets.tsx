@@ -63,7 +63,9 @@ const lienNomme = (p: Project) => (formatLivrable(p.pdf) === "Lien" && p.docs.fi
 function detail(p: Project) {
   return {
     ...p,
-    hasPdf: !!p.pdf,
+    // « Tous les livrables » retiré de l'en-tête (retour de Clara du 25 nov. 2026) : les livrables sont déjà dans
+    // « Démarche et livrables ». Restent un lien nommé vers une page précise, et le bouton d'une fiche sans cette section.
+    hasPdf: !!p.pdf && (!!lienNomme(p) || livrables(p).length === 0),
     pdfh: p.pdf,
     pdfFormat: formatLivrable(p.pdf),
     // Une page en ligne déjà listée dans les livrables (documentation de l’API de WatchedThis) garde son nom ;
