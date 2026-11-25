@@ -358,16 +358,19 @@ export function AccueilView({ v }: { v: any }) {
             </ul>
             </div>
             {" "}
-            <div style={css(`display: flex; flex-direction: column; gap: 22px; padding: 28px; border-radius: 24px; background: #FFFFFF`)}>
+            {/* Surtitre hors de la carte, comme « Expériences professionnelles » et « Formations courtes » (25 nov. 2026). */}
+            <div style={css(`display: flex; flex-direction: column; gap: 14px`)}>
               <h3 style={css(`margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5470`)}>
                 {"Formations OpenClassrooms"}
               </h3>
               {" "}
-              <ol className={"tl"} aria-label={"Formations OpenClassrooms, de la plus ancienne à la plus récente"}>
-                {v.frise.map((f: any, i_f: number) => (
-                  <FriseFormation key={i_f} f={f} />
-                ))}
-              </ol>
+              <div style={css(`padding: 28px; border-radius: 24px; background: #FFFFFF`)}>
+                <ol className={"tl"} aria-label={"Formations OpenClassrooms, de la plus ancienne à la plus récente"}>
+                  {v.frise.map((f: any, i_f: number) => (
+                    <FriseFormation key={i_f} f={f} />
+                  ))}
+                </ol>
+              </div>
             </div>
             {/* Formations courtes (20 nov. 2026) : une rangée de cartes sous la frise, comme les expériences. */}
             <FormationsCourtes items={v.courtes ?? []} integre />
