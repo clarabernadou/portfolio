@@ -59,15 +59,15 @@ describe("retour de l'évaluateur : rendu conditionnel", () => {
     expect(moisDeSoutenance("juin 2023")).toBe("juin 2023");
   });
 
-  it("disposition : Points forts à gauche avec une colonne à droite ; sans eux, deux colonnes ; un bloc, pleine largeur", () => {
+  it("disposition : Points forts et Axes côte à côte, Remarque en pleine largeur ; une liste seule, pleine largeur", () => {
     const tous = rendu({ ...EVALUATION_VIDE, pointsForts: "A", axes: "B", remarque: "C" });
-    expect(tous).toContain("eval-grille eval-colonnes");
-    expect(tous).toContain('class="eval-forts"');
+    expect(tous).toContain("eval-grille eval-paire");
+    expect(tous).toContain('class="eval-remarque"');
     expect(tous.indexOf("Points forts")).toBeLessThan(tous.indexOf("Axes d’amélioration"));
     expect(tous.indexOf("Axes d’amélioration")).toBeLessThan(tous.indexOf("Remarque sur la soutenance"));
-    expect(rendu({ ...EVALUATION_VIDE, axes: "B", remarque: "C" })).toContain("eval-grille eval-deux");
+    expect(rendu({ ...EVALUATION_VIDE, axes: "B", remarque: "C" })).toMatch(/class="liste-nue eval-grille"/);
     expect(rendu({ ...EVALUATION_VIDE, pointsForts: "A" })).toMatch(/class="liste-nue eval-grille"/);
-    expect(rendu({ ...EVALUATION_VIDE, pointsForts: "A", remarque: "C" })).toContain("eval-grille eval-colonnes");
+    expect(rendu({ ...EVALUATION_VIDE, pointsForts: "A", axes: "B" })).toContain("eval-grille eval-paire");
     expect(rendu({ ...EVALUATION_VIDE, remarque: "C" })).toMatch(/class="liste-nue eval-grille"/);
   });
 

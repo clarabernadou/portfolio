@@ -38,17 +38,19 @@ for (const largeur of [1440, 390]) {
   const axes = section.locator("article", { has: page.getByRole("heading", { name: "Axes d’amélioration" }) });
   ok((await axes.locator("ul").count()) === 0 && (await axes.locator("p").count()) === 1, `[${largeur}] axe sur 1 ligne → paragraphe`);
   ok((await section.locator("> p").last().innerText()) === SOURCE, `[${largeur}] mention de source en dernier`);
-  // Disposition (25 nov. 2026) : bureau, Points forts à gauche (≈ 60 %), Axes au-dessus de Remarque à droite ; mobile,
-  // une colonne dans l'ordre. Cartes à la hauteur de leur contenu (pas d'étirement).
+  // Disposition (25 nov. 2026) : bureau, Points forts (≈ 60 %) et Axes côte à côte, à la même hauteur, Remarque en pleine
+  // largeur dessous ; mobile, une colonne dans l'ordre, cartes à la hauteur de leur contenu.
   const boites = await section.locator("ul.eval-grille > li").evaluateAll((lis) => lis.map((li) => { const r = li.getBoundingClientRect(); const a = li.querySelector("article").getBoundingClientRect(); return { titre: li.querySelector("h3").textContent, x: Math.round(r.left), y: Math.round(r.top), w: Math.round(r.width), etire: Math.round(r.height - a.height) }; }));
   const [f, a2, r2] = boites;
   if (largeur >= 1024) {
     const part = f.w / (f.w + a2.w);
-    ok(f.titre === "Points forts" && a2.x > f.x && r2.x === a2.x && r2.y > a2.y && part > 0.55 && part < 0.65, `[${largeur}] Points forts à gauche (${Math.round(part * 100)} %), Axes puis Remarque à droite`);
+    const hauteurs = await section.locator("ul.eval-grille > li > article").evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().height)));
+    ok(f.titre === "Points forts" && a2.x > f.x && a2.y === f.y && part > 0.55 && part < 0.65 && hauteurs[0] === hauteurs[1], `[${largeur}] Points forts (${Math.round(part * 100)} %) et Axes côte à côte, même hauteur`);
+    ok(r2.x === f.x && r2.y > f.y && r2.w > f.w + a2.w, `[${largeur}] Remarque en pleine largeur dessous`);
   } else {
     ok(boites.every((b) => b.x === f.x) && f.y < a2.y && a2.y < r2.y, `[${largeur}] une colonne : Points forts, Axes, Remarque`);
+    ok(boites.every((b) => b.etire <= 1), `[${largeur}] cartes à la hauteur de leur contenu`);
   }
-  ok(boites.every((b) => b.etire <= 1), `[${largeur}] cartes à la hauteur de leur contenu`);
   ok((await page.getByRole("button", { name: /Tout ouvrir/ }).count()) === 0 && (await page.getByRole("link", { name: /Tout ouvrir/ }).count()) === 0, `[${largeur}] pas de bouton « Tout ouvrir »`);
   const largeurPage = await page.evaluate(() => document.documentElement.scrollWidth);
   ok(largeurPage <= largeur, `[${largeur}] pas de défilement horizontal (${largeurPage} px)`);

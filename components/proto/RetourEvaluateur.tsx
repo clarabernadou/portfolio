@@ -6,9 +6,9 @@ import { CHAMPS_EVALUATION, EVALUATION_SOURCE, evaluationAffichee, ligneSoutenan
 // tant qu'aucun champ n'est rempli, et un champ vide n'a pas de titre. Points forts et axes : une liste
 // (RGAA 9.3) dès qu'ils ont plusieurs lignes, un paragraphe sinon.
 // 25 nov. 2026 : textes reproduits mot pour mot ; « Soutenance réalisée le … / en … » ; mention de la source seulement
-// s'il y a au moins une carte. Bureau : Points forts à gauche (60 %), Axes puis Remarque empilés à droite ; sans Points
-// forts, les deux autres côte à côte ; un seul bloc, pleine largeur. Mobile : une colonne. Cartes à la hauteur du
-// contenu (.eval-grille, app/globals.css).
+// s'il y a au moins une carte. Bureau : Points forts (60 %) et Axes côte à côte, à la même hauteur, puis la Remarque en
+// pleine largeur dessous, comme une conclusion ; une liste seule prend toute la largeur. Mobile : une colonne, dans
+// l'ordre (.eval-grille, app/globals.css).
 const TEXTE = `font-size: 17px; line-height: 1.65`;
 
 function Contenu({ texte }: { texte: string }) {
@@ -30,9 +30,8 @@ export function RetourEvaluateur({ evaluation }: { evaluation: Partial<Evaluatio
   const e = evaluationAffichee(evaluation);
   if (!e) return null;
   const cartes = CHAMPS_EVALUATION.filter((c) => c.cle !== "mois" && e[c.cle]);
-  const forts = cartes.some((c) => c.cle === "pointsForts");
-  const droite = cartes.filter((c) => c.cle !== "pointsForts").length;
-  const disposition = forts && droite > 0 ? "eval-grille eval-colonnes" : !forts && droite === 2 ? "eval-grille eval-deux" : "eval-grille";
+  const paire = Boolean(e.pointsForts && e.axes);
+  const disposition = paire ? "eval-grille eval-paire" : "eval-grille";
   return (
     <section aria-labelledby={"retour-evaluateur"} style={css(`display: flex; flex-direction: column; gap: 12px`)}>
       <div style={css(`display: flex; flex-direction: column; gap: 4px`)}>
@@ -44,7 +43,7 @@ export function RetourEvaluateur({ evaluation }: { evaluation: Partial<Evaluatio
       {cartes.length > 0 && (
         <ul role={"list"} className={`liste-nue ${disposition}`}>
           {cartes.map((c) => (
-            <li key={c.cle} className={c.cle === "pointsForts" ? "eval-forts" : undefined}>
+            <li key={c.cle} className={c.cle === "remarque" ? "eval-remarque" : undefined}>
               <article style={css(`border-radius: var(--r-22); border: 1px solid var(--bordure); padding: 24px; display: flex; flex-direction: column; gap: 10px`)}>
                 <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; color: var(--amethyste); text-wrap: balance`)}>{c.titre}</h3>
                 <Contenu texte={e[c.cle]} />
