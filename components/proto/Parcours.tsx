@@ -3,13 +3,13 @@ import { css } from "@/lib/css";
 import { FlecheExterne } from "./FlecheExterne";
 import { ListeLivrables } from "./ListeLivrables";
 import Link from "next/link";
+import { EtiquettesCarte } from "./EtiquettesCarte";
 import { ancreExperience, ligneFormation, type SiteExperience, type SiteFormation } from "@/lib/data-shared";
 import type { FormationCourte } from "@/lib/types";
 
 // Expériences et formations rendues depuis les données (étape 9), avec le markup
 // et les styles recopiés tels quels de CvView / AccueilView (sources du prototype).
 
-const TAG_TECHNO = `padding: 4px 10px; border-radius: 8px; background: #FFFFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; font-size: 14px; font-weight: 700`;
 const LIEN = `color: #6A4FB6; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px`;
 const STATUT_EN_COURS = `padding: 3px 9px; border-radius: 6px; background: #FFFFFF; border: 1.5px dashed #6A4FB6; color: #6A4FB6; font-size: 13px; font-weight: 800`;
 const MODE = `padding: 3px 9px; border-radius: 6px; background: #F3EFFF; color: #1A1033; font-size: 13px; font-weight: 700`;
@@ -237,6 +237,13 @@ export function CvFormation({ f }: { f: SiteFormation }) {
 // Carte d'expérience de l'accueil (20 nov. 2026) : l'entreprise en titre, le poste et la période dessous ;
 // le poste actuel mis en avant (badge « Aujourd'hui », contour Améthyste). Toute la carte mène au détail
 // de l'expérience sur le CV (lien étiré).
+const technologies = (e: SiteExperience): string[] => {
+  const vues = new Set<string>();
+  return [...(e.homeCard?.technologies ?? []), ...(e.blocs ?? []).flatMap((b) => (b.stack ?? "").split(","))]
+    .map((t) => t.trim())
+    .filter((t) => t && !vues.has(t.toLowerCase()) && vues.add(t.toLowerCase()));
+};
+
 export function CarteAlternance({ e }: { e: SiteExperience }) {
   const actuel = /aujourd/i.test(e.periode);
   const id = `carte-${ancreExperience(e)}`;
@@ -254,7 +261,9 @@ export function CarteAlternance({ e }: { e: SiteExperience }) {
         </h4>
       </div>
       <span style={css(`font-size: 17px; font-weight: 700; color: #1A1033`)}>{e.poste}</span>
-      <Etiquettes items={e.homeCard?.technologies ?? []} style={TAG_TECHNO} label={"Technologies"} marge={"4px"} />
+      {/* Toutes les technologies du poste, celles choisies pour l'accueil d'abord, puis la stack du CV (25 nov. 2026) :
+          autant que la largeur le permet, puis « +N », comme les cartes de projet. */}
+      <EtiquettesCarte tags={technologies(e)} label={"Technologies"} listeStyle={``} cadreStyle={`margin-top: 4px`} />
       <Link href={`/cv#${ancreExperience(e)}`} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-suite ${id}-titre`} style={css(`margin-top: auto; padding-top: 8px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none; align-self: flex-start`)}>
         {"Voir le détail sur le CV →"}
       </Link>
