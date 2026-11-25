@@ -348,7 +348,8 @@ export function AccueilView({ v }: { v: any }) {
             <h3 style={css(`margin: 0; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5470`)}>
               {"Expériences professionnelles"}
             </h3>
-            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 1.25rem`)}>
+            {/* Marge et écart vertical pour le badge « Aujourd'hui » posé sur la bordure des cartes (25 nov. 2026). */}
+            <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 1.75rem 1.25rem; margin-top: 12px`)}>
               {v.alternances.map((e: any, i_e: number) => (
                 <li key={i_e} style={css(`display: grid`)}>
                   <CarteAlternance e={e} />
