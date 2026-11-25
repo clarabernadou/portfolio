@@ -242,15 +242,18 @@ export function CarteAlternance({ e }: { e: SiteExperience }) {
   const id = `carte-${ancreExperience(e)}`;
   return (
     <article style={css(`position: relative; height: 100%; box-sizing: border-box; border-radius: 20px; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 8px; border: ${actuel ? "2px solid #6A4FB6" : "2px solid transparent"}`)}>
-      <div style={css(`display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px`)}>
+      {/* Comme les cartes de projet (25 nov. 2026) : badge du poste actuel, puis la ligne d'infos grise au-dessus du titre. */}
+      <div style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 8px`)}>
+        {actuel && <span style={css(`padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"AUJOURD’HUI"}</span>}
+        <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{[e.periode, e.homeCard?.lieuMode ?? e.lieuMode].filter(Boolean).join(" · ")}</span>
+      </div>
+      <div>
         <h4 id={`${id}-titre`} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1`)}>
           {e.entreprise}
           {e.entrepriseParent && <span style={css(`font-weight: 300; color: #6A4FB6`)}>{` by ${e.entrepriseParent}`}</span>}
         </h4>
-        {actuel && <span style={css(`padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"AUJOURD’HUI"}</span>}
       </div>
       <span style={css(`font-size: 17px; font-weight: 700; color: #1A1033`)}>{e.poste}</span>
-      <span style={css(`font-size: 14px; color: #5B5470`)}>{[e.periode, e.homeCard?.lieuMode ?? e.lieuMode].filter(Boolean).join(" · ")}</span>
       <Etiquettes items={e.homeCard?.technologies ?? []} style={TAG_TECHNO} label={"Technologies"} marge={"4px"} />
       <Link href={`/cv#${ancreExperience(e)}`} id={`${id}-suite`} className={"lien-etire"} aria-labelledby={`${id}-suite ${id}-titre`} style={css(`margin-top: auto; padding-top: 8px; font-size: 15px; font-weight: 700; color: #6A4FB6; text-decoration: none; align-self: flex-start`)}>
         {"Voir le détail sur le CV →"}
