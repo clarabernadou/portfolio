@@ -179,6 +179,9 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 .en-bref dd{margin:0;font-size:16px;font-weight:700;line-height:1.4;color:var(--encre)}
 /* Liste « Tous les projets » de /projets (24 nov. 2026) : 3 cartes par ligne au plus, pour laisser de la place à la ligne « Cadre · date », aux étiquettes et aux descriptions ; 2 puis 1 quand la largeur manque (cartes de 300 px au moins). */
 .grille-projets{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,max(300px,calc((100% - 2.5rem) / 3))),1fr));gap:1.25rem}
+/* Retour de l'évaluateur (25 nov. 2026) : cartes à la hauteur de leur contenu ; une colonne sur mobile (Points forts, Axes, Remarque). Bureau : Points forts à gauche (60 %), Axes puis Remarque empilés à droite, sans trou (la dernière ligne absorbe la hauteur de Points forts) ; sans Points forts, les deux autres côte à côte ; un seul bloc, pleine largeur. */
+.eval-grille{display:grid;grid-template-columns:minmax(0,1fr);gap:1.25rem;align-items:start}
+@media (min-width: 1024px){.eval-colonnes{grid-template-columns:minmax(0,3fr) minmax(0,2fr);grid-template-rows:auto 1fr}.eval-colonnes > .eval-forts{grid-column:1;grid-row:1 / span 2}.eval-colonnes > li:not(.eval-forts){grid-column:2}.eval-deux{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* Fiche projet : contexte sur 2/3, avancement et compétences mises en pratique sur 1/3 à partir de 1024 px (colonne d'au moins 300 px) ; un bloc seul prend toute la largeur (20 nov. 2026). */
 .fiche-contexte{display:grid;grid-template-columns:minmax(0,1fr);gap:1.25rem;align-items:stretch}
 @media (min-width: 1024px){.fiche-contexte{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}.fiche-contexte > :only-child{grid-column:1 / -1}}

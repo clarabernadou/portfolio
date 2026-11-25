@@ -12,7 +12,7 @@ const base = DEMO_BASE;
 const AVEC = "/projets/mediatheque-refonte";
 const SANS = "/projets/carnet-de-rando";
 const PRIVE = "tableau-de-bord-energie";
-const SOURCE = "D’après l’évaluation de soutenance OpenClassrooms, reformulée.";
+const SOURCE = "Évaluation de soutenance OpenClassrooms, reproduite telle quelle.";
 let echecs = 0;
 const ok = (cond, msg) => {
   console.log(`${cond ? "✓" : "✗"} ${msg}`);
@@ -32,12 +32,24 @@ for (const largeur of [1440, 390]) {
   ok(iExp >= 0 && h2[iExp + 1] === "Retour de l’évaluateur", `[${largeur}] juste sous le retour d’expérience (${h2.join(" › ")})`);
   const h3 = await section.locator("h3").allInnerTexts();
   ok(JSON.stringify(h3) === JSON.stringify(["Points forts", "Axes d’amélioration", "Remarque sur la soutenance"]), `[${largeur}] un h3 par champ rempli : ${h3.join(", ")}`);
-  ok(await section.getByText("Soutenance : juin 2025").isVisible(), `[${largeur}] mois de soutenance`);
+  ok(await section.getByText("Soutenance réalisée en juin 2025").isVisible(), `[${largeur}] mois de soutenance`);
   const forts = section.locator("article", { has: page.getByRole("heading", { name: "Points forts" }) });
   ok((await forts.getByRole("listitem").count()) === 2, `[${largeur}] points forts sur 2 lignes → liste de 2 éléments`);
   const axes = section.locator("article", { has: page.getByRole("heading", { name: "Axes d’amélioration" }) });
   ok((await axes.locator("ul").count()) === 0 && (await axes.locator("p").count()) === 1, `[${largeur}] axe sur 1 ligne → paragraphe`);
   ok((await section.locator("> p").last().innerText()) === SOURCE, `[${largeur}] mention de source en dernier`);
+  // Disposition (25 nov. 2026) : bureau, Points forts à gauche (≈ 60 %), Axes au-dessus de Remarque à droite ; mobile,
+  // une colonne dans l'ordre. Cartes à la hauteur de leur contenu (pas d'étirement).
+  const boites = await section.locator("ul.eval-grille > li").evaluateAll((lis) => lis.map((li) => { const r = li.getBoundingClientRect(); const a = li.querySelector("article").getBoundingClientRect(); return { titre: li.querySelector("h3").textContent, x: Math.round(r.left), y: Math.round(r.top), w: Math.round(r.width), etire: Math.round(r.height - a.height) }; }));
+  const [f, a2, r2] = boites;
+  if (largeur >= 1024) {
+    const part = f.w / (f.w + a2.w);
+    ok(f.titre === "Points forts" && a2.x > f.x && r2.x === a2.x && r2.y > a2.y && part > 0.55 && part < 0.65, `[${largeur}] Points forts à gauche (${Math.round(part * 100)} %), Axes puis Remarque à droite`);
+  } else {
+    ok(boites.every((b) => b.x === f.x) && f.y < a2.y && a2.y < r2.y, `[${largeur}] une colonne : Points forts, Axes, Remarque`);
+  }
+  ok(boites.every((b) => b.etire <= 1), `[${largeur}] cartes à la hauteur de leur contenu`);
+  ok((await page.getByRole("button", { name: /Tout ouvrir/ }).count()) === 0 && (await page.getByRole("link", { name: /Tout ouvrir/ }).count()) === 0, `[${largeur}] pas de bouton « Tout ouvrir »`);
   const largeurPage = await page.evaluate(() => document.documentElement.scrollWidth);
   ok(largeurPage <= largeur, `[${largeur}] pas de défilement horizontal (${largeurPage} px)`);
   const axe = await new AxeBuilder({ page }).include("section[aria-labelledby='retour-evaluateur']").analyze();

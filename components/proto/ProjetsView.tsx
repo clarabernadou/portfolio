@@ -489,21 +489,7 @@ export function ProjetsView({ v }: { v: any }) {
                       <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
                         {"Démarche et livrables"}
                       </h2>
-                      {v.cur.hasPdf && (
-                        <>
-                          {/* Livrables lisibles dans la page : visionneuse (30 oct. 2026) ; sinon nouvel onglet. */}
-                          {v.cur.toutOuvrable ? (
-                            <button type={"button"} onClick={v.cur.toutOuvrir} aria-haspopup={"dialog"} style={css(`padding: 10px 0; border: 0; background: none; font: inherit; font-size: 15px; font-weight: 700; color: var(--amethyste); text-decoration: underline; cursor: pointer`)}>
-                              {`Tout ouvrir · ${v.cur.pdfFormat}`}
-                            </button>
-                          ) : (
-                            <a href={v.cur.pdfh} target={"_blank"} rel={"noopener noreferrer"} style={css(`padding: 10px 0; font-size: 15px; font-weight: 700`)}>
-                              {v.cur.pdfToutOuvrir}
-                              <FlecheExterne />
-                            </a>
-                          )}
-                        </>
-                      )}
+                      {/* « Tout ouvrir » retiré (25 nov. 2026) : les livrables sont listés juste dessous ; le bouton « Tous les livrables » de l'en-tête reste. */}
                     </div>
                     {" "}
                     <ListeLivrables total={v.cur.docs.length}>

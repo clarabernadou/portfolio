@@ -1,5 +1,5 @@
 // Retour de l'évaluateur d'un projet (demande de Clara, 23 nov. 2026) : l'évaluation de soutenance
-// OpenClassrooms, reformulée. Bloc distinct du retour d'expérience (lib/retour.ts), qui ne change pas.
+// OpenClassrooms, reproduite mot pour mot (25 nov. 2026 : aucune reformulation). Bloc distinct du retour d'expérience (lib/retour.ts), qui ne change pas.
 // Saisi dans l'administration (4 colonnes nullables de Project), affiché sur la fiche publique sous le
 // retour d'expérience dès qu'un champ est rempli. Sans dépendance serveur.
 
@@ -13,7 +13,7 @@ export type CleEvaluation = keyof Evaluation;
 
 export const EVALUATION_VIDE: Evaluation = { mois: "", pointsForts: "", axes: "", remarque: "" };
 
-export const EVALUATION_SOURCE = "D’après l’évaluation de soutenance OpenClassrooms, reformulée.";
+export const EVALUATION_SOURCE = "Évaluation de soutenance OpenClassrooms, reproduite telle quelle.";
 
 export const CHAMPS_EVALUATION: {
   cle: CleEvaluation;
@@ -23,10 +23,10 @@ export const CHAMPS_EVALUATION: {
   aide: string;
   max: number;
 }[] = [
-  { cle: "mois", colonne: "evaluationMois", libelle: "Mois et année de soutenance", titre: "Soutenance", aide: "Texte court, par exemple « mai 2025 ».", max: 40 },
-  { cle: "pointsForts", colonne: "evaluationPointsForts", libelle: "Points forts", titre: "Points forts", aide: "Un point par ligne : chaque ligne devient un élément de liste.", max: 600 },
-  { cle: "axes", colonne: "evaluationAxes", libelle: "Axes d’amélioration (facultatif)", titre: "Axes d’amélioration", aide: "Un axe par ligne : chaque ligne devient un élément de liste.", max: 600 },
-  { cle: "remarque", colonne: "evaluationRemarque", libelle: "Remarque sur la soutenance (facultatif)", titre: "Remarque sur la soutenance", aide: "Ce que l’évaluateur a dit de la présentation orale.", max: 400 },
+  { cle: "mois", colonne: "evaluationMois", libelle: "Mois et année de soutenance", titre: "Soutenance", aide: "Mois et année, par exemple « mai 2025 », ou la date précise ci-dessous.", max: 40 },
+  { cle: "pointsForts", colonne: "evaluationPointsForts", libelle: "Points forts", titre: "Points forts", aide: "Recopie le texte de l’évaluateur mot pour mot. Un point par ligne : chaque ligne devient un élément de liste.", max: 600 },
+  { cle: "axes", colonne: "evaluationAxes", libelle: "Axes d’amélioration (facultatif)", titre: "Axes d’amélioration", aide: "Recopie le texte de l’évaluateur mot pour mot. Un axe par ligne : chaque ligne devient un élément de liste.", max: 600 },
+  { cle: "remarque", colonne: "evaluationRemarque", libelle: "Remarque sur la soutenance (facultatif)", titre: "Remarque sur la soutenance", aide: "Recopie le texte de l’évaluateur mot pour mot.", max: 400 },
 ];
 
 type Colonnes = Partial<Record<(typeof CHAMPS_EVALUATION)[number]["colonne"], string | null>>;
@@ -41,6 +41,33 @@ export function evaluationAffichee(e: Partial<Evaluation> | null | undefined): E
   if (!e) return null;
   const propre = Object.fromEntries(CHAMPS_EVALUATION.map((c) => [c.cle, (e[c.cle] ?? "").trim()])) as unknown as Evaluation;
   return CHAMPS_EVALUATION.some((c) => propre[c.cle]) ? propre : null;
+}
+
+// Date de soutenance (25 nov. 2026) : la colonne « evaluationMois » garde soit un mois et une année en texte
+// (« octobre 2026 », comme avant), soit une date précise au format AAAA-MM-JJ, saisie dans le champ date de l'administration.
+const DATE_PRECISE = /^(\d{4})-(\d{2})-(\d{2})$/;
+const MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+
+/** Date précise (AAAA-MM-JJ) valide, ou null. */
+export function datePrecise(valeur: string): { jour: number; mois: number; annee: number } | null {
+  const m = DATE_PRECISE.exec(valeur.trim());
+  if (!m) return null;
+  const [annee, mois, jour] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  const d = new Date(Date.UTC(annee, mois - 1, jour));
+  return d.getUTCMonth() === mois - 1 && d.getUTCDate() === jour ? { jour, mois, annee } : null;
+}
+
+/** « octobre 2026 » d'une date précise, ou le texte tel quel. */
+export const moisDeSoutenance = (valeur: string) => {
+  const d = datePrecise(valeur);
+  return d ? `${MOIS[d.mois - 1]} ${d.annee}` : valeur.trim();
+};
+
+/** « Soutenance réalisée le 20 octobre 2026 » ou « Soutenance réalisée en octobre 2026 ». */
+export function ligneSoutenance(valeur: string): string {
+  const d = datePrecise(valeur);
+  if (d) return `Soutenance réalisée le ${d.jour === 1 ? "1er" : d.jour} ${MOIS[d.mois - 1]} ${d.annee}`;
+  return `Soutenance réalisée en ${valeur.trim()}`;
 }
 
 /** Lignes non vides d'un champ : une ligne = un élément de liste (puce « - » ou « • » de tête retirée). */

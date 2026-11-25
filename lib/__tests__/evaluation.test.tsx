@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { RetourEvaluateur } from "@/components/proto/RetourEvaluateur";
-import { colonnesEvaluation, EVALUATION_SOURCE, EVALUATION_VIDE, evaluationAffichee, lignes, lireEvaluation } from "../evaluation";
+import { colonnesEvaluation, datePrecise, EVALUATION_SOURCE, EVALUATION_VIDE, evaluationAffichee, ligneSoutenance, lignes, lireEvaluation, moisDeSoutenance } from "../evaluation";
 
 const rendu = (e: Parameters<typeof RetourEvaluateur>[0]["evaluation"]) => renderToStaticMarkup(<RetourEvaluateur evaluation={e} />);
 
@@ -18,7 +18,7 @@ describe("retour de l'évaluateur : rendu conditionnel", () => {
     const html = rendu({ mois: "mai 2025", pointsForts: "Code clair et commenté.", axes: "", remarque: "Présentation fluide." });
     expect(html).toContain('<h2 id="retour-evaluateur"');
     expect(html).toContain("Retour de l’évaluateur</h2>");
-    expect(html).toContain("Soutenance : mai 2025");
+    expect(html).toContain("Soutenance réalisée en mai 2025");
     expect(html).toContain(">Points forts</h3>");
     expect(html).toContain(">Remarque sur la soutenance</h3>");
     expect(html).not.toContain("Axes d’amélioration");
@@ -38,9 +38,37 @@ describe("retour de l'évaluateur : rendu conditionnel", () => {
 
   it("le mois seul suffit à afficher le bloc, sans carte vide", () => {
     const html = rendu({ ...EVALUATION_VIDE, mois: "juin 2024" });
-    expect(html).toContain("Soutenance : juin 2024");
+    expect(html).toContain("Soutenance réalisée en juin 2024");
     expect(html).not.toContain("<h3");
     expect(html).not.toContain('role="list"');
+    // Mention de la source seulement s'il y a au moins une carte (25 nov. 2026).
+    expect(html).not.toContain(EVALUATION_SOURCE);
+  });
+
+  it("mention reproduite telle quelle, jamais « reformulée »", () => {
+    expect(EVALUATION_SOURCE).toBe("Évaluation de soutenance OpenClassrooms, reproduite telle quelle.");
+    expect(rendu({ ...EVALUATION_VIDE, remarque: "Bien." })).not.toContain("reformul");
+  });
+
+  it("date de soutenance : précise ou mois seul, rien ne casse sur l'existant", () => {
+    expect(ligneSoutenance("2026-10-20")).toBe("Soutenance réalisée le 20 octobre 2026");
+    expect(ligneSoutenance("2026-10-01")).toBe("Soutenance réalisée le 1er octobre 2026");
+    expect(ligneSoutenance("octobre 2026")).toBe("Soutenance réalisée en octobre 2026");
+    expect(datePrecise("2026-02-30")).toBeNull();
+    expect(moisDeSoutenance("2026-10-20")).toBe("octobre 2026");
+    expect(moisDeSoutenance("juin 2023")).toBe("juin 2023");
+  });
+
+  it("disposition : Points forts à gauche avec une colonne à droite ; sans eux, deux colonnes ; un bloc, pleine largeur", () => {
+    const tous = rendu({ ...EVALUATION_VIDE, pointsForts: "A", axes: "B", remarque: "C" });
+    expect(tous).toContain("eval-grille eval-colonnes");
+    expect(tous).toContain('class="eval-forts"');
+    expect(tous.indexOf("Points forts")).toBeLessThan(tous.indexOf("Axes d’amélioration"));
+    expect(tous.indexOf("Axes d’amélioration")).toBeLessThan(tous.indexOf("Remarque sur la soutenance"));
+    expect(rendu({ ...EVALUATION_VIDE, axes: "B", remarque: "C" })).toContain("eval-grille eval-deux");
+    expect(rendu({ ...EVALUATION_VIDE, pointsForts: "A" })).toMatch(/class="liste-nue eval-grille"/);
+    expect(rendu({ ...EVALUATION_VIDE, pointsForts: "A", remarque: "C" })).toContain("eval-grille eval-colonnes");
+    expect(rendu({ ...EVALUATION_VIDE, remarque: "C" })).toMatch(/class="liste-nue eval-grille"/);
   });
 
   it("découpe les lignes", () => {
