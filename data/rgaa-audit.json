@@ -304,7 +304,7 @@
    "titre": "Chaque script est-il, si nécessaire, compatible avec les technologies d’assistance ?",
    "statut": "C",
    "pages": "Toutes les pages",
-   "constat": "Corrigé : la navigation (Voir le projet, Retour aux projets, projets voisins, Écrire) utilise de vrais liens ; les boutons ne servent qu’aux actions (filtres avec aria-pressed, lecture d’un film, copie de l’adresse, fenêtre de recommandation)."
+   "constat": "Corrigé : la navigation (Voir le projet, Retour aux projets, projets voisins, Écrire) utilise de vrais liens ; les boutons ne servent qu’aux actions (filtres avec aria-pressed, lecture d’un film, copie de l’adresse, fenêtre de recommandation). Galerie des captures (25 nov. 2026) : le nom du bouton de collage commence par son texte visible (« +3 autres captures, à partir de la capture 6 sur 8 »), test 7.1.3."
   },
   {
    "n": "7.2",

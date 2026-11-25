@@ -144,9 +144,10 @@ export function CapturesSite({ captures }: { captures: ProjectCapture[] }) {
             </li>
           );
         })}
+        {/* Nom du bouton : il commence par le texte visible « +N autres captures » (RGAA 6.1, WCAG 2.5.3, 25 nov. 2026). */}
         {collage && (
           <li key={"collage"} className={filtres ? "captures-apparition" : undefined} style={css(`display: grid`)}>
-            <button type={"button"} onClick={() => setOuverte(montrees)} aria-haspopup={"dialog"} aria-label={`Voir les ${cachees.length} autres captures, à partir de la capture ${montrees + 1} sur ${n}`} style={css(`position: relative; height: 200px; padding: 0; border-radius: 18px; border: 1px solid var(--bordure); background: var(--fond-section); overflow: hidden; cursor: pointer`)}>
+            <button type={"button"} onClick={() => setOuverte(montrees)} aria-haspopup={"dialog"} aria-label={`+${cachees.length} autres captures, à partir de la capture ${montrees + 1} sur ${n}`} style={css(`position: relative; height: 200px; padding: 0; border-radius: 18px; border: 1px solid var(--bordure); background: var(--fond-section); overflow: hidden; cursor: pointer`)}>
               {/* Collage des 4 premières captures cachées au plus, décoratif. */}
               <span aria-hidden={"true"} style={css(`position: absolute; inset: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 3px; background: var(--fond)`)}>
                 {cachees.slice(0, 4).map((c, k, liste) => (
