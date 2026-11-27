@@ -58,8 +58,10 @@ describe("cadre d'un projet de formation (27 nov. 2026)", () => {
     expect(cadreFormation(formations[1])).toBe("Formation OpenClassrooms · Développeur Web");
     expect(faitsFiche({ parcours: "UX Design" }, null, formations).find((f) => f.libelle === "Cadre")?.valeur).toBe("Formation OpenClassrooms · UX Designer / Product Designer");
   });
-  it("hors formation, le cadre reste tel quel", () => {
+  it("hors formation, ou formation d'un autre organisme, le cadre reste tel quel", () => {
     expect(faitsFiche({ parcours: "Projet personnel" }, null, formations).find((f) => f.libelle === "Cadre")?.valeur).toBe("Projet personnel");
+    const autre = [{ intitule: "Bachelor Concepteur UX", nomOfficiel: "Concepteur UX de l’École Exemple", mode: "En alternance", url: "https://exemple.fr/bachelor-ux" }];
+    expect(faitsFiche({ parcours: "Bachelor Concepteur UX" }, { duree: "4 mois" }, autre).map((f) => [f.libelle, f.valeur, f.aide])).toEqual([["Cadre", "Bachelor Concepteur UX", undefined], ["Durée", "4 mois", undefined]]);
   });
 });
 

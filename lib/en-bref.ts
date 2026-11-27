@@ -39,11 +39,14 @@ export function colonnesEnBref(e: Partial<EnBref> | null | undefined): { ok: tru
  * Bandeau de la fiche, sur toutes les fiches (retour de Clara du 25 novembre 2026) : Type, Cadre et Date, qui
  * quittent l'en-tête (plus de redite), puis Rôle, Équipe et Durée quand ils sont remplis. Une valeur vide n'apparaît pas.
  */
-export type FormationFiche = { intitule: string; nomOfficiel?: string; mode?: string };
+export type FormationFiche = { intitule: string; nomOfficiel?: string; mode?: string; niveauComplet?: string; url?: string };
+
+/** Formation OpenClassrooms (nom officiel, niveau ou adresse) : seules celles-ci ont le libellé et l'aide sur la durée. */
+const openClassrooms = (f: FormationFiche) => /openclassrooms/i.test(`${f.nomOfficiel ?? ""} ${f.niveauComplet ?? ""} ${f.url ?? ""}`);
 
 /** Formation dont le cadre du projet est l'intitulé (« UX Design », « Développeur Web »…), ou null. */
 export const formationDuCadre = (parcours: string | null | undefined, formations: readonly FormationFiche[] = []) =>
-  formations.find((f) => f.intitule.trim() === (parcours ?? "").trim()) ?? null;
+  formations.find((f) => f.intitule.trim() === (parcours ?? "").trim() && openClassrooms(f)) ?? null;
 
 /** « Formation OpenClassrooms · UX Designer / Product Designer » (nom officiel sans « d'OpenClassrooms », 27 nov. 2026). */
 export const cadreFormation = (f: FormationFiche) => `Formation OpenClassrooms · ${(f.nomOfficiel || f.intitule).replace(/\s+d['’]OpenClassrooms\s*$/i, "").trim()}`;
