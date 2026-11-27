@@ -34,8 +34,9 @@ function normaliserSegment(t: string): string {
       // Espaces insécables à l'intérieur des guillemets français.
       .replace(/«[ \u00A0\u202F]*/g, `«${INSECABLE}`)
       .replace(/[ \u00A0\u202F]*»/g, `${INSECABLE}»`)
-      // Apostrophe entre deux lettres.
-      .replace(/(\p{L})'(?=\p{L})/gu, "$1’")
+      // Apostrophe entre deux lettres, y compris de part et d'autre d'une marque de gras ou d'italique
+      // (« d'**auditer** », 28 nov. 2026).
+      .replace(/(\p{L}[*_]*)'(?=[*_]*\p{L})/gu, "$1’")
       // Tiret isolé entre deux espaces → demi-cadratin (jamais une puce en début de ligne, jamais un mot composé).
       .replace(/(\S) +- +(?=\S)/g, "$1 – ")
       // Séparateur « | » entre deux espaces → « · ».

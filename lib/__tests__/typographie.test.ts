@@ -8,6 +8,9 @@ describe("typographie française", () => {
   it("apostrophe ’ entre deux lettres", () => {
     expect(n("Développeur d'application")).toBe("Développeur d’application");
     expect(n("l'équipe aujourd'hui")).toBe("l’équipe aujourd’hui");
+    // Apostrophe devant ou derrière une marque Markdown (camping-luxe, 28 nov. 2026).
+    expect(n("permettait d'**auditer** le site")).toBe("permettait d’**auditer** le site");
+    expect(n("**l**'équipe et *aujourd*'hui")).toBe("**l**’équipe et *aujourd*’hui");
   });
 
   it("guillemets « » avec espaces insécables", () => {
