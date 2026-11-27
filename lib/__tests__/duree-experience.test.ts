@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { dureeAlternance } from "../data-shared";
+import { DEBUT_EXPERIENCE, dureeAlternance, dureeDepuis } from "../data-shared";
 
 // Date figée : 13 novembre 2026.
 const nov2026 = new Date(2026, 10, 13);
@@ -20,5 +20,17 @@ describe("durée d'expérience de l'accueil", () => {
   it("accepte les mois abrégés et en toutes lettres", () => {
     expect(dureeAlternance([{ periode: "déc. 2023 – mars 2025" }], nov2026)).toEqual({ ans: 1, mois: 3 });
     expect(dureeAlternance([{ periode: "juillet 2025 – aujourd’hui" }], nov2026)).toEqual({ ans: 1, mois: 4 });
+  });
+});
+
+describe("durée depuis le 4 décembre 2023 (27 nov. 2026)", () => {
+  it("2 ans et 11 mois le 27 nov. 2026, 3 ans le 4 déc. 2026, pas la veille", () => {
+    expect(dureeDepuis(DEBUT_EXPERIENCE, new Date(2026, 10, 27))).toEqual({ ans: 2, mois: 11 });
+    expect(dureeDepuis(DEBUT_EXPERIENCE, new Date(2026, 11, 3))).toEqual({ ans: 2, mois: 11 });
+    expect(dureeDepuis(DEBUT_EXPERIENCE, new Date(2026, 11, 4))).toEqual({ ans: 3, mois: 0 });
+    expect(dureeDepuis(DEBUT_EXPERIENCE, new Date(2027, 2, 15))).toEqual({ ans: 3, mois: 3 });
+  });
+  it("avant le premier mois complet : rien", () => {
+    expect(dureeDepuis(DEBUT_EXPERIENCE, new Date(2023, 11, 20))).toBeNull();
   });
 });

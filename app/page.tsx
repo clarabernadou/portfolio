@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { dureeAlternance, enBref, profilPublic } from "@/lib/data-shared";
+import { DEBUT_EXPERIENCE, dureeDepuis, enBref, profilPublic } from "@/lib/data-shared";
 import { Accueil } from "@/components/proto/Accueil";
 import { getExperiences, getFormations, getFormationsCourtes, getIaPubliee, getPhotoUrl, getProfile, getRecommendations, getProjetsHorsFormation, getSiteProjects, getSkills, homeProjects } from "@/lib/data";
 import { JsonLd, personneJsonLd, siteJsonLd } from "@/lib/seo";
@@ -19,13 +19,17 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+// Durée d'expérience calculée à chaque rendu (27 nov. 2026) : la page est régénérée au plus toutes les heures, en plus
+// des régénérations après un enregistrement dans l'administration.
+export const revalidate = 3600;
+
 export default async function Home() {
   const [projects, experiences, formations, profil, recos, skills, photoUrl, courtes, horsFormation, iaPubliee] = await Promise.all([getSiteProjects(), getExperiences(), getFormations(), getProfile(), getRecommendations(), getSkills(), getPhotoUrl(), getFormationsCourtes(), getProjetsHorsFormation(), getIaPubliee()]);
   const publique = profilPublic(profil);
   return (
     <>
       <JsonLd data={[personneJsonLd(publique, skills.essentiel.flatMap((g) => g.items), photoUrl), siteJsonLd()]} />
-      <Accueil home={homeProjects(projects)} total={projects.length} bref={enBref(formations, projects, horsFormation)} experiences={experiences} duree={dureeAlternance(experiences)} formations={formations} courtes={courtes} profil={publique} recos={recos} iaPubliee={iaPubliee} />
+      <Accueil home={homeProjects(projects)} total={projects.length} bref={enBref(formations, projects, horsFormation)} experiences={experiences} duree={dureeDepuis(DEBUT_EXPERIENCE)} formations={formations} courtes={courtes} profil={publique} recos={recos} iaPubliee={iaPubliee} />
     </>
   );
 }

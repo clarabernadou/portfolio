@@ -99,6 +99,15 @@ const moisDe = (texte: string): number | null => {
   const i = m ? MOIS.findIndex((x) => m[1].toLowerCase().startsWith(x)) : -1;
   return i < 0 ? null : Number(m![2]) * 12 + i;
 };
+// Expérience professionnelle de l'accueil (27 nov. 2026) : depuis le 4 décembre 2023, début de l'alternance chez
+// TechUpClimate, au jour près (un mois n'est compté qu'une fois son jour anniversaire atteint).
+export const DEBUT_EXPERIENCE = new Date(2023, 11, 4);
+
+export function dureeDepuis(debut: Date, maintenant = new Date()): { ans: number; mois: number } | null {
+  const total = (maintenant.getFullYear() - debut.getFullYear()) * 12 + (maintenant.getMonth() - debut.getMonth()) - (maintenant.getDate() < debut.getDate() ? 1 : 0);
+  return total > 0 ? { ans: Math.floor(total / 12), mois: total % 12 } : null;
+}
+
 export function dureeAlternance(experiences: Pick<Experience, "periode">[], maintenant = new Date()): { ans: number; mois: number } | null {
   const auj = maintenant.getFullYear() * 12 + maintenant.getMonth();
   const periodes = experiences.flatMap((e) => {
