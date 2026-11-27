@@ -371,10 +371,14 @@ export function ProjetsView({ v }: { v: any }) {
                     {"Le projet en bref"}
                   </h2>
                   <dl className={"en-bref"}>
-                    {v.cur.faits.map((f: { libelle: string; valeur: string }) => (
+                    {v.cur.faits.map((f: { libelle: string; valeur: string; aide?: string }) => (
                       <div key={f.libelle}>
                         <dt>{f.libelle}</dt>
-                        <dd>{f.valeur}</dd>
+                        <dd>
+                          {f.valeur}
+                          {/* Aide sur la durée d'un projet de formation, selon le mode (27 nov. 2026). */}
+                          {f.aide && <span className={"en-bref-aide"}>{f.aide}</span>}
+                        </dd>
                       </div>
                     ))}
                   </dl>

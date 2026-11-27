@@ -48,18 +48,22 @@ export const formationDuCadre = (parcours: string | null | undefined, formations
 /** « Formation OpenClassrooms · UX Designer / Product Designer » (nom officiel sans « d'OpenClassrooms », 27 nov. 2026). */
 export const cadreFormation = (f: FormationFiche) => `Formation OpenClassrooms · ${(f.nomOfficiel || f.intitule).replace(/\s+d['’]OpenClassrooms\s*$/i, "").trim()}`;
 
+/** Aide sur la durée d'un projet de formation, selon le mode (27 nov. 2026). */
+export const aideDuree = (f: FormationFiche) =>
+  /alternance/i.test(f.mode ?? "") ? "35 heures de formation par mois, en alternance" : /autonomie|plein temps/i.test(f.mode ?? "") ? "35 heures par semaine, à plein temps" : undefined;
+
 export function faitsFiche(
   p: { types?: readonly string[]; parcours?: string | null; date?: string | null },
   e: Partial<EnBref> | null | undefined,
   formations: readonly FormationFiche[] = [],
-): { libelle: string; valeur: string }[] {
+): { libelle: string; valeur: string; aide?: string }[] {
   const types = (p.types ?? []).map((t) => t.trim()).filter(Boolean);
   const formation = formationDuCadre(p.parcours, formations);
   return [
     { libelle: types.length > 1 ? "Types" : "Type", valeur: types.join(", ") },
     { libelle: "Cadre", valeur: formation ? cadreFormation(formation) : (p.parcours ?? "").trim() },
     { libelle: "Date", valeur: (p.date ?? "").trim() },
-    ...faitsEnBref(e),
+    ...faitsEnBref(e).map((f) => (f.libelle === "Durée" && formation && aideDuree(formation) ? { ...f, aide: aideDuree(formation) } : f)),
   ].filter((f) => f.valeur);
 }
 

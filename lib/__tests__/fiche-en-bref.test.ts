@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { colonnesEnBref, faitsEnBref, lireEnBref, cadreFormation } from "@/lib/en-bref";
+import { colonnesEnBref, faitsEnBref, lireEnBref, cadreFormation, aideDuree } from "@/lib/en-bref";
 
 describe("bandeau « en bref »", () => {
   it("seulement les champs remplis, dans l'ordre Rôle, Équipe, Durée ; aucun : pas de bandeau", () => {
@@ -60,5 +60,23 @@ describe("cadre d'un projet de formation (27 nov. 2026)", () => {
   });
   it("hors formation, le cadre reste tel quel", () => {
     expect(faitsFiche({ parcours: "Projet personnel" }, null, formations).find((f) => f.libelle === "Cadre")?.valeur).toBe("Projet personnel");
+  });
+});
+
+describe("aide sur la durée d'un projet de formation (27 nov. 2026)", () => {
+  const formations = [
+    { intitule: "UX Design", nomOfficiel: "UX Designer / Product Designer d'OpenClassrooms", mode: "En alternance" },
+    { intitule: "Développeur Web", nomOfficiel: "Développeur Web d'OpenClassrooms", mode: "En autonomie" },
+  ];
+  const duree = (parcours: string) => faitsFiche({ parcours }, { duree: "6 semaines" }, formations).find((f) => f.libelle === "Durée");
+  it("selon le mode de la formation", () => {
+    expect(aideDuree(formations[0])).toBe("35 heures de formation par mois, en alternance");
+    expect(aideDuree(formations[1])).toBe("35 heures par semaine, à plein temps");
+    expect(duree("UX Design")?.aide).toBe("35 heures de formation par mois, en alternance");
+    expect(duree("Développeur Web")?.aide).toBe("35 heures par semaine, à plein temps");
+  });
+  it("pas d'aide hors formation ni sans durée", () => {
+    expect(duree("Projet personnel")?.aide).toBeUndefined();
+    expect(faitsFiche({ parcours: "UX Design" }, null, formations).find((f) => f.libelle === "Durée")).toBeUndefined();
   });
 });

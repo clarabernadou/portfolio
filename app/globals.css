@@ -178,6 +178,7 @@ a[href^="mailto:"]{overflow-wrap:anywhere}
 @media (max-width: 639px){.en-bref > div{flex-basis:calc(50% - 1px)}}
 .en-bref dt{font-size:13px;font-weight:700;color:var(--ardoise)}
 .en-bref dd{margin:0;font-size:16px;font-weight:700;line-height:1.4;color:var(--encre)}
+.en-bref-aide{display:block;margin-top:2px;font-size:13px;font-weight:600;line-height:1.4;color:var(--ardoise)}
 /* Liste « Tous les projets » de /projets (24 nov. 2026) : 3 cartes par ligne au plus, pour laisser de la place à la ligne « Cadre · date », aux étiquettes et aux descriptions ; 2 puis 1 quand la largeur manque (cartes de 300 px au moins). */
 .grille-projets{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,max(300px,calc((100% - 2.5rem) / 3))),1fr));gap:1.25rem}
 /* Retour de l'évaluateur (25 nov. 2026) : une colonne sur mobile (Points forts, Axes, Remarque), cartes à la hauteur du contenu. Bureau : Points forts (60 %) et Axes côte à côte, à la même hauteur (comme les cartes du retour d'expérience), puis la Remarque en pleine largeur dessous. */
