@@ -112,7 +112,7 @@ export function CapturesSite({ captures }: { captures: ProjectCapture[] }) {
       <ul ref={grille} role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr)); gap: 1rem`)}>
         {visibles.slice(0, montrees).map((c, i) => {
           const format = formats[i];
-          const label = c.alt ? `Agrandir la capture ${i + 1} sur ${n} : ${c.alt}` : `Agrandir la capture ${i + 1} sur ${n}`;
+          const label = c.alt ? `Agrandir la capture ${i + 1} sur ${n}\u202F: ${c.alt}` : `Agrandir la capture ${i + 1} sur ${n}`;
           const vignette =
             format === "normal" ? (
               <button type={"button"} onClick={() => setOuverte(i)} aria-haspopup={"dialog"} aria-label={label} style={css(`height: 200px; padding: 0; border-radius: 18px; border: 1px solid var(--bordure); background: var(--fond-section); overflow: hidden; cursor: zoom-in`)}>

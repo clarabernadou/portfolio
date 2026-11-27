@@ -66,7 +66,7 @@ export function IaExemples({ ex, routine, id }: { ex: IaExamples; routine: strin
                 <div key={it.tab} {...(onglets ? { id: `${id}-panneau-${i}`, role: "tabpanel", "aria-labelledby": `${id}-onglet-${i}` } : {})} style={css(`display: flex; flex-direction: column; gap: 12px`)}>
                   <p style={css(`margin: 0; font-size: 16px; line-height: 1.55; color: #5B5470`)}>{it.caption}</p>
                   {/* Capture entière puis zoomable, comme dans la visionneuse des projets (19 nov. 2026). */}
-                  <ImageZoomable key={it.image} src={it.image} alt={it.alt} label={`Capture : ${it.tab}`} hauteur={0.52} />
+                  <ImageZoomable key={it.image} src={it.image} alt={it.alt} label={`Capture\u202F: ${it.tab}`} hauteur={0.52} />
                 </div>
               ) : null,
             )}

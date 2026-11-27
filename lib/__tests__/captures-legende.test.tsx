@@ -23,7 +23,7 @@ describe("légende des captures", () => {
     );
     expect(html).toContain('<figure role="figure" aria-label="Le budget du mois"');
     expect(html).toContain(">Le budget du mois</figcaption>");
-    expect(html).toContain('aria-label="Agrandir la capture 1 sur 3 : Écran Budget"');
+    expect(html).toContain('aria-label="Agrandir la capture 1 sur 3\u202F: Écran Budget"');
     expect(html.match(/<figure/g)).toHaveLength(1);
     expect(html).not.toContain("Ne doit pas s");
   });

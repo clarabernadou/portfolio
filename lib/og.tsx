@@ -6,7 +6,7 @@ import { ImageResponse } from "next/og";
 export const OG_TAILLE = { width: 1200, height: 630 };
 export const OG_TYPE = "image/png";
 
-export const ogAlt = (titre: string, sousTitre: string) => `${titre} : ${sousTitre}. Portfolio de Clara Bernadou, développeuse full stack.`;
+export const ogAlt = (titre: string, sousTitre: string) => `${titre}\u202F: ${sousTitre}. Portfolio de Clara Bernadou, développeuse full stack.`;
 
 export function ogImage(titre: string, sousTitre: string) {
   return new ImageResponse(
