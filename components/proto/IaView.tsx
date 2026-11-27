@@ -115,47 +115,56 @@ export function IaView({ v }: { v: any }) {
           {v.jarvis && v.publics.includes("jarvis") && (
             <CartePhare id={"jarvis"} titre={v.jarvis.name} resume={v.jarvis.line} tags={v.jarvis.tags} href={"/projets/jarvis"} image={v.jarvis.image} infos={[v.jarvis.parcours, v.jarvis.date]} />
           )}
+          {/* Seulement les cartes liées à un projet publié (27 nov. 2026) : un projet en brouillon ou privé n'apparaît pas. */}
+          {["portfolio", "intuitlearn", "saga-films-fruggr"].some((id) => v.publics.includes(id)) && (
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px`)}>
-            <li style={css(`display: grid`)}>
-            <CarteProjet id={"portfolio"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
-              <Icone d={"M3 5h18v14H3zM3 9h18M7 7h.01M10 7h.01"} />
-              {" "}
-              <h3 id={"portfolio-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
-                {"Ce portfolio"}
-              </h3>
-              {" "}
-              <span id={"portfolio-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
-                {"Maquettes avec Claude Design, développement avec Claude Code, charte, design system et dossier de passation."}
-              </span>
-            </CarteProjet>
-            </li>
-            <li style={css(`display: grid`)}>
-            <CarteProjet id={"intuitlearn"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
-              <Icone d={"M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5M8 11l2 2 4-4"} />
-              {" "}
-              <h3 id={"intuitlearn-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
-                {"Audits de sites"}
-              </h3>
-              {" "}
-              <span id={"intuitlearn-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
-                {"Skills d’audit UX, accessibilité et marque appliqués au site Fruggr et à une application tierce."}
-              </span>
-            </CarteProjet>
-            </li>
-            <li style={css(`display: grid`)}>
-            <CarteProjet id={"saga-films-fruggr"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
-              <Icone d={"M4 6h12v12H4zM16 10l4-2v8l-4-2"} />
-              {" "}
-              <h3 id={"saga-films-fruggr-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
-                {"Saga de 3 films pour Fruggr"}
-              </h3>
-              {" "}
-              <span id={"saga-films-fruggr-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
-                {"Du script au rendu final : Remotion, voix off ElevenLabs, musique, déclinaison en 16:9, 9:16 et 1:1, publiée sur YouTube."}
-              </span>
-            </CarteProjet>
-            </li>
+            {v.publics.includes("portfolio") && (
+              <li style={css(`display: grid`)}>
+              <CarteProjet id={"portfolio"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+                <Icone d={"M3 5h18v14H3zM3 9h18M7 7h.01M10 7h.01"} />
+                {" "}
+                <h3 id={"portfolio-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
+                  {"Ce portfolio"}
+                </h3>
+                {" "}
+                <span id={"portfolio-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
+                  {"Maquettes avec Claude Design, développement avec Claude Code, charte, design system et dossier de passation."}
+                </span>
+              </CarteProjet>
+              </li>
+            )}
+            {v.publics.includes("intuitlearn") && (
+              <li style={css(`display: grid`)}>
+              <CarteProjet id={"intuitlearn"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+                <Icone d={"M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5M8 11l2 2 4-4"} />
+                {" "}
+                <h3 id={"intuitlearn-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
+                  {"Audits de sites"}
+                </h3>
+                {" "}
+                <span id={"intuitlearn-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
+                  {"Skills d’audit UX, accessibilité et marque appliqués au site Fruggr et à une application tierce."}
+                </span>
+              </CarteProjet>
+              </li>
+            )}
+            {v.publics.includes("saga-films-fruggr") && (
+              <li style={css(`display: grid`)}>
+              <CarteProjet id={"saga-films-fruggr"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
+                <Icone d={"M4 6h12v12H4zM16 10l4-2v8l-4-2"} />
+                {" "}
+                <h3 id={"saga-films-fruggr-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
+                  {"Saga de 3 films pour Fruggr"}
+                </h3>
+                {" "}
+                <span id={"saga-films-fruggr-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
+                  {"Du script au rendu final : Remotion, voix off ElevenLabs, musique, déclinaison en 16:9, 9:16 et 1:1, publiée sur YouTube."}
+                </span>
+              </CarteProjet>
+              </li>
+            )}
           </ul>
+          )}
         </section>
         <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
