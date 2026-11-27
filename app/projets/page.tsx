@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/metadata";
 export async function generateMetadata() {
   const n = (await getSiteProjects()).length;
   const meta = pageMetadata(
-    "Projets de développement web et de design UX/UI",
+    "Projets web et UX/UI",
     `Les ${n > 0 ? `${n} ` : ""}projets de Clara Bernadou : développement, UX/UI et conception, avec leurs livrables.`,
     "/projets",
   );

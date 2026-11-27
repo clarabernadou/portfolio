@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjetFiche } from "@/components/proto/Projets";
 import { getFormations, getSiteProjects } from "@/lib/data";
-import { pageMetadata } from "@/lib/metadata";
+import { pageMetadata, titreAuPlus60 } from "@/lib/metadata";
 import { JsonLd, projetJsonLd } from "@/lib/seo";
 
 export async function generateStaticParams() {
@@ -13,8 +13,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const project = (await getSiteProjects()).find((p) => p.id === id);
   if (!project) return {};
-  // Titre « Nom · type de projet » (13 nov. 2026).
-  return pageMetadata(`${project.name} · ${project.type}`, project.line, `/projets/${project.id}`);
+  // Titre « Nom · type de projet » (13 nov. 2026), ou le nom seul au-delà de 60 caractères (27 nov. 2026).
+  return pageMetadata(titreAuPlus60(`${project.name} · ${project.type}`, project.name), project.line, `/projets/${project.id}`);
 }
 
 export default async function ProjetPage({ params }: { params: Promise<{ id: string }> }) {

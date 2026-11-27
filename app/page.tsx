@@ -3,13 +3,15 @@ import { DEBUT_EXPERIENCE, dureeDepuis, enBref, profilPublic } from "@/lib/data-
 import { Accueil } from "@/components/proto/Accueil";
 import { getExperiences, getFormations, getFormationsCourtes, getIaPubliee, getPhotoUrl, getProfile, getRecommendations, getProjetsHorsFormation, getSiteProjects, getSkills, homeProjects } from "@/lib/data";
 import { JsonLd, personneJsonLd, siteJsonLd } from "@/lib/seo";
+import { normaliserTypo } from "@/lib/typographie";
 
 // Titre et description de l'accueil : la page qui doit sortir sur une recherche du nom de Clara.
 const titre = "Clara Bernadou · Développeuse full stack · Portfolio";
 // Le nombre de projets vient de la base (projets publiés, comme « En bref ») : aucun compteur écrit en dur.
 export async function generateMetadata(): Promise<Metadata> {
   const n = (await getSiteProjects()).length;
-  const description = `Portfolio de Clara Bernadou, développeuse full stack (React, TypeScript, Node.js), en alternance depuis 2023. ${n > 0 ? `${n} projets` : "Projets"} de développement web et de design. CDI recherché, disponible en mars 2027, en full remote ou à Vannes / Auray.`;
+  // Description de Clara (27 nov. 2026), le nombre de projets publiés à la place de « 17 ».
+  const description = normaliserTypo(`Clara Bernadou, développeuse full stack JavaScript et TypeScript, double compétence UI/UX. ${n > 0 ? `${n} projets` : "Projets"} et CV. CDI à partir de mars 2027, full remote ou Vannes.`);
   return {
     title: { absolute: titre },
     description,
