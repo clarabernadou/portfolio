@@ -35,3 +35,11 @@ export const ECHANTILLON = [
   { label: "Mentions légales et confidentialité", href: "/mentions-legales" },
   { label: "Page introuvable (404)", href: "" },
 ];
+
+/**
+ * Pages vérifiées affichées (27 nov. 2026) : seulement les pages publiques. Une fiche projet n'y figure que si le
+ * projet est publié, la page IA que si elle est publiée ; une page non publique n'est jamais citée.
+ */
+export function echantillonPublic(publics: string[], iaPubliee: boolean) {
+  return ECHANTILLON.filter((p) => (p.href === "/ia" ? iaPubliee : !p.href.startsWith("/projets/") || publics.includes(p.href.slice("/projets/".length))));
+}

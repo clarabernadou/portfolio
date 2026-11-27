@@ -4,7 +4,7 @@ import { RapportRgaa } from "@/components/proto/RapportRgaa";
 import { pageMetadata } from "@/lib/metadata";
 import { getIaPubliee, getProfile, getSiteProjects } from "@/lib/data";
 import { siteUrl } from "@/lib/site-url";
-import { compte, dateAudit, ECHANTILLON, nonConformes, RAPPORT_PDF, referentiel, taux } from "@/lib/accessibilite";
+import { compte, dateAudit, echantillonPublic, nonConformes, RAPPORT_PDF, referentiel, taux } from "@/lib/accessibilite";
 
 export const metadata = pageMetadata(
   "Déclaration d’accessibilité",
@@ -23,10 +23,8 @@ const dateFr = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleDateString("
 
 export default async function AccessibilitePage() {
   const [profil, projets, iaPubliee] = await Promise.all([getProfile(), getSiteProjects(), getIaPubliee()]);
-  // Une fiche pas encore publiée n'est jamais un lien (components/proto/LienProjet.tsx).
-  const publics = projets.map((p) => p.id);
-  // Page IA masquée depuis l'administration (23 nov. 2026) : citée sans lien.
-  const publie = (href: string) => (href === "/ia" ? iaPubliee : !href.startsWith("/projets/") || publics.includes(href.slice("/projets/".length)));
+  // Pages vérifiées : seulement les pages publiques (projets publiés, page IA si publiée), 27 nov. 2026.
+  const pagesVerifiees = echantillonPublic(projets.map((p) => p.id), iaPubliee);
   // Le critère 13.3 (livrables téléchargeables) fait l'objet de la dérogation ci-dessous.
   const autres = nonConformes.filter((c) => c.n !== "13.3");
   return (
@@ -112,8 +110,8 @@ export default async function AccessibilitePage() {
         <p style={css(P)}>{"Limite : le site n’a pas encore été testé avec un lecteur d’écran."}</p>
         <h3 style={css(H3)}>{"Pages vérifiées"}</h3>
         <ul style={css(LISTE)}>
-          {ECHANTILLON.map((p) => (
-            <li key={p.label}>{p.href && publie(p.href) ? <Link href={p.href}>{p.label}</Link> : p.href ? `${p.label} (${p.href === "/ia" ? "page non publiée" : "en cours de validation"})` : p.label}</li>
+          {pagesVerifiees.map((p) => (
+            <li key={p.label}>{p.href ? <Link href={p.href}>{p.label}</Link> : p.label}</li>
           ))}
         </ul>
       </section>

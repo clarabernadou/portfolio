@@ -11,7 +11,10 @@ try {
   // Pas de .env.local : pas de publication possible.
 }
 
-const { criteres, compte, dateAudit, ECHANTILLON, nonConformes, referentiel, taux } = await import("../lib/accessibilite");
+const { criteres, compte, dateAudit, echantillonPublic, nonConformes, referentiel, taux } = await import("../lib/accessibilite");
+// Pages vérifiées : seulement les pages publiques, comme sur /accessibilite (27 nov. 2026).
+const { getSiteProjects, getIaPubliee } = await import("../lib/data");
+const ECHANTILLON = echantillonPublic((await getSiteProjects()).map((p) => p.id), await getIaPubliee());
 const { loadAssets, renderPdf } = await import("../lib/pdf/server");
 const { siteUrl } = await import("../lib/site-url");
 
