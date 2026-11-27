@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjetFiche } from "@/components/proto/Projets";
-import { getProjetApercu, getSiteProjects } from "@/lib/data";
+import { getFormations, getProjetApercu, getSiteProjects } from "@/lib/data";
 import { requireAdmin } from "@/lib/auth";
 import { css } from "@/lib/css";
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default async function ApercuProjetPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const { id } = await params;
-  const [projet, publics] = await Promise.all([getProjetApercu(id), getSiteProjects()]);
+  const [projet, publics, formations] = await Promise.all([getProjetApercu(id), getSiteProjects(), getFormations()]);
   if (!projet) notFound();
   // Le projet prend sa place dans la liste publique, pour les liens « précédent / suivant ».
   const publie = publics.some((p) => p.id === id);
@@ -32,7 +32,7 @@ export default async function ApercuProjetPage({ params }: { params: Promise<{ i
         </a>
       </p>
       )}
-      <ProjetFiche id={id} projects={projects} />
+      <ProjetFiche id={id} projects={projects} formations={formations} />
     </>
   );
 }

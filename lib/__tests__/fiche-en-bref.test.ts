@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { colonnesEnBref, faitsEnBref, lireEnBref } from "@/lib/en-bref";
+import { colonnesEnBref, faitsEnBref, lireEnBref, cadreFormation } from "@/lib/en-bref";
 
 describe("bandeau « en bref »", () => {
   it("seulement les champs remplis, dans l'ordre Rôle, Équipe, Durée ; aucun : pas de bandeau", () => {
@@ -45,5 +45,20 @@ describe("faitsFiche", () => {
       { libelle: "Rôle", valeur: "Développeuse" },
       { libelle: "Équipe", valeur: "En solo" },
     ]);
+  });
+});
+
+describe("cadre d'un projet de formation (27 nov. 2026)", () => {
+  const formations = [
+    { intitule: "UX Design", nomOfficiel: "UX Designer / Product Designer d'OpenClassrooms", mode: "En alternance" },
+    { intitule: "Développeur Web", nomOfficiel: "Développeur Web d’OpenClassrooms", mode: "En autonomie" },
+  ];
+  it("« Formation OpenClassrooms · <nom officiel> », sans « d'OpenClassrooms »", () => {
+    expect(cadreFormation(formations[0])).toBe("Formation OpenClassrooms · UX Designer / Product Designer");
+    expect(cadreFormation(formations[1])).toBe("Formation OpenClassrooms · Développeur Web");
+    expect(faitsFiche({ parcours: "UX Design" }, null, formations).find((f) => f.libelle === "Cadre")?.valeur).toBe("Formation OpenClassrooms · UX Designer / Product Designer");
+  });
+  it("hors formation, le cadre reste tel quel", () => {
+    expect(faitsFiche({ parcours: "Projet personnel" }, null, formations).find((f) => f.libelle === "Cadre")?.valeur).toBe("Projet personnel");
   });
 });

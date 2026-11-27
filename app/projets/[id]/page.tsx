@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjetFiche } from "@/components/proto/Projets";
-import { getSiteProjects } from "@/lib/data";
+import { getFormations, getSiteProjects } from "@/lib/data";
 import { pageMetadata } from "@/lib/metadata";
 import { JsonLd, projetJsonLd } from "@/lib/seo";
 
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ProjetPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const projects = await getSiteProjects();
+  const [projects, formations] = await Promise.all([getSiteProjects(), getFormations()]);
   const projet = projects.find((p) => p.id === id);
   // Projet non publié (brouillon ou privé) : 404 pour les visiteurs (27 nov. 2026). Connectée, Clara voit l'aperçu
   // à cette adresse (proxy.ts, réécriture vers /apercu/projets/<id>).
@@ -27,7 +27,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ id: str
   return (
     <>
       <JsonLd data={projetJsonLd(projet)} />
-      <ProjetFiche id={id} projects={projects} />
+      <ProjetFiche id={id} projects={projects} formations={formations} />
     </>
   );
 }

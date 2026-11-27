@@ -7,7 +7,7 @@ import { Visionneuse, type ElementVisionneuse } from "./Visionneuse";
 import type { Project } from "@/lib/types";
 import { sortFeatured, type SiteProject } from "@/lib/data-shared";
 import { formatLivrable } from "@/lib/livrables";
-import { faitsFiche } from "@/lib/en-bref";
+import { faitsFiche, type FormationFiche } from "@/lib/en-bref";
 
 // Logique reprise du renderVals() de docs/passation/prototype-source/projets.source.html.
 // Les projets viennent de la base (lib/data.ts), passés par la page serveur.
@@ -60,7 +60,7 @@ function livrables(p: Project) {
 
 const lienNomme = (p: Project) => (formatLivrable(p.pdf) === "Lien" && p.docs.find((d) => d.href === p.pdf)?.label) || "";
 
-function detail(p: Project) {
+function detail(p: Project, formations: readonly FormationFiche[] = []) {
   return {
     ...p,
     // « Tous les livrables » retiré de l'en-tête (retour de Clara du 25 nov. 2026) : les livrables sont déjà dans
@@ -99,7 +99,7 @@ function detail(p: Project) {
     retour: p.retour ?? null,
     evaluation: p.evaluation ?? null,
     // Bandeau « en bref », sur toutes les fiches : Type, Cadre, Date, puis Rôle, Équipe, Durée (lib/en-bref.ts).
-    faits: faitsFiche(p, p.enBref),
+    faits: faitsFiche(p, p.enBref, formations),
     captures: (p.captures ?? []).map((c) => ({ ...c, url: asset(c.url) })),
     hasDocs: livrables(p).length > 0,
     docs: livrables(p).map((d) => ({ ...d, format: formatLivrable(d.href) })),
@@ -195,7 +195,7 @@ export function ProjetsListe({ projects: PROJECTS, categories }: { projects: Sit
   return <ProjetsView v={v} />;
 }
 
-export function ProjetFiche({ id, projects: PROJECTS }: { id: string; projects: SiteProject[] }) {
+export function ProjetFiche({ id, projects: PROJECTS, formations = [] }: { id: string; projects: SiteProject[]; formations?: FormationFiche[] }) {
   const [vid, setVid] = useState<number | null>(null);
   // Bouton retour : vers la page d'où l'on a ouvert la fiche (lue après le premier rendu, sinon la liste).
   const [origine, setOrigine] = useState<string | undefined>(undefined);
@@ -223,8 +223,8 @@ export function ProjetFiche({ id, projects: PROJECTS }: { id: string; projects: 
     isList: false,
     isDetail: true,
     cur: {
-      ...detail(cur),
-      docs: detail(cur).docs.map((d) => ({ ...d, ouvrable: rang(d.href) >= 0, ouvrir: () => setDocOuvert(rang(d.href)) })),
+      ...detail(cur, formations),
+      docs: detail(cur, formations).docs.map((d) => ({ ...d, ouvrable: rang(d.href) >= 0, ouvrir: () => setDocOuvert(rang(d.href)) })),
       toutOuvrable: !!toutType,
       toutOuvrir: () => setToutOuvert(0),
     },
