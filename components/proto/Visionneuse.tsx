@@ -52,7 +52,7 @@ export function Visionneuse({ id, elements, index, onIndex, noms }: { id: string
         <div style={css(`display: flex; justify-content: space-between; align-items: center; gap: 16px`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 2px; min-width: 0`)}>
             <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ardoise)`)}>{`${noms.un} ${index! + 1} sur ${n}`}</span>
-            <span id={`${id}-titre`} style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--encre); text-wrap: balance`)}>
+            <span id={`${id}-titre`} style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--encre); text-wrap: balance`)}>
               {cur.titre}
             </span>
           </div>

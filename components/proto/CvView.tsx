@@ -23,7 +23,7 @@ export function CvView({ v }: { v: any }) {
             {" "}
             <div style={css(`flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 12px`)}>
               {" "}
-              <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 60px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.98`)}>
+              <h1 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 60px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.98`)}>
                 {v.profil.nom}
               </h1>
               {" "}
@@ -86,7 +86,7 @@ export function CvView({ v }: { v: any }) {
         <div className={"cv-colonnes"}>
           {/* Profil titré, en tête de la colonne de droite, face aux compétences (19 nov. 2026). */}
           <section aria-labelledby={"cv-profil"} className={"cv-profil"}>
-            <h2 id={"cv-profil"} style={css(`margin: 0 0 14px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+            <h2 id={"cv-profil"} style={css(`margin: 0 0 14px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
               {"Profil"}
             </h2>
             <p style={css(`margin: 0; padding: 18px 20px; border-radius: 16px; background: #F3EFFF; font-size: 17px; line-height: 1.6`)}>
@@ -97,14 +97,14 @@ export function CvView({ v }: { v: any }) {
             {" "}
             {v.profil.competencesIa?.length > 0 && (
               <section>
-                <h2 style={css(`margin: 0 0 14px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+                <h2 style={css(`margin: 0 0 14px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
                   {"Compétences IA"}
                 </h2>
                 <PucesGras items={v.profil.competencesIa} />
               </section>
             )}
             <section>
-              <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+              <h2 style={css(`margin: 0 0 6px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
                 {"Expériences professionnelles"}
               </h2>
               {v.experiences.map((e: any, i_e: number) => (
@@ -113,7 +113,7 @@ export function CvView({ v }: { v: any }) {
             </section>
             {v.profil.projetsCv?.length > 0 && (
               <section>
-                <h2 style={css(`margin: 0 0 6px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
+                <h2 style={css(`margin: 0 0 6px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 32px; font-weight: 800; letter-spacing: -0.03em`)}>
                   {v.profil.projetsCv.length > 1 ? "Projets personnels" : "Projet personnel"}
                 </h2>
                 {v.profil.projetsCv.map((pj: any) => (
@@ -129,7 +129,7 @@ export function CvView({ v }: { v: any }) {
           <aside ref={laterale} aria-label={"Compétences et formations"} className={"cv-laterale"}>
             <section aria-labelledby={"cv-competences"} className={"cv-competences"} style={css(`display: flex; flex-direction: column; gap: 1.5rem; border-radius: 24px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 26px`)}>
             {" "}
-            <h2 id={"cv-competences"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+            <h2 id={"cv-competences"} style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
               {"Compétences"}
             </h2>
             {" "}
@@ -168,7 +168,7 @@ export function CvView({ v }: { v: any }) {
             {" "}
             </section>
             <section aria-labelledby={"cv-formations"} className={"cv-formations"} style={css(`display: flex; flex-direction: column; border-radius: 24px; border: 1px solid #E4DCF7; background: #FFFFFF; padding: 26px`)}>
-              <h2 id={"cv-formations"} style={css(`margin: 0 0 10px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+              <h2 id={"cv-formations"} style={css(`margin: 0 0 10px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
                 {"Formations"}
               </h2>
               {v.formations.map((f: any, i_f: number) => (

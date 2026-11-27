@@ -6,6 +6,13 @@ import { siteUrl } from "@/lib/site-url";
 import { css } from "@/lib/css";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { MemoireNavigation } from "@/components/MemoireNavigation";
+import { Bricolage_Grotesque, Manrope } from "next/font/google";
+
+// Polices hébergées par le site (next/font, 27 nov. 2026) : téléchargées au build, servies depuis clarabernadou.fr,
+// aucune requête du navigateur vers Google. Polices variables des sources du prototype : Bricolage Grotesque
+// (axe opsz 12–96, graisses 200–800) et Manrope (200–800), exposées en variables CSS (--font-titre, --font-texte).
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"], axes: ["opsz"], variable: "--font-bricolage", display: "swap" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
 
 const defaultDescription = "Portfolio de Clara Bernadou, développeuse full stack (React, TypeScript, Node.js).";
 
@@ -41,20 +48,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const [profil, iaPubliee] = await Promise.all([getProfile(), getIaPubliee()]);
   return (
     // data-scroll-behavior : Next.js coupe le défilement doux pendant les changements de page.
-    <html lang="fr" data-scroll-behavior="smooth">
-      <head>
-        {/* Polices variables des sources du prototype : Bricolage Grotesque (opsz 12–96, wght 200–800)
-            et Manrope (wght 200–800). */}
-        {/* eslint-disable-next-line @next/next/no-page-custom-font -- chargement repris de la source */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@200..800&display=swap"
-        />
-      </head>
+    <html lang="fr" data-scroll-behavior="smooth" className={`${bricolage.variable} ${manrope.variable}`}>
       <body>
         {/* Pied de page toujours en bas : la page occupe au moins la hauteur de l'écran et le
             contenu s'étire, sans jamais laisser de bande blanche sous le pied de page. */}
-        <div style={css("width: 100%; min-height: 100dvh; display: flex; flex-direction: column; background: #FFFFFF; font-family: 'Manrope', system-ui, sans-serif; color: #1A1033")}>
+        <div style={css("width: 100%; min-height: 100dvh; display: flex; flex-direction: column; background: #FFFFFF; font-family: var(--font-texte); color: #1A1033")}>
           <span id="top" tabIndex={-1} />
           <ScrollToTop />
           <MemoireNavigation />

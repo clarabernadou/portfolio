@@ -132,7 +132,7 @@ export function CvExperience({ e }: { e: SiteExperience }) {
       <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{e.periode}</span>
       {" "}
       <div style={css(`min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
-        <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</h3>
+        <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>{e.poste}</h3>
         {" "}
         <Entreprise e={e} />
         {" "}
@@ -171,7 +171,7 @@ export function CvProjet({ p }: { p: { titre: string; lien?: string; periode: st
       <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{p.periode}</span>
       {" "}
       <div style={css(`min-width: 0; display: flex; flex-direction: column; gap: 6px`)}>
-        <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>
+        <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.02em`)}>
           {/* Titre relié à la fiche du projet (20 nov. 2026) ; une adresse externe garde la flèche ↗. */}
           {p.lien?.startsWith("/") ? (
             <Link href={p.lien} style={css(LIEN)}>
@@ -215,7 +215,7 @@ export function CvFormation({ f }: { f: SiteFormation }) {
     <div style={css(`display: flex; flex-direction: column; gap: 6px; padding: 16px 0; border-top: 1px solid #E4DCF7`)}>
       <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{f.annees}</span>
       {" "}
-      <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 18px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25`)}>
+      <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 18px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25`)}>
         <LienFormation f={f} style={`color: inherit; text-decoration: none`} />
       </h3>{" "}
       <div style={css(`display: flex; flex-wrap: wrap; align-items: center; gap: 6px`)}>
@@ -255,7 +255,7 @@ export function CarteAlternance({ e }: { e: SiteExperience }) {
       {actuel && <span style={css(`position: absolute; top: 0; left: 24px; transform: translateY(-50%); padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em; line-height: 1.4`)}>{"AUJOURD’HUI"}</span>}
       <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{[e.periode, e.homeCard?.lieuMode ?? e.lieuMode].filter(Boolean).join(" · ")}</span>
       <div>
-        <h4 id={`${id}-titre`} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1`)}>
+        <h4 id={`${id}-titre`} style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1`)}>
           {e.entreprise}
           {e.entrepriseParent && <span style={css(`font-weight: 300; color: #6A4FB6`)}>{` by ${e.entrepriseParent}`}</span>}
         </h4>
@@ -276,7 +276,7 @@ export function FriseFormation({ f }: { f: SiteFormation }) {
     <li className={f.statut === "En cours" ? "tl-item tl-now" : "tl-item"}>
       <span className={"tl-dot"} aria-hidden={"true"} />{" "}
       <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
-        <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 800; letter-spacing: -0.03em; color: #6A4FB6`)}>{f.annees}</span>
+        <span style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 800; letter-spacing: -0.03em; color: #6A4FB6`)}>{f.annees}</span>
         {" "}
         <h4 style={css(`margin: 0; font-size: 17px; font-weight: 800; line-height: 1.3`)}>
           <LienFormation f={f} style={`color: inherit; text-decoration: none; `} />

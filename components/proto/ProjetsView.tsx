@@ -26,7 +26,7 @@ const lignes = (long: boolean, n: number) => (long ? ({ "--lignes": String(Math.
 function Avancement({ steps, long }: { steps: any[]; long: boolean }) {
   return (
     <section style={css(`border-radius: 22px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 24px`)}>
-        <h2 style={css(`margin: 0 0 8px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+        <h2 style={css(`margin: 0 0 8px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
           {"Avancement"}
         </h2>
         <ol className={long ? "liste-deux-colonnes" : undefined} style={{ ...css(`list-style: none; margin: 0; padding: 0 18px; background: #FFFFFF; border-radius: 16px`), ...lignes(long, steps.length) }}>
@@ -55,7 +55,7 @@ function Avancement({ steps, long }: { steps: any[]; long: boolean }) {
 function Competences({ skills, long }: { skills: string[]; long: boolean }) {
   return (
     <section style={css(`border-radius: 22px; background: linear-gradient(135deg, #F3EFFF 0%, #E9E2FB 100%); padding: 24px; display: flex; flex-direction: column; gap: 12px`)}>
-        <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+        <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
           {"Compétences mises en pratique"}
         </h2>
         <ul className={long ? "liste-deux-colonnes" : undefined} style={{ ...css(long ? `list-style: none; margin: 0; padding: 0; gap: 10px 32px` : `list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px`), ...lignes(long, skills.length) }}>
@@ -97,7 +97,7 @@ export function ProjetsView({ v }: { v: any }) {
               <div style={css(`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem`)}>
                 {" "}
                 <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
-                  <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 60px); letter-spacing: -0.045em; line-height: 1`)}>
+                  <h1 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 60px); letter-spacing: -0.045em; line-height: 1`)}>
                     <span style={css(`font-weight: 800`)}>
                       {"Tous les"}
                     </span>
@@ -114,7 +114,7 @@ export function ProjetsView({ v }: { v: any }) {
                 <>
                   <section aria-labelledby={"honneur"} style={css(`display: flex; flex-direction: column; gap: 14px`)}>
                     <div style={css(`display: flex; flex-direction: column; gap: 2px`)}>
-                      <h2 id={"honneur"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 28px; font-weight: 800; letter-spacing: -0.03em`)}>
+                      <h2 id={"honneur"} style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 28px; font-weight: 800; letter-spacing: -0.03em`)}>
                         {"Projets phares"}
                       </h2>
                       <span style={css(`font-size: 15px; color: #5B5470`)}>
@@ -228,7 +228,7 @@ export function ProjetsView({ v }: { v: any }) {
                         {/* Cadre · date, comme sur toutes les cartes de projet (24 nov. 2026). */}
                         <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{[p.parcours, p.date].filter(Boolean).join(" · ")}</span>
                         {" "}
-                        <h3 id={`carte-projet-${i_p}`} tabIndex={-1} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1`)}>
+                        <h3 id={`carte-projet-${i_p}`} tabIndex={-1} style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1`)}>
                           <Link href={p.href} className={"titre-lien"}>
                             {p.name}
                           </Link>
@@ -291,7 +291,7 @@ export function ProjetsView({ v }: { v: any }) {
               <header style={css(`display: flex; flex-direction: column; gap: 12px`)}>
                 {" "}
                 {/* Types, date et cadre : dans le bandeau « en bref » sous l'en-tête (25 nov. 2026). */}
-                <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 64px); font-weight: 800; letter-spacing: -0.045em; line-height: 1`)}>
+                <h1 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 64px); font-weight: 800; letter-spacing: -0.045em; line-height: 1`)}>
                   <span>{v.cur.name}</span>
                 </h1>
                 {" "}
@@ -388,7 +388,7 @@ export function ProjetsView({ v }: { v: any }) {
                 {v.cur.hasCtx && (
                   <>
                     <section style={css(`border-radius: 22px; border: 1px solid #E4DCF7; padding: 24px; display: flex; flex-direction: column; gap: 10px`)}>
-                      <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+                      <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
                         {"Contexte"}
                       </h2>
                       {/* Mise en forme légère (puces, gras, italique, paragraphes) : lib/texte-formate.tsx, 20 nov. 2026. */}
@@ -411,7 +411,7 @@ export function ProjetsView({ v }: { v: any }) {
                 <>
                   <section aria-labelledby={"films"} style={css(`display: flex; flex-direction: column; gap: 16px`)}>
                     <div style={css(`display: flex; flex-direction: column; gap: 6px`)}>
-                      <h2 id={"films"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+                      <h2 id={"films"} style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
                         {"La saga de 3 films"}
                       </h2>
                       <p style={css(`margin: 0; font-size: 17px; line-height: 1.65`)}>
@@ -448,7 +448,7 @@ export function ProjetsView({ v }: { v: any }) {
                                 <span>{v.kicker}</span>
                               </span>
                               {" "}
-                              <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15`)}>
+                              <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15`)}>
                                 <span lang={v.lang}>{v.title}</span>
                               </h3>
                               {" "}
@@ -473,7 +473,7 @@ export function ProjetsView({ v }: { v: any }) {
                 <>
                   <section style={css(`display: flex; flex-direction: column; gap: 1rem`)}>
                     <div style={css(`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem`)}>
-                      <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+                      <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
                         {"Démarche et livrables"}
                       </h2>
                       {/* « Tout ouvrir » retiré (25 nov. 2026) : les livrables sont listés juste dessous ; le bouton « Tous les livrables » de l'en-tête reste. */}
@@ -493,11 +493,11 @@ export function ProjetsView({ v }: { v: any }) {
                                   <path d={PAPILLON} />
                                 </g>
                               </svg>
-                              <span style={css(`position: relative; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 15px; font-weight: 300; color: #C4B5FD`)}>
+                              <span style={css(`position: relative; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 15px; font-weight: 300; color: #C4B5FD`)}>
                                 {`Livrable ${String(d.n).padStart(2, "0")}`}
                               </span>
                               {" "}
-                              <span style={css(`position: relative; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; text-wrap: balance`)}>
+                              <span style={css(`position: relative; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; text-wrap: balance`)}>
                                 {d.label}
                               </span>
                               {" "}

@@ -57,7 +57,7 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
         {items.map((it, i) => (
           <li key={it.auteur} style={css(`display: grid`)}>
           <figure style={css(`margin: 0; border-radius: 22px; border: 1px solid #E4DCF7; padding: 26px; display: flex; flex-direction: column; gap: 18px; height: 100%; box-sizing: border-box`)}>
-            <blockquote style={css(`margin: 0; flex-grow: 1; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 21px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.35`)}>{it.citationCourte}</blockquote>
+            <blockquote style={css(`margin: 0; flex-grow: 1; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 21px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.35`)}>{it.citationCourte}</blockquote>
             <figcaption style={css(`display: flex; flex-direction: column; gap: 12px`)}>
               <div style={css(`display: flex; align-items: center; gap: 12px`)}>
                 <span aria-hidden={"true"} style={css(`width: 46px; height: 46px; border-radius: 50%; background: #F3EFFF; border: 1.5px solid #B9A8EC; color: #6A4FB6; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0`)}>
@@ -126,7 +126,7 @@ export function Recommandations({ items }: { items: SiteReco[] }) {
               <div style={css(`display: flex; flex-direction: column; gap: 2px`)}>
                 <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{"Recommandation complète"}</span>
                 {" "}
-                <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: #1A1033`)}>{r.auteur}</span>
+                <span style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: #1A1033`)}>{r.auteur}</span>
               </div>
               {" "}
               <button type={"button"} onClick={close} aria-label={`Fermer la recommandation de ${r.auteur}`} style={css(`width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; flex-shrink: 0; aspect-ratio: 1 / 1`)}>

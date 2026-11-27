@@ -14,8 +14,8 @@ const BLOB = "https://*.public.blob.vercel-storage.com";
 const CSP = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${DEV ? " 'unsafe-eval'" : ""}`,
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com data:",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self' data:",
   `img-src 'self' data: blob: ${BLOB}`,
   `media-src 'self' ${BLOB}`,
   // Vidéos YouTube (chargées au clic) et livrables PDF.

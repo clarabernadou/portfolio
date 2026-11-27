@@ -11,7 +11,7 @@ export function MentionsView({ v }: { v: any }) {
       <main id={"contenu"} tabIndex={-1} style={css(`width: var(--container); margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 0 4.5rem; display: flex; flex-direction: column; gap: 2.5rem`)}>
         {" "}
         <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
-          <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(36px, 5vw, 52px); letter-spacing: -0.045em; line-height: 1`)}>
+          <h1 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(36px, 5vw, 52px); letter-spacing: -0.045em; line-height: 1`)}>
             <span style={css(`font-weight: 800`)}>
               {"Mentions légales"}
             </span>
@@ -23,7 +23,7 @@ export function MentionsView({ v }: { v: any }) {
         </div>
         {" "}
         <section style={css(`display: flex; flex-direction: column`)}>
-          <h2 style={css(`margin: 0 0 10px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+          <h2 style={css(`margin: 0 0 10px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
             {"Éditrice du site"}
           </h2>
           <dl style={css(`margin: 0`)}>
@@ -57,7 +57,7 @@ export function MentionsView({ v }: { v: any }) {
         </section>
         {" "}
         <section style={css(`display: flex; flex-direction: column`)}>
-          <h2 style={css(`margin: 0 0 10px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+          <h2 style={css(`margin: 0 0 10px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
             {"Hébergement"}
           </h2>
           <dl style={css(`margin: 0`)}>
@@ -89,7 +89,7 @@ export function MentionsView({ v }: { v: any }) {
         </section>
         {" "}
         <section style={css(`display: flex; flex-direction: column`)}>
-          <h2 style={css(`margin: 0 0 10px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+          <h2 style={css(`margin: 0 0 10px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
             {"Données personnelles"}
           </h2>
           <dl style={css(`margin: 0`)}>
@@ -114,7 +114,7 @@ export function MentionsView({ v }: { v: any }) {
               {"Polices"}
             </dt>
             <dd style={css(`margin: 0; flex: 1 1 300px; color: #5B5470`)}>
-              {"Chargées depuis Google Fonts : votre navigateur contacte les serveurs de Google, qui reçoivent votre adresse IP."}
+              {"Hébergées sur ce site, aucune requête vers un service tiers."}
             </dd>
           </div>
           <div style={css(`display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 14px 0; border-top: 1px solid #E4DCF7; font-size: 16px; line-height: 1.5`)}>
@@ -185,7 +185,7 @@ export function MentionsView({ v }: { v: any }) {
         </section>
         {" "}
         <section style={css(`display: flex; flex-direction: column`)}>
-          <h2 style={css(`margin: 0 0 10px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+          <h2 style={css(`margin: 0 0 10px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
             {"Propriété intellectuelle"}
           </h2>
           <dl style={css(`margin: 0`)}>
@@ -201,7 +201,7 @@ export function MentionsView({ v }: { v: any }) {
         </section>
         {" "}
         <section style={css(`display: flex; flex-direction: column`)}>
-          <h2 style={css(`margin: 0 0 10px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
+          <h2 style={css(`margin: 0 0 10px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`)}>
             {"Droit applicable"}
           </h2>
           <dl style={css(`margin: 0`)}>

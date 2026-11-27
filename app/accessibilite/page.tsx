@@ -13,7 +13,7 @@ export const metadata = pageMetadata(
 );
 
 // Mise en page reprise de la page des mentions légales (MentionsView).
-const H2 = `margin: 0 0 10px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`;
+const H2 = `margin: 0 0 10px; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em`;
 const H3 = `margin: 0; font-size: 18px; font-weight: 800`;
 const P = `margin: 0; font-size: 17px; line-height: 1.65`;
 const SECTION = `display: flex; flex-direction: column; gap: 12px`;
@@ -30,7 +30,7 @@ export default async function AccessibilitePage() {
   return (
     <main id={"contenu"} tabIndex={-1} style={css(`width: var(--container); margin: 0 auto; padding: clamp(2.5rem, 5vw, 3.5rem) 0 4.5rem; display: flex; flex-direction: column; gap: 2.5rem`)}>
       <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
-        <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(36px, 5vw, 52px); letter-spacing: -0.045em; line-height: 1`)}>
+        <h1 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(36px, 5vw, 52px); letter-spacing: -0.045em; line-height: 1`)}>
           <span style={css(`font-weight: 800`)}>{"Déclaration"}</span>{" "}
           <span style={css(`font-weight: 300; color: #6A4FB6`)}>{"d’accessibilité"}</span>
         </h1>

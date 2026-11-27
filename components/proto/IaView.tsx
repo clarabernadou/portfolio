@@ -79,7 +79,7 @@ export function IaView({ v }: { v: any }) {
         {/* Introduction plus aérée (19 nov. 2026). */}
         {/* Intro en deux colonnes sur ordinateur (20 nov. 2026) : texte à gauche, les 3 chiffres à droite (.ia-intro). */}
         <section className={"ia-intro"} style={css(`padding-bottom: clamp(0.5rem, 2vw, 1.5rem)`)}>
-          <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 6vw, 64px); letter-spacing: -0.045em; line-height: 1; hyphens: manual`)}>
+          <h1 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(38px, 6vw, 64px); letter-spacing: -0.045em; line-height: 1; hyphens: manual`)}>
               <span style={css(`font-weight: 800`)}>
                 {"Ma façon de travailler"}
               </span>
@@ -108,7 +108,7 @@ export function IaView({ v }: { v: any }) {
             (les autres en liste compacte), la méthode avec ses règles, et les routines. */}
         <section className={"ia-bande"} style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
-            <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
+            <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Ce que ça a produit"}
             </h2>
           </div>
@@ -123,7 +123,7 @@ export function IaView({ v }: { v: any }) {
               <CarteProjet id={"portfolio"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
                 <Icone d={"M3 5h18v14H3zM3 9h18M7 7h.01M10 7h.01"} />
                 {" "}
-                <h3 id={"portfolio-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
+                <h3 id={"portfolio-titre"} style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
                   {"Ce portfolio"}
                 </h3>
                 {" "}
@@ -138,7 +138,7 @@ export function IaView({ v }: { v: any }) {
               <CarteProjet id={"intuitlearn"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
                 <Icone d={"M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5M8 11l2 2 4-4"} />
                 {" "}
-                <h3 id={"intuitlearn-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
+                <h3 id={"intuitlearn-titre"} style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
                   {"Audits de sites"}
                 </h3>
                 {" "}
@@ -153,7 +153,7 @@ export function IaView({ v }: { v: any }) {
               <CarteProjet id={"saga-films-fruggr"} publics={v.publics} separe style={`text-decoration: none; color: #1A1033; border-radius: 20px; border: 1px solid #E4DCF7; border-top: 4px solid #6A4FB6; background: #FFFFFF; padding: 24px; display: flex; flex-direction: column; gap: 10px`} suite={<span style={css(`font-size: 15px; font-weight: 700; color: #6A4FB6`)}>{"Voir le projet →"}</span>}>
                 <Icone d={"M4 6h12v12H4zM16 10l4-2v8l-4-2"} />
                 {" "}
-                <h3 id={"saga-films-fruggr-titre"} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
+                <h3 id={"saga-films-fruggr-titre"} style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 22px; font-weight: 700; letter-spacing: -0.03em`)}>
                   {"Saga de 3 films pour Fruggr"}
                 </h3>
                 {" "}
@@ -168,7 +168,7 @@ export function IaView({ v }: { v: any }) {
         </section>
         <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
-            <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
+            <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Mes outils"}
             </h2>
             <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
@@ -182,7 +182,7 @@ export function IaView({ v }: { v: any }) {
               <li key={t.name} className={"ia-outil"}>
                 <Icone d={iconeOutil(t.category)} />
                 <div style={css(`display: flex; flex-direction: column; gap: 2px`)}>
-                  <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{t.name}</h3>
+                  <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{t.name}</h3>
                   <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{t.category}</span>
                 </div>
                 <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
@@ -196,7 +196,7 @@ export function IaView({ v }: { v: any }) {
             {autres(v.tools).length > 0 && (
               <li className={"ia-outil ia-outil-autres"}>
                 <Icone d={"M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"} />
-                <h3 style={css(`margin: 4px 0 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{"Aussi, selon la tâche"}</h3>
+                <h3 style={css(`margin: 4px 0 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 800; letter-spacing: -0.02em`)}>{"Aussi, selon la tâche"}</h3>
                 <ul role={"list"} className={"liste-nue"} style={css(`display: flex; flex-direction: column; gap: 8px`)}>
                   {autres(v.tools).map((t: any) => (
                     <li key={t.name} style={css(`font-size: 15px; line-height: 1.4`)}>
@@ -212,7 +212,7 @@ export function IaView({ v }: { v: any }) {
         </section>
         <section className={"ia-bande"} style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
-            <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
+            <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Les skills que j’ai créés"}
             </h2>
             <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
@@ -230,7 +230,7 @@ export function IaView({ v }: { v: any }) {
         </section>
         <section style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
-            <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
+            <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Ma méthode"}
             </h2>
           </div>
@@ -244,7 +244,7 @@ export function IaView({ v }: { v: any }) {
               </span>
               <span className={"ia-etape-n"} aria-hidden={"true"}>{"01"}</span>
               {" "}
-              <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
+              <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Repérer"}
               </h3>
               {" "}
@@ -260,7 +260,7 @@ export function IaView({ v }: { v: any }) {
               </span>
               <span className={"ia-etape-n"} aria-hidden={"true"}>{"02"}</span>
               {" "}
-              <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
+              <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Cadrer"}
               </h3>
               {" "}
@@ -276,7 +276,7 @@ export function IaView({ v }: { v: any }) {
               </span>
               <span className={"ia-etape-n"} aria-hidden={"true"}>{"03"}</span>
               {" "}
-              <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
+              <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Itérer"}
               </h3>
               {" "}
@@ -292,7 +292,7 @@ export function IaView({ v }: { v: any }) {
               </span>
               <span className={"ia-etape-n"} aria-hidden={"true"}>{"04"}</span>
               {" "}
-              <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
+              <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Vérifier"}
               </h3>
               {" "}
@@ -308,7 +308,7 @@ export function IaView({ v }: { v: any }) {
               </span>
               <span className={"ia-etape-n"} aria-hidden={"true"}>{"05"}</span>
               {" "}
-              <h3 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
+              <h3 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 20px; font-weight: 700; letter-spacing: -0.02em`)}>
                 {"Partager"}
               </h3>
               {" "}
@@ -322,7 +322,7 @@ export function IaView({ v }: { v: any }) {
             principes de l'autre) ; bloc à filets en 4 colonnes (.ia-regles). */}
         <section className={"ia-bande"} style={css(`display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 14px`)}>
-            <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
+            <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Mes règles de travail"}
             </h2>
             <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
@@ -362,7 +362,7 @@ export function IaView({ v }: { v: any }) {
         </section>
         <section style={css(`display: flex; flex-direction: column; gap: 1.5rem; padding-bottom: var(--espace-section)`)}>
           <div style={css(`display: flex; flex-direction: column; gap: 8px`)}>
-            <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
+            <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05`)}>
               {"Mes routines"}
             </h2>
             <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>

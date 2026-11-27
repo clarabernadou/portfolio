@@ -95,7 +95,7 @@ export function CapturesSite({ captures }: { captures: ProjectCapture[] }) {
 
   return (
     <section style={css(`display: flex; flex-direction: column; gap: 1rem`)}>
-      <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance`)}>
+      <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance`)}>
         {captures.length > 1 ? "Captures du site" : "Capture du site"}
       </h2>
       {filtres && (
@@ -156,7 +156,7 @@ export function CapturesSite({ captures }: { captures: ProjectCapture[] }) {
                 ))}
               </span>
               <span aria-hidden={"true"} style={css(`position: absolute; inset: 0; background: linear-gradient(135deg, color-mix(in srgb, var(--encre) 80%, transparent) 0%, color-mix(in srgb, var(--nuit) 72%, transparent) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--fond)`)}>
-                <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1`)}>{`+${cachees.length}`}</span>
+                <span style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1`)}>{`+${cachees.length}`}</span>
                 {" "}
                 <span style={css(`font-size: 16px; font-weight: 700`)}>{"autres captures"}</span>
               </span>

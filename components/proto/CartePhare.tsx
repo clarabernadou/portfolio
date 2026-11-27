@@ -55,7 +55,7 @@ export function CartePhare({
           {badge && <span style={css(`padding: 3px 9px; border-radius: 999px; background: #6A4FB6; color: #FFFFFF; font-size: 13px; font-weight: 800; letter-spacing: 0.04em`)}>{"PROJET PHARE"}</span>}
           {infos?.filter(Boolean).length ? <span style={css(`font-size: 14px; font-weight: 700; color: #5B5470`)}>{infos.filter(Boolean).join(" · ")}</span> : null}
         </div>
-        <Titre id={`${id}-titre`} style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(26px, 3vw, 32px); font-weight: 800; letter-spacing: -0.03em`)}>
+        <Titre id={`${id}-titre`} style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(26px, 3vw, 32px); font-weight: 800; letter-spacing: -0.03em`)}>
           {titre}
         </Titre>
         <p id={`${id}-desc`} style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>

@@ -35,7 +35,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
         <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>
           {"Administration"}
         </span>
-        <h1 style={css(`margin: 4px 0 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 34px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05`)}>
+        <h1 style={css(`margin: 4px 0 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 34px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05`)}>
           {"Connexion"}
         </h1>
         <p style={css(`margin: 0; font-size: 16px; line-height: 1.5; color: #5B5470`)}>

@@ -32,7 +32,7 @@ export function AccueilView({ v }: { v: any }) {
               {" "}
             </div>
             {" "}
-            <h1 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(38px, 4vw, 54px); letter-spacing: -0.045em; line-height: 0.98`)}>
+            <h1 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(38px, 4vw, 54px); letter-spacing: -0.045em; line-height: 0.98`)}>
               <span style={css(`font-weight: 800`)}>
                 {"Développeuse"}
               </span>
@@ -161,7 +161,7 @@ export function AccueilView({ v }: { v: any }) {
                 <div style={css(`display: flex; flex-wrap: wrap; gap: 12px`)}>
                   {" "}
                   <div style={css(`flex: 1 1 150px; border-radius: 16px; background: #FFFFFF; padding: 14px; display: flex; align-items: center; gap: 14px`)}>
-                    <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 34px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
+                    <span style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 34px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                       {"Aa"}
                     </span>
                     {" "}
@@ -199,7 +199,7 @@ export function AccueilView({ v }: { v: any }) {
           <ul role={"list"} className={"liste-nue"} style={css(`display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 1px; background: #E4DCF7; border: 1px solid #E4DCF7; border-radius: 20px; overflow: hidden`)}>
             {v.chiffreCle && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
-              <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
+              <span style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {v.chiffreCle.valeur}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
@@ -210,7 +210,7 @@ export function AccueilView({ v }: { v: any }) {
             {/* Titres et projets calculés depuis les formations et la base (lib/data-shared.ts, 30 oct. 2026). */}
             {v.titres && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
-              <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
+              <span style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {v.titres.valeur}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
@@ -220,7 +220,7 @@ export function AccueilView({ v }: { v: any }) {
             )}
             {v.projetsBref && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
-              <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
+              <span style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {v.projetsBref.valeur}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
@@ -230,7 +230,7 @@ export function AccueilView({ v }: { v: any }) {
             )}
             {v.duree && (
             <li style={css(`background: #FFFFFF; padding: 22px 24px; display: flex; flex-direction: column; gap: 4px; color: #1A1033`)}>
-              <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
+              <span style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: #6A4FB6`)}>
                 {v.duree.valeur}
               </span>{" "}
               <span style={css(`font-size: 15px; font-weight: 700`)}>
@@ -251,7 +251,7 @@ export function AccueilView({ v }: { v: any }) {
           {" "}
           <div style={css(`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem`)}>
             <div style={css(`display: flex; flex-direction: column; gap: 10px`)}>
-              <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #1A1033`)}>
+              <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #1A1033`)}>
                 <span style={css(`font-weight: 800`)}>
                   {"Projets"}
                 </span>
@@ -332,7 +332,7 @@ export function AccueilView({ v }: { v: any }) {
           <div style={css(`width: var(--container); margin: 0 auto; padding: 0 0; display: flex; flex-direction: column; gap: 1.75rem`)}>
             {" "}
             <div style={css(`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem`)}>
-              <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #1A1033`)}>
+              <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #1A1033`)}>
                 {/* « Parcours » seul (Clara, 31 oct. 2026) : il n'y a pas que de l'alternance. */}
                 <span style={css(`font-weight: 800`)}>
                   {"Parcours"}
@@ -383,7 +383,7 @@ export function AccueilView({ v }: { v: any }) {
           <div style={css(`width: var(--container); margin: 0 auto; padding: 0 0; display: flex; flex-wrap: wrap; gap: 3rem; align-items: center`)}>
             {" "}
             <div style={css(`flex: 1.3 1 400px; display: flex; flex-direction: column; gap: 16px`)}>
-              <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #FFFFFF`)}>
+              <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #FFFFFF`)}>
                 <span style={css(`font-weight: 800`)}>
                   {"L’IA,"}
                 </span>
@@ -410,7 +410,7 @@ export function AccueilView({ v }: { v: any }) {
                   {"Mon IA de prédilection"}
                 </span>
                 {" "}
-                <span style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 34px; font-weight: 800; letter-spacing: -0.04em; color: #FFFFFF`)}>
+                <span style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 34px; font-weight: 800; letter-spacing: -0.04em; color: #FFFFFF`)}>
                   {"Claude"}
                 </span>
                 {" "}
@@ -432,7 +432,7 @@ export function AccueilView({ v }: { v: any }) {
         )}
         <section aria-labelledby={"recos"} style={css(`width: var(--container); margin: 0 auto; padding: var(--espace-section) 0; display: flex; flex-direction: column; gap: 1.5rem`)}>
           <div id={"recos"}>
-            <h2 style={css(`margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #1A1033`)}>
+            <h2 style={css(`margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 44px; letter-spacing: -0.04em; line-height: 1.02; color: #1A1033`)}>
               <span style={css(`font-weight: 800`)}>
                 {"Ils"}
               </span>

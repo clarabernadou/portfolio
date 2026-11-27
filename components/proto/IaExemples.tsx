@@ -44,7 +44,7 @@ export function IaExemples({ ex, routine, id }: { ex: IaExamples; routine: strin
             <div style={css(`display: flex; justify-content: space-between; align-items: flex-start; gap: 16px`)}>
               <div style={css(`display: flex; flex-direction: column; gap: 2px`)}>
                 <span style={css(`font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5470`)}>{`Routine · ${routine}`}</span>
-                <span id={`${id}-titre`} style={css(`font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: #1A1033`)}>{ex.title}</span>
+                <span id={`${id}-titre`} style={css(`font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: #1A1033`)}>{ex.title}</span>
               </div>
               <button type={"button"} onClick={close} aria-label={"Fermer les exemples"} style={css(`width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid #1A1033; background: #FFFFFF; color: #1A1033; display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; flex-shrink: 0; aspect-ratio: 1 / 1`)}>
                 <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"}>

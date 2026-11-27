@@ -10,10 +10,10 @@ export const metadata: Metadata = { title: "Page introuvable" };
 export default function NotFound() {
   return (
     <main id={"contenu"} tabIndex={-1} style={css("width: var(--container); margin: 0 auto; padding: 4.5rem 0; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; text-align: center")}>
-      <span style={css("font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: 64px; font-weight: 800; letter-spacing: -0.045em; line-height: 1; color: #6A4FB6")}>
+      <span style={css("font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: 64px; font-weight: 800; letter-spacing: -0.045em; line-height: 1; color: #6A4FB6")}>
         404
       </span>
-      <h1 style={css("margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 60px); letter-spacing: -0.045em; line-height: 1")}>
+      <h1 style={css("margin: 0; font-family: var(--font-titre); font-variation-settings: 'opsz' 96; font-size: clamp(40px, 5vw, 60px); letter-spacing: -0.045em; line-height: 1")}>
         <span style={css("font-weight: 800")}>Page</span> <span style={css("font-weight: 300; color: #6A4FB6")}>introuvable</span>
       </h1>
       <p style={css("margin: 0; font-size: 20px; line-height: 1.5; font-weight: 500; color: #5B5470")}>
