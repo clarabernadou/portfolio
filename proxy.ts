@@ -16,8 +16,8 @@ export async function proxy(request: NextRequest) {
     : null;
   const admin = isAdminGithubId(token?.githubId);
 
-  // Fiche projet (4 nov. 2026) : les visiteurs voient la page publique, ou « en cours de validation »
-  // pour un projet non publié ; connectée, Clara voit l'aperçu à la même adresse, brouillon compris.
+  // Fiche projet : les visiteurs voient la page publique, ou une 404 pour un projet non publié (27 nov. 2026) ;
+  // connectée, Clara voit l'aperçu à la même adresse, brouillon compris.
   const fiche = /^\/projets\/([\w-]+)$/.exec(pathname);
   if (fiche) return admin ? NextResponse.rewrite(new URL(`/apercu/projets/${fiche[1]}`, request.url)) : NextResponse.next();
 

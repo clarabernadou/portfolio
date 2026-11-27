@@ -101,9 +101,9 @@ for (const largeur of [1440, 390]) {
   ok((await statut()) === "Privé", `admin : « Publier » sur un projet Privé → « ${await statut()} »`);
   ok((await page.getByRole("textbox", { name: "Points forts", exact: true }).inputValue()) === "Code lisible.\nTests complets.", "admin : évaluation relue après enregistrement");
   const pub = await fetch(`${base}/projets/${PRIVE}`);
-  // Projet non publié : page « en cours de validation » (noindex), jamais la fiche ni son évaluation.
+  // Projet non publié : 404 pour les visiteurs (27 nov. 2026), jamais la fiche ni son évaluation.
   const html = await pub.text();
-  ok(!html.includes("Retour de l’évaluateur") && !html.includes("Code lisible."), `site public : le projet privé ne montre pas la fiche (${pub.status}, page « en cours de validation »)`);
+  ok(pub.status === 404 && !html.includes("Retour de l’évaluateur") && !html.includes("Code lisible."), `site public : le projet privé renvoie une 404 (${pub.status})`);
 
   // « Enregistrer le brouillon » ne fait plus passer une fiche Privé en Brouillon (23 nov. 2026).
   await page.getByRole("button", { name: "Enregistrer le brouillon" }).click();
