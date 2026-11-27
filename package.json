@@ -19,6 +19,7 @@
     "test:evaluateur": "node scripts/test-retour-evaluateur.mjs",
     "test:en-bref": "node scripts/test-en-bref.mjs",
     "test:competences": "node scripts/test-competences.mjs",
+    "test:typographie": "node scripts/test-typographie.mjs",
     "db:backup": "tsx scripts/db-backup.ts",
     "db:restore": "tsx scripts/db-restore.ts",
     "demo:donnees": "tsx scripts/demo/donnees-demo.ts",
