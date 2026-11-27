@@ -1,7 +1,7 @@
 // Bandeau « en bref » de la fiche projet (demande de Clara, 24 nov. 2026) : Rôle, Équipe et Durée, sous l'en-tête, la
 // première chose qu'un recruteur lit. 3 colonnes facultatives de Project, saisies dans l'administration (section
-// Informations). Un champ vide n'apparaît pas ; sans aucun champ, pas de bandeau. Le cadre (parcours) n'y figure pas :
-// il est dans l'en-tête, après la date, et le contexte le cite déjà.
+// Informations). Un champ vide n'apparaît pas. Depuis le 25 novembre 2026, le bandeau est sur toutes les fiches : Type,
+// Cadre et Date y passent depuis l'en-tête (faitsFiche).
 // Sans dépendance serveur.
 
 export interface EnBref {
@@ -33,6 +33,23 @@ export function colonnesEnBref(e: Partial<EnBref> | null | undefined): { ok: tru
     data[c.cle] = v || null;
   }
   return { ok: true, data };
+}
+
+/**
+ * Bandeau de la fiche, sur toutes les fiches (retour de Clara du 25 novembre 2026) : Type, Cadre et Date, qui
+ * quittent l'en-tête (plus de redite), puis Rôle, Équipe et Durée quand ils sont remplis. Une valeur vide n'apparaît pas.
+ */
+export function faitsFiche(
+  p: { types?: readonly string[]; parcours?: string | null; date?: string | null },
+  e: Partial<EnBref> | null | undefined,
+): { libelle: string; valeur: string }[] {
+  const types = (p.types ?? []).map((t) => t.trim()).filter(Boolean);
+  return [
+    { libelle: types.length > 1 ? "Types" : "Type", valeur: types.join(", ") },
+    { libelle: "Cadre", valeur: (p.parcours ?? "").trim() },
+    { libelle: "Date", valeur: (p.date ?? "").trim() },
+    ...faitsEnBref(e),
+  ].filter((f) => f.valeur);
 }
 
 /** Lignes du bandeau, dans l'ordre Rôle, Équipe, Durée : seulement les champs remplis. */

@@ -20,9 +20,13 @@ for (const largeur of [1440, 390]) {
   const page = await (await browser.newContext({ viewport: { width: largeur, height: 900 } })).newPage();
   await page.goto(`${DEMO_BASE}/projets/mediatheque-refonte`, { waitUntil: "networkidle" });
   const f = await faits(page);
-  ok(f.length === 3 && f[0] === "Rôle : UX designer" && f[1] === "Équipe : En binôme" && f[2] === "Durée : 4 mois", `[${largeur}] médiathèque : ${f.join(" · ")}`);
+  // Bandeau sur toutes les fiches (25 nov. 2026) : Type, Cadre, Date depuis l'en-tête, puis Rôle, Équipe, Durée.
+  ok(
+    f.join(" · ") === "Type : UX / UI · Cadre : Bachelor Concepteur UX · Date : mars 2025 – juin 2025 · Rôle : UX designer · Équipe : En binôme · Durée : 4 mois",
+    `[${largeur}] médiathèque : ${f.join(" · ")}`,
+  );
   const entete = await page.locator("main header").first().innerText();
-  ok(/\|[\s,]*Bachelor Concepteur UX/.test(entete), `[${largeur}] cadre dans l'en-tête, après la date`);
+  ok(!/Bachelor Concepteur UX|mars 2025/.test(entete), `[${largeur}] cadre et date plus dans l'en-tête (pas de redite)`);
   ok((await page.getByRole("heading", { level: 2, name: "Le projet en bref" }).count()) === 1, `[${largeur}] titre de section (masqué visuellement)`);
   const sw = await page.evaluate(() => document.documentElement.scrollWidth);
   ok(sw <= largeur, `[${largeur}] pas de défilement horizontal (${sw} px)`);
@@ -30,7 +34,8 @@ for (const largeur of [1440, 390]) {
   ok(axe.violations.length === 0, `[${largeur}] axe : ${axe.violations.length} erreur(s)${axe.violations.map((v) => ` ${v.id}`).join("")}`);
   await page.locator("dl.en-bref").screenshot({ path: `audit/en-bref-${largeur}.png` }).catch(() => {});
   await page.goto(`${DEMO_BASE}/projets/carnet-de-rando`, { waitUntil: "networkidle" });
-  ok((await page.locator("dl.en-bref").count()) === 0 && (await page.getByRole("heading", { name: "Le projet en bref" }).count()) === 0, `[${largeur}] carnet de rando : aucun champ, pas de bandeau`);
+  const g = await faits(page);
+  ok(g.join(" · ") === "Types : Développement, UX / UI · Cadre : Projet personnel · Date : oct. 2026 · en cours", `[${largeur}] carnet de rando : bandeau sans Rôle ni Équipe ni Durée (${g.join(" · ")})`);
   await page.context().close();
 }
 

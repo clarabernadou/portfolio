@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { demanderRestauration, ecrireEtatListe, libelleRetour, lireOrigine, restaurationDemandee } from "@/lib/retour-projets";
 import { ProjetsView } from "./ProjetsView";
 import { Visionneuse, type ElementVisionneuse } from "./Visionneuse";
 import type { Project } from "@/lib/types";
 import { sortFeatured, type SiteProject } from "@/lib/data-shared";
 import { formatLivrable } from "@/lib/livrables";
-import { faitsEnBref } from "@/lib/en-bref";
+import { faitsFiche } from "@/lib/en-bref";
 
 // Logique reprise du renderVals() de docs/passation/prototype-source/projets.source.html.
 // Les projets viennent de la base (lib/data.ts), passés par la page serveur.
@@ -19,6 +19,12 @@ const typeVisionneuse = (href: string): ElementVisionneuse["type"] | null =>
   ({ PDF: "pdf", Image: "image", Vidéo: "video" } as const)[formatLivrable(href) as "PDF" | "Image" | "Vidéo"] ?? null;
 
 // Le focus est déplacé après le rendu suivant (RGAA 12.8 : il ne doit pas retomber sur la page).
+// Position des filtres à l'écran juste avant un changement de filtre (une seule liste par page).
+const FILTRES = '[aria-labelledby="f-type"]';
+let ancreFiltres: number | null = null;
+const garderFiltres = () => {
+  ancreFiltres = document.querySelector(FILTRES)?.getBoundingClientRect().top ?? null;
+};
 const focusApres = (selecteur: string) => setTimeout(() => document.querySelector<HTMLElement>(selecteur)?.focus(), 0);
 
 // Lien GitHub d'un projet : seulement un dépôt (github.com/compte/depot). Un lien vers le profil
@@ -57,7 +63,9 @@ const lienNomme = (p: Project) => (formatLivrable(p.pdf) === "Lien" && p.docs.fi
 function detail(p: Project) {
   return {
     ...p,
-    hasPdf: !!p.pdf,
+    // « Tous les livrables » retiré de l'en-tête (retour de Clara du 25 nov. 2026) : les livrables sont déjà dans
+    // « Démarche et livrables ». Restent un lien nommé vers une page précise, et le bouton d'une fiche sans cette section.
+    hasPdf: !!p.pdf && (!!lienNomme(p) || livrables(p).length === 0),
     pdfh: p.pdf,
     pdfFormat: formatLivrable(p.pdf),
     // Une page en ligne déjà listée dans les livrables (documentation de l’API de WatchedThis) garde son nom ;
@@ -90,8 +98,8 @@ function detail(p: Project) {
     hasCaptures: !!p.captures?.length,
     retour: p.retour ?? null,
     evaluation: p.evaluation ?? null,
-    // Bandeau « en bref » : Rôle, Équipe, Durée (lib/en-bref.ts).
-    faits: faitsEnBref(p.enBref),
+    // Bandeau « en bref », sur toutes les fiches : Type, Cadre, Date, puis Rôle, Équipe, Durée (lib/en-bref.ts).
+    faits: faitsFiche(p, p.enBref),
     captures: (p.captures ?? []).map((c) => ({ ...c, url: asset(c.url) })),
     hasDocs: livrables(p).length > 0,
     docs: livrables(p).map((d) => ({ ...d, format: formatLivrable(d.href) })),
@@ -105,6 +113,16 @@ export function ProjetsListe({ projects: PROJECTS, categories }: { projects: Sit
   const [type, setType] = useState("Tous");
   const [par, setPar] = useState("Tous les parcours");
   const [limit, setLimit] = useState(12);
+  // Filtrer ou réinitialiser fait apparaître ou disparaître « Projets phares » au-dessus des filtres : sans correction,
+  // la page restait à la même hauteur et le visiteur se retrouvait sur les projets phares (Safari n'ajuste pas le
+  // défilement tout seul). Les filtres gardent leur place à l'écran (retour de Clara du 25 novembre 2026).
+  useLayoutEffect(() => {
+    if (ancreFiltres === null) return;
+    const avant = ancreFiltres;
+    ancreFiltres = null;
+    const apres = document.querySelector(FILTRES)?.getBoundingClientRect().top;
+    if (apres !== undefined && Math.abs(apres - avant) > 1) window.scrollBy({ top: apres - avant, behavior: "instant" });
+  }, [type, par]);
   // Retour depuis une fiche : filtres et nombre de projets affichés tels qu'on les avait laissés.
   useEffect(() => {
     const o = lireOrigine("site");
@@ -136,9 +154,12 @@ export function ProjetsListe({ projects: PROJECTS, categories }: { projects: Sit
     isDetail: false,
     honored: sortFeatured(PROJECTS).map(card),
     vide: PROJECTS.length === 0,
-    showHonor: type === "Tous" && par === "Tous les parcours" && PROJECTS.some((p) => p.featured),
+    // Les projets phares restent affichés quels que soient les filtres : ils ne filtrent que « Tous les projets »
+    // (retour de Clara du 25 novembre 2026)
+    showHonor: PROJECTS.some((p) => p.featured),
     filtered: type !== "Tous" || par !== "Tous les parcours",
     reset: () => {
+      garderFiltres();
       setType("Tous");
       setPar("Tous les parcours");
       setLimit(12);
@@ -158,12 +179,14 @@ export function ProjetsListe({ projects: PROJECTS, categories }: { projects: Sit
     shown,
     types: TYPES.map((t) =>
       mk(t, type === t, byPar.filter((p) => t === "Tous" || (p.types as string[]).includes(t)).length, () => {
+        garderFiltres();
         setType(t);
         setLimit(12);
       }),
     ),
     pars: PARS.map((t) =>
       mk(t, par === t, PROJECTS.filter((p) => t === "Tous les parcours" || p.parcours === t).length, () => {
+        garderFiltres();
         setPar(t);
         setLimit(12);
       }),
