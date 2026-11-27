@@ -59,11 +59,11 @@ export default async function AccessibilitePage() {
         <h2 id={"resultats"} style={css(H2)}>
           {"Résultats des tests"}
         </h2>
-        <p style={css(P)}>{`L’audit interne du ${dateFr(dateAudit)} donne les résultats suivants :`}</p>
+        <p style={css(P)}>{`L’audit interne du ${dateFr(dateAudit)} donne les résultats suivants\u202F:`}</p>
         <ul style={css(LISTE)}>
-          <li>{`Le RGAA compte ${compte("C") + compte("NC") + compte("NA")} critères. ${compte("C") + compte("NC")} s’appliquent à ce site, et ${compte("NA")} ne s’y appliquent pas (par exemple, il n’a ni tableau, ni formulaire, ni vidéo publiée) ;`}</li>
-          <li>{`sur les ${compte("C") + compte("NC")} critères qui s’appliquent, ${compte("C")} sont respectés et ${compte("NC")} ${compte("NC") > 1 ? "ne le sont pas" : "ne l’est pas"} ;`}</li>
-          <li>{`le taux de conformité est donc de ${String(taux).replace(".", ",")} %.`}</li>
+          <li>{`Le RGAA compte ${compte("C") + compte("NC") + compte("NA")} critères. ${compte("C") + compte("NC")} s’appliquent à ce site, et ${compte("NA")} ne s’y appliquent pas (par exemple, il n’a ni tableau, ni formulaire, ni vidéo publiée)\u202F;`}</li>
+          <li>{`sur les ${compte("C") + compte("NC")} critères qui s’appliquent, ${compte("C")} sont respectés et ${compte("NC")} ${compte("NC") > 1 ? "ne le sont pas" : "ne l’est pas"}\u202F;`}</li>
+          <li>{`le taux de conformité est donc de ${String(taux).replace(".", ",")}\u202F%.`}</li>
         </ul>
         {RAPPORT_PDF && (
           <p style={css(P)}>
@@ -103,11 +103,11 @@ export default async function AccessibilitePage() {
         <p style={css(P)}>{"HTML, CSS, JavaScript (React et Next.js) et WAI-ARIA."}</p>
         <h3 style={css(H3)}>{"Méthode et outils"}</h3>
         <ul style={css(LISTE)}>
-          <li>{"Navigateur Chromium sur macOS, à 1440, 390 et 320 pixels de large ;"}</li>
-          <li>{"Tests automatiques avec axe-core et le validateur HTML Nu ;"}</li>
-          <li>{"Vérifications manuelles : lecture du code, navigation au clavier, affichage sans styles, contrastes."}</li>
+          <li>{"Navigateur Chromium sur macOS, à 1440, 390 et 320 pixels de large\u202F;"}</li>
+          <li>{"Tests automatiques avec axe-core et le validateur HTML Nu\u202F;"}</li>
+          <li>{"Vérifications manuelles\u202F: lecture du code, navigation au clavier, affichage sans styles, contrastes."}</li>
         </ul>
-        <p style={css(P)}>{"Limite : le site n’a pas encore été testé avec un lecteur d’écran."}</p>
+        <p style={css(P)}>{"Limite\u202F: le site n’a pas encore été testé avec un lecteur d’écran."}</p>
         <h3 style={css(H3)}>{"Pages vérifiées"}</h3>
         <ul style={css(LISTE)}>
           {pagesVerifiees.map((p) => (
@@ -121,7 +121,7 @@ export default async function AccessibilitePage() {
           {"Retour d’information et contact"}
         </h2>
         <p style={css(P)}>
-          {"Si vous n’arrivez pas à accéder à un contenu, écrivez-moi pour obtenir une alternative accessible : "}
+          {"Si vous n’arrivez pas à accéder à un contenu, écrivez-moi pour obtenir une alternative accessible\u202F: "}
           <a href={`mailto:${profil.email}`}>{profil.email}</a>
           {"."}
         </p>
@@ -132,7 +132,7 @@ export default async function AccessibilitePage() {
           {"Voies de recours"}
         </h2>
         <p style={css(P)}>
-          {"Si vous m’avez signalé un défaut d’accessibilité sans obtenir de réponse satisfaisante, vous pouvez saisir le Défenseur des droits : "}
+          {"Si vous m’avez signalé un défaut d’accessibilité sans obtenir de réponse satisfaisante, vous pouvez saisir le Défenseur des droits\u202F: "}
           <a href={"https://formulaire.defenseurdesdroits.fr/"} target={"_blank"} rel={"noopener noreferrer"}>
             {"formulaire en ligne"}
             <span aria-hidden={"true"}>{" ↗"}</span>

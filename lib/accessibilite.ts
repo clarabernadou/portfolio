@@ -28,8 +28,8 @@ export const RAPPORT_PDF = "https://dwadyuuedgcexv44.public.blob.vercel-storage.
 export const ECHANTILLON = [
   { label: "Accueil", href: "/" },
   { label: "Projets", href: "/projets" },
-  { label: "Fiche projet : WatchedThis (captures du site)", href: "/projets/watchedthis" },
-  { label: "Fiche projet : Équi-libre (livrables)", href: "/projets/equi-libre" },
+  { label: "Fiche projet\u202F: WatchedThis (captures du site)", href: "/projets/watchedthis" },
+  { label: "Fiche projet\u202F: Équi-libre (livrables)", href: "/projets/equi-libre" },
   { label: "CV", href: "/cv" },
   { label: "IA", href: "/ia" },
   { label: "Mentions légales et confidentialité", href: "/mentions-legales" },

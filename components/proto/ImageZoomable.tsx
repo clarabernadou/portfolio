@@ -98,7 +98,7 @@ export function ImageZoomable({ src, alt, label, hauteur, superpose }: { src: st
           </svg>
         </button>
         <span aria-live={"polite"} style={css(`min-width: 72px; text-align: center; font-size: 15px; font-weight: 700; color: var(--encre)`)}>
-          {zoome ? `${Math.round(ZOOMS[niveau] * 100)} %` : "Ajustée"}
+          {zoome ? `${Math.round(ZOOMS[niveau] * 100)}\u202F%` : "Ajustée"}
         </span>
         <button type={"button"} onClick={() => changer(niveau + 1)} aria-disabled={niveau === ZOOMS.length - 1} aria-label={"Zoomer"} style={css(`${ROND}; ${inactif(niveau === ZOOMS.length - 1)}`)}>
           <svg width={"18"} height={"18"} viewBox={"0 0 24 24"} aria-hidden={"true"} fill={"none"} stroke={"currentColor"} strokeWidth={"2"} strokeLinecap={"round"}>

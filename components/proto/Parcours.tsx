@@ -76,7 +76,7 @@ function Stack({ texte }: { texte?: string }) {
   return (
     <p style={css(`margin: 2px 0 0; font-size: 15px; line-height: 1.5; color: #5B5470`)}>
       <b style={css(`color: #1A1033`)}>{"Stack"}</b>
-      {` : ${texte}`}
+      {`\u202F: ${texte}`}
     </p>
   );
 }

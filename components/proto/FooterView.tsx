@@ -112,7 +112,7 @@ export function FooterView({ v }: { v: any }) {
                 {"Mentions légales et confidentialité"}
               </Link>
               <Link href={"/accessibilite"} style={css(`padding: 10px 0; color: #C4B5FD`)}>
-                {"Accessibilité : partiellement conforme"}
+                {"Accessibilité\u202F: partiellement conforme"}
               </Link>
               <Link href={"/plan-du-site"} style={css(`padding: 10px 0; color: #C4B5FD`)}>
                 {"Plan du site"}

@@ -94,7 +94,7 @@ export function IaView({ v }: { v: any }) {
             </p>
             {/* Phrase reprise du CV final (Compétences IA, ligne « Claude Code »), validée par Clara le 19 nov. 2026. */}
             <p style={css(`margin: 0; font-size: 17px; line-height: 1.6; color: #5B5470`)}>
-              {"Claude Code est mon outil principal depuis début 2026 : je conçois, développe, teste et automatise avec lui, côté produit et marketing, avec une vérification humaine de chaque livrable avant publication."}
+              {"Claude Code est mon outil principal depuis début 2026\u202F: je conçois, développe, teste et automatise avec lui, côté produit et marketing, avec une vérification humaine de chaque livrable avant publication."}
             </p>
           </div>
           {" "}
@@ -158,7 +158,7 @@ export function IaView({ v }: { v: any }) {
                 </h3>
                 {" "}
                 <span id={"saga-films-fruggr-desc"} style={css(`font-size: 16px; line-height: 1.55; color: #5B5470`)}>
-                  {"Du script au rendu final : Remotion, voix off ElevenLabs, musique, déclinaison en 16:9, 9:16 et 1:1, publiée sur YouTube."}
+                  {"Du script au rendu final\u202F: Remotion, voix off ElevenLabs, musique, déclinaison en 16:9, 9:16 et 1:1, publiée sur YouTube."}
                 </span>
               </CarteProjet>
               </li>
@@ -216,7 +216,7 @@ export function IaView({ v }: { v: any }) {
               {"Les skills que j’ai créés"}
             </h2>
             <p style={css(`margin: 0; font-size: 17px; line-height: 1.55; color: #5B5470`)}>
-              {"Des skills Claude réutilisables, créés pour mon poste chez Digital4Better, l’entreprise où je suis alternante, et proposés à l’équipe. Chaque skill regroupe les consignes, les modèles et les vérifications d’une tâche récurrente, pour la refaire à l’identique. Ils restent internes à l’entreprise : je décris ce qu’ils font, sans en montrer le contenu."}
+              {"Des skills Claude réutilisables, créés pour mon poste chez Digital4Better, l’entreprise où je suis alternante, et proposés à l’équipe. Chaque skill regroupe les consignes, les modèles et les vérifications d’une tâche récurrente, pour la refaire à l’identique. Ils restent internes à l’entreprise\u202F: je décris ce qu’ils font, sans en montrer le contenu."}
             </p>
           </div>
           {/* Skills en carrousel, 3 par vue, comme les recommandations (20 nov. 2026). */}
@@ -334,7 +334,7 @@ export function IaView({ v }: { v: any }) {
                 <Pictogramme d={"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM5.6 5.6l12.8 12.8"} />
                 <b style={css(`font-size: 17px; color: #1A1033`)}>{"Ne rien inventer"}</b>
               </span>
-              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"L’IA travaille à partir des textes et des données que je fournis, sans supposition : quand une information manque, elle pose la question."}</span>
+              <span style={css(`font-size: 16px; line-height: 1.5; color: #5B5470`)}>{"L’IA travaille à partir des textes et des données que je fournis, sans supposition\u202F: quand une information manque, elle pose la question."}</span>
             </li>
             <li className={"ia-regle"}>
               <span style={css(`display: flex; flex-direction: column; align-items: flex-start; gap: 12px`)}>

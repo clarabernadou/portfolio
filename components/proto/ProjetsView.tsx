@@ -419,7 +419,7 @@ export function ProjetsView({ v }: { v: any }) {
                         {"La saga de 3 films"}
                       </h2>
                       <p style={css(`margin: 0; font-size: 17px; line-height: 1.65`)}>
-                        {"Trois films de présentation bilingues pour le marché nord-américain, réalisés de A à Z : script validé, montage avec Remotion et Claude Code, voix off ElevenLabs et musique, puis déclinaisons en 16:9, 9:16 et 1:1."}
+                        {"Trois films de présentation bilingues pour le marché nord-américain, réalisés de A à Z\u202F: script validé, montage avec Remotion et Claude Code, voix off ElevenLabs et musique, puis déclinaisons en 16:9, 9:16 et 1:1."}
                       </p>
                     </div>
                     {" "}
