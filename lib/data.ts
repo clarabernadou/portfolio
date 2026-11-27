@@ -19,6 +19,7 @@ import { recommendations as recosJson } from "./content/recommendations";
 export type { HomeCard, SiteExperience, SiteFormation, SiteProfile, SiteProject, SiteReco } from "./data-shared";
 export { sortFeatured, homeProjects } from "./data-shared";
 import { avecCompteProjets } from "./data-shared";
+import { normaliserTypoProfond } from "./typographie";
 import { avecDimensions } from "./captures-dimensions";
 
 // Étape 9 : le site lit ses contenus dans la base (modifiables dans l'administration).
@@ -33,7 +34,10 @@ const hasDb = () => Boolean(process.env.DATABASE_URL);
 // les connexions de la base. Hors build, chaque appel relit la base (données à jour).
 const PENDANT_LE_BUILD = process.env.NEXT_PHASE === "phase-production-build";
 const memo = new Map<string, Promise<unknown>>();
-function uneFoisAuBuild<T>(cle: string, lire: () => Promise<T>): () => Promise<T> {
+// Typographie (27 nov. 2026) : toute donnée lue en base passe par la normalisation (lib/typographie.ts) avant
+// d'être affichée, dans les pages comme dans les balises title, description, og et alt.
+function uneFoisAuBuild<T>(cle: string, lireBrut: () => Promise<T>): () => Promise<T> {
+  const lire = async () => normaliserTypoProfond(await lireBrut());
   return () => {
     if (!PENDANT_LE_BUILD) return lire();
     if (!memo.has(cle)) memo.set(cle, lire());
@@ -106,6 +110,10 @@ async function avecDimensionsCaptures(p: SiteProject): Promise<SiteProject> {
 // Aperçu d'un projet pour l'administration, quel que soit son statut (brouillon, privé ou publié).
 // Jamais appelé par une page publique : seulement par /apercu, réservé à la session de Clara.
 export async function getProjetApercu(id: string): Promise<SiteProject | null> {
+  return normaliserTypoProfond(await getProjetApercuBrut(id));
+}
+
+async function getProjetApercuBrut(id: string): Promise<SiteProject | null> {
   if (!hasDb()) return fromJson().find((p) => p.id === id) ?? null;
   const row = await (await prisma()).project.findFirst({ where: { id, deletedAt: null } });
   return row ? avecDimensionsCaptures(fromRow(row)) : null;
